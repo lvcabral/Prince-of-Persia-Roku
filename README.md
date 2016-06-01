@@ -12,7 +12,7 @@ There are two versions of the sprites (MS-DOS and Macintosh), all levels and cut
 
 I will be adding soon the issues above to this repository and publish a simple code documentation describing the files and architecture.
 
-Below links to some preview videos I published on YouTube during the development (current code is v0.9):
+Below links to some preview videos I published on YouTube during the development (I will also create one for the current version soon):
 * [Preview v0.8 YouTube](https://www.youtube.com/watch?v=4tVxNFCUSiE)
 * [Preview v0.6 YouTube](https://www.youtube.com/watch?v=gYzuH9f3ADU)
 * [Preview v0.5 YouTube](https://www.youtube.com/watch?v=r6B0xgb8GSE)
