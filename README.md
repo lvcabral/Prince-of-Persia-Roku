@@ -17,7 +17,7 @@ Below links to some preview videos I published on YouTube during the development
 * [Preview v0.6 YouTube](https://www.youtube.com/watch?v=gYzuH9f3ADU)
 * [Preview v0.5 YouTube](https://www.youtube.com/watch?v=r6B0xgb8GSE)
 
-Disclaimer: This source code shall not be used commercially or sold in any form, the objective of this project educational.
+Disclaimer: This source code shall not be used commercially or sold in any form, the objective of this project is educational.
 
 Marcelo Lv Cabral
 http://lvcabral.com
