@@ -22,7 +22,9 @@ Below links to some preview videos I published on YouTube during the development
 Disclaimer: This source code shall not be used commercially or sold in any form, the objective of this project is educational.
 
 Marcelo Lv Cabral
+
 http://lvcabral.com
 
+Twitter: [@lvcabral](https://twitter.com/lvcabral)
 
 
