@@ -10,9 +10,9 @@ and the original [Apple II Assembly](https://github.com/jmechner/Prince-of-Persi
 
 There are two versions of the sprites (MS-DOS and Macintosh), all levels and cut scenes are already implemented, the major missing features are: The Shadow and the Flip Potion. There are some known bugs as well. 
 
-If you have a Roku you can install the preview channel using this link: https://my.roku.com/add/PoPPreview
-
 I will be adding soon the issues above to this repository and publish a simple code documentation describing the files and architecture.
+
+If you have a Roku you can install the preview channel using this link: https://my.roku.com/add/PoPPreview
 
 Below links to some preview videos I published on YouTube during the development (I will also create one for the current version soon):
 * [Preview v0.8 YouTube](https://www.youtube.com/watch?v=4tVxNFCUSiE)
