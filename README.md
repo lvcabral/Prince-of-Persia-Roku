@@ -1,6 +1,8 @@
 # Prince of Persia for Roku
 A port of the classic game Prince of Persia (1989) to Roku streaming devices and TVs
 
+![Prince of Persia for Roku](http://lvcabral.com/images/PoP/screenshot-01.jpg)
+
 I started this project as a programming excercise, while I was learning more about Roku Brightscript 2D gamming API.
 
 This port was made using the [HTML5 version](https://github.com/ultrabolido/PrinceJS) (developed by @ultrabolido) as a starting point, 
@@ -10,8 +12,15 @@ There are two versions of the sprites (MS-DOS and Macintosh), all levels and cut
 
 I will be adding soon the issues above to this repository and publish a simple code documentation describing the files and architecture.
 
+Below links to some preview videos I published on YouTube during the development (current code is v0.9):
+* [Preview v0.8 YouTube](https://www.youtube.com/watch?v=4tVxNFCUSiE)
+* [Preview v0.6 YouTube](https://www.youtube.com/watch?v=gYzuH9f3ADU)
+* [Preview v0.5 YouTube](https://www.youtube.com/watch?v=r6B0xgb8GSE)
+
 Disclaimer: This source code shall not be used commercially or sold in any form, the objective of this project educational.
 
 Marcelo Lv Cabral
 http://lvcabral.com
+
+
 
