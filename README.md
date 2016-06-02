@@ -6,7 +6,7 @@ A port of the classic game Prince of Persia (1989) to Roku streaming devices and
 I started this project as a programming excercise, while I was learning more about Roku Brightscript 2D gamming API.
 
 This port was made using the [HTML5 version](https://github.com/ultrabolido/PrinceJS) (developed by @ultrabolido) as a starting point, 
-and the original [Apple II Assembly](https://github.com/jmechner/Prince-of-Persia-Apple-II ) code by Jordan Mechner.
+and the original [Apple II Assembly](https://github.com/jmechner/Prince-of-Persia-Apple-II ) code by Jordan Mechner as a reference for the functionalities.
 
 There are two versions of the sprites (MS-DOS and Macintosh), all levels and cut scenes are already implemented, the major missing features are: The Shadow and the Flip Potion. There are some known bugs as well. I listed all of those in the "issues" section of the repository.
 
