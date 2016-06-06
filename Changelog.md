@@ -30,7 +30,7 @@
 * Fix: Shift mode not working on Horizontal Control mode (thanks gmaster28)
 * Fix: Pillar (id=25) is masked out when kid is climbing (L5R2) - Same bug in JS
 * Fix: Debris tiles are being painted above the tile on the right
-* Fix: Grab to the Left is hanging on the wrong tile - same bug on JS (L4R16, L5R10R7, L1R7) - Same bug in JS
+* Fix: Grab to the Left is hanging on the wrong tile - (L4R16, L5R10R7, L1R7) - Same bug in JS
 * Fix: Falling after hang between Palace pillars the kid land on air (L5) - Same bug in JS
 * Fix: Running into a tapestry shows kids face on the other side, same on gates (L10R1)
 * Fix: Guard is not killed by slicer
