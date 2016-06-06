@@ -1796,7 +1796,17 @@
          "colors":0,
          "type":"fatguard",
          "direction":1
-     }
+     },
+     {
+        "room":1,
+        "location":11,
+        "skill":5,
+        "colors":0,
+        "type":"shadow",
+        "direction":1,
+        "active": false,
+        "visible": false
+    }
    ],
    "events":[
       {

@@ -2828,7 +2828,16 @@
       }
    ],
    "guards":[
-
+       {
+          "room":1,
+          "location":16,
+          "skill":5,
+          "colors":0,
+          "type":"skeleton",
+          "direction":-1,
+          "active": false,
+          "visible": false
+      }
    ],
    "events":[
       {

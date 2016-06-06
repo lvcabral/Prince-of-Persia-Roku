@@ -180,7 +180,7 @@ Sub ResetGame(room = -1 as integer, tile = -1 as integer)
     end if
     for i = 0 to g.tileSet.level.guards.Count() - 1
         ginfo = g.tileSet.level.guards[i]
-        g.guards.Push(CreateGuard(g.tileSet.level, ginfo.room, ginfo.location - 1, ginfo.direction, ginfo.skill, ginfo.type, ginfo.colors))
+        g.guards.Push(CreateGuard(g.tileSet.level, ginfo.room, ginfo.location - 1, ginfo.direction, ginfo.skill, ginfo.type, ginfo.colors, ginfo.active, ginfo.visible))
     next
     g.status.Clear()
     If g.currentLevel < g.maxLevels - 1

@@ -11,7 +11,7 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
 
-Function CreateGuard(level as object, room as integer, position as integer, face as integer, skill as integer, name as string, colors as integer, active = true as boolean) as object
+Function CreateGuard(level as object, room as integer, position as integer, face as integer, skill as integer, name as string, colors as integer, active, visible) as object
     this = {}
     'constants
     this.const = m.const
@@ -56,7 +56,9 @@ Function CreateGuard(level as object, room as integer, position as integer, face
     this.frameName = name + "-16"
     this.haveSword = true
     this.meet = false
-    this.active = active
+
+    if active <> invalid then this.active = active else this.active = true
+    if visible <> invalid then this.visible = visible else this.visible = true
 
     this.baseX  = level.rooms[room].x * this.const.ROOM_WIDTH
     this.baseY  = level.rooms[room].y * this.const.ROOM_HEIGHT
