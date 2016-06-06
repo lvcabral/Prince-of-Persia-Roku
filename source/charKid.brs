@@ -33,7 +33,7 @@ Function CreateKid(level as object, startRoom as integer, startTile as integer, 
     this.animations = ParseJson(ReadAsciiFile("pkg:/assets/anims/kid.json"))
     'properties
 
-    this.charName   = "kid"
+    this.charName = "kid"
     this.gameWidth = m.gameWidth / m.scale
     this.gameHeight = m.gameHeight / m.scale
 
@@ -72,6 +72,7 @@ Function CreateKid(level as object, startRoom as integer, startTile as integer, 
     this.block = block_kid
     this.fastSheathe = fast_sheathe
     this.tryEngarde = try_engarde
+    this.canDo = can_do_kid
     this.turn = turn_kid
     this.walk = walk_kid
     this.jump = jump_kid
@@ -591,11 +592,7 @@ Sub check_room_change_kid()
             m.baseY = m.baseY + 189
         end if
         if m.room >= 0
-            if m.level.rooms[m.room].links.down = -2 'Fall into other level (L6->L7)
-                NextLevel()
-            else
-                m.room = m.level.rooms[m.room].links.down
-            end if
+            m.room = m.level.rooms[m.room].links.down
         end if
     else if m.charY < 0
         m.charY = m.charY + 189
@@ -1096,3 +1093,23 @@ Sub try_engarde()
         m.flee = false
     end if
 End Sub
+
+Function can_do_kid(doAction as integer) as boolean
+    if doAction = m.const.DO_MOVE
+        frames = [8, 20, 21]
+    else if doAction = m.const.DO_STRIKE
+        frames = [7, 8, 15, 20, 21]
+    else if doAction = m.const.DO_DEFEND
+        frames = [8, 15, 18, 20, 21]
+    else if doAction = m.const.DO_BLOCK
+        frames = [2]
+    else if doAction = m.const.DO_STRIKE_TO_BLOCK
+        frames = [17]
+    else if doAction = m.const.DO_BLOCK_TO_STRIKE
+        frames = [0]
+    end if
+    for each frame in frames
+        if m.frameID(frame + 150) then return true
+    next
+    return false
+End Function

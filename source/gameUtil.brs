@@ -108,6 +108,13 @@ Function GetConstants() as object
     const.FIGHT_ALERT  = 1
     const.FIGHT_FROZEN = 2
 
+    const.DO_MOVE = 0
+    const.DO_STRIKE = 1
+    const.DO_DEFEND = 2
+    const.DO_BLOCK = 3
+    const.DO_STRIKE_TO_BLOCK = 4
+    const.DO_BLOCK_TO_STRIKE = 5
+
     const.BUTTON_YES = 0
     const.BUTTON_NO = 1
     const.BUTTON_CANCEL = 2

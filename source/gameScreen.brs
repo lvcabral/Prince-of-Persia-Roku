@@ -260,6 +260,7 @@ Function CheckSpecialEvents() as boolean
             if button.element = m.const.TILE_DROP_BUTTON then button.push(false, false)
         end if
     else if m.currentLevel = 3 and m.kid.room = 1
+        'Skelleton is alive!
         if m.kid.blockY = 0 or m.kid.level.exitOpen = 0 then return false
         if m.guards.Count() = 0
             skeleton = CreateGuard(m.tileSet.level, 1, 15, m.const.FACE_LEFT, 3, "skeleton", 0)
@@ -294,8 +295,25 @@ Function CheckSpecialEvents() as boolean
             PlaySound("suspense")
             m.kid.level.exitOpen = 3
         end if
+    else if m.currentLevel = 6
+        if m.kid.room = 1
+            'Shadow appearance and behavior
+            if m.guards.Count() = 1
+                PlaySound("suspense")
+                m.guards.Push(CreateGuard(m.tileSet.level, 1, 10, m.const.FACE_RIGHT, 4, "shadow", 0, false))
+            else if m.kid.blockX < 4
+                shadow = m.guards[1]
+                if shadow.blockX = 0 and shadow.action() = "stand" then
+                    shadow.action("step")
+                end if
+            end if
+        else if m.kid.room = 3
+            'Automatically change from level 6 to Level 7
+            if m.cameras = 1 or m.kid.blockY = 2 then NextLevel()
+        end if
     else if m.currentLevel = 8 and m.kid.level.exitOpen > 0
         if m.kid.room = 16
+            'The Mouse saves the day!
             if m.mouse = invalid
                 if m.wait = invalid then m.wait = 1 else m.wait = m.wait + 1
                 if m.wait < 110 then return false
@@ -372,14 +390,8 @@ Function CheckSpecialEvents() as boolean
                     exit for
                 end if
             next
-        else if m.kid.room = 3 and m.guards.Count() > 0
-            if not m.guards[0].alive
-                if m.kid.level.exitOpen = 0
-                    button = m.kid.level.getTileAt(0, 0, 24)
-                    if button.element = m.const.TILE_RAISE_BUTTON then button.push(false, false)
-                end if
-            end if
         else if m.kid.room = 1 and m.guards.Count() > 0
+            'Meet Jaffar
             if m.guards[0].alive
                 if not m.guards[0].meet
                     PlaySound("jaffar-meet")
@@ -389,9 +401,17 @@ Function CheckSpecialEvents() as boolean
                 m.finalTime = m.timeLeft
                 m.showTime = true
             end if
+        else if m.kid.room = 3 and m.guards.Count() > 0
+            'Open the door if Jaffar is dead
+            if not m.guards[0].alive
+                if m.kid.level.exitOpen = 0
+                    button = m.kid.level.getTileAt(0, 0, 24)
+                    if button.element = m.const.TILE_RAISE_BUTTON then button.push(false, false)
+                end if
+            end if
         end if
     else if m.currentLevel = 14 and m.kid.room = 5
-        'End of the game
+        'Saving the princess!
         PlayScene(m.gameScreen, 15, false)
         PlayEnding()
         return true
@@ -923,7 +943,7 @@ End Function
 Sub CheckForOpponent(room as integer)
     if m.fight = m.const.FIGHT_FROZEN then return
     for each guard in m.guards
-        if guard.room = room and guard.alive and guard.opponent = invalid
+        if guard.room = room and guard.alive and guard.opponent = invalid and guard.active
             m.kid.opponent = guard
             guard.opponent = m.kid
             if not m.kid.haveSword then m.kid.flee = true

@@ -743,25 +743,25 @@ Sub sheathe_fighter()
 End Sub
 
 Sub retreat_fighter()
-    if m.frameID(158) or m.frameID(8) or m.frameID(20,21)
+    if m.canDo(m.const.DO_MOVE)
         m.action("retreat")
         m.allowRetreat = false
     end if
 End Sub
 
 Sub advance_fighter()
-    if m.frameID(158) or m.frameID(8) or m.frameID(20,21)
+    if m.canDo(m.const.DO_MOVE)
         m.action("advance")
         m.allowAdvance = false
     end if
 End Sub
 
 Sub strike_fighter()
-    if m.frameID(157,158) or m.frameID(165) or m.frameID(7,8) or m.frameID(20,21) or m.frameID(15)
+    if m.canDo(m.const.DO_STRIKE)
         m.action("strike")
         m.allowStrike = false
     else
-        if m.frameID(150) or m.frameID(0) or m.blocked
+        if m.canDo(m.const.DO_BLOCK_TO_STRIKE) or m.blocked
             m.action("blocktostrike")
             m.allowStrike = false
             m.blocked = false
@@ -770,15 +770,15 @@ Sub strike_fighter()
 End Sub
 
 Sub block_fighter()
-    if m.frameID(8) or m.frameID(20,21) or m.frameID(18) or m.frameID(15)
+    if m.canDo(m.const.DO_DEFEND)
         if m.opponentDistance() >= 32
             m.retreat()
             return
         end if
-        if not m.opponent.frameID(152) and not m.opponent.frameID(2) then return
+        if not m.canDo(m.const.DO_BLOCK)  then return
         m.action("block")
     else
-        if not m.frameID(17) then return
+        if not m.canDo(m.const.DO_STRIKE_TO_BLOCK) then return
         m.action("striketoblock")
     end if
     m.allowBlock = false
@@ -787,7 +787,7 @@ End Sub
 Sub stabbed_fighter()
     if m.health = 0 then return
     m.charY = ConvertBlockYtoY(m.blockY)
-    if (m.charName <> "skeleton")
+    if m.charName <> "skeleton"
         if m.swordDrawn
             damage = 1
         else

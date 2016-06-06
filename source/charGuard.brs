@@ -11,7 +11,7 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
 
-Function CreateGuard(level as object, room as integer, position as integer, face as integer, skill as integer, name as string, colors as integer) as object
+Function CreateGuard(level as object, room as integer, position as integer, face as integer, skill as integer, name as string, colors as integer, active = true as boolean) as object
     this = {}
     'constants
     this.const = m.const
@@ -26,7 +26,7 @@ Function CreateGuard(level as object, room as integer, position as integer, face
     'sprites and animations
     this.scale = m.scale
     this.regions = [{}, {}]
-    if colors > 0
+    if name = "guard" and colors > 0
         this.charImage = name + itostr(colors)
     else
         this.charImage = name
@@ -40,7 +40,11 @@ Function CreateGuard(level as object, room as integer, position as integer, face
         this.regions[this.const.FACE_RIGHT] = LoadBitmapRegions(this.scale/2, "guards", name + "-mac", this.charImage + "-mac", true)
     end if
     this.splash = {frameName: this.charImage + "-splash", visible: false}
-    this.animations = ParseJson(ReadAsciiFile("pkg:/assets/anims/guard.json"))
+    if name = "shadow"
+        this.animations = ParseJson(ReadAsciiFile("pkg:/assets/anims/shadow.json"))
+    else
+        this.animations = ParseJson(ReadAsciiFile("pkg:/assets/anims/guard.json"))
+    end if
     'inherit generic Actor properties and methods
     ImplementActor(this, room, position, face, name)
     'properties
@@ -52,6 +56,7 @@ Function CreateGuard(level as object, room as integer, position as integer, face
     this.frameName = name + "-16"
     this.haveSword = true
     this.meet = false
+    this.active = active
 
     this.baseX  = level.rooms[room].x * this.const.ROOM_WIDTH
     this.baseY  = level.rooms[room].y * this.const.ROOM_HEIGHT
@@ -91,6 +96,7 @@ Function CreateGuard(level as object, room as integer, position as integer, face
     this.oppTooClose = opp_too_close
     this.oppInRange = opp_in_range
     this.oppInRangeArmed = opp_in_range_armed
+    this.canDo = can_do_guard
     this.tryAdvance = try_advance
     this.tryBlock = try_block
     this.tryStrike = try_strike
@@ -118,7 +124,7 @@ End Function
 
 Sub update_behaviour_guard()
     if m.opponent = invalid or not m.opponent.alive or not m.alive
-        if m.alive and m.charAction <> "stand" then
+        if m.alive and m.charAction <> "stand" and m.swordDrawn then
             m.action("stand")
             m.swordDrawn = false
         end if
@@ -364,7 +370,7 @@ Sub try_advance()
 End Sub
 
 Sub try_block()
-    if m.opponent.frameID(152,153) or m.opponent.frameID(162) or m.opponent.frameID(2,3) or m.opponent.frameID(12)
+    if m.opponent.frameID(152,153) or m.opponent.frameID(162)
         if (m.blockTimer <> 0)
             if m.impairblockProbability > (rnd(255) - 1) then m.block()
         else
@@ -374,8 +380,8 @@ Sub try_block()
 End Sub
 
 Sub try_strike()
-    if m.opponent.frameID(169) or m.opponent.frameID(151) or m.opponent.frameID(19) or m.opponent.frameID(1) then return
-    if m.frameID(150)
+    if m.opponent.frameID(169) or m.opponent.frameID(151)  then return
+    if m.frameID(0) or m.frameID(150)
         if m.restrikeProbability > (rnd(255) - 1) then m.strike()
     else
         if m.strikeProbability > (rnd(255) - 1) then m.strike()
@@ -393,3 +399,27 @@ End Sub
 Sub reset_strike_timer()
     m.strikeTimer = 15
 End Sub
+
+Function can_do_guard(doAction as integer) as boolean
+    if doAction = m.const.DO_MOVE
+        frames = [8, 20, 21]
+    else if doAction = m.const.DO_STRIKE
+        frames = [7, 8, 15, 20, 21]
+    else if doAction = m.const.DO_DEFEND
+        frames = [8, 15, 18, 20, 21]
+    else if doAction = m.const.DO_BLOCK
+        frames = [2]
+    else if doAction = m.const.DO_STRIKE_TO_BLOCK
+        frames = [17]
+    else if doAction = m.const.DO_BLOCK_TO_STRIKE
+        frames = [0]
+    end if
+    for each frame in frames
+        if m.charName = "shadow"
+            if m.frameID(frame + 150) then return true
+        else
+            if m.frameID(frame) then return true
+        end if
+    next
+    return false
+End Function
