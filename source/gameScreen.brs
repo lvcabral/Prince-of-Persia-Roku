@@ -236,6 +236,13 @@ Sub DestroyChars()
         if m.kid.splash.sprite <> invalid then m.kid.splash.sprite.Remove()
         m.kid = invalid
     end if
+    if m.reflex <> invalid
+        m.reflex.kid.Remove()
+        m.reflex.kid = invalid
+        m.reflex.mask.Remove()
+        m.reflex.mask = invalid
+        m.reflex = invalid
+    end if
     if m.guards <> invalid and m.guards.Count() > 0
         for each guard in m.guards
             if guard.sprite <> invalid then  guard.sprite.Remove()
@@ -294,6 +301,30 @@ Function CheckSpecialEvents() as boolean
         else if m.kid.level.exitOpen = 2 and m.kid.blockY = 0
             PlaySound("suspense")
             m.kid.level.exitOpen = 3
+        else if m.kid.level.exitOpen = 3 and m.kid.blockX = 4 and m.kid.blockY = 0
+            if m.kid.charAction <> "runjump"
+                kdRegion = m.kid.regions[Abs(m.kid.face - 1)].Lookup(m.kid.frameName).Copy()
+                reflexPos = (150 * m.scale) - Abs(m.kid.sprite.GetX() - (150 * m.scale)) - kdRegion.GetWidth()
+                if m.reflex = invalid
+                    m.reflex = {}
+                    m.reflex.kid = m.compositor.NewSprite(reflexPos, m.kid.sprite.GetY(), kdRegion, m.kid.z)
+                    bmp = GetPaintedBitmap(m.colors.black, 36 * m.scale, 56 * m.scale, true)
+                    rgn = CreateObject("roRegion", bmp, 0, 0, bmp.GetWidth(), bmp.GetHeight())
+                    if m.settings.spriteMode = m.const.SPRITES_DOS
+                        m.reflex.mask = m.compositor.NewSprite(96 * m.scale, 3 * m.scale, rgn, 35)
+                    else
+                        m.reflex.mask = m.compositor.NewSprite(94 * m.scale, 3 * m.scale, rgn, 35)
+                    end if
+                else
+                    m.reflex.kid.SetRegion(kdRegion)
+                    m.reflex.kid.MoveTo(reflexPos, m.kid.sprite.GetY())
+                    m.reflex.kid.SetDrawableFlag(true)
+                    m.reflex.mask.SetDrawableFlag(true)
+                end if
+            end if
+        else if m.reflex <> invalid then
+            m.reflex.kid.SetDrawableFlag(false)
+            m.reflex.mask.SetDrawableFlag(false)
         end if
     else if m.currentLevel = 6
         if m.kid.room = 1
