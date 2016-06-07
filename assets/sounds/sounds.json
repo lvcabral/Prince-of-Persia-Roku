@@ -71,6 +71,12 @@
 	   "duration":496,
 	   "priority":10
 	},
+	"mirror":
+	{
+	   "type":"mp3",
+	   "duration":522,
+	   "priority":20
+	},
 	"small-life-potion":
 	{
 	   "type":"mp3",

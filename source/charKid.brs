@@ -51,6 +51,8 @@ Function CreateKid(level as object, startRoom as integer, startTile as integer, 
     this.charRepeat = false
     this.recoverCrop = false
     this.droppedOut = false
+    this.active = true
+    this.visible = true
 
     'methods
     this.startLevel = start_level
@@ -574,7 +576,7 @@ Sub check_barrier()
             else if tileNext.element = m.const.TILE_MIRROR
                 print "Mirror ahead..."
                 if m.charAction = "stand" or m.charAction = "bump" then return
-                if m.faceL() and tileNext.intersects(m.getCharBounds())
+                if m.faceL() and (tileNext.intersects(m.getCharBounds()) or m.charAction <> "runjump")
                     m.charX = ConvertBlockXtoX(blockX) + 3
                     m.updateBlockXY()
                     print "bump: tile mirror"

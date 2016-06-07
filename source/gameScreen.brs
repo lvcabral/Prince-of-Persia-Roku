@@ -188,7 +188,7 @@ Sub GuardsUpdate()
             anchorX = (guard.x * m.scale) - gdRegion.GetWidth() - m.xOff
         end if
         anchorY = (guard.y * m.scale) - gdRegion.GetHeight() + m.topOffset - m.yOff
-        if guard.opponent <> invalid then DebugGuard(anchorX, anchorY, guard)
+        if guard.opponent <> invalid or  guard.charName = "shadow" then DebugGuard(anchorX, anchorY, guard)
         if guard.sprite = invalid and anchorX > 0 and anchorX <= m.gameWidth and anchorY > 0 and anchorY <= m.gameHeight
             guard.sprite = m.compositor.NewSprite(anchorX, anchorY, gdRegion, guard.z)
             guard.sprite.SetData(guard.charName)

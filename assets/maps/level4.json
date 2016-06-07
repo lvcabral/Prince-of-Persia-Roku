@@ -3045,6 +3045,16 @@
       }
    ],
    "guards":[
+       {
+          "room":4,
+          "location":12,
+          "skill":5,
+          "colors":0,
+          "type":"shadow",
+          "direction":1,
+          "active": false,
+          "visible": false
+       },
       {
          "room":2,
          "location":15,

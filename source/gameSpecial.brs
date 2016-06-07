@@ -23,7 +23,7 @@ Function CheckSpecialEvents() as boolean
         end if
     else if m.currentLevel = 3 and m.kid.room = 1
         'Skelleton is alive!
-        if m.kid.blockY = 0 or m.kid.level.exitOpen = 0 then return false
+        if m.guards.Count() = 0 or m.kid.blockY = 0 or m.kid.level.exitOpen = 0 then return false
         if not m.guards[0].visible
             skeleton = m.guards[0]
             skeleton.active = true
@@ -58,8 +58,11 @@ Function CheckSpecialEvents() as boolean
         else if m.kid.level.exitOpen = 2 and m.kid.blockY = 0
             PlaySound("suspense")
             m.kid.level.exitOpen = 3
-        else if m.kid.level.exitOpen = 3 and m.kid.blockX = 4 and m.kid.blockY = 0
-            if m.kid.charAction <> "runjump"
+        else if m.kid.level.exitOpen = 3
+            if m.guards.Count() = 0 then return false
+            shadow = m.guards[0]
+            if m.kid.charAction <> "runjump" and m.kid.blockX = 4 and m.kid.blockY = 0
+                'Show mirror reflex
                 kdRegion = m.kid.regions[Abs(m.kid.face - 1)].Lookup(m.kid.frameName).Copy()
                 reflexPos = (150 * m.scale) - Abs(m.kid.sprite.GetX() - (150 * m.scale)) - kdRegion.GetWidth()
                 if m.reflex = invalid
@@ -78,16 +81,34 @@ Function CheckSpecialEvents() as boolean
                     m.reflex.kid.SetDrawableFlag(true)
                     m.reflex.mask.SetDrawableFlag(true)
                 end if
+            else if m.kid.charAction = "runjump" and m.kid.blockX < 8 and m.kid.blockY = 0
+                'Split kid and shadow when jumping through the mirror
+                if shadow.blockY > 0 and shadow.action() = "stand"
+                    shadow.charX = ConvertBlockXtoX(1)
+                    shadow.charY = ConvertBlockYtoY(0)
+                    shadow.action("runjump")
+                else if m.kid.blockX = 3
+                    PlaySound("mirror")
+                else if shadow.sprite.GetX() >= (129 * m.scale) and shadow.action() = "runjump"
+                    shadow.visible = true
+                end if
+            else if not shadow.visible and shadow.action() <> "runjump" and shadow.action() <> "stand"
+                shadow.room = 4
+                shadow.charX = ConvertBlockXtoX(1)
+                shadow.charY = ConvertBlockYtoY(1)
+                shadow.action("stand")
+            else if shadow.room <> 4 and shadow.blockY > 0 and shadow.action() = "stand"
+                shadow.visible = false
+            else if m.reflex <> invalid then
+                m.reflex.kid.SetDrawableFlag(false)
+                m.reflex.mask.SetDrawableFlag(false)
             end if
-        else if m.reflex <> invalid then
-            m.reflex.kid.SetDrawableFlag(false)
-            m.reflex.mask.SetDrawableFlag(false)
         end if
     else if m.currentLevel = 6
         if m.kid.room = 1
             'Shadow appearance and behavior
-            if m.guards.Count() < 2 then return false
-            shadow = m.guards[1]
+            if m.guards.Count() = 0 then return false
+            shadow = m.guards[0]
             if not shadow.visible
                 PlaySound("suspense")
                 shadow.visible = true

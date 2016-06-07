@@ -316,7 +316,7 @@ Sub update_acceleration()
 End Sub
 
 Sub check_floor()
-    if m.charAction = "climbdown" or m.charAction = "climbup" or m.room < 0 or not m.alive
+    if m.charAction = "climbdown" or m.charAction = "climbup" or m.room < 0 or not m.alive or not m.visible
          return
     end if
     if m.actionCode = 0 or m.actionCode = 1 or m.actionCode = 7 or m.actionCode = 5
@@ -561,7 +561,7 @@ Sub check_fight_barrier()
         return
     else if m.charAction.left(4) = "turn" or m.charAction = "fastsheathe" or m.charAction = "resheathe"
         return
-    else if not m.alive or m.room < 0
+    else if not m.active or not m.alive or m.room < 0
         return
     end if
     'Check Vertical
