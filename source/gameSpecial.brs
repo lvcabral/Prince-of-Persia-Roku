@@ -21,24 +21,42 @@ Function CheckSpecialEvents() as boolean
             gate.audio = true
             if button.element = m.const.TILE_DROP_BUTTON then button.push(false, false)
         end if
-    else if m.currentLevel = 3 and m.kid.room = 1
-        'Skelleton is alive!
-        if m.guards.Count() = 0 or m.kid.blockY = 0 or m.kid.level.exitOpen = 0 then return false
-        if not m.guards[0].visible
-            skeleton = m.guards[0]
-            skeleton.active = true
-            skeleton.visible = true
-            skeleton.refracTimer = 9
-            skeleton.action("arise")
-            tile = m.kid.level.getTileAt(5, 1, 1)
-            tile.element = m.const.TILE_FLOOR
-            tile.back = tile.key + "_1"
-            tile.front = tile.back + "_fg"
-            if tile.backSprite <> invalid and tile.frontSprite <> invalid
-                tile.backSprite.SetRegion(m.tileSet.regions.lookup(tile.back))
-                tile.frontSprite.SetRegion(m.tileSet.regions.lookup(tile.front))
+    else if m.currentLevel = 3
+        if  m.kid.room = 1
+            'Skelleton is alive!
+            if m.guards.Count() = 0 or m.kid.blockY = 0 or m.kid.level.exitOpen = 0 then return false
+            if not m.guards[0].visible
+                skeleton = m.guards[0]
+                skeleton.active = true
+                skeleton.visible = true
+                skeleton.refracTimer = 9
+                skeleton.action("arise")
+                tile = m.kid.level.getTileAt(5, 1, 1)
+                tile.element = m.const.TILE_FLOOR
+                tile.back = tile.key + "_1"
+                tile.front = tile.back + "_fg"
+                if tile.backSprite <> invalid and tile.frontSprite <> invalid
+                    tile.backSprite.SetRegion(m.tileSet.regions.lookup(tile.back))
+                    tile.frontSprite.SetRegion(m.tileSet.regions.lookup(tile.front))
+                end if
+                PlaySound("skeleton")
             end if
-            PlaySound("skeleton")
+        else if m.kid.room = 2 and m.kid.blockY = 0
+            if m.kid.checkPoint.room <> 2
+                m.kid.checkPoint = {room: 2, tile: 9, face: m.const.FACE_RIGHT}
+            else
+                tile = m.kid.level.getTileAt(4, 0, 7)
+                if tile.element = m.const.TILE_LOOSE_BOARD
+                    tile.element = m.const.TILE_SPACE
+                    tile.back  = tile.key + "_0"
+                    tile.front = tile.key + "_0_fg"
+                    debris = m.kid.level.getTileAt(4, 2, 22)
+                    debris.element = m.const.TILE_DEBRIS
+                    debris.back  = debris.key + "_" + itostr(debris.element)
+                    debris.front = debris.key + "_" + itostr(debris.element) + "_fg"
+                    m.redraw = true
+                end if
+            end if
         end if
     else if m.currentLevel = 4 and m.kid.room = 4 and m.kid.level.exitOpen > 0
         'Show Mirror on Level 4

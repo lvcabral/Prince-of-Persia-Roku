@@ -45,6 +45,7 @@ Function PlayGame() as boolean
                     if saveOpt = m.const.BUTTON_YES
                         if m.savedGame = invalid then m.savedGame = {}
                         m.savedGame.level = m.kid.level.number
+                        m.savedGame.checkPoint = m.kid.checkPoint
                         m.savedGame.health = m.kid.maxHealth
                         m.savedGame.time = m.timeLeft
                         SaveGame(m.savedGame)

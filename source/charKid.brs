@@ -102,6 +102,8 @@ End Function
 Sub start_level(level as object, startRoom as integer, startTile as integer, startFace as integer)
     'inherit generic actor properties and methods
     ImplementActor(m, startRoom, startTile, startFace, m.charName)
+    'Save check point
+    m.checkPoint = {room: startRoom, tile: startTile, face: startFace}
     'reset internal properties
     m.level = level
     m.frame = 15
@@ -553,7 +555,6 @@ Sub check_barrier()
                 print "bump: tile wall"; m.charX; m.blockX
                 m.bump()
             else if tileNext.element = m.const.TILE_GATE
-                print "Gate ahead..."
                 if m.faceL() and tileNext.intersects(m.getCharBounds())
                     if m.charAction = "stand" and tile.element = m.const.TILE_GATE
                         m.charX = ConvertBlockXtoX(m.blockX) + 3

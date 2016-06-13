@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: May 2016
+' **  Updated: June 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -83,16 +83,22 @@ Sub Main()
             option = MessageBox(m.gameScreen, 320, 100, "Restore Saved Game?")
             if option = m.const.BUTTON_YES
                 m.currentLevel = m.savedGame.level
+                m.checkPoint = m.savedGame.checkPoint
                 m.startTime = m.savedGame.time
                 m.startHealth = m.savedGame.health
+            else
+                m.checkPoint = invalid
             end if
         else
             option = m.const.BUTTON_NO
         end if
         if option <> m.const.BUTTON_CANCEL
-            print "Starting opening story..."
+            'Debug: Uncomment the next two lines to start at a specific location
+            'm.currentLevel = 3
+            'm.checkPoint = {room: 7, tile:7, face: 1}
             skip = false
             if m.currentLevel = 1
+                print "Starting opening story..."
                 PlaySong("scene-1a-absence")
                 skip = TextScreen(m.mainScreen, "text-in-the-absence" + suffix, m.colors.navy, 15000, 7)
             end if
@@ -113,6 +119,7 @@ Sub NextLevel()
     g = GetGlobalAA()
     if g.currentLevel = g.maxLevels then return
     g.currentLevel = g.currentLevel + 1
+    g.checkPoint = invalid
     PlayScene(g.gameScreen, g.currentLevel)
     ResetGame()
 End Sub
@@ -121,10 +128,11 @@ Sub PreviousLevel()
     g = GetGlobalAA()
     if g.currentLevel = 1 or g.currentLevel = g.maxLevels then return
     g.currentLevel = g.currentLevel - 1
+    g.checkPoint = invalid
     ResetGame()
 End Sub
 
-Sub ResetGame(room = -1 as integer, tile = -1 as integer)
+Sub ResetGame()
     g = GetGlobalAA()
     if g.currentLevel = g.maxLevels and g.cameras > 1
         'Force final level always to be shown in Classic 1 room mode
@@ -142,17 +150,15 @@ Sub ResetGame(room = -1 as integer, tile = -1 as integer)
         end if
     end if
     g.tileSet = LoadTiles(g.currentLevel)
-    if room >= 0
-        g.startRoom = room
+    if g.checkPoint <> invalid
+        g.startRoom = g.checkPoint.room
+        g.startTile = g.checkPoint.tile
+        g.startFace = g.checkPoint.face
     else
         g.startRoom = g.tileSet.level.prince.room
-    end if
-    if tile >= 0
-        g.startTile = tile
-    else
         g.startTile = g.tileSet.level.prince.location - 1
+        g.startFace = g.tileSet.level.prince.direction
     end if
-    g.startFace = g.tileSet.level.prince.direction
     if g.kid = invalid
         g.kid = CreateKid(g.tileSet.level, g.startRoom, g.startTile, g.startFace, g.startHealth)
     else
