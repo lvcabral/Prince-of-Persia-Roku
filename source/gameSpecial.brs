@@ -120,6 +120,34 @@ Function CheckSpecialEvents() as boolean
                 m.reflex.mask.SetDrawableFlag(false)
             end if
         end if
+    else if m.currentLevel = 5
+        if m.guards.Count() = 0 then return false
+        shadow = m.guards[0]
+        if m.kid.room = 24 and m.kid.blockX = 6 and m.kid.blockY = 1
+            if not shadow.meet
+                shadow.visible = true
+                shadow.meet = true
+                shadow.action("startrun")
+            end if
+        else if shadow.visible
+            if shadow.action() = "running" and shadow.faceR()
+                tile = m.tileSet.level.getTileAt(shadow.blockX, shadow.blockY, shadow.room)
+                print "shadow tile:"; shadow.blockX; tile.element
+                if tile.element = m.const.TILE_POTION and tile.hasObject
+                    shadow.action("drinkpotion")
+                    m.tileSet.level.removeObject(shadow.blockX, shadow.blockY, shadow.room)
+                end if
+            else if shadow.action() = "stand"
+                if shadow.faceR()
+                    shadow.action("turn")
+                else
+                    shadow.action("startrun")
+                end if
+            else if shadow.room <> 24 and shadow.faceL()
+                shadow.action("stand")
+                shadow.visible = false
+            end if
+        end if
     else if m.currentLevel = 6
         if m.kid.room = 1
             'Shadow appearance and behavior
