@@ -2,7 +2,7 @@
 ' ********************************************************************************************************
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **  Created: February 2016
-' **  Updated: May 2016
+' **  Updated: June 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -112,6 +112,7 @@ Sub start_level(level as object, startRoom as integer, startTile as integer, sta
     m.success = false
     m.cursors.shift = false
     m.effect = m.colors.black
+    m.cycles = 0
     if m.health = 0
         m.maxHealth = m.const.START_HEALTH
         m.health = m.maxHealth
@@ -169,7 +170,7 @@ Sub update_behaviour_kid()
 	if m.charAction = "stand"
 		if not m.flee and m.opponent <> invalid
             m.tryEngarde()
-		else if m.flee and m.keyS()
+		else if m.flee and m.keyS() and m.opponent <> invalid
             m.tryEngarde()
         end if
 		if (m.keyL() and m.faceR()) or (m.keyR() and m.faceL())
@@ -309,7 +310,9 @@ End Sub
 Sub process_command_kid()
     command = true
     while (command)
-        data = m.animations.sequence.lookup(m.charAction)[m.seqPointer]
+        actionArray = m.animations.sequence.lookup(m.charAction)
+        if actionArray = invalid then exit while
+        data = actionArray[m.seqPointer]
         if data.cmd = m.const.CMD_ACT
             m.actionCode = data.p1
         else if data.cmd = m.const.CMD_SETFALL

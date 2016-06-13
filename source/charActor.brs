@@ -2,7 +2,7 @@
 ' ********************************************************************************************************
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **  Created: February 2016
-' **  Updated: May 2016
+' **  Updated: June 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -170,7 +170,9 @@ End Function
 Sub process_command_actor()
     command = true
     while (command)
-        data = m.animations.sequence.lookup(m.charAction)[m.seqPointer]
+        actionArray = m.animations.sequence.lookup(m.charAction)
+        if actionArray = invalid then exit while
+        data = actionArray[m.seqPointer]
         if data.cmd = m.const.CMD_ACT
             m.actionCode = data.p1
         else if data.cmd = m.const.CMD_SETFALL
@@ -799,6 +801,9 @@ Sub stabbed_fighter()
         m.action("stabkill")
     else
         m.action("stabbed")
+    end if
+    if m.charName = "shadow" and m.opponent <> invalid
+        m.opponent.stabbed()
     end if
     m.splash.visible = true
 End Sub

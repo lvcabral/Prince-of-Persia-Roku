@@ -2,7 +2,7 @@
 ' ********************************************************************************************************
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **  Created: February 2016
-' **  Updated: May 2016
+' **  Updated: June 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -162,7 +162,9 @@ End Sub
 Sub process_command_guard()
     command = true
     while (command)
-        data = m.animations.sequence.lookup(m.charAction)[m.seqPointer]
+        actionArray = m.animations.sequence.lookup(m.charAction)
+        if actionArray = invalid then exit while
+        data = actionArray[m.seqPointer]
         if data.cmd = m.const.CMD_ACT
             m.actionCode = data.p1
         else if data.cmd = m.const.CMD_SETFALL
@@ -195,7 +197,7 @@ Sub process_command_guard()
             if m.charName = "jaffar"
                 m.opponent.effect = m.opponent.colors.white
                 PlaySound("jaffar-death")
-            else
+            else if m.charName <> "shadow"
                 PlaySound("glory")
             end if
             m.health = 0
@@ -205,7 +207,6 @@ Sub process_command_guard()
         end if
         m.seqPointer = m.seqPointer + 1
     end while
-
 End Sub
 
 Function get_guard_bounds() as object
@@ -229,24 +230,18 @@ Sub check_room_change_guard()
     if m.charY > 189
         m.charY = m.charY - 189
         m.baseY = m.baseY + 189
-        if m.room >= 0
-            m.room = m.level.rooms[m.room].links.down
-        end if
+        if m.room >= 0 then m.room = m.level.rooms[m.room].links.down
     else if m.charY < 0
         m.charY = m.charY + 189
         m.baseY = m.baseY - 189
-        if m.room >= 0
-            m.room = m.level.rooms[m.room].links.up
-        end if
+        if m.room >= 0 then m.room = m.level.rooms[m.room].links.up
     end if
 End Sub
 
 Sub start_fall_guard()
     m.fallingBlocks = 0
     m.action("stepfall")
-    if m.opponent <> invalid
-        m.opponent.droppedOut = false
-    end if
+    if m.opponent <> invalid then m.opponent.droppedOut = false
     m.processCommand()
 End Sub
 
@@ -260,10 +255,16 @@ Sub land_guard(tile as object)
         else
             m.action("halve")
         end if
+    else if m.charName = "shadow"
+        if m.fallingBlocks <= 2
+            m.action("softland")
+        else
+            m.action("dropdead")
+        end if
     else if tile.element = m.const.TILE_SPIKES
         m.action("impale")
         PlaySound("spiked")
-        m.processCommand()
+        'm.processCommand()
     else if m.fallingBlocks <= 1
         m.action("stand")
     else

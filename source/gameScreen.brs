@@ -348,7 +348,7 @@ Sub TROBsUpdate()
                         trob.sprite.childBack.setDrawableFlag(false)
                     end if
                 end if
-            else if trob.tile.element = m.const.TILE_SWORD
+            else if trob.tile.element = m.const.TILE_SWORD or trob.tile.element = m.const.TILE_TORCH
                 trob.sprite.back.setRegion(m.tileSet.regions.lookup(trob.tile.back))
             else if trob.tile.element = m.const.TILE_SPIKES
                 if trob.tile.modifier = 0
@@ -534,9 +534,7 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
     if x >= -m.const.TILE_WIDTH * m.scale and x <= maxWidth and y >= -m.const.TILE_HEIGHT * m.scale and y<=maxHeight 'only what can be shown
         if tile.isTrob() or tile.isMob()
             obj.sprite.visible = true
-            if x < maxWidth-tile.width
-                obj.tile.audio = true
-            end if
+            if x < maxWidth-tile.width then obj.tile.audio = true
         end if
         if tile.back <> invalid
             tileRegion = m.tileSet.regions.lookup(tile.back)
@@ -544,18 +542,12 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
                 yd = tileRegion.GetHeight() - m.const.TILE_HEIGHT * m.scale
             end if
             sprite = m.compositor.NewSprite(x, y - yd, tileRegion, backZ)
-            if tile.isWalkable()
-                if tile.backSprite <> invalid then tile.backSprite.Remove()
+            if tile.isWalkable() or tile.element = m.const.TILE_SPACE
+                if tile.backSprite <> invalid  then tile.backSprite.Remove()
                 tile.backSprite = sprite
             end if
-            if tile.isTrob()
-                obj.sprite.back = sprite
-                m.map.Push(sprite)
-            else if tile.isMob()
-                obj.sprite.back = sprite
-            else
-                m.map.Push(sprite)
-            end if
+            if tile.isTrob() or tile.isMob() then obj.sprite.back = sprite
+            if tile.isTrob() or not tile.isMob() then m.map.Push(sprite)
         end if
         if tile.front <> invalid
             if tile.type = m.const.TYPE_PALACE and tile.element = m.const.TILE_WALL
@@ -581,7 +573,7 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
                 frsp = m.compositor.NewSprite(x, y, m.tileSet.regions.lookup(tile.front), frontZ)
             end if
             m.map.Push(frsp)
-            if tile.isWalkable()
+            if tile.isWalkable() or tile.element = m.const.TILE_SPACE
                 'link the tile to allow masking
                 if tile.frontSprite <> invalid then tile.frontSprite.Remove()
                 tile.frontSprite = frsp
@@ -611,9 +603,7 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
             end if
             spbk = m.compositor.NewSprite(x + chbk.x * m.scale, (y - yd) + chbk.y * m.scale, rgn, backZ)
             spbk.setDrawableFlag(chbk.visible)
-            if tile.isTrob()
-                obj.sprite.childBack = spbk
-            end if
+            if tile.isTrob() then obj.sprite.childBack = spbk
             m.map.Push(spbk)
         else if tile.child.back.frames <> invalid
             animation = []
@@ -621,17 +611,13 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
                 animation.Push(m.general.lookup(frameName))
             next
             spbk = m.compositor.NewAnimatedSprite(x + chbk.x * m.scale, (y - yd) + chbk.y * m.scale, animation, backZ)
-            if tile.isTrob()
-                obj.sprite.childBack = spbk
-            end if
+            if tile.isTrob() then obj.sprite.childBack = spbk
             m.map.Push(spbk)
         end if
         if chfr.frameName <> invalid
             spfr = m.compositor.NewSprite(x + chfr.x * m.scale, (y - yd) + chfr.y * m.scale, m.tileSet.regions.lookup(chfr.frameName), frontZ)
             spfr.setDrawableFlag(chfr.visible)
-            if tile.isTrob()
-                obj.sprite.childFront = spfr
-            end if
+            if tile.isTrob() then obj.sprite.childFront = spfr
             m.map.Push(spfr)
         end if
     end if

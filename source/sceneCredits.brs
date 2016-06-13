@@ -76,6 +76,7 @@ Sub PlayEnding()
 	intro = ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/scenes/images/intro-screen"+suffix+".png"), introScale)
 	CrossFade(m.mainScreen, centerX, centerY, GetPaintedBitmap(0,320*scale, 200*scale,true), intro, 4)
 	wait(95000, m.port)
+	m.audioPlayer.stop()
 End Sub
 
 Function TextScreen(screen as object, pngFile as string, color as integer, waitTime = 0 as integer, fadeIn = 4 as integer) as boolean

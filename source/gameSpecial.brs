@@ -30,15 +30,14 @@ Function CheckSpecialEvents() as boolean
             skeleton.visible = true
             skeleton.refracTimer = 9
             skeleton.action("arise")
-            for x = 5 to 7
-                tile = m.kid.level.getTileAt(x, 1, 1)
-                if x = 5
-                    tile.element = m.const.TILE_FLOOR
-                    tile.back = tile.key + "_1"
-                    tile.front = tile.back + "_fg"
-                end if
-                DrawTile(tile, m.xOff, m.yOff, m.gameWidth, m.gameHeight)
-            next
+            tile = m.kid.level.getTileAt(5, 1, 1)
+            tile.element = m.const.TILE_FLOOR
+            tile.back = tile.key + "_1"
+            tile.front = tile.back + "_fg"
+            if tile.backSprite <> invalid and tile.frontSprite <> invalid
+                tile.backSprite.SetRegion(m.tileSet.regions.lookup(tile.back))
+                tile.frontSprite.SetRegion(m.tileSet.regions.lookup(tile.front))
+            end if
             PlaySound("skeleton")
         end if
     else if m.currentLevel = 4 and m.kid.room = 4 and m.kid.level.exitOpen > 0
@@ -49,7 +48,6 @@ Function CheckSpecialEvents() as boolean
             tile.back  = tile.key + "_mirror"
             tile.front = tile.back + "_fg"
             if tile.backSprite <> invalid and tile.frontSprite <> invalid
-                print "Redraw mirror tile"
                 tile.backSprite.SetRegion(m.tileSet.regions.lookup(tile.back))
                 tile.frontSprite.SetRegion(m.tileSet.regions.lookup(tile.front))
             end if
@@ -114,7 +112,7 @@ Function CheckSpecialEvents() as boolean
                 shadow.visible = true
             else if m.kid.blockX < 4
                 if shadow.blockX = 0 and shadow.action() = "stand" then
-                    shadow.action("step")
+                    shadow.action("step11")
                 end if
             end if
         else if m.kid.room = 3
@@ -157,32 +155,70 @@ Function CheckSpecialEvents() as boolean
             m.wait = 0
         end if
     else if m.currentLevel = 12
-        if m.kid.room = 2
-            m.kid.leapOfFaith = true
-        else if m.kid.room = 13
+        'Shadow appearance
+        if m.guards.Count() = 0 then return false
+        shadow = m.guards[0]
+        m.kid.leapOfFaith = false
+        if m.kid.room = 15 and not shadow.meet
+            if m.kid.blockX = 9 and m.kid.blockY = 1
+                m.kid.level.removeObject(1, 0, 15)
+            else if m.kid.blockX = 6 and m.kid.blockY = 0 and not shadow.visible
+                shadow.visible = true
+            else if not shadow.active and shadow.visible and shadow.action() = "stoop"
+                shadow.action("standup")
+                shadow.active = true
+                shadow.refracTimer = 9
+            else if not shadow.alive and m.kid.alive
+                m.kid.action("dropdead")
+            else if shadow.visible and m.kid.action() = "fastsheathe" and shadow.active
+                shadow.action("fastsheathe")
+                shadow.opponent = invalid
+                shadow.swordDrawn = false
+                m.kid.opponent = invalid
+                shadow.active = false
+                shadow.meet = true
+            end if
+        else if (m.kid.room = 15 or m.kid.room = 2) and shadow.meet
+            if shadow.visible
+                objList = m.kid.sprite.CheckMultipleCollisions()
+                if objList <> invalid
+                    for each obj in objList
+                        if obj.GetData() = "shadow"
+                            m.kid.effect =  m.colors.white
+                            m.kid.cycles = 50
+                            m.kid.face = shadow.face
+                            shadow.visible = false
+                            shadow.action("stand")
+                            exit for
+                        end if
+                    next
+                end if
+                if m.kid.action() <> shadow.action() and shadow.visible
+                    shadow.action(m.kid.action())
+                end if
+            else if m.kid.cycles > 0
+                if m.kid.cycles > 30 then m.kid.effect =  m.colors.white
+                if m.kid.cycles = 1 then PlaySound("success")
+                if m.kid.cycles mod 2 = 0
+                    swRegion = shadow.regions[m.kid.face].Lookup("shadow-" + itostr(m.kid.frame))
+                    if swRegion <> invalid then m.kid.sprite.SetRegion(swRegion)
+                end if
+                m.kid.cycles = m.kid.cycles - 1
+            else if m.kid.room = 2 and shadow.meet and not shadow.visible and m.kid.cycles = 0
+                m.kid.leapOfFaith = true
+            end if
+        else if m.kid.room = 13 and shadow.meet and not shadow.visible and m.kid.cycles = 0
             m.kid.leapOfFaith = (m.kid.blockX > 5)
         else if m.kid.room = 23
             'Automatically change from level 12 to Level 13
             NextLevel()
-        else
-            m.kid.leapOfFaith = false
         end if
         'Leap of faith mode - make space into floor
         if m.kid.leapOfFaith
             tile = m.kid.level.getTileAt(m.kid.blockX, m.kid.blockY, m.kid.room)
-            if tile.redraw
-                DrawTile(tile, m.xOff, m.yOff, m.gameWidth, m.gameHeight)
-                if m.kid.blockX = 9 and m.kid.room = 13
-                    for x = 0 to 9
-                        tile = m.kid.level.getTileAt(x, m.kid.blockY, 2)
-                        DrawTile(tile, m.xOff, m.yOff, m.gameWidth, m.gameHeight)
-                    next
-                else
-                    for x = m.kid.blockX + 1 to 9
-                        tile = m.kid.level.getTileAt(x, m.kid.blockY, m.kid.room)
-                        DrawTile(tile, m.xOff, m.yOff, m.gameWidth, m.gameHeight)
-                    next
-                end if
+            if tile.redraw and tile.backSprite <> invalid and tile.frontSprite <> invalid
+                tile.backSprite.SetRegion(m.tileSet.regions.lookup(tile.back))
+                tile.frontSprite.SetRegion(m.tileSet.regions.lookup(tile.front))
             end if
         end if
     else if m.currentLevel = 13

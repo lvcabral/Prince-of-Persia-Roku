@@ -3063,7 +3063,16 @@
       }
    ],
    "guards":[
-
+       {
+          "room":22,
+          "location":21,
+          "skill":3,
+          "colors":0,
+          "type":"shadow",
+          "direction":1,
+          "active": false,
+          "visible": false
+       }
    ],
    "events":[
       {

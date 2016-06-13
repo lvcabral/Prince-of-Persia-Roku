@@ -69,7 +69,7 @@ Function is_barrier() as boolean
 End Function
 
 Function is_trob() as boolean
-    return (m.element = m.const.TILE_GATE) or (m.element = m.const.TILE_RAISE_BUTTON) or (m.element = m.const.TILE_DROP_BUTTON) or (m.element = m.const.TILE_SPIKES) or (m.element = m.const.TILE_SWORD) or (m.element = m.const.TILE_SLICER) or (m.element = m.const.TILE_EXIT_RIGHT) or (m.element = m.const.TILE_POTION)
+    return (m.element = m.const.TILE_GATE or m.element = m.const.TILE_RAISE_BUTTON or m.element = m.const.TILE_DROP_BUTTON or m.element = m.const.TILE_SPIKES or m.element = m.const.TILE_SWORD or m.element = m.const.TILE_SLICER or m.element = m.const.TILE_EXIT_RIGHT or m.element = m.const.TILE_POTION or m.element = m.const.TILE_TORCH)
 End Function
 
 Function is_mob() as boolean
