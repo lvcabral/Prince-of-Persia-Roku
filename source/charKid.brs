@@ -520,7 +520,6 @@ Sub check_barrier()
         else
             m.charX = ConvertBlockXtoX(m.blockX)
         end if
-        'm.updateBlockXY()
         print "bump: freefall"
         m.bump()
         return
@@ -550,7 +549,7 @@ Sub check_barrier()
                 else
                     m.charX = ConvertBlockXtoX(blockX)
                 end if
-                m.updateBlockXY()
+                if m.charAction <> "freefall" then m.updateBlockXY()
                 print "bump: tile wall"; m.charX; m.blockX
                 m.bump()
             else if tileNext.element = m.const.TILE_GATE
