@@ -72,7 +72,13 @@ Sub DrawStatusBar(screen as object, width as integer, height as integer)
             m.bitmapFont[m.scale].write(screen, text, x, y)
         end if
     end if
-    DrawBorder(m.mainScreen, m.gameWidth, m.gameHeight, m.colors.gray, 2)
+
+    if m.kid.swordDrawn or m.kid.cursors.shift
+        borderColor = m.colors.white
+    else
+        borderColor = m.colors.gray
+    end if
+    DrawBorder(m.mainScreen, m.gameWidth, m.gameHeight, borderColor, 2)
 End Sub
 
 Sub DrawBorder(screen as object, width as integer, height as integer, color as integer, offset as integer)
@@ -87,7 +93,7 @@ Sub DrawBorder(screen as object, width as integer, height as integer, color as i
 End Sub
 
 Sub DebugInfo(x as integer, y as integer)
-    if (x <> m.saveX or y <> m.saveY or m.kid.frameName <> m.saveFrameName)
+    if x <> m.saveX or y <> m.saveY or m.kid.frameName <> m.saveFrameName
         strDebug = str(x)+","+str(y)+" "+m.kid.action()+" "+m.kid.frameName+" R:"+itostr(m.kid.room)+" T:"+ itostr(m.kid.blockX) + "," + itostr(m.kid.blockY)
         print strDebug
         if m.debugMode
@@ -100,7 +106,7 @@ Sub DebugInfo(x as integer, y as integer)
 End Sub
 
 Sub DebugGuard(x as integer, y as integer, guard as object)
-    if (x <> m.guardX or y <> m.guardY or guard.frameName <> m.guardFrameName)
+    if x <> m.guardX or y <> m.guardY or guard.frameName <> m.guardFrameName
         strDebug = "guard: "+str(x)+","+str(y)+" "+guard.action()+" "+guard.frameName+" R:"+itostr(guard.room)+" T:"+ itostr(guard.blockX) + "," + itostr(guard.blockY)
         'print strDebug
         m.guardX = x
