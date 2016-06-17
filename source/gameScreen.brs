@@ -62,9 +62,11 @@ Function PlayGame() as boolean
             else if m.gameOver
                 m.gameOver = false
                 m.status.Clear()
+                m.checkPoint = m.kid.checkPoint
                 ResetGame()
             else if id = m.code.BUTTON_INSTANT_REPLAY_PRESSED or id = m.code.BUTTON_PLAY_PRESSED
                 if not m.debugMode or id = m.code.BUTTON_PLAY_PRESSED
+                    m.checkPoint = m.kid.checkPoint
                     ResetGame()
                 else
                     m.dark = not m.dark
@@ -449,6 +451,7 @@ Sub MOBsUpdate()
                                 debris.backSprite.SetRegion(m.tileSet.regions.lookup(debris.back))
                                 debris.frontSprite.SetRegion(m.tileSet.regions.lookup(debris.front))
                             end if
+                            mob.tile.element = m.const.TILE_SPACE
                             mob.tile = invalid
                             mob.floor = invalid
                         end if
