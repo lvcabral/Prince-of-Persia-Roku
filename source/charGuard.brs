@@ -264,7 +264,6 @@ Sub land_guard(tile as object)
     else if tile.element = m.const.TILE_SPIKES
         m.action("impale")
         PlaySound("spiked")
-        'm.processCommand()
     else if m.fallingBlocks <= 1
         m.action("stand")
     else

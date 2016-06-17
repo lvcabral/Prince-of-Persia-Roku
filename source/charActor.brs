@@ -575,6 +575,7 @@ Sub check_fight_barrier()
             else
                 m.charX = ConvertBlockXtoX(m.blockX)
             end if
+            m.updateBlockXY()
             print "bump: freefall"
         end if
         return

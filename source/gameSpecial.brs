@@ -22,26 +22,39 @@ Function CheckSpecialEvents() as boolean
             if button.element = m.const.TILE_DROP_BUTTON then button.push(false, false)
         end if
     else if m.currentLevel = 3
-        if  m.kid.room = 1
+        if m.kid.room = 1
             'Skelleton is alive!
             if m.guards.Count() = 0 or m.kid.blockY = 0 or m.kid.level.exitOpen = 0 then return false
             if not m.guards[0].visible
-                skeleton = m.guards[0]
-                skeleton.active = true
-                skeleton.visible = true
-                skeleton.refracTimer = 9
-                skeleton.action("arise")
                 tile = m.kid.level.getTileAt(5, 1, 1)
-                tile.element = m.const.TILE_FLOOR
-                tile.back = tile.key + "_1"
-                tile.front = tile.back + "_fg"
-                if tile.backSprite <> invalid and tile.frontSprite <> invalid
-                    tile.backSprite.SetRegion(m.tileSet.regions.lookup(tile.back))
-                    tile.frontSprite.SetRegion(m.tileSet.regions.lookup(tile.front))
+                if tile.element = m.const.TILE_SKELETON
+                    skeleton = m.guards[0]
+                    skeleton.active = true
+                    skeleton.visible = true
+                    skeleton.refracTimer = 20
+                    skeleton.action("arise")
+                    PlaySound("skeleton")
+                    tile.element = m.const.TILE_FLOOR
+                    tile.back = tile.key + "_1"
+                    tile.front = tile.back + "_fg"
+                    if tile.backSprite <> invalid and tile.frontSprite <> invalid
+                        tile.backSprite.SetRegion(m.tileSet.regions.lookup(tile.back))
+                        tile.frontSprite.SetRegion(m.tileSet.regions.lookup(tile.front))
+                    end if
                 end if
-                PlaySound("skeleton")
+            end if
+        else if m.guards.Count() > 0 and m.guards[0].room = 3
+            skeleton = m.guards[0]
+            if skeleton.visible and skeleton.action() = "stand" and not skeleton.meet
+                skeleton.visible = false
+            else if not skeleton.visible
+                skeleton.charX = ConvertBlockXtoX(5)
+                skeleton.charY = ConvertBlockYtoY(1)
+                skeleton.visible = true
+                skeleton.meet = true
             end if
         else if m.kid.room = 2 and m.kid.blockY = 0
+            'Save check point
             if m.kid.checkPoint.room <> 2
                 m.kid.checkPoint = {room: 2, tile: 9, face: m.const.FACE_RIGHT}
             else

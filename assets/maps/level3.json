@@ -2831,7 +2831,7 @@
        {
           "room":1,
           "location":16,
-          "skill":5,
+          "skill":2,
           "colors":0,
           "type":"skeleton",
           "direction":-1,
