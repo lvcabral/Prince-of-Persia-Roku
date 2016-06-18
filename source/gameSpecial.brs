@@ -50,6 +50,8 @@ Function CheckSpecialEvents() as boolean
             else if not skeleton.visible
                 skeleton.charX = ConvertBlockXtoX(5)
                 skeleton.charY = ConvertBlockYtoY(1)
+                skeleton.action("engarde")
+                skeleton.active = true
                 skeleton.visible = true
                 skeleton.meet = true
             end if

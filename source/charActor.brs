@@ -342,7 +342,7 @@ Sub check_floor()
                     end if
                 else
                     if m.charName = "skeleton"
-                        m.charX = ConvertBlockXtoX(m.blockX) + 20
+                        m.charX = ConvertBlockXtoX(m.blockX) + 15
                     else
                         m.charX = ConvertBlockXtoX(m.blockX) + 5
                     end if

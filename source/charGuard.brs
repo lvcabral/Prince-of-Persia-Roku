@@ -15,14 +15,16 @@ Function CreateGuard(level as object, room as integer, position as integer, face
     this = {}
     'constants
     this.const = m.const
-    this.const.STRIKE_PROBABILITY = [ 61, 100, 61, 61, 61, 40, 100, 220, 0, 48, 32, 48 ]
-    this.const.RESTRIKE_PROBABILITY = [ 0, 0, 0, 5, 5, 175, 16, 8, 0, 255, 255, 150 ]
-    this.const.BLOCK_PROBABILITY = [ 0, 150, 150, 200, 200, 255, 200, 250, 0, 255, 255, 255 ]
-    this.const.IMPAIRBLOCK_PROBABILITY = [ 0, 61, 61, 100, 100, 145, 100, 250, 0, 145, 255, 175 ]
-    this.const.ADVANCE_PROBABILITY = [ 255, 200, 200, 200, 255, 255, 200, 0, 0, 255, 100, 100 ]
-    this.const.REFRAC_TIMER = [ 16, 16, 16, 16, 8, 8, 8, 8, 0, 8, 0, 0 ]
-    this.const.EXTRA_STRENGTH = [ 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 ]
-    this.const.STRENGTH = [ 4, 3, 3, 3, 3, 4, 5, 4, 4, 5, 5, 5, 4, 6, 0, 0 ]
+    'indexed by Skill
+    this.const.STRIKE_PROBABILITY      = [  61, 100,  61,  61,  61,  40, 100, 220, 0,  48,  32,  48 ]
+    this.const.RESTRIKE_PROBABILITY    = [   0,   0,   0,   5,   5, 175,  16,   8, 0, 255, 255, 150 ]
+    this.const.BLOCK_PROBABILITY       = [   0, 150, 150, 200, 200, 255, 200, 250, 0, 255, 255, 255 ]
+    this.const.IMPAIRBLOCK_PROBABILITY = [   0,  61,  61, 100, 100, 145, 100, 250, 0, 145, 255, 175 ]
+    this.const.ADVANCE_PROBABILITY     = [ 255, 200, 200, 200, 255, 255, 200,   0, 0, 255, 100, 100 ]
+    this.const.REFRAC_TIMER            = [  16,  16,  16,  16,   8,   8,   8,   8, 0,   8,   0,   0 ]
+    this.const.EXTRA_STRENGTH          = [   0,   0,   0,   0,   1,   0,   0,   0, 0,   0,   0,   0 ]
+    'indexed by Level
+    this.const.STRENGTH                = [ 4, 3, 3, 3, 3, 4, 5, 4, 4, 5, 5, 5, 4, 6, 0, 0 ]
     'sprites and animations
     this.scale = m.scale
     this.regions = [{}, {}]
