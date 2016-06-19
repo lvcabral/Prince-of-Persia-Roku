@@ -1,6 +1,6 @@
 #Changelog
 
-#####0.10 - All Shadow Special Events, Level 3 (Skeleton) can now be finished
+#####v0.10 - 19-Jun-2016 - All Shadow Special Events, Level 3 (Skeleton) can now be finished
 * Add: [Events] Level 3 - A checkpoint is activated when kid leaves room 7, it will revive at room 2
 * Add: [Events] Level 4 - When the kid jumps into the mirror the Shadow will jump out of it on the other direction
 * Add: [Events] Level 5 - In room 24 if the gate is open the Shadow will enter and drink the potion
@@ -15,7 +15,7 @@
 * Fix: The max health attribute is not being preserved when changing levels
 * Fix: Guard keep trying to stab the kid after he climbed the stairs
 
-#####0.9 - Cut Scenes, Special Events, Mac sprites (tiles, enemies), Skeleton, Mouse and Jaffar, Github publication
+#####v0.9 - 31-May-2016 - Cut Scenes, Special Events, Mac sprites (tiles, enemies), Skeleton, Mouse and Jaffar, Github publication
 * Add: Game Opening Story
 * Add: Game Cut scenes before levels: 2, 4, 6, 8, 9 and 12
 * Add: Game Final Scene and Story
@@ -58,7 +58,7 @@
 * Fix: If kid is really close to the wall and do a turnengarde sometimes there is a crash in opp_left_side and opp_right_side
 * Fix: Guard hit when back to a wall, enter the wall (L2)
 
-#####0.8 - Guards Fight, Slow Fall Potion, Game Timer, Save Game, Save Settings, Mac sprites (kid, guards, sword)
+#####v0.8 - 08-May-2016 - Guards Fight, Slow Fall Potion, Game Timer, Save Game, Save Settings, Mac sprites (kid, guards, sword)
 * Add: Settings Menu: Control Mode, Graphics Mode, Credits
 * Add: Default Limit of 10 health lives for the kid
 * Add: Game timer (60 minutes default) - Message 2 seconds level, 2 seconds timer
@@ -108,7 +108,7 @@
 * Fix: Dead kid is not pressing the button (L7)
 * Fix: Kid alerts the guard that fall forever (L4R17-18)
 
-#####0.7 - Classic Mode scaled, Die on Slicer/Spikes, Injury by Falling Plates and Mask/Crop fixes
+#####v0.7 - 10-Apr-2016 - Classic Mode scaled, Die on Slicer/Spikes, Injury by Falling Plates and Mask/Crop fixes
 * Add: Classic Mode scaled 2X to be painted in 640x400
 * Add: Control options adapted for remote controls without the buttons: Replay, A and B
 * Add: Kid will die when running or falling on spikes
@@ -148,7 +148,7 @@
 * Fix: Mask issues: Falling edge crosses the floor
 * Fix: Mask issues: Kid hands showing when climb up/down and hanging
 
-#####0.6 - Intro screens, Options Menu, Button Events, Level Changes and Sound Effects
+#####v0.6 - 26-Mar-2016 - Intro screens, Options Menu, Button Events, Level Changes and Sound Effects
 * Add: Intro screens and song
 * Add: Start Menu with Screen Mode options
 * Add: Allow use the remote control straight or sideways
@@ -189,7 +189,7 @@
 * Fix: Shift state not reset when (re)starting level
 * Fix: When fall on abyss dies and stand-up (L2R17)
 
-#####0.5 - Palace and Animated Objects (TROBs and MOBs)
+#####v0.5 - 09-Mar-2016 - Palace and Animated Objects (TROBs and MOBs)
 * Add: Support Palace levels
 * Add: Exiting room from exit door
 * Add: Gate (TROB)
@@ -207,7 +207,7 @@
 * Fix: When climb up from 1 room to other (classic mode) camera does not move (L9R7)
 * Fix: Can't climb when in top left of the room
 
-#####0.4 - Collision Detection and Room Navigation
+#####v0.4 - 05-Mar-2016 - Collision Detection and Room Navigation
 * Add: Reset Level (Replay) button
 * Add: Jump (A) button with same function of the Up button
 * Add: Shift(B) button as a on/off toggle
@@ -224,14 +224,14 @@
 * Fix: Behavior "climbdown" is not being triggered
 * Fix: Can't climb plates, only walls
 
-#####0.3 - Improved Game Canvas and Kid Animation
+#####v0.3 - 01-Mar-2016 - Improved Game Canvas and Kid Animation
 * Add: Game canvas resolution configurable
 * Add: Game mode single/multiple room configurable (still hardcoded)
 * Add: Kid animation improved (turn works, face right fluid as left)
 
-#####0.2 - Maps and kid turn both sides
+#####v0.2 - 27-Feb-2016 - Maps and kid turn both sides
 * Add: Dungeons maps can be loaded (full screen)
 * Add: Support one kid sprite bitmaps for each direction (left, right)
 
-#####0.1 - Basic Sprites
+#####0.1 - 21-Feb-2016 - Basic Sprites
 * Add: Kid sprite moving (limited animation)
