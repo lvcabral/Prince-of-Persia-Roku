@@ -15,7 +15,7 @@
 * Fix: The max health attribute is not being preserved when changing levels
 * Fix: Guard keep trying to stab the kid after he climbed the stairs
 
-#####v0.9 - 31-May-2016 - Cut Scenes, Special Events, Mac sprites (tiles, enemies), Skeleton, Mouse and Jaffar, Github publication
+#####v0.9 - 31-May-2016 - Cut Scenes, Special Events, Mac sprites (tiles, enemies), Skeleton, Mouse and Jaffar, GitHub
 * Add: Game Opening Story
 * Add: Game Cut scenes before levels: 2, 4, 6, 8, 9 and 12
 * Add: Game Final Scene and Story
@@ -58,7 +58,7 @@
 * Fix: If kid is really close to the wall and do a turnengarde sometimes there is a crash in opp_left_side and opp_right_side
 * Fix: Guard hit when back to a wall, enter the wall (L2)
 
-#####v0.8 - 08-May-2016 - Guards Fight, Slow Fall Potion, Game Timer, Save Game, Save Settings, Mac sprites (kid, guards, sword)
+#####v0.8 - 08-May-2016 - Fight, Slow Fall Potion, Game Timer, Save Game & Options, Mac sprites (kid, guards, sword)
 * Add: Settings Menu: Control Mode, Graphics Mode, Credits
 * Add: Default Limit of 10 health lives for the kid
 * Add: Game timer (60 minutes default) - Message 2 seconds level, 2 seconds timer
@@ -233,5 +233,5 @@
 * Add: Dungeons maps can be loaded (full screen)
 * Add: Support one kid sprite bitmaps for each direction (left, right)
 
-#####0.1 - 21-Feb-2016 - Basic Sprites
+#####v0.1 - 21-Feb-2016 - "Basic Sprites"
 * Add: Kid sprite moving (limited animation)
