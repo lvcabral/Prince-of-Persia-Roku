@@ -9,6 +9,8 @@ This port was made using the [HTML5 version](https://github.com/ultrabolido/Prin
 
 There are two selectable options of sprites, the classic MS-DOS (1990) and Macintosh (1992) versions, all levels and cut scenes are already implemented, the only missing features are the Flip Screen Potion effect (Level 9) and the High Scores screen. There are also some known bugs listed at the "issues" section of the repository.
 
+With the high resolution of the current Full HD TV's I had the idea to implement a new feature for the game, never before seen on Prince of Persia ports, the multi-room mode, this way instead of only being able to see the current room you are playing at, now you can see 4 (2x2 mode) or even 9 (3x3 mode) rooms at the same time. This feature I created gives (literally) a new perspective to the game.
+
 I will be publishing here in the following months a simple code documentation describing the files and architecture.
 
 If you have a Roku or Roku TV you can install the preview channel using this link: https://my.roku.com/add/PoPPreview
