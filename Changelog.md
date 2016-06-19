@@ -1,24 +1,37 @@
 #Changelog
 
+#####0.10 - All Shadow Special Events, Level 3 (Skeleton) can now be finished
+* Add: [Events] Level 3 - A checkpoint is activated when kid leaves room 7, it will revive at room 2
+* Add: [Events] Level 4 - When the kid jumps into the mirror the Shadow will jump out of it on the other direction
+* Add: [Events] Level 5 - In room 24 if the gate is open the Shadow will enter and drink the potion
+* Add: [Events] Level 6 - Shadow will show in room 1 behind the gate, if kid open the gate and hang on the edge the shadow walk to close the gate
+* Add: [Events] Level 12 - When kid enter room 15 from 18 the sword disappears and the shadow appears to fight, If kid put sword down and run to the shadow they are reunited
+* Change: [Usability] The game border color changes to white when in "Shift" of "Fight" modes
+* Change: [Map] Moved the button on Level 3 Room 14 to allow the kid reach the gate at room 2 in time using Roku Control
+* Fix: Sometimes characters fall in endless loop
+* Fix: Kid's animation quickly freezes when Skeleton arises (in Level 3)
+* Fix: Skeleton (in Level 3) after falling to room 3 is not shown in the right place
+* Fix: Dead Characters do not always press the buttons
+
 #####0.9 - Cut Scenes, Special Events, Mac sprites (tiles, enemies), Skeleton, Mouse and Jaffar, Github publication
 * Add: Game Opening Story
 * Add: Game Cut scenes before levels: 2, 4, 6, 8, 9 and 12
 * Add: Game Final Scene and Story
 * Add: Scene for the end of the game by timeout
 * Add: Music played on level exit (level 4 different and no song after level 12 and 13)
-* Add: Events: Level 1 - Initial gate close is a button pressed on room 5
-* Add: Events: Level 3 - Skeleton in room 1 will raise if the exit door is open
-* Add: Events: Level 4 - The exit room song changes after the exit door is raised
-* Add: Events: Level 4 - A mirror will be placed at room 4 and music played (once) when the exit room is opened
-* Add: Events: Level 8 - If exit door is raised the mouse will show up at room 16 (kid needs to be at least 12.5s at the room)
-* Add: Events: Level 12 - Tiles will appear automatically to create a bridge on room 2 to 13
-* Add: Events: Level 12 - Entering room 23 go to level 13
-* Add: Events: Level 13 - No health regeneration or remaining time shown on restarting the level
-* Add: Events: Level 13 - Loose tiles above rooms 16 and 23 will fall when kid enters.
-* Add: Events: Level 13 - Leaving room 3 from the right play a music and after that Jaffar goes engarde
-* Add: Events: Level 13 - After Jaffar dies the button on room 24 is pressed to open exit door when kid enter room 3
-* Add: Events: Level 13 - After Jaffar dies, screen flashes several times white, and show remaining time, the countdown stops
-* Add: Events: Level 14 - The final scene shows entering room 5
+* Add: [Events] Level 1 - Initial gate close is a button pressed on room 5
+* Add: [Events] Level 3 - Skeleton in room 1 will raise if the exit door is open
+* Add: [Events] Level 4 - The exit room song changes after the exit door is raised
+* Add: [Events] Level 4 - A mirror will be placed at room 4 and music played (once) when the exit room is opened
+* Add: [Events] Level 8 - If exit door is raised the mouse will show up at room 16 (kid needs to be at least 12.5s at the room)
+* Add: [Events] Level 12 - Tiles will appear automatically to create a bridge on room 2 to 13
+* Add: [Events] Level 12 - Entering room 23 go to level 13
+* Add: [Events] Level 13 - No health regeneration or remaining time shown on restarting the level
+* Add: [Events] Level 13 - Loose tiles above rooms 16 and 23 will fall when kid enters.
+* Add: [Events] Level 13 - Leaving room 3 from the right play a music and after that Jaffar goes engarde
+* Add: [Events] Level 13 - After Jaffar dies the button on room 24 is pressed to open exit door when kid enter room 3
+* Add: [Events] Level 13 - After Jaffar dies, screen flashes several times white, and show remaining time, the countdown stops
+* Add: [Events] Level 14 - The final scene shows entering room 5
 * Add: On Final level 14 the screen is changed to Classic Mode (1 room) - Can't move back to previous level
 * Add: Menu now can me moved both in vertical and horizontal control modes (thanks renojim)
 * Add: Mirror tile on Palace sprite set - Not on JS
