@@ -841,6 +841,10 @@ Sub jumpbackhang_kid()
 End Sub
 
 Sub climb_stairs()
+    if m.opponent <> invalid
+        m.opponent.active = false
+        m.opponent = invalid
+    end if
     tile = m.level.getTileAt(m.blockX, m.blockY,m.room)
     if tile.element = m.const.TILE_EXIT_RIGHT
         m.blockX = m.blockX - 1
