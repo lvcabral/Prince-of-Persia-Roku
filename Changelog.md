@@ -12,6 +12,8 @@
 * Fix: Kid's animation quickly freezes when Skeleton arises (in Level 3)
 * Fix: Skeleton (in Level 3) after falling to room 3 is not shown in the right place
 * Fix: Dead Characters do not always press the buttons
+* Fix: The max health attribute is not being preserved when changing levels
+* Fix: Guard keep trying to stab the kid after he climbed the stairs
 
 #####0.9 - Cut Scenes, Special Events, Mac sprites (tiles, enemies), Skeleton, Mouse and Jaffar, Github publication
 * Add: Game Opening Story
