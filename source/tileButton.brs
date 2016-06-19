@@ -52,7 +52,7 @@ Function push_button(stuck = false as boolean, sound = true as boolean)
         if sound then PlaySound("button-open")
     end if
     print "push button:"; stuck
-    m.stuck = stuck
-    m.onPushed(m.modifier, m.element, stuck)
+    if not m.stuck then m.stuck = stuck
+    m.onPushed(m.modifier, m.element, m.stuck)
     m.stage = 0
 End Function

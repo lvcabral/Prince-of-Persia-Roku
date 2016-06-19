@@ -799,6 +799,10 @@ Sub stabbed_fighter()
     end if
     if m.health = 0
         m.action("stabkill")
+        tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
+        if tile.element = m.const.TILE_RAISE_BUTTON or tile.element = m.const.TILE_DROP_BUTTON
+            tile.push(true, false)
+        end if
     else
         m.action("stabbed")
     end if

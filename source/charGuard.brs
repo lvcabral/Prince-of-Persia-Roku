@@ -70,7 +70,7 @@ Function CreateGuard(level as object, room as integer, position as integer, face
     else
         this.charX = this.charX + 2
     end if
-
+    this.charSkill = skill
     this.strikeProbability = this.const.STRIKE_PROBABILITY[skill]
     this.restrikeProbability = this.const.RESTRIKE_PROBABILITY[skill]
     this.blockProbability = this.const.BLOCK_PROBABILITY[skill]
@@ -84,7 +84,6 @@ Function CreateGuard(level as object, room as integer, position as integer, face
 
     this.health = m.const.EXTRA_STRENGTH[skill] + m.const.STRENGTH[this.level.number]
 
-    this.charSkill = skill
     'methods
     this.update = update_guard
     this.updateBehaviour = update_behaviour_guard
@@ -270,6 +269,9 @@ Sub land_guard(tile as object)
         m.action("stand")
     else
         m.action("dropdead")
+    end if
+    if m.charAction = "dropdead" and (tile.element = m.const.TILE_RAISE_BUTTON or tile.element = m.const.TILE_DROP_BUTTON)
+        tile.push(true, false)
     end if
     m.processCommand()
 End Sub
