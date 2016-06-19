@@ -69,11 +69,12 @@ Sub Main()
         'Load general assets
         if m.settings.spriteMode = m.const.SPRITES_DOS
             suffix = "-dos"
-            m.general = LoadBitmapRegions(m.scale, "general", "general-dos")
+            m.general = LoadBitmapRegions(m.scale, "general", "general" + suffix)
         else
             suffix = "-mac"
-            m.general = LoadBitmapRegions(m.scale / 2, "general", "general-mac")
+            m.general = LoadBitmapRegions(m.scale / 2, "general", "general" + suffix)
         end if
+        'Setup initial parameters
         m.currentLevel = 1
         m.startTime = m.const.TIME_LIMIT
         m.startHealth = m.const.START_HEALTH
@@ -119,6 +120,7 @@ Sub NextLevel()
     g = GetGlobalAA()
     if g.currentLevel = g.maxLevels then return
     g.currentLevel = g.currentLevel + 1
+    g.startHealth = g.kid.maxHealth
     g.checkPoint = invalid
     PlayScene(g.gameScreen, g.currentLevel)
     ResetGame()
@@ -128,6 +130,7 @@ Sub PreviousLevel()
     g = GetGlobalAA()
     if g.currentLevel = 1 or g.currentLevel = g.maxLevels then return
     g.currentLevel = g.currentLevel - 1
+    g.startHealth = g.kid.maxHealth
     g.checkPoint = invalid
     ResetGame()
 End Sub
@@ -146,7 +149,7 @@ Sub ResetGame()
         if g.settings.spriteMode = m.const.SPRITES_DOS
             g.general = LoadBitmapRegions(g.scale, "general", "general-dos")
         else
-            m.general = LoadBitmapRegions(g.scale/2, "general", "general-mac")
+            m.general = LoadBitmapRegions(g.scale / 2.0, "general", "general-mac")
         end if
     end if
     g.tileSet = LoadTiles(g.currentLevel)
@@ -253,8 +256,8 @@ Sub ResetScreen(mainWidth as integer, mainHeight as integer, gameWidth as intege
     g.mainScreen = CreateObject("roScreen", true, mainWidth, mainHeight)
     g.mainScreen.SetMessagePort(g.port)
     if mainWidth <> gameWidth or mainHeight <> gameHeight
-        xOff = Cint((mainWidth-gameWidth)/2)
-        yOff = Cint((mainHeight-gameHeight)/2)
+        xOff = Cint((mainWidth-gameWidth) / 2)
+        yOff = Cint((mainHeight-gameHeight) / 2)
         drwRegions = dfSetupDisplayRegions(g.mainScreen, xOff, yOff, gameWidth, gameHeight)
         g.gameScreen = drwRegions.main
     else
