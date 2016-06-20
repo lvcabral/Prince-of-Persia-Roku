@@ -22,6 +22,9 @@ Function CheckSpecialEvents() as boolean
             if button.element = m.const.TILE_DROP_BUTTON then button.push(false, false)
         end if
     else if m.currentLevel = 3
+        'Room 2 gate sound shall be heard from anywhere
+        gate = m.tileSet.level.getTileAt(9, 0, 2)
+        if gate <> invalid and gate.element = m.const.TILE_GATE and not gate.audio then gate.audio = true
         if m.kid.room = 1
             'Skelleton is alive!
             if m.guards.Count() = 0 or m.kid.blockY = 0 or m.kid.level.exitOpen = 0 then return false
