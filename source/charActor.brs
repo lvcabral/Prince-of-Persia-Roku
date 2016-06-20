@@ -342,7 +342,11 @@ Sub check_floor()
                     end if
                 else
                     if m.charName = "skeleton"
-                        m.charX = ConvertBlockXtoX(m.blockX) + 15
+                        if m.room = 3
+                            m.charX = ConvertBlockXtoX(m.blockX) + 20
+                        else
+                            m.charX = ConvertBlockXtoX(m.blockX) + 15
+                        end if
                     else
                         m.charX = ConvertBlockXtoX(m.blockX) + 5
                     end if
@@ -388,7 +392,6 @@ Sub check_slicer()
     next
     if tile.element = m.const.TILE_SLICER
         bounds = m.getCharBounds()
-        'if m.charName <> "kid" then stop
         if tile.intersects(bounds) and (tile.stage = 2 or tile.stage = 3)
             tile.blood.visible = true
             StopAudio()

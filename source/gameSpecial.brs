@@ -28,7 +28,7 @@ Function CheckSpecialEvents() as boolean
         if m.kid.room = 1
             'Skelleton is alive!
             if m.guards.Count() = 0 or m.kid.blockY = 0 or m.kid.level.exitOpen = 0 then return false
-            if not m.guards[0].visible
+            if not m.guards[0].visible and (m.kid.action() = "softland" or m.kid.action() = "stand")
                 tile = m.kid.level.getTileAt(5, 1, 1)
                 if tile.element = m.const.TILE_SKELETON
                     skeleton = m.guards[0]
@@ -46,22 +46,10 @@ Function CheckSpecialEvents() as boolean
                     end if
                 end if
             end if
-        else if m.guards.Count() > 0 and m.guards[0].room = 3
-            skeleton = m.guards[0]
-            if skeleton.visible and skeleton.action() = "stand" and not skeleton.meet
-                skeleton.visible = false
-            else if not skeleton.visible
-                skeleton.charX = ConvertBlockXtoX(5)
-                skeleton.charY = ConvertBlockYtoY(1)
-                skeleton.action("engarde")
-                skeleton.active = true
-                skeleton.visible = true
-                skeleton.meet = true
-            end if
         else if m.kid.room = 2 and m.kid.blockY = 0
             'Save check point
             if m.kid.checkPoint.room <> 2
-                m.kid.checkPoint = {room: 2, tile: 9, face: m.const.FACE_RIGHT}
+                m.kid.checkPoint = {room: 2, tile: 6, face: m.const.FACE_RIGHT}
             else
                 tile = m.kid.level.getTileAt(4, 0, 7)
                 if tile.element = m.const.TILE_LOOSE_BOARD
@@ -74,6 +62,22 @@ Function CheckSpecialEvents() as boolean
                     debris.front = debris.key + "_" + itostr(debris.element) + "_fg"
                     m.redraw = true
                 end if
+            end if
+        end if
+        'Skeleton fall and show again
+        if m.guards.Count() > 0 and m.guards[0].room = 3
+            skeleton = m.guards[0]
+            if skeleton.visible and skeleton.action() = "stand" and not skeleton.meet
+                skeleton.visible = false
+            else if not skeleton.visible
+                skeleton.charX = ConvertBlockXtoX(5)
+                skeleton.charY = ConvertBlockYtoY(1)
+                skeleton.face = m.const.FACE_RIGHT
+                skeleton.action("stand")
+                skeleton.swordDrawn = false
+                skeleton.active = true
+                skeleton.visible = true
+                skeleton.meet = true
             end if
         end if
     else if m.currentLevel = 4 and m.kid.room = 4 and m.kid.level.exitOpen > 0
