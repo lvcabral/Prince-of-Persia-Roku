@@ -347,14 +347,14 @@ Sub process_command_kid()
         else if data.cmd = m.const.CMD_DOWN
             m.blockY = m.blockY + 1
         else if data.cmd = m.const.CMD_GOTO
-            'Avoid retreat when wall is behind
+            'Avoid retreat when non walkable tile is behind
             if m.charAction = "turnengarde"
                 if m.faceL()
                     tileNext = m.level.getTileAt(m.blockX + 1, m.blockY, m.room)
                 else
                     tileNext = m.level.getTileAt(m.blockX - 1, m.blockY, m.room)
                 end if
-                if tileNext.isBarrier()
+                if not tileNext.isWalkable()
                     m.charAction = "engarde"
                     m.setPointer = 12
                 else
