@@ -18,6 +18,7 @@ Function PlayScene(screen as object, level as integer, fadeIn = true as boolean)
     m.mainScreen.SwapBuffers()
     m.mainScreen.Clear(0)
     'Clear game screen
+    if m.flip then FlipScreen()
     DestroyMap()
     DestroyChars()
     'Create scene and draw stage
