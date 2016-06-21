@@ -95,11 +95,11 @@ Function CreateKid(level as object, startRoom as integer, startTile as integer, 
     this.keyL = key_l
     this.keyR = key_r
     this.KeyS = key_s
-    this.startLevel(level, startRoom, startTile, startFace)
+    this.startLevel(level, startRoom, startTile, startFace, startHealth)
     return this
 End Function
 
-Sub start_level(level as object, startRoom as integer, startTile as integer, startFace as integer)
+Sub start_level(level as object, startRoom as integer, startTile as integer, startFace as integer, startHealth as integer)
     'inherit generic actor properties and methods
     ImplementActor(m, startRoom, startTile, startFace, m.charName)
     'Save check point
@@ -116,7 +116,7 @@ Sub start_level(level as object, startRoom as integer, startTile as integer, sta
     m.effect = m.colors.black
     m.cycles = 0
     if m.health = 0
-        m.maxHealth = m.const.START_HEALTH
+        m.maxHealth = startHealth
         m.health = m.maxHealth
     end if
     if m.level.number = 1

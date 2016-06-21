@@ -94,6 +94,7 @@ Sub Main()
         else
             option = m.const.BUTTON_NO
         end if
+        m.levelTime = m.startTime
         if option <> m.const.BUTTON_CANCEL
             'Debug: Uncomment the next two lines to start at a specific location
             'm.currentLevel = 3
@@ -122,6 +123,7 @@ Sub NextLevel()
     if g.currentLevel = g.maxLevels then return
     g.currentLevel = g.currentLevel + 1
     g.startHealth = g.kid.maxHealth
+    g.levelTime = g.timeLeft
     g.checkPoint = invalid
     PlayScene(g.gameScreen, g.currentLevel)
     ResetGame()
@@ -166,7 +168,7 @@ Sub ResetGame()
     if g.kid = invalid
         g.kid = CreateKid(g.tileSet.level, g.startRoom, g.startTile, g.startFace, g.startHealth)
     else
-        g.kid.startLevel(g.tileSet.level, g.startRoom, g.startTile, g.startFace)
+        g.kid.startLevel(g.tileSet.level, g.startRoom, g.startTile, g.startFace, g.startHealth)
     end if
     g.xOff = (g.const.ROOM_WIDTH * g.scale) * g.tileSet.level.rooms[g.startRoom].x
     g.yOff = (g.const.ROOM_HEIGHT * g.scale) * g.tileSet.level.rooms[g.startRoom].y
