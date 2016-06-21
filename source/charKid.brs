@@ -394,7 +394,7 @@ Sub process_command_kid()
                     m.isWeightless = true
                     PlaySound("weightless-potion")
                 else if m.potion = m.const.POTION_INVERT
-                    ' m.invertMap()
+                    FlipScreen()
                 end if
                 m.potion = 0
             else if  m.charAction = "pickupsword"

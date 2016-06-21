@@ -17,15 +17,14 @@ Function PlayGame() as boolean
     m.mainScreen.Clear(0)
     m.mainScreen.SwapBuffers()
     m.mainScreen.Clear(0)
-    'Draw map and kid sprites
+    'Set offsets
     m.xOff = (m.const.ROOM_WIDTH * m.scale) * m.tileSet.level.rooms[m.kid.room].x
     m.yOff = (m.const.ROOM_HEIGHT * m.scale) * m.tileSet.level.rooms[m.kid.room].y
-    DrawLevelRooms(m.xOff, m.yOff, m.gameWidth, m.gameHeight)
     'Initialize flags and aux variables
     m.oldRoom = m.startRoom
     m.topOffset = 3 * m.scale
     m.speed = 80 '~12 fps
-    m.redraw = false
+    m.redraw = true
     m.blink = false
     m.flash = false
     m.gameOver = false
@@ -117,6 +116,11 @@ Function PlayGame() as boolean
                 'Paint Screen
                 m.compositor.AnimationTick(ticks)
                 m.compositor.DrawAll()
+                if m.flip
+                    canvasX = Cint((m.mainWidth - m.gameWidth) / 2)
+                    canvasY = Cint((m.mainHeight - m.gameHeight) / 2)
+                    m.mainScreen.DrawObject(canvasX, canvasY, FlipVertically(m.gameCanvas))
+                end if
                 DrawStatusBar(m.gameScreen, m.gameWidth, m.gameHeight)
                 m.mainScreen.SwapBuffers()
                 m.clock.Mark()
@@ -124,6 +128,18 @@ Function PlayGame() as boolean
         end if
     end while
 End Function
+
+Sub FlipScreen()
+    g = GetGlobalAA()
+    g.flip = not g.flip
+    if g.flip then
+        g.compositor.SetDrawTo(g.gameCanvas, g.colors.black)
+        g.speed = 30
+    else
+        g.compositor.SetDrawTo(g.gameScreen, g.colors.black)
+        g.speed = 80
+    end if
+End Sub
 
 Sub KidUpdate()
     m.kid.update()

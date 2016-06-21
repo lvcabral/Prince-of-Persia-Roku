@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: May 2016
+' **  Updated: June 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -287,6 +287,17 @@ Function ScaleBitmap(bitmap as object, scale as float, simpleMode = false as boo
 		scaled = bitmap
 	end if
     return scaled
+End Function
+
+Function FlipVertically(bitmap as object) as object
+	flipped = CreateObject("roBitmap",{width:bitmap.GetWidth(), height:bitmap.GetHeight(), alphaenable:bitmap.GetAlphaEnable()})
+    columns = bitmap.GetWidth()
+    lines = bitmap.GetHeight()
+    for l = 0 to columns - 1
+        region = CreateObject("roRegion", bitmap, 0, l, columns, 1)
+        flipped.DrawObject(0, lines - l - 1, region)
+    end for
+    return flipped
 End Function
 
 Function FlipHorizontally(bitmap as object) as object

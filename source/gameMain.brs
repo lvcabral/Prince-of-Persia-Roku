@@ -43,6 +43,7 @@ Sub Main()
     m.dark = false 'flag for debugging without map tiles paint
     m.fight = m.const.FIGHT_ATTACK 'parameter to set opponents fight behavior
     m.intro = true 'flag to enable/disable intro screens
+    m.flip = false 'flag to flip the screen vertically
     'Load saved game
     m.savedGame = LoadSavedGame()
     m.maxLevels = 14
@@ -171,6 +172,7 @@ Sub ResetGame()
     g.yOff = (g.const.ROOM_HEIGHT * g.scale) * g.tileSet.level.rooms[g.startRoom].y
     g.oldRoom = g.startRoom
     g.floor = invalid
+    if g.flip then FlipScreen()
     g.redraw = true
     if g.mobs <> invalid
         for each mob in g.mobs
@@ -265,4 +267,5 @@ Sub ResetScreen(mainWidth as integer, mainHeight as integer, gameWidth as intege
     end if
     g.gameScreen.SetAlphaEnable(true)
     g.compositor.SetDrawTo(g.gameScreen, g.colors.black)
+    g.gameCanvas = CreateObject("roBitmap",{width:gameWidth, height:gameHeight, alphaenable:true})
 End Sub

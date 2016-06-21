@@ -26,7 +26,7 @@ Function CheckSpecialEvents() as boolean
         gate = m.tileSet.level.getTileAt(9, 0, 2)
         if gate <> invalid and gate.element = m.const.TILE_GATE and not gate.audio then gate.audio = true
         if m.kid.room = 1
-            'Skelleton is alive!
+            'Skeleton is alive!
             if m.guards.Count() = 0 or m.kid.blockY = 0 or m.kid.level.exitOpen = 0 then return false
             if not m.guards[0].visible and (m.kid.action() = "softland" or m.kid.action() = "stand")
                 tile = m.kid.level.getTileAt(5, 1, 1)
