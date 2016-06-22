@@ -193,6 +193,8 @@ Sub KidUpdate()
     end if
     'Disable Weightless state
     if m.kid.isWeightless and m.sounds.mp3.cycles = 0 then m.kid.isWeightless = false
+    'Disable flip screen if kid is dead
+    if not m.kid.alive and m.flip then FlipScreen()
     'Check level success
     if m.kid.success and m.sounds.mp3.cycles = 0 then NextLevel()
 End Sub
