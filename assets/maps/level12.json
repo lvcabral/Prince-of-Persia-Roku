@@ -133,7 +133,8 @@
                "element":0,
                "modifier":0
             }
-         ]
+         ],
+        "leftZ": 20
       },
       {
          "id":10,
