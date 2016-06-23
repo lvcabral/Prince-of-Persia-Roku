@@ -1,5 +1,21 @@
 #Changelog
 
+#####v0.11 - 22-Jun-2016 - Flip Screen Potion Effect, Skeleton, Mouse and Shadow fixes, Multiple Slicer fixes
+* Add: Reversal Potion (big green): Flip screen upside down (L9)
+* Add: [Events] Level 3 - The sound of the gate at room 2 must be heard from anywhere
+* Fix: Check point on room 2 should be at tile 6 not 9
+* Fix: Skeleton is arising too early, must wait kid touch the ground
+* Fix: Skeleton after fall is not going to the right position and waiting the kid
+* Fix: Skeleton is not dying when falling from room 3.
+* Fix: When kid perform a "turnengarde" action close to an edge he retreats and fall
+* Fix: After death Kid's health is always being restored to 3 lives
+* Fix: Shadow sometimes not drinking the potion on Level 5
+* Fix: Crash when Mouse character is created (L8)  
+* Fix: Left wall mixed on top floor for missing rooms (L7R9 and L12R13)
+* Fix: Multiple Slicers together do not detect death correctly (L3R16T4)
+* Fix: Sometimes two slicers side by side are not in sync (L8R4)
+* Fix: Multiple slicers side by side does not sound right (L8R4)
+
 #####v0.10 - 19-Jun-2016 - All Shadow Special Events, Level 3 (Skeleton) can now be finished
 * Add: [Events] Level 3 - A checkpoint is activated when kid leaves room 7, it will revive at room 2
 * Add: [Events] Level 4 - When the kid jumps into the mirror the Shadow will jump out of it on the other direction
