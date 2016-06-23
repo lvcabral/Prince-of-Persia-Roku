@@ -15,7 +15,7 @@ I will be publishing here in the following months a simple code documentation de
 
 If you have a Roku or Roku TV you can install the preview channel using this link: https://my.roku.com/add/PoPPreview
 
-Below links to some preview videos I published on YouTube during the development (I will edit one for v0.10 soon):
+Below links to some preview videos I published on YouTube during the development (I will edit one for the latest version soon):
 * [Preview v0.8 YouTube](https://www.youtube.com/watch?v=4tVxNFCUSiE)
 * [Preview v0.6 YouTube](https://www.youtube.com/watch?v=gYzuH9f3ADU)
 * [Preview v0.5 YouTube](https://www.youtube.com/watch?v=r6B0xgb8GSE)
