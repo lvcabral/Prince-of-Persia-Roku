@@ -78,10 +78,7 @@ Function PlayGame() as boolean
             else if id = m.code.BUTTON_SELECT_PRESSED
                 if m.debugMode
                     m.debugMode = false
-                    if m.dark
-                        m.redraw = true
-                        m.dark = false
-                    end if
+                    m.dark = false
                     m.status.Clear()
                     m.showTime = true
                 else
@@ -92,6 +89,7 @@ Function PlayGame() as boolean
                     version = "v" + m.manifest.major_version + "." + m.manifest.minor_version + "." + m.manifest.build_version
                     m.status.Push({text: version + " * DEBUG MODE ON", duration: 2, alert: false})
                 end if
+                m.redraw = true
             else
                 m.kid.cursors.update(id, m.kid.swordDrawn)
             end if
@@ -294,7 +292,7 @@ Function CheckGameTimer() as boolean
         m.status.Push({ text: itostr(m.timeLeft / 60) + " MINUTES LEFT", duration: 2, alert: false})
         m.timeShown = m.timeLeft
         m.showTime = false
-    else if not m.kid.alive and not m.gameOver and IsSilent()
+    else if not m.kid.alive and not m.gameOver and m.sounds.mp3.cycles = 0
         m.gameOver = true
         m.debugMode = false
         m.dark = false
@@ -313,6 +311,9 @@ Function CheckGameTimer() as boolean
 End Function
 
 Sub TROBsUpdate()
+    slicerCount = 0
+    slicerState = 0
+    slicerGap = 0
     for each trob in m.trobs
         if trob.tile.element = m.const.TILE_EXIT_RIGHT and m.kid.room = m.kid.level.prince.room and m.kid.room = trob.tile.room
             'Close Door on the start of every level
@@ -330,7 +331,14 @@ Sub TROBsUpdate()
             roomK = m.kid.room
             roomL = m.tileSet.level.rooms[m.kid.room].links.left
             roomR = m.tileSet.level.rooms[m.kid.room].links.right
-            if  roomT = roomL or roomT = roomK or roomT = roomR then trob.tile.start()
+            if roomT = roomL or roomT = roomK or roomT = roomR
+                if not trob.tile.active
+                    trob.tile.start()
+                    trob.tile.stage = trob.tile.stage - slicerGap
+                    slicerGap = slicerGap + 5
+                    if slicerGap = 15 then slicerGap = 0
+                end if
+            end if
         end if
         'Update TROB state
         trob.tile.update()

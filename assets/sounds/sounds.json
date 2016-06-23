@@ -65,12 +65,6 @@
 	   "duration":5064,
 	   "priority":30
 	},
-	"jaws-clash":
-	{
-	   "type":"mp3",
-	   "duration":496,
-	   "priority":10
-	},
 	"mirror":
 	{
 	   "type":"mp3",
@@ -202,6 +196,12 @@
 	   "type":"wav",
 	   "duration":137,
 	   "priority":10
+	},
+	"slicer":
+	{
+	   "type":"wav",
+	   "duration":465,
+	   "priority":15
 	},
 	"sliced":
 	{

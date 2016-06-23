@@ -338,7 +338,7 @@ Sub process_command_kid()
             if data.p1 = 0
                 'alertguard
             else if data.p1 = 1
-                PlaySound("footstep", 50, true)
+                PlaySound("footstep", true)
             else if data.p1 = 2
                 PlaySound("smack-wall")
             end if
@@ -700,7 +700,7 @@ Sub walk_kid()
 	else
 		tileF = m.level.getTileAt(m.blockX + 1, m.blockY, m.room)
 	end if
-    if m.nearBarrier() or (tileF.element = m.const.TILE_SPACE) or (tileF.element = m.const.TILE_POTION) or (tileF.element = m.const.TILE_LOOSE_BOARD) or (tileF.element = m.const.TILE_SWORD) or (tileF.element = m.const.TILE_SLICER)
+    if m.nearBarrier() or (tileF.element = m.const.TILE_SPACE) or (tileF.element = m.const.TILE_POTION) or (tileF.element = m.const.TILE_LOOSE_BOARD) or (tileF.element = m.const.TILE_SWORD)
         px = m.distanceToEdge()
         print "dtoedge"; px
         if tile.element = m.const.TILE_GATE and not tile.canCross(m.getCharBounds().height) and m.faceR()
@@ -721,17 +721,6 @@ Sub walk_kid()
         		m.action("bump")
         		return
         	end if
-        else if tileF.element = m.const.TILE_SLICER
-            if m.faceR()
-                px = px - 6
-                if px <= 0
-                    px = 11
-                end if
-            else if px < 8
-                px = px + 6
-            else
-                px = 14
-            end if
         else
             if tileF.isBarrier()
                 px = px - 2
@@ -752,8 +741,9 @@ Sub walk_kid()
                 end if
             end if
         end if
-    else if tile.element = m.const.TILE_SLICER and m.faceL()
-        px = m.distanceToEdge() - 8
+    else if tile.element = m.const.TILE_SLICER or tileF.element = m.const.TILE_SLICER
+        px = m.distanceToEdge()
+        if m.faceL() then px = px - 8 else px = px - 6
         if px <= 0 then px = 11
     end if
     if px > 14
@@ -784,22 +774,22 @@ Sub jump_kid()
     if tileT.isSpace() and tileTF.isWalkable()
         m.jumphanglong()
     else if tileT.isWalkable() and tileTR.isSpace() and tileR.isWalkable()
-        if (m.faceL() and ((ConvertBlockXtoX(m.blockX + 1) - m.charX) < 11))
+        if m.faceL() and ((ConvertBlockXtoX(m.blockX + 1) - m.charX) < 11)
             m.blockX = m.blockX + 1
             m.jumphanglong()
-        else if (m.faceR() and ((m.charX - ConvertBlockXtoX(m.blockX)) < 9))
+        else if m.faceR() and ((m.charX - ConvertBlockXtoX(m.blockX)) < 9)
             m.blockX = m.blockX - 1
             m.jumphanglong()
         else
 			m.jumpup()
 		end if
-    else if (tileT.isWalkable() and  tileTR.isSpace())
+    else if tileT.isWalkable() and tileTR.isSpace()
         if (m.faceL() and ((ConvertBlockXtoX(m.blockX + 1) - m.charX) < 11)) or (m.faceR() and ((m.charX - ConvertBlockXtoX(m.blockX)) < 9))
             m.jumpbackhang()
 		else
 			m.jumpup()
         end if
-    else if (tileT.isSpace())
+    else if tileT.isSpace()
         m.highjump()
 	else
 		m.jumpup()
@@ -931,7 +921,7 @@ Sub land_kid(tile as object)
         m.action("medland")
     else
         m.swordDrawn = false
-        PlaySound("land-fatal", 75)
+        PlaySound("land-fatal", false, 75)
         m.action("hardland")
         if tile.element = m.const.TILE_RAISE_BUTTON or tile.element = m.const.TILE_DROP_BUTTON
             tile.push(true, false)

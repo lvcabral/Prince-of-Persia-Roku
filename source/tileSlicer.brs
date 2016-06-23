@@ -35,9 +35,6 @@ End Function
 
 Sub update_slicer()
     if m.active
-        if m.stage = 0 and m.audio
-            PlaySound("jaws-clash", 50, true)
-        end if
         m.stage = m.stage + 1
         if m.stage >= 15
             m.stage = 0
@@ -50,6 +47,7 @@ Sub update_slicer()
             end if
             if m.stage = 3
                 m.state = m.STATE_SLICE
+                if m.audio then PlaySound("slicer", true)
             else
                 m.state = m.STATE_MOVING
             end if

@@ -66,7 +66,7 @@ Sub update_loose()
 			m.state = m.STATE_CRASHED
             m.vacc = 0
 			m.yTo = 0
-			PlaySound("loose-crash", 75, true)
+			PlaySound("loose-crash", true, 75)
 		end if
 		m.redraw = true
     end if

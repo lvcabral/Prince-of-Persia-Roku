@@ -43,13 +43,13 @@ Sub SoundUpdate()
     end if
 End Sub
 
-Sub PlaySound(clip as  string, volume = 50 as integer, overlap = false as boolean)
+Sub PlaySound(clip as  string, overlap = false as boolean, volume = 50 as integer)
     g = GetGlobalAA()
     meta = g.sounds.metadata.clips.lookup(clip)
     if meta.type = "mp3"
         PlaySoundMp3(clip, overlap)
     else
-        PlaySoundWav(clip, volume, overlap)
+        PlaySoundWav(clip, overlap, volume)
     end if
 End Sub
 
@@ -59,7 +59,7 @@ Sub PlaySoundMp3(clip as string, overlap as boolean)
     ctrl = g.sounds.mp3
     meta = g.sounds.metadata.clips.lookup(clip)
     if meta = invalid then return
-    if ctrl.cycles = 0 or meta.priority > ctrl.priority or (meta.clip = ctrl.clip and overlap)
+    if ctrl.cycles = 0 or meta.priority > ctrl.priority or (ctrl.clip = clip and overlap)
         print "play sound mp3: "; clip
         ctrl.clip = clip
         ctrl.priority = meta.priority
@@ -70,7 +70,7 @@ Sub PlaySoundMp3(clip as string, overlap as boolean)
     end if
 End Sub
 
-Sub PlaySoundWav(clip as  string, volume = 50 as integer, overlap = false as boolean)
+Sub PlaySoundWav(clip as  string, overlap = false as boolean, volume = 50 as integer)
     g = GetGlobalAA()
     if not g.sounds.enabled then return
     ctrl = g.sounds.wav

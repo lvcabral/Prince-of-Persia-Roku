@@ -196,7 +196,7 @@ Sub process_command_actor()
             if data.p1 = 0
                 'alertguard
             else if data.p1 = 1
-                PlaySound("footstep", 50, true)
+                PlaySound("footstep", true)
             else if data.p1 = 2
                 PlaySound("smack-wall")
             end if
@@ -387,27 +387,25 @@ Sub check_slicer()
     for t = -1 to 1
         tile = m.level.getTileAt(m.blockX + t, m.blockY, m.room)
         if tile.element = m.const.TILE_SLICER
-            exit for
+            bounds = m.getCharBounds()
+            if tile.intersects(bounds) and (tile.stage = 2 or tile.stage = 3)
+                tile.blood.visible = true
+                StopAudio()
+                if m.faceL()
+                    m.charX = ConvertBlockXtoX(m.blockX + t) - 7
+                else
+                    m.charX = ConvertBlockXtoX(m.blockX + t) + 5
+                end if
+                m.charY = (m.blocky + 1) * m.const.BLOCK_HEIGHT - 10
+                m.updateBlockXY()
+                m.swordDrawn = false
+                if m.charName = "kid" then m.effect = m.colors.white
+                m.action("halve")
+                PlaySound("sliced", false, 75)
+                exit for
+            end if
         end if
     next
-    if tile.element = m.const.TILE_SLICER
-        bounds = m.getCharBounds()
-        if tile.intersects(bounds) and (tile.stage = 2 or tile.stage = 3)
-            tile.blood.visible = true
-            StopAudio()
-            if m.faceL()
-                m.charX = ConvertBlockXtoX(m.blockX + t) - 7
-            else
-                m.charX = ConvertBlockXtoX(m.blockX + t) + 5
-            end if
-            m.charY = (m.blocky + 1) * m.const.BLOCK_HEIGHT - 10
-            m.updateBlockXY()
-            m.swordDrawn = false
-            if m.charName = "kid" then m.effect = m.colors.white
-            m.action("halve")
-            PlaySound("sliced",75)
-        end if
-    end if
 End Sub
 
 Sub check_spikes()
