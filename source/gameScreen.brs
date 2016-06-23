@@ -28,6 +28,7 @@ Function PlayGame() as boolean
     m.blink = false
     m.flash = false
     m.gameOver = false
+    m.showTime = false
     m.timeShown = 0
     m.finalTime = 0
     'Game Loop

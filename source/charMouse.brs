@@ -2,7 +2,7 @@
 ' ********************************************************************************************************
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **  Created: February 2016
-' **  Updated: May 2016
+' **  Updated: June 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -39,7 +39,7 @@ Function CreateMouse(level as object, room as integer, position as integer, face
     this.haveSword = false
     this.meet = false
     this.visible = true
-    
+
     this.baseX  = level.rooms[room].x * this.const.ROOM_WIDTH
     this.baseY  = level.rooms[room].y * this.const.ROOM_HEIGHT
 
