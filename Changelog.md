@@ -15,6 +15,7 @@
 * Fix: Multiple Slicers together do not detect death correctly (L3R16T4)
 * Fix: Sometimes two slicers side by side are not in sync (L8R4)
 * Fix: Multiple slicers side by side does not sound right (L8R4)
+* Fix: Crash when restoring a game saved on Level 13
 
 #####v0.10 - 19-Jun-2016 - All Shadow Special Events, Level 3 (Skeleton) can now be finished
 * Add: [Events] Level 3 - A checkpoint is activated when kid leaves room 7, it will revive at room 2
