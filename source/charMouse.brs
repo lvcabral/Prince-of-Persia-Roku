@@ -38,7 +38,8 @@ Function CreateMouse(level as object, room as integer, position as integer, face
     this.frameName = "mouse-1"
     this.haveSword = false
     this.meet = false
-
+    this.visible = true
+    
     this.baseX  = level.rooms[room].x * this.const.ROOM_WIDTH
     this.baseY  = level.rooms[room].y * this.const.ROOM_HEIGHT
 
