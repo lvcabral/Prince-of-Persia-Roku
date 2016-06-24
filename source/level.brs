@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: May 2016
+' **  Updated: June 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -144,17 +144,18 @@ End Function
 Function floor_stop_fall(floor as object) as object
 	'Change floor to version with debris
 	debris = m.getTileAt(floor.x, floor.y, floor.room)
-	if debris.element = m.const.TILE_TORCH
+	if debris.element = m.const.TILE_FLOOR
+		debris.element = m.const.TILE_DEBRIS
+	else if debris.element = m.const.TILE_TORCH
 	   debris.element = m.const.TILE_TORCH_WITH_DEBRIS
 	else if debris.element = m.const.TILE_LOOSE_BOARD
 		debris.shake(true)
 		return invalid
-	else
-	   if debris.element = m.const.TILE_RAISE_BUTTON or debris.element = m.const.TILE_DROP_BUTTON
-           print "floor push debris"
-	       debris.push(true, false)
-	   end if
+	else if debris.element = m.const.TILE_RAISE_BUTTON or debris.element = m.const.TILE_DROP_BUTTON
+       debris.push(true, false)
 	   debris.element = m.const.TILE_DEBRIS
+	else
+		return invalid
 	end if
 	debris.back = debris.key + "_" + itostr(debris.element)
 	debris.front = debris.key + "_" + itostr(debris.element) + "_fg"
