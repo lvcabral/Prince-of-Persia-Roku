@@ -153,7 +153,7 @@ Sub update_behaviour_guard()
     else
         if m.canSeeOpponent()
             m.engarde()
-        else if m.charAction <> "stand"
+        else if m.charAction <> "stand" and m.charAction <> "impale"
             m.action("stand")
             m.swordDrawn = false
         end if
