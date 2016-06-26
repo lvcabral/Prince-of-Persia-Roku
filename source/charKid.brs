@@ -503,7 +503,7 @@ Sub check_barrier()
         return
     else if m.charAction = "climbup" or m.charAction = "climbdown" or m.charAction = "climbfail" or m.charAction = "turn"
         return
-    else if m.charAction.mid(0,4) = "step" or m.charAction.mid(0,4) = "hang"
+    else if m.charAction.mid(0,4) = "step" or m.charAction.mid(0,4) = "hang" or m.charAction = "stoop" or m.charAction = "drinkpotion"
         return
     else if not m.alive or m.room < 0
         return
@@ -533,7 +533,7 @@ Sub check_barrier()
         if tile.intersects(m.getCharBounds())
             m.charX = ConvertBlockXtoX(m.blockX) + 3
             m.updateBlockXY()
-            print "bump: intersects right"
+            print "bump: intersects right "; m.charAction
             m.bump()
         end if
     else
