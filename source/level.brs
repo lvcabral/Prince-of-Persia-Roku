@@ -144,7 +144,7 @@ End Function
 Function floor_stop_fall(floor as object) as object
 	'Change floor to version with debris
 	debris = m.getTileAt(floor.x, floor.y, floor.room)
-	if debris.element = m.const.TILE_FLOOR
+	if debris.element = m.const.TILE_FLOOR or debris.element = m.const.TILE_SPIKES
 		debris.element = m.const.TILE_DEBRIS
 	else if debris.element = m.const.TILE_TORCH
 	   debris.element = m.const.TILE_TORCH_WITH_DEBRIS
