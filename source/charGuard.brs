@@ -156,6 +156,16 @@ Sub update_behaviour_guard()
         else if m.charAction <> "stand" and m.charAction <> "impale"
             m.action("stand")
             m.swordDrawn = false
+        else if m.charAction = "stand"
+            if m.room = m.opponent.room
+                if m.blockX < m.opponent.blockX and not m.faceR()
+                    m.face = m.const.FACE_RIGHT
+                    m.charX = ConvertBlockXtoX(m.blockX) + m.const.BLOCK_WIDTH / 2
+                else if m.blockX > m.opponent.blockX and not m.faceL()
+                    m.face = m.const.FACE_LEFT
+                    m.charX = ConvertBlockXtoX(m.blockX)
+                end if
+            end if
         end if
     end if
 End Sub

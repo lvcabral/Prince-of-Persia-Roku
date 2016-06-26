@@ -347,6 +347,8 @@ Sub check_floor()
                         else
                             m.charX = ConvertBlockXtoX(m.blockX) + 15
                         end if
+                    else if m.charName = "guard"
+                        m.charX = ConvertBlockXtoX(m.blockX) + 15
                     else
                         m.charX = ConvertBlockXtoX(m.blockX) + 5
                     end if
