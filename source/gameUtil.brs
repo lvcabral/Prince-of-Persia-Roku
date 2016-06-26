@@ -131,7 +131,7 @@ Function GetCursors(controlMode as integer) as object
             right: false
             shift: false
            }
-    if controlMode = 0
+    if controlMode = m.const.CONTROL_VERTICAL
         this.update = update_cursor_vertical
     else
         this.update = update_cursor_horizontal
@@ -236,8 +236,6 @@ Function LoadBitmapRegions(scale as float, folder as string, jsonFile as string,
             frame = json.frames.lookup(name).frame
             if not flip
                 regions.AddReplace(name, CreateObject("roRegion", bitmap, int(frame.x * scale), int(frame.y * scale), int(frame.w * scale), int(frame.h * scale)))
-                if name = "vizier-7" then print int(frame.x * scale); int(frame.y * scale); int(frame.w * scale); int(frame.h * scale)
-                if name = "vizier-7" then print cint(frame.x * scale); cint(frame.y * scale); cint(frame.w * scale); cint(frame.h * scale)
             else
                 x = bitmap.GetWidth() - int(frame.w * scale) - int(frame.x * scale)
                 regions.AddReplace(name, CreateObject("roRegion", bitmap, x, int(frame.y * scale), int(frame.w * scale), int(frame.h * scale)))
@@ -395,6 +393,12 @@ Function GetManifestArray() as Object
     return aa
 End Function
 
+Function IsOpenGL() as Boolean
+    di = CreateObject("roDeviceInfo")
+    model = Val(Left(di.GetModel(),1))
+    return (model = 3 or model = 4 or model = 6)
+End Function
+
 'Nullable Boolean
 Function NBool(value as dynamic, default = false as boolean) as boolean
     if value <> invalid
@@ -412,6 +416,38 @@ Function NInt(value as dynamic, default = 0 as integer) as integer
         return default
     end if
 End Function
+
+Function RandomArray(min as integer, max as integer) as object
+    list = []
+    for i = min to max
+        list.Push(i)
+    next
+    return ShuffleArray(list)
+End Function
+
+Function ShuffleArray(argArray as object) as object
+    rndArray = []
+    for i = 0 to argArray.Count() - 1
+        intIndex = Rnd(argArray.Count())
+        rndArray.Push(argArray[intIndex - 1])
+        argArray.Delete(intIndex - 1)
+    next
+    Return rndArray
+End Function
+
+'------- Roku Screens Functions ----
+Sub MessageDialog(title, text) As Integer
+    port = CreateObject("roMessagePort")
+    screen = CreateObject("roScreen")
+    screen.SetMessagePort(port)
+    d = CreateObject("roMessageDialog")
+    d.SetTitle(title)
+    d.SetText(text)
+    d.SetMessagePort(port)
+    d.AddButton(1, "Okay")
+    d.Show()
+    msg = wait(0, port)
+End Sub
 
 '------- Registry Functions -------
 Function GetRegistryString(key as String, default = "") As String
@@ -456,22 +492,4 @@ Function LoadSavedGame() as Dynamic
         end if
     end if
     return invalid
-End Function
-
-Function RandomArray(min as integer, max as integer) as object
-    list = []
-    for i = min to max
-        list.Push(i)
-    next
-    return ShuffleArray(list)
-End Function
-
-Function ShuffleArray(argArray as object) as object
-    rndArray = []
-    for i = 0 to argArray.Count() - 1
-        intIndex = Rnd(argArray.Count())
-        rndArray.Push(argArray[intIndex - 1])
-        argArray.Delete(intIndex - 1)
-    next
-    Return rndArray
 End Function

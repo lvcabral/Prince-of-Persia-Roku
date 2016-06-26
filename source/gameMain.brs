@@ -19,6 +19,8 @@ Sub Main()
     m.const = GetConstants()
     m.colors = { red: &hFF000080, green:&h00FF0080, blue: &h0000FF80, yellow: &hFFD80080, black: &hFF, white: &hFFFFFFFF, gray: &h404040FF, navy: &h100060FF, darkred: &h810000FF }
     'Util objects
+    app = CreateObject("roAppManager")
+    app.SetTheme({BackgroundColor: "#000000"})
     m.port = CreateObject("roMessagePort")
     m.clock = CreateObject("roTimespan")
     m.timer = CreateObject("roTimespan")
@@ -48,6 +50,9 @@ Sub Main()
     m.savedGame = LoadSavedGame()
     m.maxLevels = 14
     m.status = []
+    if not IsOpenGL()
+        MessageDialog("Prince of Persia", "Warning: Your Roku device doesn't support accelerated graphics, this game will not perform well.")
+    end if
     while true
         'Intro and Start Menu
         if isHD()
