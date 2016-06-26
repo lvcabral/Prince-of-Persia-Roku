@@ -16,7 +16,7 @@ I will be publishing here in the following months a simple code documentation de
 If you have a Roku or Roku TV you can install the preview channel using this link: https://my.roku.com/add/PoPPreview
 
 Recommended devices:
-Roku 4, Roku 3, Roku 2 HD (3000X), Roku 2 XD (3050X), Roku 2 XS (3100X), new Roku Streaming Stick (2016) and new Roku TV's.
+Roku 4, Roku 3, Roku 2 HD (3000X), Roku 2 XD (3050X), Roku 2 XS (3100X), new Roku Streaming Stick (3600X) and new 4K Roku TV's (6000X).
 
 Below links to some preview videos I published on YouTube during the development (I will edit one for the latest version soon):
 * [Preview v0.8 YouTube](https://www.youtube.com/watch?v=4tVxNFCUSiE)
