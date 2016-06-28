@@ -35,9 +35,7 @@ End Function
 
 Sub update_loose()
 	if m.state = m.STATE_SHAKING
-	    print "shaking"
         if m.stage = m.frames.count() + 3
-            print "start fall"
             m.state = m.STATE_FALLING
             m.stage = 0
             m.back = m.key + "_falling"
@@ -56,13 +54,11 @@ Sub update_loose()
 		end if
 		m.redraw = true
 	else if m.state = m.STATE_FALLING
-        print "falling";  m.y; m.yTo
 		v = m.FALL_VELOCITY * m.stage
 		m.y = m.y + v
 		m.stage = m.stage + 1
 		m.vacc = m.vacc + v
 		if m.vacc > m.yTo
-		    print "crashed"
 			m.state = m.STATE_CRASHED
             m.vacc = 0
 			m.yTo = 0
@@ -76,8 +72,6 @@ Sub shake_loose(fall as boolean)
     if m.state = m.STATE_INACTIVE
         m.state = m.STATE_SHAKING
         m.stage = 0
-        'm.front.visible = false
     end if
     m.fall = fall
-	print "shake fall=";fall
 End Sub

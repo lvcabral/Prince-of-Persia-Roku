@@ -143,6 +143,7 @@ Function CheckSpecialEvents() as boolean
             end if
         end if
     else if m.currentLevel = 5
+        'Shadow drinks potion before kid
         if m.guards.Count() = 0 then return false
         shadow = m.guards[0]
         if m.kid.room = 24 and m.kid.blockX = 6 and m.kid.blockY = 1 and not shadow.meet
