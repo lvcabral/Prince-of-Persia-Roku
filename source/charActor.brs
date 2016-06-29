@@ -17,14 +17,6 @@ Function CreateActor(x as integer, y as integer, face as integer, name as string
     this.const = m.const
     'sprites and animations
     this.spriteMode = m.settings.spriteMode
-    this.regions = [{}, {}]
-    if this.spriteMode = m.const.SPRITES_DOS
-        this.regions[this.const.FACE_LEFT] = LoadBitmapRegions(scale, name, name + "-dos", name + "-dos", false)
-        this.regions[this.const.FACE_RIGHT] = LoadBitmapRegions(scale, name, name + "-dos", name + "-dos", true)
-    else
-        this.regions[this.const.FACE_LEFT] = LoadBitmapRegions(scale, name, name + "-mac", name + "-mac", false)
-        this.regions[this.const.FACE_RIGHT] = LoadBitmapRegions(scale, name, name + "-mac", name + "-mac", true)
-    end if
     this.animations = ParseJson(ReadAsciiFile("pkg:/assets/anims/" + name + ".json"))
     'properties
     this.charName = name
@@ -75,14 +67,7 @@ End Function
 Function ImplementActor(char as object, room as integer, tile as integer, face as integer, name as string) as object
     'Sprites and animations
     if char.sword = invalid
-        char.sword = {frameName: "",  x: 0, y: 0, z: 0, visible: false, regions: [{}, {}]}
-        if char.spriteMode = m.const.SPRITES_DOS
-            char.sword.regions[char.const.FACE_LEFT] = LoadBitmapRegions(char.scale, "sword", "sword-dos", "sword-dos", false)
-            char.sword.regions[char.const.FACE_RIGHT] = LoadBitmapRegions(char.scale, "sword", "sword-dos", "sword-dos", true)
-        else
-            char.sword.regions[char.const.FACE_LEFT] = LoadBitmapRegions(char.scale / 2, "sword", "sword-mac", "sword-mac", false)
-            char.sword.regions[char.const.FACE_RIGHT] = LoadBitmapRegions(char.scale / 2, "sword", "sword-mac", "sword-mac", true)
-        end if
+        char.sword = {frameName: "",  x: 0, y: 0, z: 0, visible: false}
         char.swordAnims = ParseJson(ReadAsciiFile("pkg:/assets/anims/sword.json"))
     end if
     'Properies
@@ -170,7 +155,7 @@ End Function
 Sub process_command_actor()
     command = true
     while (command)
-        actionArray = m.animations.sequence.lookup(m.charAction)
+        actionArray = m.animations.sequence.Lookup(m.charAction)
         if actionArray = invalid then exit while
         data = actionArray[m.seqPointer]
         if data.cmd = m.const.CMD_ACT

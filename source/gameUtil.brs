@@ -228,12 +228,12 @@ Function LoadBitmapRegions(scale as float, folder as string, jsonFile as string,
     regions = {}
     if json <> invalid
         if not flip
-            bitmap = ScaleBitmap(CreateObject("robitmap", path + pngFile + ".png"), scale, simpleScale)
+            bitmap = ScaleBitmap(CreateObject("roBitmap", path + pngFile + ".png"), scale, simpleScale)
         else
-            bitmap = ScaleBitmap(FlipHorizontally(CreateObject("robitmap", path + pngFile + ".png")), scale, simpleScale)
+            bitmap = ScaleBitmap(FlipHorizontally(CreateObject("roBitmap", path + pngFile + ".png")), scale, simpleScale)
         end if
         for each name in json.frames
-            frame = json.frames.lookup(name).frame
+            frame = json.frames.Lookup(name).frame
             if not flip
                 regions.AddReplace(name, CreateObject("roRegion", bitmap, int(frame.x * scale), int(frame.y * scale), int(frame.w * scale), int(frame.h * scale)))
             else
@@ -273,16 +273,16 @@ Function GetPaintedBitmap(color as integer, width as integer, height as integer,
 End Function
 
 Function ScaleBitmap(bitmap as object, scale as float, simpleMode = false as boolean) as object
-	if scale = int(scale) or simpleMode
+    if scale = 1.0
+        scaled = bitmap
+    else if scale = int(scale) or simpleMode
 		scaled = CreateObject("roBitmap",{width:int(bitmap.GetWidth()*scale), height:int(bitmap.GetHeight()*scale), alphaenable:bitmap.GetAlphaEnable()})
 		scaled.DrawScaledObject(0,0,scale,scale,bitmap)
-    else if scale <> 1.0
+    else
         region = CreateObject("roRegion", bitmap, 0, 0, bitmap.GetWidth(), bitmap.GetHeight())
         region.SetScaleMode(1)
         scaled = CreateObject("roBitmap",{width:int(bitmap.GetWidth()*scale), height:int(bitmap.GetHeight()*scale), alphaenable:bitmap.GetAlphaEnable()})
         scaled.DrawScaledObject(0,0,scale,scale,region)
-    else
-		scaled = bitmap
 	end if
     return scaled
 End Function

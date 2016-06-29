@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: May 2016
+' **  Updated: June 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -38,14 +38,10 @@ Function CreateCutscene(level as integer, scale as float) as object
 	this.tick = 0
 	'Scene regions and objects
 	if m.settings.spriteMode = m.const.SPRITES_DOS
-		this.regions = LoadBitmapRegions(scale, "scenes", "scenes-dos")
-		this.general = LoadBitmapRegions(scale, "general", "general-dos")
 		this.objects.Push(CreateTorch(53, 81))
 		this.objects.Push(CreateTorch(171, 81))
 		starPositions = [{ x: 20, y: 97 },{ x: 16, y: 104 },{ x: 23, y: 110 },{ x: 17, y: 116 },{ x: 24, y: 120 },{ x: 18, y: 128 }]
 	else
-		this.regions = LoadBitmapRegions(scale, "scenes", "scenes-mac")
-		this.general = LoadBitmapRegions(scale, "general", "general-mac")
 		this.objects.Push(CreateTorch(35, 86))
 		this.objects.Push(CreateTorch(247, 86))
 		starPositions = []

@@ -19,7 +19,6 @@ Function LoadTiles(defaultLevel as integer) as object
 	'Constants
 	tileSet.const = m.const
     tileSet.wallColor = [&hD8A858FF, &hE0A45CFF, &hE0A860FF, &hD8A054FF, &hE0A45CFF, &hD8A458FF, &hE0A858FF, &hD8A860FF]
-    'tileSet.wallColor = [&hCC7D38FF, &hE68A3AFF, &hDC8A42FF, &hEB9747FF, &hE1914AFF, &hDE944FFF, &hE89E4CFF]
 	'Methods
 	tileSet.buildLevel = build_level
 	tileSet.buildTile = build_tile
@@ -27,17 +26,6 @@ Function LoadTiles(defaultLevel as integer) as object
 	tileSet.getTileAt  = get_tile_at
     'Read maps
     tileSet.level = tileSet.BuildLevel(defaultLevel)
-    'Read tiles and general bitmap regions
-    if tileSet.level.type = m.const.TYPE_DUNGEON
-        typeName = "dungeon"
-    else
-        typeName = "palace"
-    end if
-    if tileSet.spriteMode = m.const.SPRITES_DOS
-        tileSet.regions = LoadBitmapRegions(m.scale, "tiles", typeName + "-dos")
-    else
-        tileSet.regions = LoadBitmapRegions(m.scale / 2, "tiles", typeName + "-mac", "", false, false)
-    end if
     return tileSet
 End Function
 

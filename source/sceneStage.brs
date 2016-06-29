@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: May 2016
+' **  Updated: June 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -13,38 +13,37 @@
 ' ********************************************************************************************************
 
 Function PlayScene(screen as object, level as integer, fadeIn = true as boolean) as boolean
-    'Clear screen (needed for non-OpenGL devices)
-    m.mainScreen.Clear(0)
-    m.mainScreen.SwapBuffers()
-    m.mainScreen.Clear(0)
-    'Clear game screen
-    if m.flip then FlipScreen()
-    DestroyMap()
-    DestroyChars()
-    'Create scene and draw stage
+    'Define scale based on Sprite Mode
     if m.settings.spriteMode = m.const.SPRITES_DOS
 		suffix = "-dos"
         imgScale = GetScale(screen, 320, 200)
         posScale = imgScale
+        regScale = imgScale
         width = 320
         height = 200
 	else
 		suffix = "-mac"
         imgScale = GetScale(screen, 640, 400)
         posScale = GetScale(screen, 320, 200)
+        regScale = imgScale * 2
         width = 640
         height = 400
 	end if
-    if fadeIn then m.fade = &hFF else m.fade = 0
     scene = CreateCutscene(level, imgScale)
     if scene = invalid then return true
+    'Setup screen and destroy objects
+    if m.flip then FlipScreen()
+    DestroyMap()
+    DestroyChars()
+    LoadGameSprites(m.settings.spriteMode, -1, regScale)
+    'Draw scene stage
     stage = []
+    if fadeIn then m.fade = &hFF else m.fade = 0
     back = GetPaintedBitmap(&hFF, width * imgScale, height * imgScale, true)
     stage.Push(m.compositor.NewSprite(0, 0, CreateObject("roRegion", back, 0, 0, width * imgScale, height * imgScale), 1))
     room = ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/scenes/images/princess-room" + suffix + ".png"), imgScale)
-    print "scene image scale=";imgScale
     stage.Push(m.compositor.NewSprite(0, 0, CreateObject("roRegion", room, 0, 0, width * imgScale, height * imgScale), 10))
-    pillar = scene.regions.Lookup("room_pillar")
+    pillar = m.regions.scenes.Lookup("room_pillar")
     if m.settings.spriteMode = m.const.SPRITES_DOS
         stage.Push(m.compositor.NewSprite(59 * posScale, 120 * posScale, pillar, 30))
         stage.Push(m.compositor.NewSprite(240 * posScale, 120 * posScale, pillar, 30))
@@ -84,7 +83,7 @@ Function PlayScene(screen as object, level as integer, fadeIn = true as boolean)
         		for each actor in scene.actors
         			if actor <> invalid
                         actor.updateActor()
-                        acRegion = actor.regions[actor.face].Lookup(actor.frameName)
+                        acRegion = m.regions.Lookup(actor.charName)[actor.face].Lookup(actor.frameName)
                         if actor.faceR()
                             anchorX = (actor.x * posScale) - acRegion.GetWidth()
                         else
@@ -105,15 +104,15 @@ Function PlayScene(screen as object, level as integer, fadeIn = true as boolean)
                         x = obj.x * posScale
                         y = obj.y * posScale
                         if obj.sprite = invalid
-                            obj.sprite = m.compositor.NewSprite(x, y, scene.regions.Lookup(obj.frameName), 10)
+                            obj.sprite = m.compositor.NewSprite(x, y, m.regions.scenes.Lookup(obj.frameName), 10)
                         else
-                            obj.sprite.SetRegion(scene.regions.Lookup(obj.frameName))
+                            obj.sprite.SetRegion(m.regions.scenes.Lookup(obj.frameName))
                             obj.sprite.MoveTo(x, y)
                         end if
                     else if obj.sprite = invalid 'torches
                         animation = []
                         for each frameName in obj.frames
-                            animation.Push(scene.general.Lookup(frameName))
+                            animation.Push(m.regions.general.Lookup(frameName))
                         next
                         obj.sprite = m.compositor.NewAnimatedSprite(obj.x * posScale, obj.y * posScale, animation, 10)
                     end if
@@ -123,10 +122,10 @@ Function PlayScene(screen as object, level as integer, fadeIn = true as boolean)
                     x = trob.x * posScale
                     y = trob.y * posScale
                     if trob.sprite = invalid
-                        trob.sprite = m.compositor.NewSprite(x, y, scene.regions.Lookup(trob.frameName), 10)
+                        trob.sprite = m.compositor.NewSprite(x, y, m.regions.scenes.Lookup(trob.frameName), 10)
                         trob.sprite.setDrawableFlag(trob.visible)
                     else
-                        trob.sprite.SetRegion(scene.regions.Lookup(trob.frameName))
+                        trob.sprite.SetRegion(m.regions.scenes.Lookup(trob.frameName))
                         trob.sprite.MoveTo(x, y)
                         trob.sprite.setDrawableFlag(trob.visible)
                     end if
@@ -134,9 +133,9 @@ Function PlayScene(screen as object, level as integer, fadeIn = true as boolean)
                         x = (trob.x + trob.child.x) * posScale
                         y = (trob.y + trob.child.y) * posScale
                         if trob.child.sprite = invalid
-                           trob.child.sprite = m.compositor.NewSprite(x, y, scene.regions.Lookup(trob.child.frameName), 10)
+                           trob.child.sprite = m.compositor.NewSprite(x, y, m.regions.scenes.Lookup(trob.child.frameName), 10)
                         else
-                            trob.child.sprite.SetRegion(scene.regions.Lookup(trob.child.frameName))
+                            trob.child.sprite.SetRegion(m.regions.scenes.Lookup(trob.child.frameName))
                             trob.child.sprite.MoveTo(x, y)
                         end if
                     end if

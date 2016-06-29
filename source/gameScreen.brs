@@ -142,7 +142,7 @@ End Sub
 
 Sub KidUpdate()
     m.kid.update()
-    kdRegion = m.kid.regions[m.kid.face].Lookup(m.kid.frameName).Copy()
+    kdRegion = m.regions.kid[m.kid.face].Lookup(m.kid.frameName).Copy()
     if m.kid.cropY < 0
         kdRegion.offset(0, - m.kid.cropY * m.scale, 0, m.kid.cropY * m.scale)
     end if
@@ -164,7 +164,7 @@ Sub KidUpdate()
         if m.kid.sword.sprite <> invalid
             m.kid.sword.sprite.remove()
         end if
-        swRegion = m.kid.sword.regions[m.kid.face].lookup(m.kid.sword.frameName)
+        swRegion = m.regions.sword[m.kid.face].Lookup(m.kid.sword.frameName)
         if swRegion <> invalid
             if m.kid.faceL()
                 swX = (m.kid.x - m.kid.sword.x) * m.scale
@@ -183,7 +183,7 @@ Sub KidUpdate()
         m.kid.splash.sprite.remove()
     end if
     if m.kid.splash.visible
-        spRegion = m.general.Lookup(m.kid.splash.frameName)
+        spRegion = m.regions.general.Lookup(m.kid.splash.frameName)
         if spRegion <> invalid
             spX = (m.kid.sprite.GetX() + kdRegion.GetWidth() / 2) - spRegion.GetWidth() / 2
             spY = (m.kid.sprite.GetY() + kdRegion.GetHeight() / 2) - spRegion.GetHeight() / 2
@@ -201,7 +201,7 @@ End Sub
 Sub GuardsUpdate()
     for each guard in m.guards
         guard.update()
-        gdRegion = guard.regions[guard.face].lookup(guard.frameName)
+        gdRegion = m.regions.guards.Lookup(guard.charImage)[guard.face].Lookup(guard.frameName)
         if guard.faceL()
             anchorX = (guard.x * m.scale) - m.xOff
         else
@@ -223,7 +223,7 @@ Sub GuardsUpdate()
             if guard.sword.sprite <> invalid
                 guard.sword.sprite.remove()
             end if
-            swRegion = guard.sword.regions[guard.face].lookup(guard.sword.frameName)
+            swRegion = m.regions.sword[guard.face].Lookup(guard.sword.frameName)
             if swRegion <> invalid
                 if guard.faceL()
                     swX = (guard.x - guard.sword.x) * m.scale - m.xOff
@@ -240,7 +240,7 @@ Sub GuardsUpdate()
         'Harm splash update
         if guard.splash.sprite <> invalid then guard.splash.sprite.remove()
         if guard.splash.visible and guard.visible
-            spRegion = m.general.Lookup(guard.splash.frameName)
+            spRegion = m.regions.general.Lookup(guard.splash.frameName)
             if spRegion <> invalid
                 spX = (guard.sprite.GetX() + gdRegion.GetWidth() / 2) - spRegion.GetWidth() / 2
                 spY = (guard.sprite.GetY() + gdRegion.GetHeight() / 2) - spRegion.GetHeight() / 2
@@ -359,35 +359,35 @@ Sub TROBsUpdate()
                     rgn = trob.sprite.childBack.GetRegion()
                     rgn.offset(0, -10 * m.scale, 0, 10 * m.scale)
                 else if trob.tile.state = trob.tile.STATE_CLOSED
-                    trob.sprite.childBack.SetRegion(m.tileSet.regions.lookup(trob.tile.child.back.frameName).Copy())
+                    trob.sprite.childBack.SetRegion(m.regions.tiles.Lookup(trob.tile.child.back.frameName).Copy())
                 end if
             else if trob.tile.element = m.const.TILE_RAISE_BUTTON or trob.tile.element = m.const.TILE_DROP_BUTTON
                 if trob.tile.front <> invalid and trob.sprite.front <> invalid
-                    trob.sprite.front.setRegion(m.tileSet.regions.lookup(trob.tile.front))
+                    trob.sprite.front.setRegion(m.regions.tiles.Lookup(trob.tile.front))
                     trob.sprite.front.setDrawableFlag(true)
                 else if trob.sprite.front <> invalid
                     trob.sprite.front.setDrawableFlag(false)
                 end if
-                trob.sprite.back.setRegion(m.tileSet.regions.lookup(trob.tile.back))
+                trob.sprite.back.setRegion(m.regions.tiles.Lookup(trob.tile.back))
             else if trob.tile.element = m.const.TILE_POTION
                 if trob.tile.front = trob.tile.key + "_" + itostr(m.const.TILE_FLOOR) + "_fg"
-                    trob.sprite.front.setRegion(m.tileSet.regions.lookup(trob.tile.front))
-                    trob.sprite.back.setRegion(m.tileSet.regions.lookup(trob.tile.back))
+                    trob.sprite.front.setRegion(m.regions.tiles.Lookup(trob.tile.front))
+                    trob.sprite.back.setRegion(m.regions.tiles.Lookup(trob.tile.back))
                     if trob.sprite.childBack <> invalid
                         trob.tile.child.back.frames = invalid
                         trob.sprite.childBack.setDrawableFlag(false)
                     end if
                 end if
             else if trob.tile.element = m.const.TILE_SWORD or trob.tile.element = m.const.TILE_TORCH
-                trob.sprite.back.setRegion(m.tileSet.regions.lookup(trob.tile.back))
+                trob.sprite.back.setRegion(m.regions.tiles.Lookup(trob.tile.back))
             else if trob.tile.element = m.const.TILE_SPIKES
                 if trob.tile.modifier = 0
-                    trob.sprite.childBack.setRegion(m.tileSet.regions.lookup(trob.tile.child.back.frameName))
-                    trob.sprite.childFront.setRegion(m.tileSet.regions.lookup(trob.tile.child.front.frameName))
+                    trob.sprite.childBack.setRegion(m.regions.tiles.Lookup(trob.tile.child.back.frameName))
+                    trob.sprite.childFront.setRegion(m.regions.tiles.Lookup(trob.tile.child.front.frameName))
                 end if
             else if trob.tile.element = m.const.TILE_SLICER
-                trob.sprite.childBack.setRegion(m.tileSet.regions.lookup(trob.tile.child.back.frameName))
-                trob.sprite.childFront.setRegion(m.tileSet.regions.lookup(trob.tile.child.front.frameName))
+                trob.sprite.childBack.setRegion(m.regions.tiles.Lookup(trob.tile.child.back.frameName))
+                trob.sprite.childFront.setRegion(m.regions.tiles.Lookup(trob.tile.child.front.frameName))
                 if trob.tile.blood.visible
                     bloodX = 12
                     if m.settings.spriteMode = m.const.SPRITES_DOS
@@ -400,10 +400,11 @@ Sub TROBsUpdate()
                         y = (trob.tile.y * m.scale) + (bloodY[trob.tile.stage-1] * m.scale / 2)
                     end if
                     if trob.sprite.blood = invalid
-                       trob.sprite.blood = m.compositor.NewSprite(x - m.xOff, y - m.yOff, m.general.lookup(trob.tile.blood.frameName), 35)
-                       m.map.Push(trob.sprite.blood)
+                        rgBlood = m.regions.general.Lookup(trob.tile.blood.frameName)
+                        trob.sprite.blood = m.compositor.NewSprite(x - m.xOff, y - m.yOff, rgBlood, 35)
+                        m.map.Push(trob.sprite.blood)
                     else
-                        trob.sprite.blood.setRegion(m.general.lookup(trob.tile.blood.frameName))
+                        trob.sprite.blood.setRegion(m.regions.general.Lookup(trob.tile.blood.frameName))
                         trob.sprite.blood.MoveTo(x - m.xOff, y - m.yOff)
                     end if
                 end if
@@ -442,7 +443,7 @@ Sub MOBsUpdate()
             if mob.tile.redraw
                 if mob.tile.element = m.const.TILE_LOOSE_BOARD
                     if mob.sprite.back <> invalid and mob.sprite.visible then
-                        mob.sprite.back.setRegion(m.tileSet.regions.lookup(mob.tile.back))
+                        mob.sprite.back.setRegion(m.regions.tiles.Lookup(mob.tile.back))
                     else if mob.sprite.back <> invalid
                         mob.sprite.back.remove()
                     end if
@@ -474,7 +475,7 @@ Sub MOBsUpdate()
                             else
                                 space = mob.tile.key + "_0_0"
                             end if
-                            if mob.sprite.back <> invalid then m.map.Push(m.compositor.NewSprite(mob.sprite.back.GetX(), mob.sprite.back.GetY(), m.tileSet.regions.lookup(space), 10))
+                            if mob.sprite.back <> invalid then m.map.Push(m.compositor.NewSprite(mob.sprite.back.GetX(), mob.sprite.back.GetY(), m.regions.tiles.Lookup(space), 10))
                             mob.floor = m.tileSet.level.floorStartFall(mob.tile)
                             if mob.sprite.back <> invalid then mob.floor.fromAbove = IsFromAbove(mob.sprite.back, m.kid.sprite)
                         end if
@@ -490,8 +491,8 @@ Sub MOBsUpdate()
                         if mob.floor <> invalid
                             debris = m.tileSet.level.floorStopFall(mob.floor)
                             if debris <> invalid and debris.backSprite <> invalid and debris.frontSprite <> invalid
-                                debris.backSprite.SetRegion(m.tileSet.regions.lookup(debris.back))
-                                debris.frontSprite.SetRegion(m.tileSet.regions.lookup(debris.front))
+                                debris.backSprite.SetRegion(m.regions.tiles.Lookup(debris.back))
+                                debris.frontSprite.SetRegion(m.regions.tiles.Lookup(debris.front))
                             end if
                             mob.tile.element = m.const.TILE_SPACE
                             mob.tile = invalid
@@ -517,13 +518,13 @@ Sub MaskUpdate()
                 if tt.back <> invalid
                     ts = tt.frontSprite
                     if tt.isMasked
-                        rgn = m.tileSet.regions.Lookup(tt.back).Copy()
+                        rgn = m.regions.tiles.Lookup(tt.back).Copy()
                         rgn.offset(0, 0, -33 * m.scale, 0)
                         ts.setRegion(rgn)
                     else if tt.element = m.const.TILE_RAISE_BUTTON or tt.element = m.const.TILE_DROP_BUTTON
                         ts.setDrawableFlag(not tt.active)
                     else if tt.front <> invalid
-                        rgn = m.tileSet.regions.Lookup(tt.front)
+                        rgn = m.regions.tiles.Lookup(tt.front)
                         ts.setRegion(rgn)
                     end if
                 end if
@@ -586,7 +587,7 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
             if x < maxWidth-tile.width then obj.tile.audio = true
         end if
         if tile.back <> invalid
-            tileRegion = m.tileSet.regions.lookup(tile.back)
+            tileRegion = m.regions.tiles.Lookup(tile.back)
             if tileRegion.GetHeight() > m.const.TILE_HEIGHT * m.scale
                 yd = tileRegion.GetHeight() - m.const.TILE_HEIGHT * m.scale
             end if
@@ -611,15 +612,15 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
 				bms = ScaleBitmap(bmd, m.scale)
                 if m.settings.spriteMode = m.const.SPRITES_MAC
                     tb = (m.const.TILE_HEIGHT - m.const.BLOCK_HEIGHT - 3) * m.scale
-                    bms.DrawObject((m.const.TILE_WIDTH - 8) * m.scale, tb + 3 * m.scale, m.tileSet.regions.lookup(WallMarks(0)))
-                    bms.DrawObject(0, tb + 16 * m.scale, m.tileSet.regions.lookup(WallMarks(1)))
-                    bms.DrawObject(0, tb + 38 * m.scale, m.tileSet.regions.lookup(WallMarks(2)))
-                    bms.DrawObject(0, tb + 57 * m.scale, m.tileSet.regions.lookup(WallMarks(3)))
-                    bms.DrawObject(0, tb + 63 * m.scale, m.tileSet.regions.lookup(WallMarks(4)))
+                    bms.DrawObject((m.const.TILE_WIDTH - 8) * m.scale, tb + 3 * m.scale, m.regions.tiles.Lookup(WallMarks(0)))
+                    bms.DrawObject(0, tb + 16 * m.scale, m.regions.tiles.Lookup(WallMarks(1)))
+                    bms.DrawObject(0, tb + 38 * m.scale, m.regions.tiles.Lookup(WallMarks(2)))
+                    bms.DrawObject(0, tb + 57 * m.scale, m.regions.tiles.Lookup(WallMarks(3)))
+                    bms.DrawObject(0, tb + 63 * m.scale, m.regions.tiles.Lookup(WallMarks(4)))
                 end if
                 frsp = m.compositor.NewSprite(x, y, CreateObject("roRegion",bms,0,0,bms.GetWidth(),bms.GetHeight()), frontZ)
             else
-                frsp = m.compositor.NewSprite(x, y, m.tileSet.regions.lookup(tile.front), frontZ)
+                frsp = m.compositor.NewSprite(x, y, m.regions.tiles.Lookup(tile.front), frontZ)
             end if
             m.map.Push(frsp)
             if tile.isWalkable() or tile.element = m.const.TILE_SPACE
@@ -646,7 +647,7 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
         chbk = tile.child.back
         chfr = tile.child.front
         if chbk.frameName <> invalid
-            rgn = m.tileSet.regions.lookup(chbk.frameName).Copy()
+            rgn = m.regions.tiles.Lookup(chbk.frameName).Copy()
             if tile.cropY < 0
                 rgn.offset(0, - tile.cropY * m.scale, 0, tile.cropY * m.scale)
             end if
@@ -657,14 +658,14 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
         else if tile.child.back.frames <> invalid
             animation = []
             for each frameName in tile.child.back.frames
-                animation.Push(m.general.lookup(frameName))
+                animation.Push(m.regions.general.Lookup(frameName))
             next
             spbk = m.compositor.NewAnimatedSprite(x + chbk.x * m.scale, (y - yd) + chbk.y * m.scale, animation, backZ)
             if tile.isTrob() then obj.sprite.childBack = spbk
             m.map.Push(spbk)
         end if
         if chfr.frameName <> invalid
-            spfr = m.compositor.NewSprite(x + chfr.x * m.scale, (y - yd) + chfr.y * m.scale, m.tileSet.regions.lookup(chfr.frameName), frontZ)
+            spfr = m.compositor.NewSprite(x + chfr.x * m.scale, (y - yd) + chfr.y * m.scale, m.regions.tiles.Lookup(chfr.frameName), frontZ)
             spfr.setDrawableFlag(chfr.visible)
             if tile.isTrob() then obj.sprite.childFront = spfr
             m.map.Push(spfr)

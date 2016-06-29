@@ -27,20 +27,12 @@ Function CreateGuard(level as object, room as integer, position as integer, face
     this.const.STRENGTH                = [ 4, 3, 3, 3, 3, 4, 5, 4, 4, 5, 5, 5, 4, 6, 0, 0 ]
     'sprites and animations
     this.scale = m.scale
-    this.regions = [{}, {}]
     if name = "guard" and colors > 0
         this.charImage = name + itostr(colors)
     else
         this.charImage = name
     end if
     this.spriteMode = m.settings.spriteMode
-    if this.spriteMode = m.const.SPRITES_DOS
-        this.regions[this.const.FACE_LEFT] = LoadBitmapRegions(this.scale, "guards", name + "-dos", this.charImage + "-dos", false)
-        this.regions[this.const.FACE_RIGHT] = LoadBitmapRegions(this.scale, "guards", name + "-dos", this.charImage + "-dos", true)
-    else
-        this.regions[this.const.FACE_LEFT] = LoadBitmapRegions(this.scale/2, "guards", name + "-mac", this.charImage + "-mac", false)
-        this.regions[this.const.FACE_RIGHT] = LoadBitmapRegions(this.scale/2, "guards", name + "-mac", this.charImage + "-mac", true)
-    end if
     this.splash = {frameName: this.charImage + "-splash", visible: false}
     if name = "shadow"
         this.animations = ParseJson(ReadAsciiFile("pkg:/assets/anims/shadow.json"))
@@ -173,7 +165,7 @@ End Sub
 Sub process_command_guard()
     command = true
     while (command)
-        actionArray = m.animations.sequence.lookup(m.charAction)
+        actionArray = m.animations.sequence.Lookup(m.charAction)
         if actionArray = invalid then exit while
         data = actionArray[m.seqPointer]
         if data.cmd = m.const.CMD_ACT
@@ -222,7 +214,7 @@ End Sub
 
 Function get_guard_bounds() as object
     g = GetGlobalAA()
-    f = m.regions[m.face].lookup(m.frameName)
+    f = g.regions.guards.Lookup(m.charImage)[m.face].Lookup(m.frameName)
 	fWidth  = f.getWidth() / m.scale
 	fHeight = f.getHeight() / m.scale
 	if m.faceL()

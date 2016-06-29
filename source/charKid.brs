@@ -20,15 +20,7 @@ Function CreateKid(level as object, startRoom as integer, startTile as integer, 
 	this.cursors = GetCursors(m.settings.controlMode)
     'sprites and animations
     this.scale = m.scale
-    this.regions = [{}, {}]
     this.spriteMode = m.settings.spriteMode
-    if this.spriteMode = m.const.SPRITES_DOS
-        this.regions[this.const.FACE_LEFT] = LoadBitmapRegions(m.scale, "kid", "kid-dos", "kid-dos", false)
-        this.regions[this.const.FACE_RIGHT] = LoadBitmapRegions(m.scale, "kid", "kid-dos", "kid-dos", true)
-    else
-        this.regions[this.const.FACE_LEFT] = LoadBitmapRegions(m.scale/2, "kid", "kid-mac", "kid-mac", false)
-        this.regions[this.const.FACE_RIGHT] = LoadBitmapRegions(m.scale/2, "kid", "kid-mac", "kid-mac", true)
-    end if
     this.splash = {frameName: "kid-splash", visible: false}
     this.animations = ParseJson(ReadAsciiFile("pkg:/assets/anims/kid.json"))
     'properties
@@ -312,7 +304,7 @@ End Sub
 Sub process_command_kid()
     command = true
     while (command)
-        actionArray = m.animations.sequence.lookup(m.charAction)
+        actionArray = m.animations.sequence.Lookup(m.charAction)
         if actionArray = invalid then exit while
         data = actionArray[m.seqPointer]
         if data.cmd = m.const.CMD_ACT
@@ -444,7 +436,7 @@ End Sub
 
 Function get_kid_bounds() as object
     g = GetGlobalAA()
-    f = m.regions[m.face].lookup(m.frameName)
+    f = g.regions.kid[m.face].Lookup(m.frameName)
 	fWidth  = f.getWidth() / m.scale
 	fHeight = f.getHeight() / m.scale
 	if m.faceL()

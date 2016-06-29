@@ -41,8 +41,8 @@ Function CheckSpecialEvents() as boolean
                     tile.back = tile.key + "_1"
                     tile.front = tile.back + "_fg"
                     if tile.backSprite <> invalid and tile.frontSprite <> invalid
-                        tile.backSprite.SetRegion(m.tileSet.regions.lookup(tile.back))
-                        tile.frontSprite.SetRegion(m.tileSet.regions.lookup(tile.front))
+                        tile.backSprite.SetRegion(m.regions.tiles.Lookup(tile.back))
+                        tile.frontSprite.SetRegion(m.regions.tiles.Lookup(tile.front))
                     end if
                 end if
             end if
@@ -88,8 +88,8 @@ Function CheckSpecialEvents() as boolean
             tile.back  = tile.key + "_mirror"
             tile.front = tile.back + "_fg"
             if tile.backSprite <> invalid and tile.frontSprite <> invalid
-                tile.backSprite.SetRegion(m.tileSet.regions.lookup(tile.back))
-                tile.frontSprite.SetRegion(m.tileSet.regions.lookup(tile.front))
+                tile.backSprite.SetRegion(m.regions.tiles.Lookup(tile.back))
+                tile.frontSprite.SetRegion(m.regions.tiles.Lookup(tile.front))
             end if
             tile.redraw  = true
             m.kid.level.exitOpen = 2
@@ -101,7 +101,7 @@ Function CheckSpecialEvents() as boolean
             shadow = m.guards[0]
             if m.kid.charAction <> "runjump" and m.kid.blockX = 4 and m.kid.blockY = 0
                 'Show mirror reflex
-                kdRegion = m.kid.regions[Abs(m.kid.face - 1)].Lookup(m.kid.frameName).Copy()
+                kdRegion = m.regions.kid[Abs(m.kid.face - 1)].Lookup(m.kid.frameName).Copy()
                 reflexPos = (150 * m.scale) - Abs(m.kid.sprite.GetX() - (150 * m.scale)) - kdRegion.GetWidth()
                 if m.reflex = invalid
                     m.reflex = {}
@@ -199,7 +199,7 @@ Function CheckSpecialEvents() as boolean
                 return false
             end if
             m.mouse.update()
-            msRegion = m.mouse.regions[m.mouse.face].lookup(m.mouse.frameName)
+            msRegion = m.regions.mouse[m.mouse.face].Lookup(m.mouse.frameName)
             if m.mouse.faceL()
                 anchorX = (m.mouse.x * m.scale) - m.xOff
             else
@@ -267,7 +267,7 @@ Function CheckSpecialEvents() as boolean
                 if m.kid.cycles > 30 then m.kid.effect =  m.colors.white
                 if m.kid.cycles = 1 then PlaySound("success")
                 if m.kid.cycles mod 2 = 0
-                    swRegion = shadow.regions[m.kid.face].Lookup("shadow-" + itostr(m.kid.frame))
+                    swRegion = m.regions.shadow[m.kid.face].Lookup("shadow-" + itostr(m.kid.frame))
                     if swRegion <> invalid then m.kid.sprite.SetRegion(swRegion)
                 end if
                 m.kid.cycles = m.kid.cycles - 1
@@ -284,8 +284,8 @@ Function CheckSpecialEvents() as boolean
         if m.kid.leapOfFaith
             tile = m.kid.level.getTileAt(m.kid.blockX, m.kid.blockY, m.kid.room)
             if tile.redraw and tile.backSprite <> invalid and tile.frontSprite <> invalid
-                tile.backSprite.SetRegion(m.tileSet.regions.lookup(tile.back))
-                tile.frontSprite.SetRegion(m.tileSet.regions.lookup(tile.front))
+                tile.backSprite.SetRegion(m.regions.tiles.Lookup(tile.back))
+                tile.frontSprite.SetRegion(m.regions.tiles.Lookup(tile.front))
             end if
         end if
     else if m.currentLevel = 13

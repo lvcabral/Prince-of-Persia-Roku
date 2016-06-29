@@ -17,15 +17,7 @@ Function CreateMouse(level as object, room as integer, position as integer, face
     this.const = m.const
     'sprites and animations
     this.scale = m.scale
-    this.regions = [{}, {}]
     this.spriteMode = m.settings.spriteMode
-    if this.spriteMode = m.const.SPRITES_DOS
-        this.regions[this.const.FACE_LEFT] = LoadBitmapRegions(this.scale, "mouse", "mouse-dos", "mouse-dos", false)
-        this.regions[this.const.FACE_RIGHT] = LoadBitmapRegions(this.scale, "mouse", "mouse-dos", "mouse-dos", true)
-    else
-        this.regions[this.const.FACE_LEFT] = LoadBitmapRegions(this.scale/2, "mouse", "mouse-mac", "mouse-mac", false)
-        this.regions[this.const.FACE_RIGHT] = LoadBitmapRegions(this.scale/2, "mouse", "mouse-mac", "mouse-mac", true)
-    end if
     this.animations = ParseJson(ReadAsciiFile("pkg:/assets/anims/mouse.json"))
     'inherit generic Actor properties and methods
     ImplementActor(this, room, position, face, "mouse")

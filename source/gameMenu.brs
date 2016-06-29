@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: May 2016
+' **  Updated: June 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -180,6 +180,7 @@ Function MessageBox(screen as object, width as integer, height as integer, text 
     yt = topY + height / 2 - 25
     button = -1
     selected = m.const.BUTTON_YES
+    m.mainScreen.SwapBuffers()
     while true
         if button <> selected
             screen.DrawRect(leftX, topY, width, height, m.colors.black)

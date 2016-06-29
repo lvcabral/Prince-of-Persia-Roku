@@ -24,7 +24,6 @@ Sub Main()
     m.port = CreateObject("roMessagePort")
     m.clock = CreateObject("roTimespan")
     m.timer = CreateObject("roTimespan")
-    m.compositor = CreateObject("roCompositor")
     m.audioPlayer = CreateObject("roAudioPlayer")
     m.audioPort = CreateObject("roMessagePort")
     m.audioPlayer.SetMessagePort(m.audioPort)
@@ -72,14 +71,6 @@ Sub Main()
         m.cameras = StartMenu(m.mainScreen)
         'Configure screen/game areas based on the configuration
         SetupGameScreen()
-        'Load general assets
-        if m.settings.spriteMode = m.const.SPRITES_DOS
-            suffix = "-dos"
-            m.general = LoadBitmapRegions(m.scale, "general", "general" + suffix)
-        else
-            suffix = "-mac"
-            m.general = LoadBitmapRegions(m.scale / 2, "general", "general" + suffix)
-        end if
         'Setup initial parameters
         m.currentLevel = 1
         m.startTime = m.const.TIME_LIMIT
@@ -101,9 +92,10 @@ Sub Main()
         end if
         m.levelTime = m.startTime
         if option <> m.const.BUTTON_CANCEL
+            if m.settings.spriteMode = m.const.SPRITES_DOS then suffix = "-dos" else suffix = "-mac"
             'Debug: Uncomment the next two lines to start at a specific location
-            'm.currentLevel = 3
-            'm.checkPoint = {room: 7, tile:7, face: 1}
+            'm.currentLevel = 11
+            'm.checkPoint = {room: 8, tile:26, face: 1}
             skip = false
             if m.currentLevel = 1
                 print "Starting opening story..."
@@ -154,13 +146,9 @@ Sub ResetGame()
         else
             ResetScreen(640, 480, 640, 400)
         end if
-        if g.settings.spriteMode = m.const.SPRITES_DOS
-            g.general = LoadBitmapRegions(g.scale, "general", "general-dos")
-        else
-            m.general = LoadBitmapRegions(g.scale / 2.0, "general", "general-mac")
-        end if
     end if
     g.tileSet = LoadTiles(g.currentLevel)
+    LoadGameSprites(g.tileSet.spriteMode, g.tileSet.level.type, g.scale, g.tileSet.level.guards)
     if g.checkPoint <> invalid
         g.startRoom = g.checkPoint.room
         g.startTile = g.checkPoint.tile
@@ -273,6 +261,52 @@ Sub ResetScreen(mainWidth as integer, mainHeight as integer, gameWidth as intege
         g.gameScreen = g.mainScreen
     end if
     g.gameScreen.SetAlphaEnable(true)
+    g.compositor = CreateObject("roCompositor")
     g.compositor.SetDrawTo(g.gameScreen, g.colors.black)
     g.gameCanvas = CreateObject("roBitmap",{width:gameWidth, height:gameHeight, alphaenable:true})
+End Sub
+
+Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float, guards = [] as object)
+    g = GetGlobalAA()
+    if g.regions = invalid then g.regions = {spriteMode: spriteMode, levelType: levelType, scale: scale}
+    if spriteMode = g.const.SPRITES_DOS
+        suffix = "-dos"
+    else
+        suffix = "-mac"
+        scale = scale / 2.0
+    end if
+    print "scales: "; g.regions.scale; scale
+    'Load Regions
+    if g.regions.general = invalid or g.regions.spriteMode <> spriteMode or g.regions.scale <> scale
+        g.regions.general = LoadBitmapRegions(scale, "general", "general" + suffix)
+        g.regions.scenes = LoadBitmapRegions(scale, "scenes", "scenes" + suffix)
+        sprites = ["kid", "sword", "princess", "mouse", "vizier"]
+        for each name in sprites
+            charArray = []
+            charArray.Push(LoadBitmapRegions(scale, name, name + suffix, name + suffix, false))
+            charArray.Push(LoadBitmapRegions(scale, name, name + suffix, name + suffix, true))
+            g.regions.AddReplace(name, charArray)
+        next
+    end if
+    g.regions.guards = {}
+    for i = 0 to guards.Count() - 1
+        charArray = []
+        if guards[i].type = "guard" then png = guards[i].type + itostr(guards[i].colors) else png = guards[i].type
+        charArray.Push(LoadBitmapRegions(scale, "guards", guards[i].type + suffix, png + suffix, false))
+        charArray.Push(LoadBitmapRegions(scale, "guards", guards[i].type + suffix, png + suffix, true))
+        g.regions.guards.AddReplace(png, charArray)
+    next
+    if levelType >= 0
+        if g.regions.tiles = invalid or g.regions.spriteMode <> spriteMode or g.regions.levelType <> levelType or g.regions.scale <> scale
+            g.regions.tiles = invalid
+            if levelType = g.const.TYPE_DUNGEON then
+                g.regions.tiles = LoadBitmapRegions(scale, "tiles", "dungeon" + suffix)
+            else
+                g.regions.tiles = LoadBitmapRegions(scale, "tiles", "palace" + suffix)
+            end if
+        end if
+    end if
+    g.regions.spriteMode = spriteMode
+    g.regions.levelType = levelType
+    g.regions.scale = scale
 End Sub

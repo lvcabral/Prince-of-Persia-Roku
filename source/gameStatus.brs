@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: May 2016
+' **  Updated: June 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -14,8 +14,8 @@
 
 Sub DrawStatusBar(screen as object, width as integer, height as integer)
     screen.DrawRect(0, height-(8* m.scale),width, (8* m.scale), m.colors.black)
-    lifeFull = m.general.lookup("kid-live")
-    lifeEmpty = m.general.lookup("kid-emptylive")
+    lifeFull = m.regions.general.Lookup("kid-live")
+    lifeEmpty = m.regions.general.Lookup("kid-emptylive")
     if m.settings.spriteMode = m.const.SPRITES_DOS
         lifePos = 6 * m.scale
     else
@@ -42,7 +42,7 @@ Sub DrawStatusBar(screen as object, width as integer, height as integer)
     if enemy <> invalid and enemy.health > 0 and enemy.sprite <> invalid and enemy.charName <> "skeleton"
         if enemy.swordDrawn or (enemy.sprite.GetX() > 0 and enemy.sprite.GetX() < m.gameScreen.GetWidth())
             for h = 1 to enemy.health
-                guardLife = m.general.lookup(enemy.charImage + "-live")
+                guardLife = m.regions.general.Lookup(enemy.charImage + "-live")
                 screen.drawobject(width - guardLife.GetWidth() * h, height - lifePos, guardLife)
             next
         end if
@@ -107,11 +107,13 @@ End Sub
 
 Sub DebugGuard(x as integer, y as integer, guard as object)
     if x <> m.guardX or y <> m.guardY or guard.frameName <> m.guardFrameName
-        strDebug = "guard: "+str(x)+","+str(y)+" "+guard.action()+" "+guard.frameName+" R:"+itostr(guard.room)+" T:"+ itostr(guard.blockX) + "," + itostr(guard.blockY)
-        'print strDebug
-        m.guardX = x
-        m.guardY = y
-        m.guardFrameName = guard.frameName
+        if guard.room = 22
+            strDebug = "guard: "+str(x)+","+str(y)+" "+guard.action()+" "+guard.frameName+" R:"+itostr(guard.room)+" T:"+ itostr(guard.blockX) + "," + itostr(guard.blockY)
+            'print strDebug
+            m.guardX = x
+            m.guardY = y
+            m.guardFrameName = guard.frameName
+        end if
     end if
 End Sub
 
@@ -141,7 +143,7 @@ Function write_text(screen as object, text as string, x as integer, y as integer
 	xOff = 2 * m.scale
 	yOff = 8 * m.scale
     for c = 0 to len(text) - 1
-        letter = m.chars.lookup("chr" + itostr(asc(text.mid(c,1))))
+        letter = m.chars.Lookup("chr" + itostr(asc(text.mid(c,1))))
         yl = y + (yOff - letter.GetHeight())
         screen.drawobject(x, yl , letter)
         x = x + letter.GetWidth() + xOff

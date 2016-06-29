@@ -1,8 +1,8 @@
 title=Prince of Persia
 subtitle=Roku port of the Classic Game
 major_version=0
-minor_version=11
-build_version=3170
+minor_version=12
+build_version=3210
 mm_icon_focus_hd=pkg:/images/icon_focus_hd.png
 mm_icon_side_hd=pkg:/images/icon_focus_hd.png
 mm_icon_focus_sd=pkg:/images/icon_side_hd.png
