@@ -42,7 +42,6 @@ Sub update_loose()
         else if m.stage >= m.frames.count()
             m.stage = m.stage + 1
 		else if m.stage = 3 and not m.fall
-            print "inactive"
 			m.back = m.key + "_" + itostr(m.const.TILE_LOOSE_BOARD)
 			m.state = m.STATE_INACTIVE
 		else

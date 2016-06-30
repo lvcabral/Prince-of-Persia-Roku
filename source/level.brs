@@ -129,7 +129,7 @@ Function floor_start_fall(tile as object) as object
         floor.y = 0
         floor.room = m.rooms[floor.room].links.down
     end if
-    tile.yTo = tile.yTo + m.const.BLOCK_HEIGHT
+    tile.yTo = m.const.BLOCK_HEIGHT
 	while (m.getTileAt(floor.x, floor.y, floor.room).element = m.const.TILE_SPACE)
         tile.yTo = tile.yTo + m.const.BLOCK_HEIGHT
         floor.y = floor.y + 1
@@ -159,7 +159,6 @@ Function floor_stop_fall(floor as object) as object
 	end if
 	debris.back = debris.key + "_" + itostr(debris.element)
 	debris.front = debris.key + "_" + itostr(debris.element) + "_fg"
-	print "show debris"
 	return debris
 End Function
 

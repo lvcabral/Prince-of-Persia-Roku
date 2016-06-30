@@ -298,7 +298,7 @@ Function CheckSpecialEvents() as boolean
                 else
                     tile = m.kid.level.getTileAt(rndArray[x], 2, 1)
                 end if
-                if tile.element = m.const.TILE_LOOSE_BOARD and not tile.fall
+                if tile.backSprite <> invalid and tile.element = m.const.TILE_LOOSE_BOARD and not tile.fall
                     tile.shake(true)
                     exit for
                 end if

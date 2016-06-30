@@ -442,42 +442,40 @@ Sub MOBsUpdate()
             'Paint MOB if needed and is on screen
             if mob.tile.redraw
                 if mob.tile.element = m.const.TILE_LOOSE_BOARD
-                    if mob.sprite.back <> invalid and mob.sprite.visible then
+                    if mob.sprite.back <> invalid and mob.sprite.visible
                         mob.sprite.back.setRegion(m.regions.tiles.Lookup(mob.tile.back))
-                    else if mob.sprite.back <> invalid
-                        mob.sprite.back.remove()
+                    else
+                        if mob.sprite.back <> invalid then mob.sprite.back.Remove()
+                        if mob.tile.backSprite <> invalid then mob.tile.backSprite.Remove()
                     end if
                     if mob.tile.state = mob.tile.STATE_SHAKING
-                        if mob.sprite.visible then
+                        if mob.sprite.visible
                             if mob.sprite.front <> invalid then mob.sprite.front.setDrawableFlag(false)
                         else
                             if mob.sprite.front <> invalid then mob.sprite.front.Remove()
-                            if mob.sprite.back <> invalid then mob.sprite.back.Remove()
                         end if
                     else if mob.tile.state = mob.tile.STATE_INACTIVE
                         if mob.sprite.visible then
                             if mob.sprite.front <> invalid then mob.sprite.front.setDrawableFlag(true)
                         else
                             if mob.sprite.front <> invalid then mob.sprite.front.Remove()
-                            if mob.sprite.back <> invalid then mob.sprite.back.Remove()
                         end if
                     else if mob.tile.state = mob.tile.STATE_FALLING
                         if mob.sprite.front <> invalid then mob.sprite.front.Remove()
-                        if mob.sprite.back <> invalid and mob.sprite.visible then
+                        if mob.sprite.back <> invalid and mob.sprite.visible
                             mob.sprite.back.MoveTo(mob.tile.x * m.scale - m.xOff, mob.tile.y * m.scale - m.yOff)
-                        else if mob.sprite.back <> invalid
-                            mob.sprite.back.Remove()
                         end if
-                        'print "moveto:";mob.tile.x - m.xOff;",";mob.tile.y - m.yOff
                         if mob.floor = invalid or mob.tile.stage = 0
                             if mob.tile.type = m.const.TYPE_PALACE
                                 space = mob.tile.key + "_0_1"
                             else
                                 space = mob.tile.key + "_0_0"
                             end if
-                            if mob.sprite.back <> invalid then m.map.Push(m.compositor.NewSprite(mob.sprite.back.GetX(), mob.sprite.back.GetY(), m.regions.tiles.Lookup(space), 10))
                             mob.floor = m.tileSet.level.floorStartFall(mob.tile)
-                            if mob.sprite.back <> invalid then mob.floor.fromAbove = IsFromAbove(mob.sprite.back, m.kid.sprite)
+                            if mob.sprite.back <> invalid then
+                                m.map.Push(m.compositor.NewSprite(mob.sprite.back.GetX(), mob.sprite.back.GetY(), m.regions.tiles.Lookup(space), 10))
+                                mob.floor.fromAbove = IsFromAbove(mob.sprite.back, m.kid.sprite)
+                            end if
                         end if
                         if mob.floor <> invalid
                             if mob.floor.fromAbove and m.kid.blockX = mob.tile.roomX and CheckPlateHitFromAbove(mob.sprite.back, m.kid.sprite)
@@ -487,7 +485,8 @@ Sub MOBsUpdate()
                             end if
                         end if
                     else if mob.tile.state = mob.tile.STATE_CRASHED
-                        if mob.sprite.back <> invalid then mob.sprite.back.remove()
+                        if mob.sprite.back <> invalid then mob.sprite.back.Remove()
+                        if mob.tile.backSprite <> invalid then mob.tile.backSprite.Remove()
                         if mob.floor <> invalid
                             debris = m.tileSet.level.floorStopFall(mob.floor)
                             if debris <> invalid and debris.backSprite <> invalid and debris.frontSprite <> invalid
@@ -502,9 +501,6 @@ Sub MOBsUpdate()
                 end if
                 if mob.tile <> invalid then mob.tile.redraw = false
             end if
-        else
-            if mob.sprite.front <> invalid then mob.sprite.front.Remove()
-            if mob.sprite.back <> invalid then mob.sprite.back.Remove()
         end if
     next
 End Sub
