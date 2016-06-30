@@ -140,12 +140,8 @@ Sub ResetGame()
     if g.currentLevel = g.maxLevels and g.cameras > 1
         'Force final level always to be shown in Classic 1 room mode
         g.cameras = 1
-        g.scale = 2.0
-        if IsHD()
-            ResetScreen(854, 480, 640, 400)
-        else
-            ResetScreen(640, 480, 640, 400)
-        end if
+        SetupGameScreen()
+        g.kid = invalid
     end if
     g.tileSet = LoadTiles(g.currentLevel)
     LoadGameSprites(g.tileSet.spriteMode, g.tileSet.level.type, g.scale, g.tileSet.level.guards)
