@@ -2,7 +2,7 @@
 ' ********************************************************************************************************
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
-' **  Created: February 2016
+' **  Created: May 2016
 ' **  Updated: June 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:

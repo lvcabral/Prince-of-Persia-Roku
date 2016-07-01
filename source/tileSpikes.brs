@@ -2,13 +2,13 @@
 ' ********************************************************************************************************
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
-' **  Created: February 2016
+' **  Created: March 2016
 ' **  Updated: March 2016
-' **  
+' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
-' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido  
+' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
 ' **  https://github.com/jmechner/Prince-of-Persia-Apple-II - Original Apple II version by Jordan Mechner
-' **   
+' **
 ' ********************************************************************************************************
 ' ********************************************************************************************************
 
@@ -24,11 +24,11 @@ Function CreateSpikes(tile as object) as object
 	tile.redraw = false
     tile.mortal = (tile.modifier < 5)
     if tile.modifier > 2 and tile.modifier < 6
-		tile.modifier = 5 
-	else if tile.modifier = 6  
-		tile.modifier = 4 
-    else if tile.modifier > 6  
-		tile.modifier = 9 - tile.modifier 
+		tile.modifier = 5
+	else if tile.modifier = 6
+		tile.modifier = 4
+    else if tile.modifier > 6
+		tile.modifier = 9 - tile.modifier
 	end if
     tile.child.back.frameName = tile.key + "_" + itostr(tile.element) + "_" + itostr(tile.modifier)
 	tile.child.front.frameName = tile.key + "_" + itostr(tile.element) + "_" + itostr(tile.modifier) + "_fg"
@@ -41,7 +41,7 @@ End Function
 Sub update_spikes()
     if m.modifier <> 0
         return
-    end if 
+    end if
 	if m.state = m.STATE_RAISING
 		m.stage = m.stage + 1
 		m.child.back.frameName = m.key + "_" + itostr(m.const.TILE_SPIKES) + "_" + itostr(m.stage)
@@ -72,11 +72,11 @@ Sub update_spikes()
     end if
 End Sub
 
-Sub raise_spikes() 
-    if m.state = m.STATE_INACTIVE 
+Sub raise_spikes()
+    if m.state = m.STATE_INACTIVE
         m.state = m.STATE_RAISING
         PlaySound("spikes")
-    else if m.state = m.STATE_FULL_OUT 
+    else if m.state = m.STATE_FULL_OUT
 		m.stage = 0
     end if
 End Sub
