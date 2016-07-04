@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: April 2016
-' **  Updated: June 2016
+' **  Updated: July 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -14,11 +14,11 @@
 
 Function StartMenu(screen as object) as integer
     screen.Clear(0)
-    scale = Int(GetScale(screen, 640, 426))
+    scale = Int(GetScale(screen, 640, 432))
     centerX = Cint((screen.GetWidth()-(640*scale))/2)
-    centerY = Cint((screen.GetHeight()-(426*scale))/2)
-    CrossFade(screen, centerX, centerY, GetPaintedBitmap(m.colors.black,640*scale, 426*scale,true),ScaleBitmap(CreateObject("roBitmap", "pkg:/images/start_menu.jpg"),scale),4)
-    menuFont = m.fonts.getFont("Prince of Persia Game Font", 30, false, false)
+    centerY = Cint((screen.GetHeight()-(432*scale))/2)
+    CrossFade(screen, centerX, centerY, GetPaintedBitmap(m.colors.black,640*scale, 432*scale,true),ScaleBitmap(CreateObject("roBitmap", "pkg:/images/start_menu.jpg"),scale),4)
+    menuFont = m.fonts.getFont("Prince of Persia Game Font", 26, false, false)
     button = -1
     selected = 0
     while true
@@ -27,10 +27,10 @@ Function StartMenu(screen as object) as integer
             screen.DrawObject(centerX, centerY, ScaleBitmap(CreateObject("roBitmap", "pkg:/images/start_menu.jpg"),scale))
             faceColors = [ m.colors.white, m.colors.white, m.colors.white, m.colors.white ]
             faceColors[selected] = &hFF0000FF
-            screen.DrawText("Play Classic Mode", centerX + 210, centerY + 170, faceColors[0], menuFont)
-            screen.DrawText("Play 4 Rooms Mode", centerX + 200, centerY + 230, faceColors[1], menuFont)
-            screen.DrawText("Play 9 Rooms Mode", centerX + 200, centerY + 290, faceColors[2], menuFont)
-            screen.DrawText("Game Settings", centerX + 225, centerY + 347, faceColors[3], menuFont)
+            screen.DrawText("Play Classic Mode", centerX + 225, centerY + 162, faceColors[0], menuFont)
+            screen.DrawText("Play 4 Rooms Mode", centerX + 215, centerY + 215, faceColors[1], menuFont)
+            screen.DrawText("Play 9 Rooms Mode", centerX + 215, centerY + 267, faceColors[2], menuFont)
+            screen.DrawText("Game Settings", centerX + 240, centerY + 319, faceColors[3], menuFont)
             screen.SwapBuffers()
             button = selected
         end if
@@ -64,9 +64,9 @@ Function StartMenu(screen as object) as integer
 End Function
 
 Sub SettingsMenu(screen as object)
-    scale = Int(GetScale(screen, 640, 426))
+    scale = Int(GetScale(screen, 640, 432))
     centerX = Cint((screen.GetWidth()-(640*scale))/2)
-    centerY = Cint((screen.GetHeight()-(426*scale))/2)
+    centerY = Cint((screen.GetHeight()-(432*scale))/2)
     menuFont = m.fonts.getFont("Prince of Persia Game Font", 30, false, false)
     colorWhite = &hFFFFFFFF
     colorRed = &hFF0000FF
@@ -76,11 +76,13 @@ Sub SettingsMenu(screen as object)
         if button <> selected
             screen.Clear(0)
             screen.DrawObject(centerX, centerY, ScaleBitmap(CreateObject("roBitmap", "pkg:/images/settings_menu.jpg"),scale))
-            faceColors = [ m.colors.white, m.colors.white, m.colors.white ]
+            faceColors = [ m.colors.white, m.colors.white, m.colors.white, m.colors.white, m.colors.white ]
             faceColors[selected] = &hFF0000FF
-            screen.DrawText("Control Mode", centerX + 85, centerY + 156, faceColors[0], menuFont)
-            screen.DrawText("Graphics Mode", centerX + 85, centerY + 212, faceColors[1], menuFont)
-            screen.DrawText("Game Credits", centerX + 85, centerY + 270, faceColors[2], menuFont)
+            screen.DrawText("Control Mode", centerX + 93, centerY + 108, faceColors[0], menuFont)
+            screen.DrawText("Graphics Mode", centerX + 93, centerY + 161, faceColors[1], menuFont)
+            screen.DrawText("Mods & Cheats", centerX + 93, centerY + 213, faceColors[2], menuFont)
+            screen.DrawText("High Scores", centerX + 93, centerY + 265, faceColors[3], menuFont)
+            screen.DrawText("Game Credits", centerX + 93, centerY + 318, faceColors[4], menuFont)
             screen.SwapBuffers()
             button = selected
         end if
@@ -91,11 +93,11 @@ Sub SettingsMenu(screen as object)
                 if button > 0
                     selected = button - 1
                 else
-                    selected = 2
+                    selected = faceColors.Count() - 1
                 end if
             else if key = m.code.BUTTON_DOWN_PRESSED or key = m.code.BUTTON_LEFT_PRESSED
                 m.sounds.navSingle.Trigger(50)
-                if button < 2
+                if button < faceColors.Count() - 1
                     selected = button + 1
                 else
                     selected = 0
@@ -117,8 +119,8 @@ Sub SettingsMenu(screen as object)
                         m.settings.spriteMode = option
                         SaveSettings(m.settings)
                     end if
-                else if selected = 2
-                    TextScreen(screen, "text-credits", m.colors.black)
+                else if selected = 4
+                    CreditsScreen(screen)
                 end if
                 button = -1
             end if
@@ -127,24 +129,24 @@ Sub SettingsMenu(screen as object)
 End Sub
 
 Function OptionsMenu(screen as object, options as object, default as integer) as integer
-    scale = Int(GetScale(screen, 640, 426))
+    scale = Int(GetScale(screen, 640, 432))
     centerX = Cint((screen.GetWidth()-(640*scale))/2)
-    centerY = Cint((screen.GetHeight()-(426*scale))/2)
-    menuFont = m.fonts.getFont("Prince of Persia Game Font", 30, false, false)
+    centerY = Cint((screen.GetHeight()-(432*scale))/2)
+    menuFont = m.fonts.getFont("Prince of Persia Game Font", 26, false, false)
     colorWhite = &hFFFFFFFF
     colorRed = &hFF0000FF
     button = -1
-    selected = default
+    if default <= 1 then selected = default else selected = 0
     while true
         if button <> selected
             screen.Clear(0)
             screen.DrawObject(centerX, centerY, ScaleBitmap(CreateObject("roBitmap", "pkg:/images/options_menu.jpg"),scale))
             if selected = 0
-                screen.DrawText(options[0].text, centerX + 80, centerY + 47, colorRed, menuFont)
-                screen.DrawText(options[1].text, centerX + 73, centerY + 105, colorWhite, menuFont)
+                screen.DrawText(options[0].text, centerX + 88, centerY + 57, colorRed, menuFont)
+                screen.DrawText(options[1].text, centerX + 80, centerY + 109, colorWhite, menuFont)
             else
-                screen.DrawText(options[0].text, centerX + 80, centerY + 47, colorWhite, menuFont)
-                screen.DrawText(options[1].text, centerX + 73, centerY + 105, colorRed, menuFont)
+                screen.DrawText(options[0].text, centerX + 88, centerY + 57, colorWhite, menuFont)
+                screen.DrawText(options[1].text, centerX + 80, centerY + 109, colorRed, menuFont)
             end if
             screen.DrawObject(centerX, centerY, ScaleBitmap(CreateObject("roBitmap", "pkg:/images/" + options[selected].image + ".png"),scale))
             screen.SwapBuffers()
@@ -172,6 +174,17 @@ Function OptionsMenu(screen as object, options as object, default as integer) as
     return selected
 End Function
 
+Sub CreditsScreen(screen as object)
+    scale = Int(GetScale(screen, 640, 432))
+    centerX = Cint((screen.GetWidth()-(640*scale))/2)
+    centerY = Cint((screen.GetHeight()-(432*scale))/2)
+    screen.Clear(0)
+    screen.DrawObject(centerX, centerY, ScaleBitmap(CreateObject("roBitmap", "pkg:/images/game_credits.jpg"),scale))
+    key = wait(100, m.port)
+    m.mainScreen.SwapBuffers()
+    key = wait(0, m.port)
+End Sub
+
 Function MessageBox(screen as object, width as integer, height as integer, text as string) as integer
     leftX = Cint((screen.GetWidth()-width)/2)
     topY = Cint((screen.GetHeight()-height)/2)
@@ -196,7 +209,7 @@ Function MessageBox(screen as object, width as integer, height as integer, text 
             button = selected
         end if
         key = wait(0, m.port)
-        if (key<> invalid)
+        if key <> invalid
             if key = m.code.BUTTON_LEFT_PRESSED or key = m.code.BUTTON_UP_PRESSED
                 m.sounds.navSingle.Trigger(50)
                 if button > m.const.BUTTON_YES
