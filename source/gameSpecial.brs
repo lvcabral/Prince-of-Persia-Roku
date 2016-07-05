@@ -16,10 +16,13 @@ Function CheckSpecialEvents() as boolean
     if m.currentLevel = 1 and m.kid.room = 1
         'Close Gate on Level 1 startup
         button = m.tileSet.level.getTileAt(2, 0, 5)
-        gate = m.tileSet.level.getTileAt(9, 0, 5)
-        if gate.element = m.const.TILE_GATE and gate.state = gate.STATE_OPEN
-            gate.audio = true
-        end if
+        for y = 0 to  2
+            gate = m.tileSet.level.getTileAt(9, y, 5)
+            if gate.element = m.const.TILE_GATE and gate.state = gate.STATE_OPEN
+                gate.audio = true
+                exit for
+            end if
+        next
         if button.element = m.const.TILE_DROP_BUTTON and button.pushes = 0 then button.push(false, false)
     else if m.currentLevel = 3
         'Room 2 gate sound shall be heard from anywhere

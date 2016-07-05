@@ -97,7 +97,7 @@ Function get_tileat(x as integer, y as integer, room as integer) as object
 		newRoom = m.rooms[room].links.down
 		y = y - 3
 	end if
-	if newRoom = -1
+	if newRoom = -1 or m.rooms[newRoom] = invalid
 		return CreateTile(m.const.TILE_WALL, 0, m.type)
 	end if
 	return m.rooms[newRoom].tiles[x + y * 10]
