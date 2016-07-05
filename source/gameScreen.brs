@@ -126,10 +126,10 @@ Function PlayGame() as boolean
                 'Update sprites
                 if not m.redraw then m.redraw = CheckMapRedraw()
                 KidUpdate()
-                if CheckSpecialEvents() then return true
                 if m.redraw or CheckVerticalNav()
                     DrawLevelRooms(m.xOff, m.yOff, m.gameWidth, m.gameHeight)
                 end if
+                if CheckSpecialEvents() then return true
                 GuardsUpdate()
                 CheckForOpponent(m.kid.room)
                 TROBsUpdate()
