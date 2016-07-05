@@ -111,8 +111,8 @@ Sub Main()
             if option <> m.const.BUTTON_CANCEL
                 if m.settings.spriteMode = m.const.SPRITES_MAC then suffix = "-mac" else suffix = "-dos"
                 'Debug: Uncomment the next two lines to start at a specific location
-                'm.currentLevel = 13
-                'm.checkPoint = {room: 17, tile:11, face: 1}
+                'm.currentLevel = 3
+                'm.checkPoint = {room: 23, tile:3, face: 1}
                 skip = false
                 if m.currentLevel = 1
                     print "Starting opening story..."
@@ -324,8 +324,18 @@ Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
     for i = 0 to guards.Count() - 1
         charArray = []
         if guards[i].type = "guard" then png = guards[i].type + itostr(guards[i].colors) else png = guards[i].type
-        charArray.Push(LoadBitmapRegions(scale, path + "guards/", guards[i].type + suffix, png + suffix, false))
-        charArray.Push(LoadBitmapRegions(scale, path + "guards/", guards[i].type + suffix, png + suffix, true))
+        fullPath = path + "guards/"
+        fullName = guards[i].type + suffix
+        fullImage = png + suffix
+        if g.settings.modId <> invalid and m.mods[g.settings.modId].sprites and spriteMode = Val(g.settings.modId)
+            if g.files.Exists("pkg:/mods/" + m.mods[g.settings.modId].url + "sprites/" + png + ".png")
+                fullPath = "pkg:/mods/" + m.mods[g.settings.modId].url + "sprites/"
+                fullName = guards[i].type
+                fullImage = png
+            end if
+        end if
+        charArray.Push(LoadBitmapRegions(scale, fullPath, fullName, fullImage, false))
+        charArray.Push(LoadBitmapRegions(scale, fullPath, fullName, fullImage, true))
         g.regions.guards.AddReplace(png, charArray)
     next
     if levelType >= 0

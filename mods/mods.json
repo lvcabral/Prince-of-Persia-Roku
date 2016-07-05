@@ -38,5 +38,15 @@
          "levels": false,
          "sprites": true,
          "sounds": true
+     },
+     "0000163":
+     {
+         "name": "Prince of Persia Revisited",
+         "author": "Jaffar24",
+         "year": 2016,
+         "url": "prince-of-persia-revisited/",
+         "levels": true,
+         "sprites": false,
+         "sounds": false
      }
 }

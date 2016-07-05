@@ -112,7 +112,7 @@ Function build_custom(levelId as integer, customUrl as string) as object
     this.prince = {room: Val(prince@room), location: Val(prince@location), direction: Val(prince@direction) - 1}
     'Create rooms layout
     layoutOffset = {tx: 0, ty: 0, bx: 0, by: 0}
-    RoomsLayout(this.rooms, Val(xmlRooms[0]@number), layoutOffset)
+    RoomsLayout(this.rooms, Val(prince@room), layoutOffset)
     this.width = layoutOffset.bx - layoutOffset.tx + 1
 	this.height = layoutOffset.by - layoutOffset.ty + 1
     print "layout dimensions: "; this.width; " by "; this.height
