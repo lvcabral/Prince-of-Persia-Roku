@@ -1,0 +1,42 @@
+{
+     "0000003":
+     {
+         "name": "The Great Escape",
+         "author": "Jalal Noureddine",
+         "year": 2004,
+         "url": "the-great-escape/",
+         "levels": true,
+         "sprites": false,
+         "sounds": false
+     },
+     "0000004":
+     {
+         "name": "New 13 Levels",
+         "author": "Jalal Noureddine",
+         "year": 2004,
+         "url": "new-13-levels/",
+         "levels": true,
+         "sprites": false,
+         "sounds": false
+     },
+     "0000042":
+     {
+         "name": "SNES-PC-set",
+         "author": "Maurice Kaltofen (mk1995)",
+         "year": 2007,
+         "url": "snes-pc-set/",
+         "levels": true,
+         "sprites": true,
+         "sounds": false
+     },
+     "0000156":
+     {
+         "name": "Princess of Persia",
+         "author": "Clive Dent (jeminacek)",
+         "year": 2015,
+         "url": "princess-of-persia/",
+         "levels": false,
+         "sprites": true,
+         "sounds": true
+     }
+}

@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: March 2016
-' **  Updated: June 2016
+' **  Updated: July 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -146,6 +146,12 @@ Function floor_stop_fall(floor as object) as object
 	debris = m.getTileAt(floor.x, floor.y, floor.room)
 	if debris.element = m.const.TILE_FLOOR or debris.element = m.const.TILE_SPIKES
 		debris.element = m.const.TILE_DEBRIS
+	else if debris.element = m.const.TILE_POTION
+		debris.back = debris.key + "_" + itostr(m.const.TILE_DEBRIS)
+		debris.front = debris.key + "_" + itostr(m.const.TILE_DEBRIS) + "_fg"
+		debris.hasObject = false
+	    debris.redraw = true
+		return invalid
 	else if debris.element = m.const.TILE_TORCH
 	   debris.element = m.const.TILE_TORCH_WITH_DEBRIS
 	else if debris.element = m.const.TILE_LOOSE_BOARD
@@ -184,10 +190,11 @@ Sub fireEvent(event as integer, tileType as integer, stuck = false as boolean)
         tile = level.getTileAt(x + 1, y, room)
     end if
     if tileType = tile.const.TILE_RAISE_BUTTON
-        print "tile raise:"; stuck
-		if tile.element = tile.const.TILE_EXIT_RIGHT and not tile.isOpen()
-			level.exitOpen = 1
-			tile.raise()
+		if tile.element = tile.const.TILE_EXIT_RIGHT
+			if not tile.isOpen()
+				level.exitOpen = 1
+				tile.raise()
+			end if
 		else
 			tile.raise(stuck)
 		end if

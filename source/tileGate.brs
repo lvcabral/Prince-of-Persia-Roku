@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: March 2016
-' **  Updated: June 2016
+' **  Updated: July 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -93,20 +93,20 @@ Function update_gate()
     end if
 End Function
 
-Function raise_gate(stuck = false as boolean)
+Sub raise_gate(stuck = false as boolean)
     m.stage = 0
     m.stuck = stuck
     if m.state <> m.STATE_WAITING
         m.state = m.STATE_RAISING
     end if
-End Function
+End Sub
 
-Function drop_gate()
+Sub drop_gate()
     if m.state <> m.STATE_CLOSED
         m.state = m.STATE_FAST_DROPPING
         if m.audio then PlaySound("gate-fast-close")
     end if
-End Function
+End Sub
 
 Function get_gate_bounds()
     bounds = {}

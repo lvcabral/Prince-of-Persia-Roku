@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: June 2016
+' **  Updated: July 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -107,6 +107,10 @@ Function GetConstants() as object
     const.FIGHT_ATTACK = 0
     const.FIGHT_ALERT  = 1
     const.FIGHT_FROZEN = 2
+
+    const.REWFF_LEVEL  = 0
+    const.REWFF_HEALTH = 1
+    const.REWFF_TIME   = 2
 
     const.DO_MOVE = 0
     const.DO_STRIKE = 1
@@ -219,8 +223,7 @@ Function key_s() as boolean
     return m.cursors.shift
 End Function
 
-Function LoadBitmapRegions(scale as float, folder as string, jsonFile as string, pngFile = "" as string, flip = false as boolean, simpleScale = false as boolean) as object
-    path = "pkg:/assets/sprites/" + folder + "/"
+Function LoadBitmapRegions(scale as float, path as string, jsonFile as string, pngFile = "" as string, flip = false as boolean, simpleScale = false as boolean) as object
     if pngFile = ""
         pngFile = jsonFile
     end if
@@ -435,18 +438,41 @@ Function ShuffleArray(argArray as object) as object
     Return rndArray
 End Function
 
+'------- Download Functions --------
+Function CacheFile(url as string, file as string) as string
+    tmpFile = "tmp:/" + file
+    if not m.files.Exists(tmpFile)
+        http = CreateObject("roUrlTransfer")
+        'http.SetPort(CreateObject("roMessagePort"))
+        http.SetUrl(url)
+        print url
+        if http.GetToFile(tmpFile) <> 200
+            tmpFile = ""
+        end if
+    end if
+    return tmpFile
+End Function
+
 '------- Roku Screens Functions ----
-Sub MessageDialog(title, text) As Integer
-    port = CreateObject("roMessagePort")
-    screen = CreateObject("roScreen")
-    screen.SetMessagePort(port)
+Sub MessageDialog(title, text, port = invalid) As Integer
+    if port = invalid then
+        port = CreateObject("roMessagePort")
+    end if
     d = CreateObject("roMessageDialog")
     d.SetTitle(title)
     d.SetText(text)
     d.SetMessagePort(port)
     d.AddButton(1, "Okay")
     d.Show()
-    msg = wait(0, port)
+    while true
+        msg = wait(0, port)
+        if msg.isScreenClosed()
+            exit while
+        else if msg.isButtonPressed()
+            result = msg.GetIndex()
+            exit while
+        end if
+    end while
 End Sub
 
 '------- Registry Functions -------
@@ -487,7 +513,7 @@ Function LoadSavedGame() as Dynamic
     json = GetRegistryString("SavedGame")
     if json <> ""
         obj = ParseJSON(json)
-        if obj <> invalid
+        if obj <> invalid and obj.savedGame <> invalid
             return obj.savedGame
         end if
     end if

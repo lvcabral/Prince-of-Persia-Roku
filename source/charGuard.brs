@@ -2,7 +2,7 @@
 ' ********************************************************************************************************
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **  Created: May 2016
-' **  Updated: June 2016
+' **  Updated: July 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -24,7 +24,7 @@ Function CreateGuard(level as object, room as integer, position as integer, face
     this.const.REFRAC_TIMER            = [  16,  16,  16,  16,   8,   8,   8,   8, 0,   8,   0,   0 ]
     this.const.EXTRA_STRENGTH          = [   0,   0,   0,   0,   1,   0,   0,   0, 0,   0,   0,   0 ]
     'indexed by Level
-    this.const.STRENGTH                = [ 4, 3, 3, 3, 3, 4, 5, 4, 4, 5, 5, 5, 4, 6, 0, 0 ]
+    this.const.STRENGTH                = [ 4, 3, 3, 3, 3, 4, 5, 4, 4, 5, 5, 5, 4, 6, 10, 0 ]
     'sprites and animations
     this.scale = m.scale
     if name = "guard" and colors > 0
@@ -57,10 +57,10 @@ Function CreateGuard(level as object, room as integer, position as integer, face
     this.baseX  = level.rooms[room].x * this.const.ROOM_WIDTH
     this.baseY  = level.rooms[room].y * this.const.ROOM_HEIGHT
 
-    if face = this.const.FACE_LEFT
-        this.charX = this.charX - 2
-    else
+    if face = this.const.FACE_RIGHT
         this.charX = this.charX + 2
+    else
+        this.charX = this.charX - 2
     end if
     this.charSkill = skill
     this.strikeProbability = this.const.STRIKE_PROBABILITY[skill]
@@ -69,7 +69,7 @@ Function CreateGuard(level as object, room as integer, position as integer, face
     this.impairblockProbability = this.const.IMPAIRBLOCK_PROBABILITY[skill]
     this.advanceProbability = this.const.ADVANCE_PROBABILITY[skill]
 
-    this.fight = m.fight
+    this.fight = m.settings.fight
     this.refracTimer = 0
     this.blockTimer = 0
     this.strikeTimer = 0

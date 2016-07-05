@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: May 2016
-' **  Updated: June 2016
+' **  Updated: July 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -14,20 +14,20 @@
 
 Function PlayScene(screen as object, level as integer, fadeIn = true as boolean) as boolean
     'Define scale based on Sprite Mode
-    if m.settings.spriteMode = m.const.SPRITES_DOS
-		suffix = "-dos"
-        imgScale = GetScale(screen, 320, 200)
-        posScale = imgScale
-        regScale = imgScale
-        width = 320
-        height = 200
-	else
+    if m.settings.spriteMode = m.const.SPRITES_MAC
 		suffix = "-mac"
         imgScale = GetScale(screen, 640, 400)
         posScale = GetScale(screen, 320, 200)
         regScale = imgScale * 2
         width = 640
         height = 400
+    else
+        suffix = "-dos"
+        imgScale = GetScale(screen, 320, 200)
+        posScale = imgScale
+        regScale = imgScale
+        width = 320
+        height = 200
 	end if
     scene = CreateCutscene(level, imgScale)
     if scene = invalid then return true
@@ -44,12 +44,12 @@ Function PlayScene(screen as object, level as integer, fadeIn = true as boolean)
     room = ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/scenes/images/princess-room" + suffix + ".png"), imgScale)
     stage.Push(m.compositor.NewSprite(0, 0, CreateObject("roRegion", room, 0, 0, width * imgScale, height * imgScale), 10))
     pillar = m.regions.scenes.Lookup("room_pillar")
-    if m.settings.spriteMode = m.const.SPRITES_DOS
-        stage.Push(m.compositor.NewSprite(59 * posScale, 120 * posScale, pillar, 30))
-        stage.Push(m.compositor.NewSprite(240 * posScale, 120 * posScale, pillar, 30))
-    else
+    if m.settings.spriteMode = m.const.SPRITES_MAC
         stage.Push(m.compositor.NewSprite(58 * posScale, 109 * posScale, pillar, 30))
         stage.Push(m.compositor.NewSprite(237 * posScale, 109 * posScale, pillar, 30))
+    else
+        stage.Push(m.compositor.NewSprite(59 * posScale, 120 * posScale, pillar, 30))
+        stage.Push(m.compositor.NewSprite(240 * posScale, 120 * posScale, pillar, 30))
     end if
     front = GetPaintedBitmap(m.fade, width * imgScale, height * imgScale, true)
     stage.Push(m.compositor.NewSprite(0, 0, CreateObject("roRegion", front , 0, 0, width * imgScale, height * imgScale), 50))

@@ -2,7 +2,7 @@
 ' ********************************************************************************************************
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **  Created: May 2016
-' **  Updated: June 2016
+' **  Updated: July 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -233,10 +233,10 @@ Sub update_frame()
     m.charFthin = (fcheck and &h20) = &h20
 	m.charSword = (framedef.fsword <> invalid)
     if m.charSword
-        if m.spriteMode = m.const.SPRITES_DOS
-            stab = m.swordAnims.swordTabDos[framedef.fsword - 1]
-        else
+        if m.spriteMode = m.const.SPRITES_MAC
             stab = m.swordAnims.swordTabMac[framedef.fsword - 1]
+        else
+            stab = m.swordAnims.swordTabDos[framedef.fsword - 1]
         end if
         m.swordFrame = stab.id
         m.swordDx = stab.dx

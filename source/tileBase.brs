@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: March 2016
-' **  Updated: May 2016
+' **  Updated: July 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -47,6 +47,8 @@ Function CreateTile(element as integer, modifier as integer, levelType as intege
     tile.getBounds = get_tile_bounds
 	tile.intersects = intersects_tile
 	tile.update = update_tile
+    tile.raise = raise_tile
+    tile.drop = drop_tile
 
     return tile
 End Function
@@ -96,5 +98,17 @@ End Function
 
 Sub update_tile()
     'to be implemented on animated tiles (gate, slicer, spikes etc.)
+    return
+End Sub
+
+Sub raise_tile(stuck = false as boolean)
+    'to be implemented on animated tiles (gate, exit door, spikes etc.)
+    print "Method raise() not implemented by this tile. Element ="; m.element
+    return
+End Sub
+
+Sub drop_tile()
+    'to be implemented on animated tiles (gate, exit door, spikes etc.)
+    print "Method drop() not implemented by this tile. Element ="; m.element
     return
 End Sub

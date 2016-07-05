@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: March 2016
-' **  Updated: May 2016
+' **  Updated: July 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -18,6 +18,7 @@ Function CreateButton(tile as object) as object
     else
         tile.stageMax = 5
     end if
+    tile.pushes = 0
     tile.stage = 0
     tile.active = false
 	tile.redraw = false
@@ -51,8 +52,8 @@ Function push_button(stuck = false as boolean, sound = true as boolean)
         m.back = m.back + "_down"
         if sound then PlaySound("button-open")
     end if
-    print "push button:"; stuck
     if not m.stuck then m.stuck = stuck
     m.onPushed(m.modifier, m.element, m.stuck)
+    m.pushes = m.pushes + 1
     m.stage = 0
 End Function

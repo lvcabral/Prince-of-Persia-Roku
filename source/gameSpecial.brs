@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: June 2016
-' **  Updated: June 2016
+' **  Updated: July 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -19,8 +19,8 @@ Function CheckSpecialEvents() as boolean
         gate = m.tileSet.level.getTileAt(9, 0, 5)
         if gate.element = m.const.TILE_GATE and gate.state = gate.STATE_OPEN
             gate.audio = true
-            if button.element = m.const.TILE_DROP_BUTTON then button.push(false, false)
         end if
+        if button.element = m.const.TILE_DROP_BUTTON and button.pushes = 0 then button.push(false, false)
     else if m.currentLevel = 3
         'Room 2 gate sound shall be heard from anywhere
         gate = m.tileSet.level.getTileAt(9, 0, 2)
@@ -108,10 +108,10 @@ Function CheckSpecialEvents() as boolean
                     m.reflex.kid = m.compositor.NewSprite(reflexPos, m.kid.sprite.GetY(), kdRegion, m.kid.z)
                     bmp = GetPaintedBitmap(m.colors.black, 36 * m.scale, 56 * m.scale, true)
                     rgn = CreateObject("roRegion", bmp, 0, 0, bmp.GetWidth(), bmp.GetHeight())
-                    if m.settings.spriteMode = m.const.SPRITES_DOS
-                        m.reflex.mask = m.compositor.NewSprite(96 * m.scale, 3 * m.scale, rgn, 35)
-                    else
+                    if m.settings.spriteMode = m.const.SPRITES_MAC
                         m.reflex.mask = m.compositor.NewSprite(94 * m.scale, 3 * m.scale, rgn, 35)
+                    else
+                        m.reflex.mask = m.compositor.NewSprite(96 * m.scale, 3 * m.scale, rgn, 35)
                     end if
                 else
                     m.reflex.kid.SetRegion(kdRegion)
@@ -144,7 +144,7 @@ Function CheckSpecialEvents() as boolean
         end if
     else if m.currentLevel = 5
         'Shadow drinks potion before kid
-        if m.guards.Count() = 0 then return false
+        if m.guards.Count() = 0 or m.guards[0].charName <> "shadow" then return false
         shadow = m.guards[0]
         if m.kid.room = 24 and m.kid.blockX = 6 and m.kid.blockY = 1 and not shadow.meet
             shadow.visible = true
@@ -172,7 +172,7 @@ Function CheckSpecialEvents() as boolean
     else if m.currentLevel = 6
         if m.kid.room = 1
             'Shadow appearance and behavior
-            if m.guards.Count() = 0 then return false
+            if m.guards.Count() = 0 or m.guards[0].charName <> "shadow" then return false
             shadow = m.guards[0]
             if not shadow.visible
                 PlaySound("suspense")
@@ -223,7 +223,7 @@ Function CheckSpecialEvents() as boolean
         end if
     else if m.currentLevel = 12
         'Shadow appearance
-        if m.guards.Count() = 0 then return false
+        if m.guards.Count() = 0 or m.guards[0].charName <> "shadow" then return false
         shadow = m.guards[0]
         m.kid.leapOfFaith = false
         if m.kid.room = 15 and not shadow.meet

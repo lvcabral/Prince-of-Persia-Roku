@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: April 2016
-' **  Updated: June 2016
+' **  Updated: July 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -16,10 +16,10 @@ Sub DrawStatusBar(screen as object, width as integer, height as integer)
     screen.DrawRect(0, height-(8* m.scale),width, (8* m.scale), m.colors.black)
     lifeFull = m.regions.general.Lookup("kid-live")
     lifeEmpty = m.regions.general.Lookup("kid-emptylive")
-    if m.settings.spriteMode = m.const.SPRITES_DOS
-        lifePos = 6 * m.scale
-    else
+    if m.settings.spriteMode = m.const.SPRITES_MAC
         lifePos = 8 * m.scale
+    else
+        lifePos = 6 * m.scale
     end if
     if m.kid.health = 1
         if m.blink

@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: June 2016
+' **  Updated: July 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -12,7 +12,7 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
 
-Function LoadTiles(defaultLevel as integer) as object
+Function LoadTiles(levelId as integer, customUrl = "" as string) as object
     tileSet = {}
     'Settings
     tileSet.spriteMode = m.settings.spriteMode
@@ -20,12 +20,19 @@ Function LoadTiles(defaultLevel as integer) as object
 	tileSet.const = m.const
     tileSet.wallColor = [&hD8A858FF, &hE0A45CFF, &hE0A860FF, &hD8A054FF, &hE0A45CFF, &hD8A458FF, &hE0A858FF, &hD8A860FF]
 	'Methods
-	tileSet.buildLevel = build_level
-	tileSet.buildTile = build_tile
-	tileSet.getRoomId  = get_room_id
-	tileSet.getTileAt  = get_tile_at
+	tileSet.buildLevel  = build_level
+    tileSet.buildCustom = build_custom
+    tileSet.buildRooms  = build_rooms
+	tileSet.buildTile   = build_tile
+	tileSet.getRoomId   = get_room_id
+	tileSet.getTileAt   = get_tile_at
     'Read maps
-    tileSet.level = tileSet.BuildLevel(defaultLevel)
+    if customUrl = ""
+        tileSet.level = tileSet.buildLevel(levelId)
+    else
+        tileSet.level = tileset.buildCustom(levelId, customUrl)
+    end if
+    tileSet.buildRooms()
     return tileSet
 End Function
 
@@ -38,98 +45,98 @@ Function build_level(levelId as integer) as object
 	   return {}
     end if
 	'Create new level object
-	this = CreateLevel(json.number, json.name, json.type)
-	m.level = this
+	level = CreateLevel(json.number, json.name, json.type)
 	'Build level
 	m.type = json.type
-	this.width = json.size.width
-	this.height = json.size.height
-	dim layout[this.height, this.width]
-	this.layout = layout
+	level.width = json.size.width
+	level.height = json.size.height
+	dim layout[level.height, level.width]
+	level.layout = layout
 	'Load rooms from json
-	for y = 0 to this.height - 1
-		this.layout[y] = []
-		for x = 0 to this.width - 1
-			index = y * this.width + x
+	for y = 0 to level.height - 1
+		level.layout[y] = []
+		for x = 0 to level.width - 1
+			index = y * level.width + x
 			id = json.room[index].id
-			this.layout[y][x] = id
+			level.layout[y][x] = id
 			if id >= 0
-				this.rooms[id] = {}
-				this.rooms[id].x = x
-				this.rooms[id].y = y
-				this.rooms[id].links = {}
-                this.rooms[id].links.hideUp = NBool(json.room[index].hideUp)
-                this.rooms[id].links.hideLeft = NBool(json.room[index].hideLeft)
-                this.rooms[id].links.leftZ = NInt(json.room[index].leftZ, 5)
-			    this.rooms[id].up = []
-				this.rooms[id].left = []
-				this.rooms[id].right = []
-				this.rooms[id].tiles = json.room[index].tile
+				level.rooms[id] = {x: x, y: y, links: {}, up: [], left: [], right: []}
+                level.rooms[id].links.hideUp = NBool(json.room[index].hideUp)
+                level.rooms[id].links.hideLeft = NBool(json.room[index].hideLeft)
+                level.rooms[id].links.leftZ = NInt(json.room[index].leftZ, 5)
+				level.rooms[id].tiles = json.room[index].tile
 			end if
 		next
 	next
+    level.guards = json.guards
+	level.events = json.events
+    level.prince = json.prince
+	if level.prince.direction = -1
+		level.prince.direction = m.const.FACE_LEFT
+	end if
 	print "all rooms loaded"
-	'Create room with links
-	for y = this.height - 1 to 0 step -1
-		for x = 0 to this.width - 1
-			id = this.layout[y][x]
-			if id >= 0
-				this.rooms[id].links.left = m.getRoomId(x - 1, y)
-				this.rooms[id].links.right = m.getRoomId(x + 1, y)
-	            this.rooms[id].links.up = m.getRoomId(x, y - 1)
-				this.rooms[id].links.down = m.getRoomId(x, y + 1)
-				'No room on the left (brick wall)
-				if this.rooms[id].links.left < 0
-					for jj = 2 to 0 step -1
-						tile = CreateTile(this.const.TILE_WALL, 0, this.type)
-						tile.back = tile.key + "_wall_0"
-						tile.front = invalid
-						tile.room = id
-						this.addTile(-1, jj, id, tile)
-					next
-				end if
-				'Build room with tiles
+	return level
+End Function
+
+Sub build_rooms()
+    'Create room with links
+    for y = m.level.height - 1 to 0 step -1
+        for x = 0 to m.level.width - 1
+            id = m.level.layout[y][x]
+            if id <> invalid and id > 0
+                if  m.level.rooms[id].links.left = invalid then
+                    m.level.rooms[id].links.left = m.getRoomId(x - 1, y)
+                    m.level.rooms[id].links.right = m.getRoomId(x + 1, y)
+                    m.level.rooms[id].links.up = m.getRoomId(x, y - 1)
+                    m.level.rooms[id].links.down = m.getRoomId(x, y + 1)
+                end if
+                'No room on the left (brick wall)
+                if m.level.rooms[id].links.left < 0
+                    for jj = 2 to 0 step -1
+                        tile = CreateTile(m.level.const.TILE_WALL, 0, m.level.type)
+                        tile.back = tile.key + "_wall_0"
+                        tile.front = invalid
+                        tile.room = id
+                        m.level.addTile(-1, jj, id, tile)
+                    next
+                end if
+                'Build room with tiles
                 print "room id="; id
-				for yy = 2 to 0 step -1
-					for xx = 0 to 9
-						tile = m.buildTile( xx, yy, id )
-						this.addTile(xx, yy, id, tile)
-					next
-				next
+                for yy = 2 to 0 step -1
+                    for xx = 0 to 9
+                        tile = m.buildTile( xx, yy, id )
+                        m.level.addTile(xx, yy, id, tile)
+                    next
+                next
                 'No room on the right (brick wall)
-                if this.rooms[id].links.right < 0
+                if m.level.rooms[id].links.right < 0
                     for jj = 2 to 0 step -1
                         rTile = jj * 10 + 9
-                        if this.rooms[id].tiles[rTile].element = this.const.TILE_WALL
-                            tile = CreateTile(this.const.TILE_WALL, 0, this.type)
+                        if m.level.rooms[id].tiles[rTile].element = m.level.const.TILE_WALL
+                            tile = CreateTile(m.level.const.TILE_WALL, 0, m.level.type)
                             tile.back = tile.key + "_wall_0"
                             tile.front = invalid
                         else
-                            tile = CreateTile(this.const.TILE_SPACE, 0, this.type)
+                            tile = CreateTile(m.level.const.TILE_SPACE, 0, m.level.type)
                         end if
                         tile.room = id
-                        this.addTile(-2, jj, id, tile)
+                        m.level.addTile(-2, jj, id, tile)
                     next
                 end if
-				'No room on the up side (floor)
-				if this.rooms[id].links.up < 0
-					for ii = 0 to 9
-						tile = CreateTile(this.const.TILE_FLOOR, 0, this.type)
-						tile.room = id
-						this.addTile(ii, -1, id, tile)
-					next
-				end if
-			end if
-		next
-	next
-	this.prince = json.prince
-	if this.prince.direction = -1
-		this.prince.direction = this.const.FACE_LEFT
-	end if
-	this.guards = json.guards
-	this.events = json.events
-	return this
-End Function
+                'No room on the up side (floor)
+                if m.level.rooms[id].links.up < 0
+                    for ii = 0 to 9
+                        tile = CreateTile(m.level.const.TILE_FLOOR, 0, m.level.type)
+                        tile.room = id
+                        m.level.addTile(ii, -1, id, tile)
+                    next
+                end if
+            else
+                m.level.layout[y][x] = -1
+            end if
+        next
+    next
+End Sub
 
 Function build_tile(x as integer, y as integer, id as integer)
     tileNumber = y * 10 + x
@@ -153,14 +160,14 @@ Function build_tile(x as integer, y as integer, id as integer)
             wallType = wallType + "S"
         end if
         if m.type = m.const.TYPE_DUNGEON
-            if m.spriteMode = m.const.SPRITES_DOS
-                tile.front = wallType + "_" + itostr(tileSeed)
-            else
+            if m.spriteMode = m.const.SPRITES_MAC
                 tile.front = wallType
+            else
+                tile.front = wallType + "_" + itostr(tileSeed)
             end if
         else
 			tile.front = "pattern"
-            if m.spriteMode = m.const.SPRITES_DOS
+            if m.spriteMode <> m.const.SPRITES_MAC
     			tile.child.front.frameName = "W_" + itostr(tileSeed)
     			tile.child.front.y = 16
             end if
@@ -172,6 +179,9 @@ Function build_tile(x as integer, y as integer, id as integer)
         tile.child.back.frameName = tile.key + "_" + itostr(t.element) + "_" + itostr(t.modifier)
     else if t.element = m.const.TILE_GATE
         tile = CreateGate(tile)
+    else if t.element = m.const.TILE_STUCK_BUTTON
+        tile.back = tile.key + "_1"
+        tile.front = tile.back + "_fg"
     else if t.element = m.const.TILE_RAISE_BUTTON or t.element = m.const.TILE_DROP_BUTTON
         tile = CreateButton(tile)
         tile.onPushed = fireEvent
@@ -200,20 +210,32 @@ Function build_tile(x as integer, y as integer, id as integer)
         end if
 	else if t.element = m.const.TILE_POTION
 		colors = ["red", "red", "red", "green", "green", "blue", "blue"]
-        tile.front = tile.front + "_" + itostr(t.modifier)
-        if m.spriteMode = m.const.SPRITES_DOS
+        potion = tile.front + "_" + itostr(t.modifier)
+        if m.type = m.const.TYPE_PALACE
+            if m.spriteMode = m.const.SPRITES_MAC
+                if t.modifier > 2 then potion = tile.front + "_1"
+            else
+                if t.modifier = 3 or t.modifier = 4
+                    potion = tile.front + "_2"
+                else if t.modifier = 5
+                    potion = tile.front + "_1"
+                end if
+            end if
+        end if
+        tile.front = potion
+        if m.spriteMode = m.const.SPRITES_MAC
+            if t.modifier <> tile.const.POTION_LIFE
+                tile.child.back.frames = GenerateFrameNames("bubble_", 1, 6, "_"+colors[t.modifier], false, 2)
+            end if
+            px = 20
+            py = 52
+        else
             tile.child.back.frames = GenerateFrameNames("bubble_", 1, 7, "_"+colors[t.modifier], true)
             px = 25
             py = 53
             if t.modifier > tile.const.POTION_HEALTH and t.modifier < tile.const.POTION_POISON
     			py = py - 4
     		end if
-        else
-            if t.modifier <> tile.const.POTION_LIFE
-                tile.child.back.frames = GenerateFrameNames("bubble_", 1, 6, "_"+colors[t.modifier], false, 2)
-            end if
-            px = 20
-            py = 52
         end if
 		tile.child.back.x = px
 		tile.child.back.y = py
@@ -268,9 +290,10 @@ Function get_room_id(x as integer, y as integer) as integer
     if (x < 0) or (x >= m.level.width) or (y < 0) or (y >= m.level.height)
 		return -1
 	end if
-    return m.level.layout[y][x]
+    id = m.level.layout[y][x]
+    if id = invalid then return - 1
+    return id
 End Function
-
 
 Function WallMarks(i as integer) as string
     r = rnd(3) - 1

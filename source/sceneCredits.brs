@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: April 2016
-' **  Updated: May 2016
+' **  Updated: July 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -13,14 +13,14 @@
 ' ********************************************************************************************************
 
 Sub PlayIntro(screen as object)
-	if m.settings.spriteMode = m.const.SPRITES_DOS
-		width = 320
-		height = 200
-		suffix = "-dos"
-	else
+	if m.settings.spriteMode = m.const.SPRITES_MAC
 		width = 640
 		height = 400
 		suffix = "-mac"
+	else
+		width = 320
+		height = 200
+		suffix = "-dos"
 	end if
 	scale = Int(GetScale(screen, width, height))
     centerX = Cint((screen.GetWidth()-(width*scale))/2)
@@ -61,12 +61,12 @@ End Sub
 
 Sub PlayEnding()
 	scale = Int(GetScale(m.mainScreen, 320, 200))
-	if m.settings.spriteMode = m.const.SPRITES_DOS
-		suffix = "-dos"
-		introScale = scale
-	else
+	if m.settings.spriteMode = m.const.SPRITES_MAC
 		suffix = "-mac"
 		introScale = scale / 2
+	else
+		suffix = "-dos"
+		introScale = scale
 	end if
 	PlaySong("victory")
 	skip = TextScreen(m.mainScreen, "text-the-tyrant" + suffix, m.colors.darkred, 19000, 7)
@@ -85,10 +85,10 @@ Function TextScreen(screen as object, pngFile as string, color as integer, waitT
     centerX = Cint((screen.GetWidth()-(320*scale))/2)
     centerY = Cint((screen.GetHeight()-(200*scale))/2)
 	canvas = GetPaintedBitmap(color, 320*scale, 200*scale, true)
-	if m.settings.spriteMode = m.const.SPRITES_DOS
-        canvas.DrawObject(0, 0, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/scenes/images/text-screen-dos.png"),scale))
-    else
+	if m.settings.spriteMode = m.const.SPRITES_MAC
 		canvas.DrawObject(0, 0, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/scenes/images/text-screen-mac.png"),scale/2))
+	else
+		canvas.DrawObject(0, 0, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/scenes/images/text-screen-dos.png"),scale))
     end if
 	bmp = CreateObject("roBitmap", "pkg:/assets/scenes/images/" + pngFile + ".png")
 	if bmp.GetWidth() <= 320 then

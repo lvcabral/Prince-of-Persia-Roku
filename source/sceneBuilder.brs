@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: May 2016
-' **  Updated: June 2016
+' **  Updated: July 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -37,17 +37,17 @@ Function CreateCutscene(level as integer, scale as float) as object
 	this.flash = false
 	this.tick = 0
 	'Scene regions and objects
-	if m.settings.spriteMode = m.const.SPRITES_DOS
-		this.objects.Push(CreateTorch(53, 81))
-		this.objects.Push(CreateTorch(171, 81))
-		starPositions = [{ x: 20, y: 97 },{ x: 16, y: 104 },{ x: 23, y: 110 },{ x: 17, y: 116 },{ x: 24, y: 120 },{ x: 18, y: 128 }]
-	else
+	if m.settings.spriteMode = m.const.SPRITES_MAC
 		this.objects.Push(CreateTorch(35, 86))
 		this.objects.Push(CreateTorch(247, 86))
 		starPositions = []
 		starPositions.Append([{ x: 8, y: 104 },{ x: 10, y: 120 },{ x: 100, y: 113 },{ x: 115, y: 115 },{ x: 120, y: 100 }])
 		starPositions.Append([{ x: 151, y: 105 },{ x: 159, y: 113 },{ x: 170, y: 102 },{ x: 220, y: 108 },{ x: 208, y: 113 }])
 		starPositions.Append([{ x: 206, y: 97 },{ x: 258, y: 110 },{ x: 270, y: 100 },{ x: 275, y: 112 }])
+	else
+		this.objects.Push(CreateTorch(53, 81))
+		this.objects.Push(CreateTorch(171, 81))
+		starPositions = [{ x: 20, y: 97 },{ x: 16, y: 104 },{ x: 23, y: 110 },{ x: 17, y: 116 },{ x: 24, y: 120 },{ x: 18, y: 128 }]
 	end if
 	for each position in starPositions
 		this.objects.Push( CreateStar(position.x, position.y) )

@@ -2,7 +2,7 @@
 ' ********************************************************************************************************
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **  Created: February 2016
-' **  Updated: June 2016
+' **  Updated: July 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -107,10 +107,8 @@ Sub start_level(level as object, startRoom as integer, startTile as integer, sta
     m.cursors.shift = false
     m.effect = m.colors.black
     m.cycles = 0
-    if m.health = 0
-        m.maxHealth = startHealth
-        m.health = m.maxHealth
-    end if
+    m.maxHealth = startHealth
+    m.health = m.maxHealth
     if m.level.number = 1
         m.haveSword = false
     else

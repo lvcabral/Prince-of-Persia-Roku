@@ -1,0 +1,36 @@
+{"frames": {
+
+"mouse-1":
+{
+	"frame": {"x":3,"y":3,"w":20,"h":6},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":20,"h":6},
+	"sourceSize": {"w":20,"h":6}
+},
+"mouse-2":
+{
+	"frame": {"x":3,"y":11,"w":19,"h":6},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":19,"h":6},
+	"sourceSize": {"w":19,"h":6}
+},
+"mouse-3":
+{
+	"frame": {"x":3,"y":19,"w":12,"h":10},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":10},
+	"sourceSize": {"w":12,"h":10}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "mouse-snes.png",
+	"format": "RGBA8888",
+	"size": {"w":32,"h":32},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:a89b2480784b14ba7c109236cd1aa588:b79542df7fa5e8001ab180acf1661810:a76b7867c4c23c61e5d720f61facb3c6$"
+}
+}

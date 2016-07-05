@@ -2,8 +2,8 @@
 ' ********************************************************************************************************
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
-' **  Created: April 2016
-' **  Updated: June 2016
+' **  Created: February 2016
+' **  Updated: July 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -44,7 +44,7 @@ Sub SoundUpdate()
     end if
 End Sub
 
-Sub PlaySound(clip as  string, overlap = false as boolean, volume = 50 as integer)
+Sub PlaySound(clip as string, overlap = false as boolean, volume = 50 as integer)
     g = GetGlobalAA()
     meta = g.sounds.metadata.clips.Lookup(clip)
     if meta.type = "mp3"

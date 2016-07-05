@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: May 2016
-' **  Updated: June 2016
+' **  Updated: July 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -48,6 +48,7 @@ Function PlayGame() as boolean
                         m.savedGame.checkPoint = m.kid.checkPoint
                         m.savedGame.health = m.startHealth
                         m.savedGame.time = m.levelTime
+                        m.savedGame.modId = m.settings.modId
                         SaveGame(m.savedGame)
                     end if
                 else
@@ -73,9 +74,34 @@ Function PlayGame() as boolean
                     m.redraw = true
                 end if
             else if id = m.code.BUTTON_FAST_FORWARD_PRESSED
-                NextLevel()
+                if m.settings.rewFF = m.const.REWFF_LEVEL
+                    NextLevel()
+                else if m.settings.rewFF = m.const.REWFF_HEALTH
+                    if m.kid.maxHealth < m.const.LIMIT_HEALTH and m.kid.alive
+                        m.kid.maxHealth = m.kid.maxHealth + 1
+                        m.kid.health = m.kid.maxHealth
+                        PlaySound("big-life-potion", true)
+                    end if
+                else if m.settings.rewFF = m.const.REWFF_TIME
+                    m.startTime = m.startTime + 60
+                    m.status.Clear()
+                    m.showTime = true
+                end if
             else if id = m.code.BUTTON_REWIND_PRESSED
-                PreviousLevel()
+                if m.settings.rewFF = m.const.REWFF_LEVEL
+                    PreviousLevel()
+                else if m.settings.rewFF = m.const.REWFF_HEALTH
+                    if m.kid.alive
+                        m.kid.injured(true)
+                        PlaySound("harm", true)
+                    end if
+                else if m.settings.rewFF = m.const.REWFF_TIME
+                    if m.timeLeft > 60 then
+                        m.startTime = m.startTime - 60
+                        m.status.Clear()
+                        m.showTime = true
+                    end if
+                end if
             else if id = m.code.BUTTON_SELECT_PRESSED
                 if m.debugMode
                     m.debugMode = false
@@ -290,7 +316,7 @@ Function CheckGameTimer() as boolean
         end if
         m.timeShown = m.timeLeft
     else if m.kid.alive and m.timeLeft <> m.timeShown and (m.timeLeft mod 300 = 0 or m.showTime)
-        m.status.Push({ text: itostr(m.timeLeft / 60) + " MINUTES LEFT", duration: 2, alert: false})
+        m.status.Push({ text: itostr(CInt(m.timeLeft / 60)) + " MINUTES LEFT", duration: 2, alert: false})
         m.timeShown = m.timeLeft
         m.showTime = false
     else if not m.kid.alive and not m.gameOver and m.sounds.mp3.cycles = 0
@@ -370,12 +396,12 @@ Sub TROBsUpdate()
                 end if
                 trob.sprite.back.setRegion(m.regions.tiles.Lookup(trob.tile.back))
             else if trob.tile.element = m.const.TILE_POTION
-                if trob.tile.front = trob.tile.key + "_" + itostr(m.const.TILE_FLOOR) + "_fg"
+                if trob.tile.front = trob.tile.key + "_" + itostr(m.const.TILE_FLOOR) + "_fg" or trob.tile.front = trob.tile.key + "_" + itostr(m.const.TILE_DEBRIS) + "_fg"
                     trob.sprite.front.setRegion(m.regions.tiles.Lookup(trob.tile.front))
                     trob.sprite.back.setRegion(m.regions.tiles.Lookup(trob.tile.back))
                     if trob.sprite.childBack <> invalid
                         trob.tile.child.back.frames = invalid
-                        trob.sprite.childBack.setDrawableFlag(false)
+                        trob.sprite.childBack.Remove()
                     end if
                 end if
             else if trob.tile.element = m.const.TILE_SWORD or trob.tile.element = m.const.TILE_TORCH
@@ -390,14 +416,14 @@ Sub TROBsUpdate()
                 trob.sprite.childFront.setRegion(m.regions.tiles.Lookup(trob.tile.child.front.frameName))
                 if trob.tile.blood.visible
                     bloodX = 12
-                    if m.settings.spriteMode = m.const.SPRITES_DOS
-                        bloodY = [53,40,44,64,60]
-                        x = (trob.tile.x + bloodX) * m.scale
-                        y = (trob.tile.y + bloodY[trob.tile.stage-1]) * m.scale
-                    else
+                    if m.settings.spriteMode = m.const.SPRITES_MAC
                         bloodY = [44,65,55,31,31]
                         x = (trob.tile.x * m.scale) + (bloodX * m.scale / 2)
                         y = (trob.tile.y * m.scale) + (bloodY[trob.tile.stage-1] * m.scale / 2)
+                    else
+                        bloodY = [53,40,44,64,60]
+                        x = (trob.tile.x + bloodX) * m.scale
+                        y = (trob.tile.y + bloodY[trob.tile.stage-1]) * m.scale
                     end if
                     if trob.sprite.blood = invalid
                         rgBlood = m.regions.general.Lookup(trob.tile.blood.frameName)
@@ -584,6 +610,9 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
         end if
         if tile.back <> invalid
             tileRegion = m.regions.tiles.Lookup(tile.back)
+            if tileRegion = invalid
+                tileRegion = m.regions.tiles.Lookup(tile.key + "_0")
+            end if
             if tileRegion.GetHeight() > m.const.TILE_HEIGHT * m.scale
                 yd = tileRegion.GetHeight() - m.const.TILE_HEIGHT * m.scale
             end if
@@ -616,7 +645,15 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
                 end if
                 frsp = m.compositor.NewSprite(x, y, CreateObject("roRegion",bms,0,0,bms.GetWidth(),bms.GetHeight()), frontZ)
             else
-                frsp = m.compositor.NewSprite(x, y, m.regions.tiles.Lookup(tile.front), frontZ)
+                tr = m.regions.tiles.Lookup(tile.front)
+                if tr = invalid and tile.element = m.const.TILE_WALL
+                    tr = m.regions.tiles.Lookup(Left(tile.front,4) + "15")
+                else if tr = invalid
+                    tr = m.regions.tiles.Lookup(tile.key + "_0")
+                    stop
+                end if
+                frsp = m.compositor.NewSprite(x, y, tr , frontZ)
+                if frsp = invalid then stop
             end if
             m.map.Push(frsp)
             if tile.isWalkable() or tile.element = m.const.TILE_SPACE
@@ -661,7 +698,11 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
             m.map.Push(spbk)
         end if
         if chfr.frameName <> invalid
-            spfr = m.compositor.NewSprite(x + chfr.x * m.scale, (y - yd) + chfr.y * m.scale, m.regions.tiles.Lookup(chfr.frameName), frontZ)
+            chrg = m.regions.tiles.Lookup(chfr.frameName)
+            if chrg = invalid and Left(chfr.frameName, 2) = "W_"
+                chrg = m.regions.tiles.Lookup("W_15")
+            end if
+            spfr = m.compositor.NewSprite(x + chfr.x * m.scale, (y - yd) + chfr.y * m.scale, chrg , frontZ)
             spfr.setDrawableFlag(chfr.visible)
             if tile.isTrob() then obj.sprite.childFront = spfr
             m.map.Push(spfr)
@@ -694,7 +735,7 @@ Sub DestroyMap()
     end if
     if m.map <> invalid
         for each sprite in m.map
-            sprite.remove()
+            if sprite <> invalid then sprite.remove()
         next
     end if
 End Sub
@@ -813,7 +854,7 @@ Function CheckPlateHitFromAbove(st as object, sk as object) as boolean
 End Function
 
 Sub CheckForOpponent(room as integer)
-    if m.fight = m.const.FIGHT_FROZEN then return
+    if m.settings.fight = m.const.FIGHT_FROZEN then return
     for each guard in m.guards
         if guard.room = room and guard.alive and guard.opponent = invalid and guard.active
             m.kid.opponent = guard

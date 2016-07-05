@@ -21,10 +21,11 @@ Function StartMenu(screen as object) as integer
     menuFont = m.fonts.getFont("Prince of Persia Game Font", 26, false, false)
     button = -1
     selected = 0
+    backImage = ScaleBitmap(CreateObject("roBitmap", "pkg:/images/start_menu.jpg"),scale)
     while true
         if button <> selected
             screen.Clear(0)
-            screen.DrawObject(centerX, centerY, ScaleBitmap(CreateObject("roBitmap", "pkg:/images/start_menu.jpg"),scale))
+            screen.DrawObject(centerX, centerY, backImage)
             faceColors = [ m.colors.white, m.colors.white, m.colors.white, m.colors.white ]
             faceColors[selected] = &hFF0000FF
             screen.DrawText("Play Classic Mode", centerX + 225, centerY + 162, faceColors[0], menuFont)
@@ -72,10 +73,11 @@ Sub SettingsMenu(screen as object)
     colorRed = &hFF0000FF
     button = -1
     selected = m.settings.controlMode
+    backImage = ScaleBitmap(CreateObject("roBitmap", "pkg:/images/settings_menu.jpg"),scale)
     while true
         if button <> selected
             screen.Clear(0)
-            screen.DrawObject(centerX, centerY, ScaleBitmap(CreateObject("roBitmap", "pkg:/images/settings_menu.jpg"),scale))
+            screen.DrawObject(centerX, centerY, backImage)
             faceColors = [ m.colors.white, m.colors.white, m.colors.white, m.colors.white, m.colors.white ]
             faceColors[selected] = &hFF0000FF
             screen.DrawText("Control Mode", centerX + 93, centerY + 108, faceColors[0], menuFont)
@@ -119,6 +121,9 @@ Sub SettingsMenu(screen as object)
                         m.settings.spriteMode = option
                         SaveSettings(m.settings)
                     end if
+                else if selected = 2
+                    ModsAndCheatsScreen()
+                    m.mainScreen.SwapBuffers()
                 else if selected = 4
                     CreditsScreen(screen)
                 end if
@@ -137,10 +142,11 @@ Function OptionsMenu(screen as object, options as object, default as integer) as
     colorRed = &hFF0000FF
     button = -1
     if default <= 1 then selected = default else selected = 0
+    backImage = ScaleBitmap(CreateObject("roBitmap", "pkg:/images/options_menu.jpg"),scale)
     while true
         if button <> selected
             screen.Clear(0)
-            screen.DrawObject(centerX, centerY, ScaleBitmap(CreateObject("roBitmap", "pkg:/images/options_menu.jpg"),scale))
+            screen.DrawObject(centerX, centerY, backImage)
             if selected = 0
                 screen.DrawText(options[0].text, centerX + 88, centerY + 57, colorRed, menuFont)
                 screen.DrawText(options[1].text, centerX + 80, centerY + 109, colorWhite, menuFont)
@@ -180,7 +186,7 @@ Sub CreditsScreen(screen as object)
     centerY = Cint((screen.GetHeight()-(432*scale))/2)
     screen.Clear(0)
     screen.DrawObject(centerX, centerY, ScaleBitmap(CreateObject("roBitmap", "pkg:/images/game_credits.jpg"),scale))
-    key = wait(100, m.port)
+    key = wait(300, m.port)
     m.mainScreen.SwapBuffers()
     key = wait(0, m.port)
 End Sub
