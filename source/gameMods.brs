@@ -29,8 +29,8 @@ Sub ModsAndCheatsScreen()
     this.fightModes = ["Attack", "Alert", "Frozen"]
     this.fightHelp  = ["Enemies will attack you!", "Enemies will be alert and follow you", "Enemies will be static"]
     this.fightIndex = m.settings.fight
-    this.rewFFModes = ["Level", "Health", "Time"]
-    this.rewFFHelp  = ["Keys advance or return levels", "Keys increase or decrease kid's health", "Keys increase or decrease remaining time"]
+    this.rewFFModes = ["Game Level", "Kid's Health", "Remaining Time"]
+    this.rewFFHelp  = ["Keys advance or return levels", "Keys increase or decrease health", "Keys increase or decrease 1 minute"]
     this.rewFFIndex = m.settings.rewFF
     if m.settings.modId <> invalid
         this.modName = m.mods[m.settings.modId].name

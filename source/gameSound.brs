@@ -29,6 +29,30 @@ Function LoadSounds(enable as boolean) as object
     return sounds
 End Function
 
+Sub LoadModSounds()
+    if m.settings.modId <> invalid and m.mods[m.settings.modId].sounds
+        m.sounds.modId = invalid
+        for each name in m.sounds.metadata.clips
+            clip = m.sounds.metadata.clips.Lookup(name)
+            wav = "pkg:/mods/" + m.mods[m.settings.modId].url + "sounds/" + name + ".wav"
+            if clip.type = "wav" and m.files.Exists(wav)
+                m.sounds.AddReplace(name,CreateObject("roAudioResource", wav))
+                m.sounds.modId = m.settings.modId
+            else if clip.type = "wav"
+                m.sounds.AddReplace(name,CreateObject("roAudioResource", "pkg:/assets/sounds/" + name + ".wav"))
+            end if
+        next
+    else if m.sounds.modId <> invalid
+        m.sounds.modId = invalid
+        for each name in m.sounds.metadata.clips
+            clip = m.sounds.metadata.clips.Lookup(name)
+            if clip.type = "wav"
+                m.sounds.AddReplace(name,CreateObject("roAudioResource", "pkg:/assets/sounds/" + name + ".wav"))
+            end if
+        next
+    end if
+End Sub
+
 Function IsSilent() as boolean
     return (m.sounds.mp3.cycles = 0 and m.sounds.wav.cycles = 0)
 End Function

@@ -31,6 +31,8 @@ Function PlayGame() as boolean
     m.showTime = false
     m.timeShown = 0
     m.finalTime = 0
+    'Load wav sounds from Mod (if one is selected)
+    if m.sounds.enabled then LoadModSounds()
     'Game Loop
     m.clock.Mark()
     m.timer.Mark()
