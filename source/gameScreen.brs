@@ -20,6 +20,8 @@ Function PlayGame() as boolean
     'Set offsets
     m.xOff = (m.const.ROOM_WIDTH * m.scale) * m.tileSet.level.rooms[m.kid.room].x
     m.yOff = (m.const.ROOM_HEIGHT * m.scale) * m.tileSet.level.rooms[m.kid.room].y
+    canvasX = Cint((m.mainWidth - m.gameWidth) / 2)
+    canvasY = Cint((m.mainHeight - m.gameHeight) / 2)
     'Initialize flags and aux variables
     m.oldRoom = m.startRoom
     m.topOffset = 3 * m.scale
@@ -131,26 +133,28 @@ Function PlayGame() as boolean
                 if m.redraw or CheckVerticalNav()
                     DrawLevelRooms(m.xOff, m.yOff, m.gameWidth, m.gameHeight)
                 end if
-                if CheckSpecialEvents() then return true
-                GuardsUpdate()
-                CheckForOpponent(m.kid.room)
-                TROBsUpdate()
-                MOBsUpdate()
-                MaskUpdate()
-                FlashBackGround(m.kid.effect)
-                SoundUpdate()
-                if CheckGameTimer() then return true
-                'Paint Screen
-                m.compositor.AnimationTick(ticks)
-                m.compositor.DrawAll()
-                if m.flip
-                    canvasX = Cint((m.mainWidth - m.gameWidth) / 2)
-                    canvasY = Cint((m.mainHeight - m.gameHeight) / 2)
-                    m.mainScreen.DrawObject(canvasX, canvasY, FlipVertically(m.gameCanvas))
+                special = CheckSpecialEvents()
+                if special = m.const.SPECIAL_CONTINUE
+                    GuardsUpdate()
+                    CheckForOpponent(m.kid.room)
+                    TROBsUpdate()
+                    MOBsUpdate()
+                    MaskUpdate()
+                    FlashBackGround(m.kid.effect)
+                    SoundUpdate()
+                    if CheckGameTimer() then return true
+                    'Paint Screen
+                    m.compositor.AnimationTick(ticks)
+                    m.compositor.DrawAll()
+                    if m.flip
+                        m.mainScreen.DrawObject(canvasX, canvasY, FlipVertically(m.gameCanvas))
+                    end if
+                    DrawStatusBar(m.gameScreen, m.gameWidth, m.gameHeight)
+                    m.mainScreen.SwapBuffers()
+                    m.clock.Mark()
+                else if special = m.const.SPECIAL_FINISH
+                    return true
                 end if
-                DrawStatusBar(m.gameScreen, m.gameWidth, m.gameHeight)
-                m.mainScreen.SwapBuffers()
-                m.clock.Mark()
             end if
         end if
     end while

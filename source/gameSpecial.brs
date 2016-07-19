@@ -12,7 +12,7 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
 
-Function CheckSpecialEvents() as boolean
+Function CheckSpecialEvents() as integer
     if m.currentLevel = 1 and m.kid.room = 1
         'Close Gate on Level 1 startup
         button = m.tileSet.level.getTileAt(2, 0, 5)
@@ -30,7 +30,9 @@ Function CheckSpecialEvents() as boolean
         if gate <> invalid and gate.element = m.const.TILE_GATE and not gate.audio then gate.audio = true
         if m.kid.room = 1
             'Skeleton is alive!
-            if m.guards.Count() = 0 or m.kid.blockY = 0 or m.kid.level.exitOpen = 0 then return false
+            if m.guards.Count() = 0 or m.kid.blockY = 0 or m.kid.level.exitOpen = 0
+                return m.const.SPECIAL_CONTINUE
+            end if
             if not m.guards[0].visible and (m.kid.action() = "softland" or m.kid.action() = "stand")
                 tile = m.kid.level.getTileAt(5, 1, 1)
                 if tile.element = m.const.TILE_SKELETON
@@ -100,7 +102,7 @@ Function CheckSpecialEvents() as boolean
             PlaySound("suspense")
             m.kid.level.exitOpen = 3
         else if m.kid.level.exitOpen = 3
-            if m.guards.Count() = 0 then return false
+            if m.guards.Count() = 0 then return m.const.SPECIAL_CONTINUE
             shadow = m.guards[0]
             if m.kid.charAction <> "runjump" and m.kid.blockX = 4 and m.kid.blockY = 0
                 'Show mirror reflex
@@ -147,7 +149,9 @@ Function CheckSpecialEvents() as boolean
         end if
     else if m.currentLevel = 5
         'Shadow drinks potion before kid
-        if m.guards.Count() = 0 or m.guards[0].charName <> "shadow" then return false
+        if m.guards.Count() = 0 or m.guards[0].charName <> "shadow"
+            return m.const.SPECIAL_CONTINUE
+        end if
         shadow = m.guards[0]
         if m.kid.room = 24 and m.kid.blockX = 6 and m.kid.blockY = 1 and not shadow.meet
             shadow.visible = true
@@ -175,31 +179,39 @@ Function CheckSpecialEvents() as boolean
     else if m.currentLevel = 6
         if m.kid.room = 1
             'Shadow appearance and behavior
-            if m.guards.Count() = 0 or m.guards[0].charName <> "shadow" then return false
+            if m.guards.Count() = 0 or m.guards[0].charName <> "shadow"
+                return m.const.SPECIAL_CONTINUE
+            end if
             shadow = m.guards[0]
             if not shadow.visible
                 PlaySound("suspense")
                 shadow.visible = true
             else if m.kid.blockX < 4
-                if shadow.blockX = 0 and shadow.action() = "stand" then
+                if shadow.blockX = 0 and shadow.action() = "stand"
                     shadow.action("step11")
                 end if
             end if
-        else if m.kid.room = 3
+            if m.kid.level.exitOpen = 0
+                m.kid.level.exitOpen = m.kid.level.rooms[1].links.down
+            end if
+        else if m.kid.room = m.kid.level.exitOpen
             'Automatically change from level 6 to Level 7
-            if m.cameras = 1 or m.kid.blockY = 2 then NextLevel()
+            if m.cameras = 1 or m.kid.blockY = 2
+                NextLevel()
+                return m.const.SPECIAL_RESET
+            end if
         end if
     else if m.currentLevel = 8 and m.kid.level.exitOpen > 0
         if m.kid.room = 16
             'The Mouse saves the day!
             if m.mouse = invalid
                 if m.wait = invalid then m.wait = 1 else m.wait = m.wait + 1
-                if m.wait < 110 then return false
+                if m.wait < 110 then return m.const.SPECIAL_CONTINUE
                 m.mouse = CreateMouse(m.tileSet.level, 12, 6, m.const.FACE_LEFT)
                 m.mouse.action("scurry")
             else if m.mouse.room = 12 and m.mouse.blockX = 6 and m.mouse.meet
                 m.mouse.sprite.Remove()
-                return false
+                return m.const.SPECIAL_CONTINUE
             end if
             m.mouse.update()
             msRegion = m.regions.mouse[m.mouse.face].Lookup(m.mouse.frameName)
@@ -226,7 +238,9 @@ Function CheckSpecialEvents() as boolean
         end if
     else if m.currentLevel = 12
         'Shadow appearance
-        if m.guards.Count() = 0 or m.guards[0].charName <> "shadow" then return false
+        if m.guards.Count() = 0 or m.guards[0].charName <> "shadow"
+            return m.const.SPECIAL_CONTINUE
+        end if
         shadow = m.guards[0]
         m.kid.leapOfFaith = false
         if m.kid.room = 15 and not shadow.meet
@@ -330,7 +344,7 @@ Function CheckSpecialEvents() as boolean
         'Saving the princess!
         PlayScene(m.gameScreen, 15, false)
         PlayEnding()
-        return true
+        return m.const.SPECIAL_FINISH
     end if
-    return false
+    return m.const.SPECIAL_CONTINUE
 End Function

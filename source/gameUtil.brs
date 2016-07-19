@@ -123,6 +123,10 @@ Function GetConstants() as object
     const.BUTTON_NO = 1
     const.BUTTON_CANCEL = 2
 
+    const.SPECIAL_CONTINUE = 0
+    const.SPECIAL_RESET = 1
+    const.SPECIAL_FINISH = 2
+
     return const
 End Function
 
@@ -438,6 +442,47 @@ Function ShuffleArray(argArray as object) as object
     Return rndArray
 End Function
 
+Function ZeroPad(text as string, length = invalid) as string
+    if length = invalid then length = 2
+    if text.Len() < length
+        for i = 1 to length-text.Len()
+            text = "0" + text
+        next
+    end if
+    return text
+End Function
+
+Function FormatTime(seconds as integer) as string
+    textTime = ""
+    hasHours = false
+    ' Special Check For Zero
+    if seconds < 60
+        return "0:" + ZeroPad(itostr(seconds))
+    end if
+    ' Hours
+    if seconds >= 3600
+        textTime = textTime + itostr(seconds / 3600) + ":"
+        hasHours = true
+        seconds = seconds Mod 3600
+    end if
+    ' Minutes
+    if seconds >= 60
+        if hasHours
+            textTime = textTime + ZeroPad(itostr(seconds / 60)) + ":"
+        else
+            textTime = textTime + itostr(seconds / 60) + ":"
+        end if
+        seconds = seconds Mod 60
+    else
+        if hasHours
+            textTime = textTime + "00:"
+        end if
+    end if
+    ' Seconds
+    textTime = textTime + ZeroPad(itostr(seconds))
+    return textTime
+End Function
+
 '------- Download Functions --------
 Function CacheFile(url as string, file as string) as string
     tmpFile = "tmp:/" + file
@@ -455,9 +500,7 @@ End Function
 
 '------- Roku Screens Functions ----
 Sub MessageDialog(title, text, port = invalid) As Integer
-    if port = invalid then
-        port = CreateObject("roMessagePort")
-    end if
+    if port = invalid then port = CreateObject("roMessagePort")
     d = CreateObject("roMessageDialog")
     d.SetTitle(title)
     d.SetText(text)
@@ -474,6 +517,40 @@ Sub MessageDialog(title, text, port = invalid) As Integer
         end if
     end while
 End Sub
+
+Function KeyboardScreen(title = "", prompt = "", text = "", button1 = "Okay", button2= "Cancel", secure = false, port = invalid) as string
+    if port = invalid then port = CreateObject("roMessagePort")
+    result = ""
+    port = CreateObject("roMessagePort")
+    screen = CreateObject("roKeyboardScreen")
+    screen.SetMessagePort(port)
+    screen.SetTitle(title)
+    screen.SetDisplayText(prompt)
+    screen.SetText(text)
+    screen.AddButton(1, button1)
+    screen.AddButton(2, button2)
+    screen.SetSecureText(secure)
+    screen.Show()
+    while true
+        msg = wait(0, port)
+
+        if type(msg) = "roKeyboardScreenEvent" then
+            if msg.isScreenClosed()
+                exit while
+            else if msg.isButtonPressed()
+                if msg.GetIndex() = 1 and screen.GetText().Trim() <> "" 'Ok
+                    result = screen.GetText()
+                    exit while
+                else if msg.GetIndex() = 2 'Cancel
+                    result = ""
+                    exit while
+                end if
+            end if
+        end if
+    end while
+    screen.Close()
+    return result
+End function
 
 '------- Registry Functions -------
 Function GetRegistryString(key as String, default = "") As String
@@ -515,6 +592,21 @@ Function LoadSavedGame() as Dynamic
         obj = ParseJSON(json)
         if obj <> invalid and obj.savedGame <> invalid
             return obj.savedGame
+        end if
+    end if
+    return invalid
+End Function
+
+Sub SaveHighScores(scores as Object)
+    SaveRegistryString("HighScores", FormatJSON({highScores: scores}, 1))
+End Sub
+
+Function LoadHighScores() as Dynamic
+    json = GetRegistryString("HighScores")
+    if json <> ""
+        obj = ParseJSON(json)
+        if obj <> invalid and obj.highScores <> invalid
+            return obj.highScores
         end if
     end if
     return invalid

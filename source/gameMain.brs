@@ -57,6 +57,9 @@ Sub Main()
     m.flip = false 'flag to flip the screen vertically
     'Load saved game
     m.savedGame = LoadSavedGame()
+    'Load Highscores
+    m.highScores = LoadHighScores()
+    if m.highScores = invalid then m.highScores = []
     'Check Roku model for performance alert
     if not IsOpenGL()
         MessageDialog("Prince of Persia", "Warning: Your Roku device doesn't support accelerated graphics, this game will not perform well.")
@@ -111,8 +114,8 @@ Sub Main()
             if option <> m.const.BUTTON_CANCEL
                 if m.settings.spriteMode = m.const.SPRITES_MAC then suffix = "-mac" else suffix = "-dos"
                 'Debug: Uncomment the next two lines to start at a specific location
-                'm.currentLevel = 3
-                'm.checkPoint = {room: 23, tile:3, face: 1}
+                'm.currentLevel = 6
+                'm.checkPoint = {room: 1, tile:19, face: 1}
                 skip = false
                 if m.currentLevel = 1
                     print "Starting opening story..."
