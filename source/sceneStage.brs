@@ -176,14 +176,16 @@ End Function
 
 Sub FlashBackStage(scene as object, stage as object)
     if scene.flash
+        width = stage[0].GetRegion().GetWidth()
+        height = stage[0].GetRegion().GetHeight()
         if scene.tick = 5
             scene.flash = false
             return
         end if
         if scene.tick Mod 2 = 0
-            stage[0].SetRegion(CreateObject("roRegion",GetPaintedBitmap(&h000000FF, 640, 400, true), 0, 0, 640, 400))
+            stage[0].SetRegion(CreateObject("roRegion",GetPaintedBitmap(&h000000FF, width, height, true), 0, 0, width, height))
         else
-            stage[0].SetRegion(CreateObject("roRegion",GetPaintedBitmap(&hFFFFFFFF, 640, 400, true), 0, 0, 640, 400))
+            stage[0].SetRegion(CreateObject("roRegion",GetPaintedBitmap(&hFFFFFFFF, width, height, true), 0, 0, width, height))
         end if
         scene.tick = scene.tick + 1
     end if
