@@ -16,12 +16,19 @@ Function CreateGuard(level as object, room as integer, position as integer, face
     'constants
     this.const = m.const
     'indexed by Skill
-    this.const.STRIKE_PROBABILITY      = [  61, 100,  61,  61,  61,  40, 100, 220, 0,  48,  32,  48 ]
-    this.const.RESTRIKE_PROBABILITY    = [   0,   0,   0,   5,   5, 175,  16,   8, 0, 255, 255, 150 ]
+    if m.settings.spriteMode = m.const.SPRITES_DOS ' DOS 1.0 port used some assembly hex values as octal
+        this.const.STRIKE_PROBABILITY      = [  61, 100,  61,  61,  61,  40, 100, 220, 0,  48,  32,  48 ]
+        this.const.RESTRIKE_PROBABILITY    = [   0,   0,   0,   5,   5, 175,  16,   8, 0, 255, 255, 150 ]
+        this.const.IMPAIRBLOCK_PROBABILITY = [   0,  61,  61, 100, 100, 145, 100, 250, 0, 145, 255, 175 ]
+        this.const.REFRAC_TIMER            = [  16,  16,  16,  16,   8,   8,   8,   8, 0,   8,   0,   0 ]
+    else
+        this.const.STRIKE_PROBABILITY      = [  75, 100,  75,  75,  75,  50, 100, 220, 0,  60,  40,  60 ]
+        this.const.RESTRIKE_PROBABILITY    = [   0,   0,   0,   5,   5, 175,  20,  10, 0, 255, 255, 150 ]
+        this.const.IMPAIRBLOCK_PROBABILITY = [   0,  75,  75, 100, 100, 145, 100, 250, 0, 145, 255, 175 ]
+        this.const.REFRAC_TIMER            = [  20,  20,  20,  20,  10,  10,  10,  10, 0,  10,   0,   0 ]
+    end if
     this.const.BLOCK_PROBABILITY       = [   0, 150, 150, 200, 200, 255, 200, 250, 0, 255, 255, 255 ]
-    this.const.IMPAIRBLOCK_PROBABILITY = [   0,  61,  61, 100, 100, 145, 100, 250, 0, 145, 255, 175 ]
     this.const.ADVANCE_PROBABILITY     = [ 255, 200, 200, 200, 255, 255, 200,   0, 0, 255, 100, 100 ]
-    this.const.REFRAC_TIMER            = [  16,  16,  16,  16,   8,   8,   8,   8, 0,   8,   0,   0 ]
     this.const.EXTRA_STRENGTH          = [   0,   0,   0,   0,   1,   0,   0,   0, 0,   0,   0,   0 ]
     'indexed by Level
     this.const.STRENGTH                = [ 4, 3, 3, 3, 3, 4, 5, 4, 4, 5, 5, 5, 4, 6, 10, 0 ]

@@ -312,7 +312,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":120,"h":158},
 	"sourceSize": {"w":120,"h":158}
 },
-"palace_mirror":
+"palace_13":
 {
 	"frame": {"x":726,"y":318,"w":120,"h":158},
 	"rotated": false,
@@ -320,7 +320,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":120,"h":158},
 	"sourceSize": {"w":120,"h":158}
 },
-"palace_mirror_fg":
+"palace_13_fg":
 {
 	"frame": {"x":847,"y":318,"w":120,"h":158},
 	"rotated": false,
