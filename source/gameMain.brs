@@ -17,7 +17,7 @@ Sub Main()
     'Constants
     m.code = bslUniversalControlEventCodes()
     m.const = GetConstants()
-    m.colors = { red: &hFF000080, green:&h00FF0080, blue: &h0000FF80, yellow: &hFFD80080, black: &hFF, white: &hFFFFFFFF, gray: &h404040FF, navy: &h100060FF, darkred: &h810000FF }
+    m.colors = { red: &hAA0000FF, green:&h00AA00FF, yellow: &hFFFF55FF, black: &hFF, white: &hFFFFFFFF, gray: &h404040FF, navy: &h100060FF, darkred: &h810000FF }
     'Util objects
     app = CreateObject("roAppManager")
     app.SetTheme(GetTheme())
@@ -41,7 +41,7 @@ Sub Main()
         m.settings.controlMode = m.const.CONTROL_VERTICAL
         m.settings.spriteMode = m.const.SPRITES_DOS
     else if m.settings.modId <> invalid and m.mods[m.settings.modId].sprites
-        m.settings.spriteMode = val(m.settings.modId)
+        m.settings.spriteMode = Val(m.settings.modId)
     end if
     if m.settings.fight = invalid
         m.settings.fight = m.const.FIGHT_ALERT
@@ -103,6 +103,8 @@ Sub Main()
                     m.settings.modId = m.savedGame.modId
                     if m.savedGame.modId <> invalid and m.mods[m.settings.modId].sprites
                         m.settings.spriteMode = Val(m.settings.modId)
+                    else if m.settings.spriteMode > m.const.SPRITES_MAC
+                        m.settings.spriteMode = m.const.SPRITES_DOS
                     end if
                 else
                     m.checkPoint = invalid
@@ -303,19 +305,23 @@ Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
     end if
     'print "scales: "; g.regions.scale; scale
     print "SpriteModes: "; g.regions.spriteMode; spriteMode
+    'Check if a Mod with sprites is loaded
+    useModSprite = (g.settings.modId <> invalid and g.mods[g.settings.modId].sprites and spriteMode = Val(g.settings.modId))
     'Load Regions
     if g.regions.general = invalid or g.regions.spriteMode <> spriteMode or g.regions.scale <> scale
-        g.regions.general = LoadBitmapRegions(scale, path + "general/", "general" + suffix)
         g.regions.scenes = LoadBitmapRegions(scale, path + "scenes/", "scenes" + suffix)
+        if useModSprite and g.files.Exists("pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/general.png")
+            g.regions.general = LoadBitmapRegions(scale, "pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/", "general")
+        else
+            g.regions.general = LoadBitmapRegions(scale, path + "general/", "general" + suffix)
+        end if
         sprites = ["kid", "sword", "princess", "mouse", "vizier"]
         for each name in sprites
             fullPath = path + name + "/"
             fullName = name + suffix
-            if g.settings.modId <> invalid and m.mods[g.settings.modId].sprites and spriteMode = Val(g.settings.modId)
-                if g.files.Exists("pkg:/mods/" + m.mods[g.settings.modId].url + "sprites/" + name + ".png")
-                    fullPath = "pkg:/mods/" + m.mods[g.settings.modId].url + "sprites/"
-                    fullName = name
-                end if
+            if useModSprite and g.files.Exists("pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/" + name + ".png")
+                fullPath = "pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/"
+                fullName = name
             end if
             charArray = []
             charArray.Push(LoadBitmapRegions(scale, fullPath, fullName, fullName, false))
@@ -330,12 +336,10 @@ Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
         fullPath = path + "guards/"
         fullName = guards[i].type + suffix
         fullImage = png + suffix
-        if g.settings.modId <> invalid and m.mods[g.settings.modId].sprites and spriteMode = Val(g.settings.modId)
-            if g.files.Exists("pkg:/mods/" + m.mods[g.settings.modId].url + "sprites/" + png + ".png")
-                fullPath = "pkg:/mods/" + m.mods[g.settings.modId].url + "sprites/"
-                fullName = guards[i].type
-                fullImage = png
-            end if
+        if useModSprite and g.files.Exists("pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/" + png + ".png")
+            fullPath = "pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/"
+            fullName = guards[i].type
+            fullImage = png
         end if
         charArray.Push(LoadBitmapRegions(scale, fullPath, fullName, fullImage, false))
         charArray.Push(LoadBitmapRegions(scale, fullPath, fullName, fullImage, true))
@@ -344,11 +348,21 @@ Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
     if levelType >= 0
         if g.regions.tiles = invalid or g.regions.spriteMode <> spriteMode or g.regions.levelType <> levelType or g.regions.scale <> scale
             g.regions.tiles = invalid
-            if levelType = g.const.TYPE_DUNGEON then
-                g.regions.tiles = LoadBitmapRegions(scale, path + "tiles/", "dungeon" + suffix)
+            fullPath = path + "tiles/"
+            if levelType = g.const.TYPE_DUNGEON
+                fullName = "dungeon" + suffix
+                if useModSprite and g.files.Exists("pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/dungeon.png")
+                    fullPath = "pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/"
+                    fullName = "dungeon"
+                end if
             else
-                g.regions.tiles = LoadBitmapRegions(scale, path + "tiles/" , "palace" + suffix)
+                fullName = "palace" + suffix
+                if useModSprite and g.files.Exists("pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/palace.png")
+                    fullPath = "pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/"
+                    fullName = "palace"
+                end if
             end if
+            g.regions.tiles = LoadBitmapRegions(scale, fullPath, fullName)
         end if
     end if
     g.regions.spriteMode = spriteMode

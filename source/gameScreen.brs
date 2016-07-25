@@ -632,7 +632,11 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
         end if
         if tile.front <> invalid
             if tile.type = m.const.TYPE_PALACE and tile.element = m.const.TILE_WALL
-                wc = m.tileSet.wallColor
+                if m.settings.modId <> invalid and m.files.Exists("pkg:/mods/" + m.mods[m.settings.modId].url + "palettes/wall.pal")
+                    wc = LoadPalette("pkg:/mods/" + m.mods[m.settings.modId].url + "palettes/wall.pal", m.tileSet.wallColor.Count())
+                else
+                    wc = m.tileSet.wallColor
+                end if
                 bmd = CreateObject("roBitmap", {width:m.const.TILE_WIDTH, height:m.const.TILE_HEIGHT, alphaenable:true})
                 bmd.drawrect(0,16,32,20, wc[rnd(wc.count())-1])
                 bmd.drawrect(0,36,16,21, wc[rnd(wc.count())-1])
@@ -641,14 +645,15 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
                 bmd.drawrect(8,57,24,19, wc[rnd(wc.count())-1])
                 bmd.drawrect(0,76,32,3, wc[rnd(wc.count())-1])
 				bms = ScaleBitmap(bmd, m.scale)
-                if m.settings.spriteMode = m.const.SPRITES_MAC
+                if m.settings.spriteMode >= m.const.SPRITES_MAC
                     tb = (m.const.TILE_HEIGHT - m.const.BLOCK_HEIGHT - 3) * m.scale
-                    bms.DrawObject((m.const.TILE_WIDTH - 8) * m.scale, tb + 3 * m.scale, m.regions.tiles.Lookup(WallMarks(0)))
-                    bms.DrawObject(0, tb + 16 * m.scale, m.regions.tiles.Lookup(WallMarks(1)))
-                    bms.DrawObject(0, tb + 38 * m.scale, m.regions.tiles.Lookup(WallMarks(2)))
-                    bms.DrawObject(0, tb + 57 * m.scale, m.regions.tiles.Lookup(WallMarks(3)))
-                    bms.DrawObject(0, tb + 63 * m.scale, m.regions.tiles.Lookup(WallMarks(4)))
+                    DrawWallmark(bms, m.const.BLOCK_WIDTH * m.scale, tb + 10 * m.scale, m.regions.tiles.Lookup(WallMarks(0)))
+                    DrawWallmark(bms, 0, tb + 29 * m.scale, m.regions.tiles.Lookup(WallMarks(1)))
+                    DrawWallmark(bms, 0, tb + 50 * m.scale, m.regions.tiles.Lookup(WallMarks(2)))
+                    DrawWallmark(bms, 0, tb + 63 * m.scale, m.regions.tiles.Lookup(WallMarks(3)))
+                    DrawWallmark(bms, 0, tb + 66 * m.scale, m.regions.tiles.Lookup(WallMarks(4)))
                 end if
+                bmd = invalid
                 frsp = m.compositor.NewSprite(x, y, CreateObject("roRegion",bms,0,0,bms.GetWidth(),bms.GetHeight()), frontZ)
             else
                 tr = m.regions.tiles.Lookup(tile.front)
@@ -720,6 +725,13 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
         m.mobs.Push(obj)
     end if
     tile.redraw = false
+End Sub
+
+Sub DrawWallmark(bms as object, x, y, region)
+    if x > 0 then
+        x = x - region.GetWidth()
+    end if
+    bms.DrawObject(x, y - region.GetHeight(), region)
 End Sub
 
 Sub DestroyMap()

@@ -160,14 +160,14 @@ Function build_tile(x as integer, y as integer, id as integer)
             wallType = wallType + "S"
         end if
         if m.type = m.const.TYPE_DUNGEON
-            if m.spriteMode = m.const.SPRITES_MAC
+            if m.spriteMode <> m.const.SPRITES_DOS
                 tile.front = wallType
             else
                 tile.front = wallType + "_" + itostr(tileSeed)
             end if
         else
 			tile.front = "pattern"
-            if m.spriteMode <> m.const.SPRITES_MAC
+            if m.spriteMode < m.const.SPRITES_MAC
     			tile.child.front.frameName = "W_" + itostr(tileSeed)
     			tile.child.front.y = 16
             end if
@@ -196,6 +196,8 @@ Function build_tile(x as integer, y as integer, id as integer)
 	else if t.element = m.const.TILE_EXIT_RIGHT
         if m.spriteMode = m.const.SPRITES_MAC and m.level.type = m.const.TYPE_DUNGEON
             tile = CreateExitDoor(tile, 5)
+        else if m.spriteMode > m.const.SPRITES_MAC
+            tile = CreateExitDoor(tile, 9, 8)
         else
             tile = CreateExitDoor(tile)
         end if

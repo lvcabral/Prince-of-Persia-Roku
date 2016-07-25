@@ -1,0 +1,796 @@
+{"frames": {
+
+"dungeon_gate_fg":
+{
+	"frame": {"x":3,"y":3,"w":8,"h":57},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":57},
+	"sourceSize": {"w":8,"h":57}
+},
+"dungeon_door":
+{
+	"frame": {"x":11,"y":3,"w":42,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":42,"h":50},
+	"sourceSize": {"w":42,"h":50}
+},
+"dungeon_0":
+{
+	"frame": {"x":543,"y":398,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"SWW":
+{
+	"frame": {"x":483,"y":398,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"SWS":
+{
+	"frame": {"x":423,"y":398,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"WWS":
+{
+	"frame": {"x":363,"y":398,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_1":
+{
+	"frame": {"x":603,"y":398,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_0_0":
+{
+	"frame": {"x":3,"y":477,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_0_3":
+{
+	"frame": {"x":243,"y":477,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_10":
+{
+	"frame": {"x":303,"y":398,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_0_1":
+{
+	"frame": {"x":183,"y":477,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_0_fg":
+{
+	"frame": {"x":63,"y":477,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_0_2":
+{
+	"frame": {"x":123,"y":477,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"WWW":
+{
+	"frame": {"x":243,"y":398,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_10_fg_5":
+{
+	"frame": {"x":483,"y":319,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_15":
+{
+	"frame": {"x":303,"y":477,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_10_fg_2":
+{
+	"frame": {"x":423,"y":319,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_10_fg_3":
+{
+	"frame": {"x":303,"y":319,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_10_fg_1":
+{
+	"frame": {"x":363,"y":319,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_14_fg":
+{
+	"frame": {"x":543,"y":319,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_10_fg":
+{
+	"frame": {"x":183,"y":398,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_11":
+{
+	"frame": {"x":603,"y":319,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_12_fg":
+{
+	"frame": {"x":123,"y":398,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_14":
+{
+	"frame": {"x":3,"y":398,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_11_fg":
+{
+	"frame": {"x":63,"y":398,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_21":
+{
+	"frame": {"x":363,"y":477,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_16":
+{
+	"frame": {"x":3,"y":635,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_2_1":
+{
+	"frame": {"x":243,"y":319,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_15_fg":
+{
+	"frame": {"x":603,"y":556,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_1_2":
+{
+	"frame": {"x":483,"y":556,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_16_fg":
+{
+	"frame": {"x":543,"y":556,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_17_fg":
+{
+	"frame": {"x":63,"y":635,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_18_fg":
+{
+	"frame": {"x":363,"y":635,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_1_1":
+{
+	"frame": {"x":123,"y":635,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_19":
+{
+	"frame": {"x":303,"y":635,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_18":
+{
+	"frame": {"x":183,"y":635,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_1_0":
+{
+	"frame": {"x":243,"y":635,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_17":
+{
+	"frame": {"x":423,"y":556,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_20":
+{
+	"frame": {"x":603,"y":477,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_1_fg":
+{
+	"frame": {"x":363,"y":556,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_2":
+{
+	"frame": {"x":543,"y":477,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_15_down":
+{
+	"frame": {"x":423,"y":477,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_20_fg":
+{
+	"frame": {"x":483,"y":477,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_21_fg":
+{
+	"frame": {"x":3,"y":556,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_22_fg":
+{
+	"frame": {"x":303,"y":556,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_2_0_fg":
+{
+	"frame": {"x":63,"y":556,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_22_bright":
+{
+	"frame": {"x":243,"y":556,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_22":
+{
+	"frame": {"x":123,"y":556,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_2_0":
+{
+	"frame": {"x":183,"y":556,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_10_fg_4":
+{
+	"frame": {"x":183,"y":319,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_2_3":
+{
+	"frame": {"x":243,"y":82,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_19_fg":
+{
+	"frame": {"x":423,"y":635,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_2_2_fg":
+{
+	"frame": {"x":183,"y":82,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_30_fg":
+{
+	"frame": {"x":63,"y":82,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_2_3_fg":
+{
+	"frame": {"x":123,"y":82,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_2_4_fg":
+{
+	"frame": {"x":303,"y":82,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_2_fg":
+{
+	"frame": {"x":603,"y":82,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_30":
+{
+	"frame": {"x":363,"y":82,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_2_5_fg":
+{
+	"frame": {"x":543,"y":82,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_2_5":
+{
+	"frame": {"x":423,"y":82,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_3":
+{
+	"frame": {"x":483,"y":82,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_2_4":
+{
+	"frame": {"x":3,"y":82,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_4_fg":
+{
+	"frame": {"x":233,"y":3,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_3_fg":
+{
+	"frame": {"x":653,"y":3,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_4":
+{
+	"frame": {"x":173,"y":3,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_6_down":
+{
+	"frame": {"x":53,"y":3,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_6":
+{
+	"frame": {"x":113,"y":3,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_6_down_fg":
+{
+	"frame": {"x":293,"y":3,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_8":
+{
+	"frame": {"x":593,"y":3,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_9":
+{
+	"frame": {"x":353,"y":3,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_6_fg":
+{
+	"frame": {"x":533,"y":3,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_2_2":
+{
+	"frame": {"x":413,"y":3,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_8_fg":
+{
+	"frame": {"x":473,"y":3,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_9_fg":
+{
+	"frame": {"x":3,"y":161,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_loose_2":
+{
+	"frame": {"x":423,"y":240,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_slicer_3":
+{
+	"frame": {"x":63,"y":161,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_falling":
+{
+	"frame": {"x":363,"y":240,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_gate":
+{
+	"frame": {"x":243,"y":240,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_door_fg":
+{
+	"frame": {"x":303,"y":240,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_loose_7":
+{
+	"frame": {"x":483,"y":240,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_2_1_fg":
+{
+	"frame": {"x":123,"y":319,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_loose_3":
+{
+	"frame": {"x":543,"y":240,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_loose_5":
+{
+	"frame": {"x":63,"y":319,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_loose_6":
+{
+	"frame": {"x":603,"y":240,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_loose_4":
+{
+	"frame": {"x":3,"y":319,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_loose_8":
+{
+	"frame": {"x":183,"y":240,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_slicer_2":
+{
+	"frame": {"x":303,"y":161,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_loose_1":
+{
+	"frame": {"x":123,"y":240,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_slicer_1_fg":
+{
+	"frame": {"x":243,"y":161,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_wall_1":
+{
+	"frame": {"x":123,"y":161,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_slicer_2_fg":
+{
+	"frame": {"x":183,"y":161,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_slicer_3_fg":
+{
+	"frame": {"x":363,"y":161,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_slicer_1":
+{
+	"frame": {"x":63,"y":240,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_wall_0":
+{
+	"frame": {"x":423,"y":161,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_slicer_5":
+{
+	"frame": {"x":3,"y":240,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_slicer_5_fg":
+{
+	"frame": {"x":543,"y":161,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_slicer_4":
+{
+	"frame": {"x":483,"y":161,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+},
+"dungeon_slicer_4_fg":
+{
+	"frame": {"x":603,"y":161,"w":60,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":79},
+	"sourceSize": {"w":60,"h":79}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "dungeon.png",
+	"format": "RGBA8888",
+	"size": {"w":717,"h":717},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:35ea1fd789028fe16e8afc25a840f60a:2414459f5d87304bd89e4a5fb48e5f32:9c0fba27a8a0c106083a8713f6c67b32$"
+}
+}

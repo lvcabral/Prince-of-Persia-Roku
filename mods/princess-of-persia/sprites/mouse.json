@@ -2,7 +2,7 @@
 
 "mouse-1":
 {
-	"frame": {"x":2,"y":2,"w":17,"h":4},
+	"frame": {"x":3,"y":3,"w":17,"h":4},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":17,"h":4},
@@ -10,7 +10,7 @@
 },
 "mouse-2":
 {
-	"frame": {"x":2,"y":8,"w":19,"h":4},
+	"frame": {"x":3,"y":10,"w":19,"h":4},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":19,"h":4},
@@ -18,7 +18,7 @@
 },
 "mouse-3":
 {
-	"frame": {"x":2,"y":14,"w":12,"h":10},
+	"frame": {"x":3,"y":17,"w":12,"h":10},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":10},
@@ -27,10 +27,10 @@
 "meta": {
 	"app": "http://www.codeandweb.com/texturepacker",
 	"version": "1.0",
-	"image": "mouse-princess.png",
+	"image": "mouse.png",
 	"format": "RGBA8888",
-	"size": {"w":26,"h":26},
+	"size": {"w":30,"h":30},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:01108183e1bf6ef4001b11a812b2b939:b8f124956dc56b449de95954eb415f5a:c84cec57ba25c669da64c5016a94bc24$"
+	"smartupdate": "$TexturePacker:SmartUpdate:063dcded842957603c8a99643c601462:f2ad1e3f1b22d8848802e3ad319c286e:cce20e9c955816a05cd8e3dc11a0bf85$"
 }
 }

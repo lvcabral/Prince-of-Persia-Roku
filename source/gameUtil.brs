@@ -483,6 +483,40 @@ Function FormatTime(seconds as integer) as string
     return textTime
 End Function
 
+Function LoadPalette(file as string, limit = -1 as integer) As Dynamic
+    rsp = ReadAsciiFile(file)
+    palette = []
+    if left(rsp, 8) <> "JASC-PAL"
+        print "Invalid Palette file!"
+        return palette
+    end if
+    rsp = rsp.Mid(rsp.InStr("16") + 3)
+    rsp = rsp.Replace(Chr(13)+Chr(10), " ")
+    rsp = rsp.Replace(Chr(10), " ")
+    obj = rsp.Tokenize(" ")
+    r = -1
+    g = -1
+    b = -1
+    for i = 3 to 47
+        if palette.Count() = limit then exit for
+        if r < 0
+            r = Val(obj[i])
+        else if g < 0
+            g = Val(obj[i])
+        else if b < 0
+            b = Val(obj[i])
+            palette.Push(RGBA(r,g,b))
+            r = -1
+            g = -1
+            b = -1
+        end if
+    next
+    return palette
+End Function
+
+Function RGBA(r as integer, g as integer, b as integer, a = &HFF as integer)
+    return ((r << 24) + (g << 16) + (b << 8) + a)
+End Function
 '------- Download Functions --------
 Function CacheFile(url as string, file as string) as string
     tmpFile = "tmp:/" + file
