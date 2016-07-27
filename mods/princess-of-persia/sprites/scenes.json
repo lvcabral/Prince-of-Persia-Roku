@@ -123,10 +123,10 @@
 "meta": {
 	"app": "http://www.codeandweb.com/texturepacker",
 	"version": "1.0",
-	"image": "scenes-dos.png",
+	"image": "scenes.png",
 	"format": "RGBA8888",
 	"size": {"w":326,"h":326},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:8a2414203012cd869cdefba9dfab243b:a2d26f5d2297a2d370749117c0e8d27d:09494899e9df04583015348fdab0f4b3$"
+	"smartupdate": "$TexturePacker:SmartUpdate:e0830449c79ffc2861cb0a5470f2b1e3:652168a1bfbd3ac7695742661c8ac9b1:ac8fbc0ceb6e9271f0fb32e3f91434d6$"
 }
 }

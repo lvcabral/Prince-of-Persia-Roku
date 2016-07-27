@@ -122,11 +122,11 @@ Sub Main()
                 if m.currentLevel = 1
                     print "Starting opening story..."
                     PlaySong("scene-1a-absence")
-                    skip = TextScreen(m.mainScreen, "text-in-the-absence" + suffix, m.colors.navy, 15000, 7)
+                    skip = TextScreen(m.mainScreen, "text-in-the-absence", m.colors.navy, 15000, 7)
                 end if
                 if not skip then skip = PlayScene(m.gameScreen, m.currentLevel)
                 if m.currentLevel = 1 and not skip
-                    TextScreen(m.mainScreen, "text-marry-jaffar" + suffix, m.colors.navy, 18000, 7)
+                    TextScreen(m.mainScreen, "text-marry-jaffar", m.colors.navy, 18000, 7)
                 end if
                 'Start game
                 ResetGame()
@@ -309,7 +309,11 @@ Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
     useModSprite = (g.settings.modId <> invalid and g.mods[g.settings.modId].sprites and spriteMode = Val(g.settings.modId))
     'Load Regions
     if g.regions.general = invalid or g.regions.spriteMode <> spriteMode or g.regions.scale <> scale
-        g.regions.scenes = LoadBitmapRegions(scale, path + "scenes/", "scenes" + suffix)
+        if useModSprite and g.files.Exists("pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/scenes.png")
+            g.regions.scenes = LoadBitmapRegions(scale, "pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/", "scenes")
+        else
+            g.regions.scenes = LoadBitmapRegions(scale, path + "scenes/", "scenes" + suffix)
+        end if
         if useModSprite and g.files.Exists("pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/general.png")
             g.regions.general = LoadBitmapRegions(scale, "pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/", "general")
         else

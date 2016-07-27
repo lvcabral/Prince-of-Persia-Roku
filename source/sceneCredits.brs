@@ -22,10 +22,25 @@ Sub PlayIntro(screen as object)
 		height = 200
 		suffix = "-dos"
 	end if
+	pngIntro = "pkg:/assets/titles/intro-screen" + suffix + ".png"
+	pngPresents = "pkg:/assets/titles/message-presents" + suffix + ".png"
+	pngAuthor = "pkg:/assets/titles/message-author" + suffix + ".png"
+	pngGame = "pkg:/assets/titles/message-game-name" + suffix + ".png"
+	pngPort = "pkg:/assets/titles/message-port" + suffix + ".png"
+	'Check if there is a configured mod with custom images
+	useModSprite = (m.settings.modId <> invalid and m.mods[m.settings.modId].sprites)
+	if useModSprite
+		modPath = "pkg:/mods/" + m.mods[m.settings.modId].url + "titles/"
+		if m.files.Exists(modPath + "intro-screen.png") then pngIntro = modPath + "intro-screen.png"
+		if m.files.Exists(modPath + "message-presents.png") then pngPresents = modPath + "message-presents.png"
+		if m.files.Exists(modPath + "message-author.png") then pngAuthor = modPath + "message-author.png"
+		if m.files.Exists(modPath + "message-game-name.png") then pngGame = modPath + "message-game-name.png"
+		if m.files.Exists(modPath + "message-game-name.png") then pngPort = modPath + "message-port.png"
+	end if
 	scale = Int(GetScale(screen, width, height))
     centerX = Cint((screen.GetWidth()-(width*scale))/2)
     centerY = Cint((screen.GetHeight()-(height*scale))/2)
-	intro = ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/scenes/images/intro-screen"+suffix+".png"), scale)
+	intro = ScaleBitmap(CreateObject("roBitmap", pngIntro), scale)
     CrossFade(screen, centerX, centerY, GetPaintedBitmap(m.colors.black,width*scale, height*scale,true), intro, 3)
     PlaySong("main-theme")
     msg = wait(2600, m.port)
@@ -36,22 +51,26 @@ Sub PlayIntro(screen as object)
         end if
         if s = 1
             screen.DrawObject(centerX, centerY, intro)
-            screen.DrawObject(centerX + 96*2, centerY + 106*2, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/scenes/images/message-presents"+suffix+".png"),scale))
+            screen.DrawObject(centerX + 96*2, centerY + 106*2, ScaleBitmap(CreateObject("roBitmap", pngPresents),scale))
             delay = 2500
         else if s = 2
             screen.DrawObject(centerX, centerY, intro)
             delay = 2000
         else if s = 3
             screen.DrawObject(centerX, centerY, intro)
-            screen.DrawObject(centerX + 96*2, centerY + 122*2, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/scenes/images/message-author"+suffix+".png"),scale))
+            screen.DrawObject(centerX + 96*2, centerY + 122*2, ScaleBitmap(CreateObject("roBitmap", pngAuthor),scale))
             delay = 4000
         else if s = 4
-            screen.DrawObject(centerX, centerY, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/scenes/images/intro-screen"+suffix+".png"),scale))
+            screen.DrawObject(centerX, centerY, ScaleBitmap(CreateObject("roBitmap", pngIntro),scale))
             delay = 4300
         else if s = 5
             screen.DrawObject(centerX, centerY, intro)
-            screen.DrawObject(centerX + 24*2, centerY + 107*2, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/scenes/images/message-game-name"+suffix+".png"),scale))
-            screen.DrawObject(centerX + 35*2, centerY + 180*2, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/scenes/images/message-port"+suffix+".png"),scale))
+            screen.DrawObject(centerX + 24*2, centerY + 107*2, ScaleBitmap(CreateObject("roBitmap", pngGame),scale))
+			if left(pngPort, 9) = "pkg:/mods"
+            	screen.DrawObject(centerX + 48*2, centerY + 184*2, ScaleBitmap(CreateObject("roBitmap", pngPort),scale))
+			else
+				screen.DrawObject(centerX + 35*2, centerY + 180*2, ScaleBitmap(CreateObject("roBitmap", pngPort),scale))
+			end if
             delay = 8700
         end if
         screen.SwapBuffers()
@@ -69,13 +88,13 @@ Sub PlayEnding()
 		introScale = scale
 	end if
 	PlaySong("victory")
-	skip = TextScreen(m.mainScreen, "text-the-tyrant" + suffix, m.colors.darkred, 19000, 7)
+	skip = TextScreen(m.mainScreen, "text-the-tyrant", m.colors.darkred, 19000, 7)
 	CheckHighScores()
 	ShowHighScores(m.mainScreen, 3000)
 	if skip then return
 	centerX = Cint((m.mainScreen.GetWidth()-(320*scale))/2)
 	centerY = Cint((m.mainScreen.GetHeight()-(200*scale))/2)
-	intro = ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/scenes/images/intro-screen"+suffix+".png"), introScale)
+	intro = ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/titles/intro-screen"+suffix+".png"), introScale)
 	CrossFade(m.mainScreen, centerX, centerY, GetPaintedBitmap(0,320*scale, 200*scale,true), intro, 4)
 	wait(95000, m.port)
 	m.audioPlayer.stop()
@@ -87,12 +106,21 @@ Function TextScreen(screen as object, pngFile as string, color as integer, waitT
     centerX = Cint((screen.GetWidth()-(320*scale))/2)
     centerY = Cint((screen.GetHeight()-(200*scale))/2)
 	canvas = GetPaintedBitmap(color, 320*scale, 200*scale, true)
+	useModSprite = (m.settings.modId <> invalid and m.mods[m.settings.modId].sprites)
 	if m.settings.spriteMode = m.const.SPRITES_MAC
-		canvas.DrawObject(0, 0, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/scenes/images/text-screen-mac.png"), scale / 2))
+		canvas.DrawObject(0, 0, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/titles/text-screen-mac.png"), scale / 2))
+		bmp = CreateObject("roBitmap", "pkg:/assets/titles/" + pngFile + "-mac.png")
+	else if useModSprite and m.files.Exists("pkg:/mods/" + m.mods[m.settings.modId].url + "titles/text-screen.png")
+		modPath = "pkg:/mods/" + m.mods[m.settings.modId].url + "titles/"
+		canvas.DrawObject(0, 0, ScaleBitmap(CreateObject("roBitmap", modPath + "text-screen.png"), scale))
+		bmp = CreateObject("roBitmap", modPath + pngFile + ".png")
 	else
-		canvas.DrawObject(0, 0, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/scenes/images/text-screen-dos.png"), scale))
+		canvas.DrawObject(0, 0, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/titles/text-screen-dos.png"), scale))
+		bmp = CreateObject("roBitmap", "pkg:/assets/titles/" + pngFile + "-dos.png")
     end if
-	bmp = CreateObject("roBitmap", "pkg:/assets/scenes/images/" + pngFile + ".png")
+	if bmp = invalid and m.files.Exists( "pkg:/assets/titles/" + pngFile + ".png")
+		bmp = CreateObject("roBitmap", "pkg:/assets/titles/" + pngFile + ".png")
+	end if
 	if bmp.GetWidth() <= 320 then
 		bmp = ScaleBitmap(bmp, scale)
 	else
@@ -144,11 +172,11 @@ Function ShowHighScores(screen as object, waitTime = 0 as integer)
 	centerY = Cint((screen.GetHeight()-(200*scale))/2)
 	canvas = GetPaintedBitmap( m.colors.darkred, 320 * scale, 200 * scale, true)
 	if m.settings.spriteMode = m.const.SPRITES_MAC
-		canvas.DrawObject(0, 0, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/scenes/images/text-screen-mac.png"), scale / 2))
-		canvas.DrawObject(22 * scale, 22 * scale, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/scenes/images/message-game-name-mac.png"), scale / 2))
+		canvas.DrawObject(0, 0, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/titles/text-screen-mac.png"), scale / 2))
+		canvas.DrawObject(22 * scale, 22 * scale, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/titles/message-game-name-mac.png"), scale / 2))
 	else
-		canvas.DrawObject(0, 0, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/scenes/images/text-screen-dos.png"), scale))
-		canvas.DrawObject(22 * scale, 22 * scale, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/scenes/images/message-game-name-dos.png"), scale))
+		canvas.DrawObject(0, 0, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/titles/text-screen-dos.png"), scale))
+		canvas.DrawObject(22 * scale, 22 * scale, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/titles/message-game-name-dos.png"), scale))
 	end if
 	xn = 72 * scale
 	xt = 217 * scale

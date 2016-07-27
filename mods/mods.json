@@ -6,7 +6,7 @@
          "year": 2004,
          "url": "the-great-escape/",
          "levels": true,
-         "sprites": false,
+         "sprites": true,
          "sounds": false
      },
      "0000004":
@@ -16,7 +16,7 @@
          "year": 2004,
          "url": "new-13-levels/",
          "levels": true,
-         "sprites": false,
+         "sprites": true,
          "sounds": false
      },
      "0000042":

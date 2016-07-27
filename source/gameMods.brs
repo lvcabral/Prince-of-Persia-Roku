@@ -37,7 +37,7 @@ Sub ModsAndCheatsScreen()
         this.modImage = GetModImage(m.settings.modId)
     else
         this.modName = this.modArray[0].name
-        this.modImage = "pkg:/assets/scenes/images/intro-screen-dos.png"
+        this.modImage = "pkg:/assets/titles/intro-screen-dos.png"
     end if
     listItems = GetMenuItems(this)
     this.screen.SetContent(listItems)
@@ -95,7 +95,7 @@ Sub ModsAndCheatsScreen()
                     if this.modIndex > 0
                         listItems[listIndex].HDPosterUrl = GetModImage(this.modArray[this.modIndex].id)
                     else
-                        listItems[listIndex].HDPosterUrl = "pkg:/assets/scenes/images/intro-screen-dos.png"
+                        listItems[listIndex].HDPosterUrl = "pkg:/assets/titles/intro-screen-dos.png"
                     end if
                     listItems[listIndex].SDPosterUrl = listItems[listIndex].HDPosterUrl
                     this.screen.SetItem(listIndex, listItems[listIndex])

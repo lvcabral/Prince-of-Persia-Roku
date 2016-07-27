@@ -41,14 +41,11 @@ Function PlayScene(screen as object, level as integer, fadeIn = true as boolean)
     if fadeIn then m.fade = &hFF else m.fade = 0
     back = GetPaintedBitmap(&hFF, width * imgScale, height * imgScale, true)
     stage.Push(m.compositor.NewSprite(0, 0, CreateObject("roRegion", back, 0, 0, width * imgScale, height * imgScale), 1))
-    room = ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/scenes/images/princess-room" + suffix + ".png"), imgScale)
-    stage.Push(m.compositor.NewSprite(0, 0, CreateObject("roRegion", room, 0, 0, width * imgScale, height * imgScale), 10))
-    pillar = m.regions.scenes.Lookup("room_pillar")
+    stage.Push(m.compositor.NewSprite(0, 0, m.regions.scenes.Lookup("princess-room"), 10))
+    pillar = m.regions.scenes.Lookup("room-pillar")
     if m.settings.spriteMode = m.const.SPRITES_MAC
-        stage.Push(m.compositor.NewSprite(58 * posScale, 109 * posScale, pillar, 30))
         stage.Push(m.compositor.NewSprite(237 * posScale, 109 * posScale, pillar, 30))
     else
-        stage.Push(m.compositor.NewSprite(59 * posScale, 120 * posScale, pillar, 30))
         stage.Push(m.compositor.NewSprite(240 * posScale, 120 * posScale, pillar, 30))
     end if
     front = GetPaintedBitmap(m.fade, width * imgScale, height * imgScale, true)
@@ -72,12 +69,12 @@ Function PlayScene(screen as object, level as integer, fadeIn = true as boolean)
                     m.fade = m.fade - 12
                     if m.fade <= 0 then m.fade = 0
                     front = GetPaintedBitmap(m.fade, width * imgScale, height * imgScale, true)
-                    stage[4].SetRegion(CreateObject("roRegion", front , 0, 0, width * imgScale, height * imgScale))
+                    stage[3].SetRegion(CreateObject("roRegion", front , 0, 0, width * imgScale, height * imgScale))
                 else if scene.sceneState = scene.STATE_FADEOUT
                     m.fade = m.fade + 12
                     if m.fade > &hFF then m.fade = &hFF
                     front = GetPaintedBitmap(m.fade, width * imgScale, height * imgScale, true)
-                    stage[4].SetRegion(CreateObject("roRegion", front, 0, 0, width * imgScale, height * imgScale))
+                    stage[3].SetRegion(CreateObject("roRegion", front, 0, 0, width * imgScale, height * imgScale))
                 end if
                 scene.executeProgram()
         		for each actor in scene.actors

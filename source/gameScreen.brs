@@ -645,26 +645,25 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
                 bmd.drawrect(8,57,24,19, wc[rnd(wc.count())-1])
                 bmd.drawrect(0,76,32,3, wc[rnd(wc.count())-1])
 				bms = ScaleBitmap(bmd, m.scale)
-                if m.settings.spriteMode >= m.const.SPRITES_MAC
-                    tb = (m.const.TILE_HEIGHT - m.const.BLOCK_HEIGHT - 3) * m.scale
-                    DrawWallmark(bms, m.const.BLOCK_WIDTH * m.scale, tb + 10 * m.scale, m.regions.tiles.Lookup(WallMarks(0)))
-                    DrawWallmark(bms, 0, tb + 29 * m.scale, m.regions.tiles.Lookup(WallMarks(1)))
-                    DrawWallmark(bms, 0, tb + 50 * m.scale, m.regions.tiles.Lookup(WallMarks(2)))
-                    DrawWallmark(bms, 0, tb + 63 * m.scale, m.regions.tiles.Lookup(WallMarks(3)))
-                    DrawWallmark(bms, 0, tb + 66 * m.scale, m.regions.tiles.Lookup(WallMarks(4)))
-                end if
+                tb = (m.const.TILE_HEIGHT - m.const.BLOCK_HEIGHT - 3) * m.scale
+                DrawWallmark(bms, m.const.BLOCK_WIDTH * m.scale, tb + 10 * m.scale, m.regions.tiles.Lookup(WallMarks(0)))
+                DrawWallmark(bms, 0, tb + 29 * m.scale, m.regions.tiles.Lookup(WallMarks(1)))
+                DrawWallmark(bms, 0, tb + 50 * m.scale, m.regions.tiles.Lookup(WallMarks(2)))
+                DrawWallmark(bms, 0, tb + 63 * m.scale, m.regions.tiles.Lookup(WallMarks(3)))
+                DrawWallmark(bms, 0, tb + 66 * m.scale, m.regions.tiles.Lookup(WallMarks(4)))
                 bmd = invalid
                 frsp = m.compositor.NewSprite(x, y, CreateObject("roRegion",bms,0,0,bms.GetWidth(),bms.GetHeight()), frontZ)
             else
                 tr = m.regions.tiles.Lookup(tile.front)
                 if tr = invalid and tile.element = m.const.TILE_WALL
-                    tr = m.regions.tiles.Lookup(Left(tile.front,4) + "15")
-                else if tr = invalid
-                    tr = m.regions.tiles.Lookup(tile.key + "_0")
-                    stop
+                    if m.regions.tiles.DoesExist(Left(tile.front, 3))
+                        tr = m.regions.tiles.Lookup(Left(tile.front, 3))
+                    else if m.regions.tiles.DoesExist(Left(tile.front, 4) + "15")
+                        tr = m.regions.tiles.Lookup(Left(tile.front, 4) + "15")
+                    end if
                 end if
+                if tr = invalid then tr = m.regions.tiles.Lookup(tile.key + "_0")
                 frsp = m.compositor.NewSprite(x, y, tr , frontZ)
-                if frsp = invalid then stop
             end if
             m.map.Push(frsp)
             if tile.isWalkable() or tile.element = m.const.TILE_SPACE
