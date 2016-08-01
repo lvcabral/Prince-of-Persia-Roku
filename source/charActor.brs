@@ -371,6 +371,7 @@ End Sub
 
 Sub check_slicer()
     if not m.alive or m.room < 0 then return
+    if m.charAction = "climbdown" or m.charAction = "climbup" then return
     for t = -1 to 1
         tile = m.level.getTileAt(m.blockX + t, m.blockY, m.room)
         if tile.element = m.const.TILE_SLICER
