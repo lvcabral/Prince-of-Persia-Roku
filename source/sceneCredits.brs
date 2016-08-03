@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: April 2016
-' **  Updated: July 2016
+' **  Updated: August 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -12,8 +12,10 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
 
-Sub PlayIntro(screen as object)
-	if m.settings.spriteMode = m.const.SPRITES_MAC
+Function PlayIntro(spriteMode = -1 as integer) as boolean
+	screen = m.mainScreen
+	if spriteMode = -1 then spriteMode = m.settings.spriteMode
+	if spriteMode = m.const.SPRITES_MAC
 		width = 640
 		height = 400
 		suffix = "-mac"
@@ -28,15 +30,15 @@ Sub PlayIntro(screen as object)
 	pngGame = "pkg:/assets/titles/message-game-name" + suffix + ".png"
 	pngPort = "pkg:/assets/titles/message-port" + suffix + ".png"
 	'Check if there is a configured mod with custom images
-	useModSprite = (m.settings.modId <> invalid and m.mods[m.settings.modId].sprites)
-	if useModSprite
+	if m.settings.modId <> invalid and m.mods[m.settings.modId].sprites and spriteMode = Val(m.settings.modId)
 		modPath = "pkg:/mods/" + m.mods[m.settings.modId].url + "titles/"
 		if m.files.Exists(modPath + "intro-screen.png") then pngIntro = modPath + "intro-screen.png"
 		if m.files.Exists(modPath + "message-presents.png") then pngPresents = modPath + "message-presents.png"
 		if m.files.Exists(modPath + "message-author.png") then pngAuthor = modPath + "message-author.png"
 		if m.files.Exists(modPath + "message-game-name.png") then pngGame = modPath + "message-game-name.png"
-		if m.files.Exists(modPath + "message-game-name.png") then pngPort = modPath + "message-port.png"
+		if m.files.Exists(modPath + "message-port.png") then pngPort = modPath + "message-port.png"
 	end if
+	skip = false
 	scale = Int(GetScale(screen, width, height))
     centerX = Cint((screen.GetWidth()-(width*scale))/2)
     centerY = Cint((screen.GetHeight()-(height*scale))/2)
@@ -47,6 +49,7 @@ Sub PlayIntro(screen as object)
     for s = 1 to 5
         if msg <> invalid
             m.audioPlayer.stop()
+			skip = true
             exit for
         end if
         if s = 1
@@ -76,7 +79,8 @@ Sub PlayIntro(screen as object)
         screen.SwapBuffers()
         msg = wait(delay, m.port)
     next
-End Sub
+	return skip
+End Function
 
 Sub PlayEnding()
 	scale = Int(GetScale(m.mainScreen, 320, 200))
@@ -88,7 +92,7 @@ Sub PlayEnding()
 		introScale = scale
 	end if
 	PlaySong("victory")
-	skip = TextScreen(m.mainScreen, "text-the-tyrant", m.colors.darkred, 19000, 7)
+	skip = TextScreen("text-the-tyrant", m.colors.darkred, 19000, 7)
 	CheckHighScores()
 	ShowHighScores(m.mainScreen, 3000)
 	if skip then return
@@ -100,14 +104,16 @@ Sub PlayEnding()
 	m.audioPlayer.stop()
 End Sub
 
-Function TextScreen(screen as object, pngFile as string, color as integer, waitTime = 0 as integer, fadeIn = 4 as integer) as boolean
+Function TextScreen(pngFile as string, color as integer, waitTime = 0 as integer, fadeIn = 4 as integer, spriteMode = -1 as integer) as boolean
+	screen = m.mainScreen
     screen.Clear(0)
     scale = Int(GetScale(screen, 320, 200))
-    centerX = Cint((screen.GetWidth()-(320*scale))/2)
-    centerY = Cint((screen.GetHeight()-(200*scale))/2)
-	canvas = GetPaintedBitmap(color, 320*scale, 200*scale, true)
+    centerX = Cint((screen.GetWidth() - (320 * scale)) / 2)
+    centerY = Cint((screen.GetHeight() - (200 * scale)) / 2)
+	canvas = GetPaintedBitmap(color, 320 * scale, 200 * scale, true)
+	if spriteMode = -1 then spriteMode = m.settings.spriteMode
 	useModSprite = (m.settings.modId <> invalid and m.mods[m.settings.modId].sprites)
-	if m.settings.spriteMode = m.const.SPRITES_MAC
+	if spriteMode = m.const.SPRITES_MAC
 		canvas.DrawObject(0, 0, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/titles/text-screen-mac.png"), scale / 2))
 		bmp = CreateObject("roBitmap", "pkg:/assets/titles/" + pngFile + "-mac.png")
 	else if useModSprite and m.files.Exists("pkg:/mods/" + m.mods[m.settings.modId].url + "titles/text-screen.png")
@@ -128,14 +134,16 @@ Function TextScreen(screen as object, pngFile as string, color as integer, waitT
 	end if
 	canvas.DrawObject(30 * scale, 25 * scale, bmp)
 	if fadeIn > 0
-		CrossFade(screen, centerX, centerY, GetPaintedBitmap(0, 320*scale, 200*scale, true), canvas, fadeIn)
+		CrossFade(screen, centerX, centerY, GetPaintedBitmap(0, 320 * scale, 200 * scale, true), canvas, fadeIn)
 	else
 		screen.DrawObject(centerX, centerY, canvas)
 	end if
-    msg = wait(10, m.port)
     screen.SwapBuffers()
-    msg = wait(waitTime, m.port)
-	return (msg <> invalid)
+	while true
+    	key = wait(waitTime, m.port)
+		if key = invalid or key < 100 then exit while
+	end while
+	return (key <> invalid)
 End Function
 
 Sub CheckHighScores()
@@ -165,7 +173,7 @@ Sub CheckHighScores()
     end if
 End Sub
 
-Function ShowHighScores(screen as object, waitTime = 0 as integer)
+Sub ShowHighScores(screen as object, waitTime = 0 as integer)
 	screen.Clear(0)
 	scale = Int(GetScale(screen, 320, 200))
 	centerX = Cint((screen.GetWidth()-(320*scale))/2)
@@ -190,5 +198,8 @@ Function ShowHighScores(screen as object, waitTime = 0 as integer)
 	screen.SwapBuffers()
 	screen.DrawObject(centerX, centerY, canvas)
 	screen.SwapBuffers()
-	msg = wait(waitTime, m.port)
-End Function
+	while true
+    	key = wait(waitTime, m.port)
+		if key <> invalid and key < 100 then exit while
+	end while
+End Sub

@@ -5,6 +5,8 @@
          "author": "Jalal Noureddine",
          "year": 2004,
          "url": "the-great-escape/",
+         "time": 60,
+         "health": 3,
          "levels": true,
          "sprites": true,
          "sounds": false
@@ -15,6 +17,8 @@
          "author": "Jalal Noureddine",
          "year": 2004,
          "url": "new-13-levels/",
+         "time": 60,
+         "health": 3,
          "levels": true,
          "sprites": true,
          "sounds": false
@@ -25,6 +29,11 @@
          "author": "Maurice Kaltofen (mk1995)",
          "year": 2007,
          "url": "snes-pc-set/",
+         "time": 60,
+         "health": 3,
+         "guards": [ "", "guard", "guard", "guard", "guard", "guard", "fatguard",
+                     "guard", "guard", "guard", "guard", "guard", "guard",
+                     "fatguard", "jaffar", "" ],
          "levels": true,
          "sprites": true,
          "sounds": false
@@ -35,6 +44,8 @@
          "author": "Clive Dent (jeminacek)",
          "year": 2015,
          "url": "princess-of-persia/",
+         "time": 60,
+         "health": 3,
          "levels": false,
          "sprites": true,
          "sounds": true
@@ -45,6 +56,8 @@
          "author": "Jaffar24",
          "year": 2016,
          "url": "prince-of-persia-revisited/",
+         "time": 60,
+         "health": 3,
          "levels": true,
          "sprites": false,
          "sounds": false

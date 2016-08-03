@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: July 2016
-' **  Updated: July 2016
+' **  Updated: August 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -12,9 +12,9 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
 
-Function build_custom(levelId as integer, customUrl as string) as object
+Function build_custom(levelId as integer, mod as object) as object
     DefaultLevelTypes = [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0]
-    DefaultEnemies = [ "", "guard", "guard", "guard", "guard", "guard", "fatguard", "guard", "guard", "guard", "guard", "guard", "guard", "jaffar", "jaffar", "" ]
+    DefaultEnemies = [ "", "guard", "guard", "guard", "guard", "guard", "fatguard", "guard", "guard", "guard", "guard", "guard", "guard", "jaffar", "", "" ]
     if levelId = 12
         xmlFile = "level12a.xml"
     else if levelId = 13
@@ -24,11 +24,13 @@ Function build_custom(levelId as integer, customUrl as string) as object
     else
         xmlFile = "level" + itostr(levelId) + ".xml"
     end if
-    if Left(customUrl,4) = "http"
-        'TODO: Download level xml
+
+    if Left(mod.url,4) = "http"
+        'TODO: Download level xml file
     else
-        rsp = ReadAsciiFile("pkg:/mods/" + customUrl + "levels/" + xmlFile)
+        rsp = ReadAsciiFile("pkg:/mods/" + mod.url + "levels/" + xmlFile)
     end if
+    if mod.guards <> invalid then DefaultEnemies = mod.guards
     xml = CreateObject("roXMLElement")
     if not xml.Parse(rsp) then
          print "Invalid xml for level "; levelId
@@ -76,6 +78,10 @@ Function build_custom(levelId as integer, customUrl as string) as object
                 end if
                 this.rooms[id].tiles.Push(tl)
             next
+            'Add Palace Wall Pattern
+            if this.type = m.const.TYPE_PALACE
+                this.rooms[id].wallPattern = GenerateWallPattern(id)
+            end if
             'Add Guard
             if Val(xmlGuard@location) > 0 and Val(xmlGuard@location) < 31
                 colors = Val(xmlGuard@colors)

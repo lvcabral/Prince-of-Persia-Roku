@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: July 2016
+' **  Updated: August 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -12,14 +12,14 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
 
-Function LoadTiles(levelId as integer, customUrl = "" as string) as object
+Function LoadTiles(levelId as integer) as object
     tileSet = {}
     'Settings
     tileSet.spriteMode = m.settings.spriteMode
 	'Constants
 	tileSet.const = m.const
     tileSet.wallColor = [&hD8A858FF, &hE0A45CFF, &hE0A860FF, &hD8A054FF, &hE0A45CFF, &hD8A458FF, &hE0A858FF, &hD8A860FF]
-	'Methods
+    'Methods
 	tileSet.buildLevel  = build_level
     tileSet.buildCustom = build_custom
     tileSet.buildRooms  = build_rooms
@@ -27,10 +27,10 @@ Function LoadTiles(levelId as integer, customUrl = "" as string) as object
 	tileSet.getRoomId   = get_room_id
 	tileSet.getTileAt   = get_tile_at
     'Read maps
-    if customUrl = ""
-        tileSet.level = tileSet.buildLevel(levelId)
+    if m.settings.modId <> invalid and m.mods[m.settings.modId].levels
+        tileSet.level = tileset.buildCustom(levelId, m.mods[m.settings.modId])
     else
-        tileSet.level = tileset.buildCustom(levelId, customUrl)
+        tileSet.level = tileSet.buildLevel(levelId)
     end if
     tileSet.buildRooms()
     return tileSet
@@ -65,6 +65,9 @@ Function build_level(levelId as integer) as object
                 level.rooms[id].links.hideLeft = NBool(json.room[index].hideLeft)
                 level.rooms[id].links.leftZ = NInt(json.room[index].leftZ, 5)
 				level.rooms[id].tiles = json.room[index].tile
+                if level.type = m.const.TYPE_PALACE
+                    level.rooms[id].wallPattern = GenerateWallPattern(id)
+                end if
 			end if
 		next
 	next
@@ -146,24 +149,18 @@ Function build_tile(x as integer, y as integer, id as integer)
     if t.element = m.const.TILE_WALL
         tileSeed = tileNumber + id
         wallType = ""
-
         if m.getTileAt(x - 1, y, id).element = m.const.TILE_WALL
             wallType = "W"
         else
             wallType = "S"
         end if
         wallType = wallType + "W"
-
         if m.getTileAt(x + 1, y, id).element = m.const.TILE_WALL
             wallType = wallType + "W"
         else
             wallType = wallType + "S"
         end if
-        if m.type = m.const.TYPE_DUNGEON
-            tile.front = wallType + "_" + itostr(tileSeed)
-        else
-			tile.front = "pattern"
-        end if
+        tile.front = wallType + "_" + itostr(tileSeed)
         if wallType.mid(2,1) = "S"
             tile.back = tile.key + "_wall_" + itostr(t.modifier)
         end if
@@ -188,10 +185,8 @@ Function build_tile(x as integer, y as integer, id as integer)
 	else if t.element = m.const.TILE_EXIT_RIGHT
         if m.spriteMode = m.const.SPRITES_MAC and m.level.type = m.const.TYPE_DUNGEON
             tile = CreateExitDoor(tile, 5)
-        else if m.spriteMode > m.const.SPRITES_MAC
-            tile = CreateExitDoor(tile, 9, 8)
         else
-            tile = CreateExitDoor(tile)
+            tile = CreateExitDoor(tile, 9, 8)
         end if
 	else if t.element = m.const.TILE_TORCH or t.element = m.const.TILE_TORCH_WITH_DEBRIS
 		tile.child.back.frames = GenerateFrameNames("fire_", 1, 9, "", true)
@@ -289,8 +284,8 @@ Function get_room_id(x as integer, y as integer) as integer
     return id
 End Function
 
-Function WallMarks(i as integer) as string
-    r = rnd(3) - 1
+Function WallMarks(seed as integer, i as integer) as string
+    r = m.prandom.seq(seed, i, 1, 2)
     if i = 0
         f = "W_" + itostr(r)
     else if i = 1
@@ -304,3 +299,24 @@ Function WallMarks(i as integer) as string
     end if
     return f
 End Function
+
+Function GenerateWallPattern(room as integer) as object
+    Dim wallPattern[3, 4, 11]
+    m.prandom.seed = room
+    m.prandom.get(1)
+    for row = 0 to 2
+        for subrow = 0 to 3
+            if subrow mod 2 = 0 then colorBase = 4 else colorBase = 0
+            prevColor = -1
+            for col = 0 to 10
+                while true
+                    color = colorBase + m.prandom.get(3)
+                    if color <> prevColor then exit while
+                end while
+                wallPattern[row][subrow][col] = color
+                prevColor = color
+            next
+        next
+    next
+    return wallPattern
+ End Function

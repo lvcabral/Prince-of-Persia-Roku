@@ -74,7 +74,7 @@
 },
 "skeleton-18":
 {
-	"frame": {"x":3,"y":81,"w":34,"h":35},
+	"frame": {"x":169,"y":42,"w":34,"h":35},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":34,"h":35},
@@ -82,7 +82,7 @@
 },
 "skeleton-19":
 {
-	"frame": {"x":40,"y":81,"w":28,"h":36},
+	"frame": {"x":3,"y":81,"w":28,"h":36},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":28,"h":36},
@@ -90,7 +90,7 @@
 },
 "skeleton-2":
 {
-	"frame": {"x":71,"y":81,"w":38,"h":34},
+	"frame": {"x":34,"y":81,"w":38,"h":34},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":38,"h":34},
@@ -98,7 +98,7 @@
 },
 "skeleton-20":
 {
-	"frame": {"x":112,"y":81,"w":28,"h":36},
+	"frame": {"x":75,"y":81,"w":28,"h":36},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":28,"h":36},
@@ -106,7 +106,7 @@
 },
 "skeleton-21":
 {
-	"frame": {"x":143,"y":81,"w":28,"h":36},
+	"frame": {"x":106,"y":81,"w":28,"h":36},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":28,"h":36},
@@ -114,7 +114,7 @@
 },
 "skeleton-22":
 {
-	"frame": {"x":3,"y":120,"w":28,"h":36},
+	"frame": {"x":137,"y":81,"w":28,"h":36},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":28,"h":36},
@@ -122,7 +122,7 @@
 },
 "skeleton-23":
 {
-	"frame": {"x":34,"y":120,"w":29,"h":36},
+	"frame": {"x":168,"y":81,"w":29,"h":36},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":29,"h":36},
@@ -130,11 +130,27 @@
 },
 "skeleton-24":
 {
-	"frame": {"x":66,"y":120,"w":23,"h":36},
+	"frame": {"x":3,"y":120,"w":23,"h":36},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":23,"h":36},
 	"sourceSize": {"w":23,"h":36}
+},
+"skeleton-27":
+{
+	"frame": {"x":29,"y":120,"w":29,"h":24},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":29,"h":24},
+	"sourceSize": {"w":29,"h":24}
+},
+"skeleton-28":
+{
+	"frame": {"x":61,"y":120,"w":28,"h":34},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":28,"h":34},
+	"sourceSize": {"w":28,"h":34}
 },
 "skeleton-3":
 {
@@ -197,8 +213,8 @@
 	"version": "1.0",
 	"image": "skeleton.png",
 	"format": "RGBA8888",
-	"size": {"w":200,"h":200},
+	"size": {"w":206,"h":206},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:1c5bc657f1a4d90ee697ada6c9db586c:aeb518b0a1efe8283a6e6683610c82d6:d250a93a37aebe3125719817b45d8e4d$"
+	"smartupdate": "$TexturePacker:SmartUpdate:ffb340ae1d753359f6002579f281e693:8d65eea95e515efecdc0d43bd5e87906:d250a93a37aebe3125719817b45d8e4d$"
 }
 }

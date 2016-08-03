@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: July 2016
+' **  Updated: August 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -18,6 +18,7 @@ Sub Main()
     m.code = bslUniversalControlEventCodes()
     m.const = GetConstants()
     m.colors = { red: &hAA0000FF, green:&h00AA00FF, yellow: &hFFFF55FF, black: &hFF, white: &hFFFFFFFF, gray: &h404040FF, navy: &h100060FF, darkred: &h810000FF }
+    m.maxLevels = 14
     'Util objects
     app = CreateObject("roAppManager")
     app.SetTheme(GetTheme())
@@ -33,7 +34,9 @@ Sub Main()
     m.fonts.Register("pkg:/assets/fonts/PoP.ttf")
     m.bitmapFont = [invalid, LoadBitmapFont(1), LoadBitmapFont(2)]
     m.mods = ParseJson(ReadAsciiFile("pkg:/mods/mods.json"))
+    m.prandom = CreatePseudoRandom()
     m.manifest = GetManifestArray()
+    m.status = []
     'Initialize Settings
     m.settings = LoadSettings()
     if m.settings = invalid
@@ -47,50 +50,49 @@ Sub Main()
         m.settings.fight = m.const.FIGHT_ALERT
         m.settings.rewFF = m.const.REWFF_LEVEL
     end if
-    m.maxLevels = 14
-    m.status = []
     'Game/Debug switches
     m.debugMode = false ' flag to enable/disable debug code
     m.dark = false 'flag for debugging without map tiles paint
     m.intro = true 'flag to enable/disable intro screens
-    m.disclaimer = true 'flag to enable/disable disclaimer
     m.flip = false 'flag to flip the screen vertically
-    'Load saved game
+    'Load saved game and high scores
     m.savedGame = LoadSavedGame()
-    'Load Highscores
     m.highScores = LoadHighScores()
     if m.highScores = invalid then m.highScores = []
     'Check Roku model for performance alert
     if not IsOpenGL()
         MessageDialog("Prince of Persia", "Warning: Your Roku device doesn't support accelerated graphics, this game will not perform well.")
     end if
-    while true
-        'Intro and Start Menu
+    'Play Game Introduction and Disclaimer
+    if m.intro
         if isHD()
             m.mainScreen = CreateObject("roScreen", true, 854, 480)
         else
             m.mainScreen = CreateObject("roScreen", true, 640, 480)
         end if
         m.mainScreen.SetMessagePort(m.port)
-        if m.intro then
-            print "Starting intro..."
-            PlayIntro(m.mainScreen)
-            if m.disclaimer
-                PlaySong("scene-1b-princess", true)
-                TextScreen(m.mainScreen, "text-disclaimer", m.colors.black, 27000, 0)
-            end if
-            m.disclaimer = false
-            m.audioPlayer.stop()
-        end if
+        print "Starting intro..."
+        PlayIntro(m.const.SPRITES_MAC)
+        PlaySong("scene-1b-princess", true)
+        TextScreen("text-disclaimer", m.colors.black, 27000, 0, m.const.SPRITES_MAC)
+        m.audioPlayer.Stop()
+    end if
+    'Main Menu Loop
+    while true
         print "Starting menu..."
-        m.cameras = StartMenu(m.mainScreen)
+        m.cameras = StartMenu()
         if m.cameras > 0
             'Configure screen/game areas based on the configuration
             SetupGameScreen()
             'Setup initial parameters
             m.currentLevel = 1
-            m.startTime = m.const.TIME_LIMIT
-            m.startHealth = m.const.START_HEALTH
+            if m.settings.modId = invalid
+                m.startTime = m.const.TIME_LIMIT
+                m.startHealth = m.const.START_HEALTH
+            else
+                m.startTime = m.mods[m.settings.modId].time * 60
+                m.startHealth = m.mods[m.settings.modId].health
+            end if
             'Restore saved game
             if m.savedGame <> invalid
                 m.mainScreen.Clear(0)
@@ -114,29 +116,35 @@ Sub Main()
             end if
             m.levelTime = m.startTime
             if option <> m.const.BUTTON_CANCEL
-                if m.settings.spriteMode = m.const.SPRITES_MAC then suffix = "-mac" else suffix = "-dos"
                 'Debug: Uncomment the next two lines to start at a specific location
                 'm.currentLevel = 6
                 'm.checkPoint = {room: 1, tile:19, face: 1}
+                print "Starting the Game"
+                'Play introduction and cut scene
                 skip = false
                 if m.currentLevel = 1
-                    print "Starting opening story..."
-                    PlaySong("scene-1a-absence")
-                    skip = TextScreen(m.mainScreen, "text-in-the-absence", m.colors.navy, 15000, 7)
+                    skip = PlayIntro()
+                    if not skip
+                        print "Starting opening story..."
+                        PlaySong("scene-1a-absence")
+                        skip = TextScreen("text-in-the-absence", m.colors.navy, 15000, 7)
+                    end if
                 end if
                 if not skip then skip = PlayScene(m.gameScreen, m.currentLevel)
                 if m.currentLevel = 1 and not skip
-                    TextScreen(m.mainScreen, "text-marry-jaffar", m.colors.navy, 18000, 7)
+                    TextScreen("text-marry-jaffar", m.colors.navy, 18000, 7)
                 end if
-                'Start game
+                'Open Game Screen
                 ResetGame()
-                m.intro = PlayGame()
-            else
-                m.intro = false
+                PlayGame()
             end if
-        else
-            m.intro = true
         end if
+        if isHD()
+            m.mainScreen = CreateObject("roScreen", true, 854, 480)
+        else
+            m.mainScreen = CreateObject("roScreen", true, 640, 480)
+        end if
+        m.mainScreen.SetMessagePort(m.port)
     end while
 End Sub
 
@@ -168,11 +176,7 @@ Sub ResetGame()
         SetupGameScreen()
         g.kid = invalid
     end if
-    if g.settings.modId <> invalid and g.mods[g.settings.modId].levels
-        g.tileSet = LoadTiles(g.currentLevel, g.mods[g.settings.modId].url)
-    else
-        g.tileSet = LoadTiles(g.currentLevel)
-    end if
+    g.tileSet = LoadTiles(g.currentLevel)
     LoadGameSprites(g.tileSet.spriteMode, g.tileSet.level.type, g.scale, g.tileSet.level.guards)
     if g.checkPoint <> invalid
         g.startRoom = g.checkPoint.room

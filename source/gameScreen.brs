@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: May 2016
-' **  Updated: July 2016
+' **  Updated: August 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -41,6 +41,7 @@ Function PlayGame() as boolean
     while true
         event = m.port.GetMessage()
         if type(event) = "roUniversalControlEvent"
+            'Handle Remote Control events
             id = event.GetInt()
             if id = m.code.BUTTON_BACK_PRESSED
                 m.audioPlayer.stop()
@@ -125,6 +126,7 @@ Function PlayGame() as boolean
                 m.kid.cursors.update(id, m.kid.swordDrawn)
             end if
         else if event = invalid
+            'Game screen process
             ticks = m.clock.TotalMilliseconds()
             if ticks > m.speed
                 'Update sprites
@@ -354,7 +356,7 @@ Sub TROBsUpdate()
                 trob.tile.state = trob.tile.STATE_OPEN
                 trob.tile.child.back.height = (8 + trob.tile.type)
                 rgn = trob.sprite.childBack.GetRegion()
-                rgn.offset(0, 50 * m.scale, 0, -50 * m.scale)
+                rgn.Offset(0, 50 * m.scale, 0, -50 * m.scale)
                 trob.tile.drop()
                 PlaySound("exit-door-close")
             end if
@@ -460,6 +462,7 @@ Sub TROBsUpdate()
                 end if
                 trob.sprite.childBack.setDrawableFlag(trob.tile.child.back.visible)
                 trob.sprite.childFront.setDrawableFlag(trob.tile.child.front.visible)
+                if trob.tile.child.front.visible then trob.sprite.childBack.SetZ(30)
             end if
             trob.tile.redraw = false
         end if
@@ -633,35 +636,93 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
         if tile.front <> invalid
             if tile.type = m.const.TYPE_PALACE and tile.element = m.const.TILE_WALL
                 if m.settings.modId <> invalid and m.files.Exists("pkg:/mods/" + m.mods[m.settings.modId].url + "palettes/wall.pal")
-                    wc = LoadPalette("pkg:/mods/" + m.mods[m.settings.modId].url + "palettes/wall.pal", m.tileSet.wallColor.Count())
+                    wc = LoadPalette("pkg:/mods/" + m.mods[m.settings.modId].url + "palettes/wall.pal", 8, 5)
                 else
                     wc = m.tileSet.wallColor
                 end if
+                wp = m.tileSet.level.rooms[tile.room].wallPattern
                 bmd = CreateObject("roBitmap", {width:m.const.TILE_WIDTH, height:m.const.TILE_HEIGHT, alphaenable:true})
-                bmd.drawrect(0,16,32,20, wc[rnd(wc.count())-1])
-                bmd.drawrect(0,36,16,21, wc[rnd(wc.count())-1])
-                bmd.drawrect(16,36,16,21, wc[rnd(wc.count())-1])
-                bmd.drawrect(0,57,8,19, wc[rnd(wc.count())-1])
-                bmd.drawrect(8,57,24,19, wc[rnd(wc.count())-1])
-                bmd.drawrect(0,76,32,3, wc[rnd(wc.count())-1])
+                bmd.DrawRect( 0, 16, 32, 20, wc[wp[tile.roomY][0][tile.roomX]])
+                bmd.DrawRect( 0, 36, 16, 21, wc[wp[tile.roomY][1][tile.roomX]])
+                bmd.DrawRect(16, 36, 16, 21, wc[wp[tile.roomY][1][tile.roomX + 1]])
+                bmd.DrawRect (0, 57,  8, 19, wc[wp[tile.roomY][2][tile.roomX]])
+                bmd.DrawRect( 8, 57, 24, 19, wc[wp[tile.roomY][2][tile.roomX + 1]])
+                bmd.DrawRect( 0, 76, 32,  3, wc[wp[tile.roomY][3][tile.roomX]])
 				bms = ScaleBitmap(bmd, m.scale)
                 tb = (m.const.TILE_HEIGHT - m.const.BLOCK_HEIGHT - 3) * m.scale
-                DrawWallmark(bms, m.const.BLOCK_WIDTH * m.scale, tb + 10 * m.scale, m.regions.tiles.Lookup(WallMarks(0)))
-                DrawWallmark(bms, 0, tb + 29 * m.scale, m.regions.tiles.Lookup(WallMarks(1)))
-                DrawWallmark(bms, 0, tb + 50 * m.scale, m.regions.tiles.Lookup(WallMarks(2)))
-                DrawWallmark(bms, 0, tb + 63 * m.scale, m.regions.tiles.Lookup(WallMarks(3)))
-                DrawWallmark(bms, 0, tb + 66 * m.scale, m.regions.tiles.Lookup(WallMarks(4)))
+                seed = Int(Val(Mid(tile.front, InStr(1, tile.front, "_") + 1)))
+                DrawWallmark(bms, m.const.BLOCK_WIDTH * m.scale, tb + 10 * m.scale, m.regions.tiles.Lookup(WallMarks(seed, 0)))
+                DrawWallmark(bms, 0, tb + 29 * m.scale, m.regions.tiles.Lookup(WallMarks(seed, 1)))
+                DrawWallmark(bms, 0, tb + 50 * m.scale, m.regions.tiles.Lookup(WallMarks(seed, 2)))
+                DrawWallmark(bms, 0, tb + 63 * m.scale, m.regions.tiles.Lookup(WallMarks(seed, 3)))
+                DrawWallmark(bms, 0, tb + 66 * m.scale, m.regions.tiles.Lookup(WallMarks(seed, 4)))
                 bmd = invalid
+                frsp = m.compositor.NewSprite(x, y, CreateObject("roRegion",bms,0,0,bms.GetWidth(),bms.GetHeight()), frontZ)
+            else if tile.element = m.const.TILE_WALL
+                wall = Left(tile.front, 3)
+                seed = Int(Val(Mid(tile.front, InStr(1, tile.front, "_") + 1)))
+                'Create wall bitmap
+                rgw = m.regions.tiles.Lookup(wall)
+                bms = CreateObject("roBitmap", {width:rgw.GetWidth(), height:rgw.GetHeight(), alphaenable:true})
+                bms.DrawObject(0, 0, rgw)
+                'Draw random marks
+                if m.regions.tiles.DoesExist("dungeon_wall_mark_1")
+                    'Setup pseudo random method
+                    m.prandom.seed = seed
+                    m.prandom.get(1) 'discard first value
+                    r = []
+                    r.Push(m.prandom.get(1))
+                    r.Push(m.prandom.get(4))
+                    r.Push(m.prandom.get(1))
+                    r.Push(m.prandom.get(4))
+                    'Gray Tile
+                    if Right(wall, 2) = "WW" and m.prandom.get(4) = 0
+                        bms.DrawObject(0, 16 * m.scale, m.regions.tiles.Lookup("dungeon_wall_random"))
+                    end if
+                    'Tile Dividers
+                    if wall <> "SWS"
+                        divName = "dungeon_wall_divider_" + itostr(r[0] + 1)
+                        bms.DrawObject((8 + r[1]) * m.scale, 37 * m.scale, m.regions.tiles.Lookup(divName))
+                    end if
+                    if Left(wall, 2) = "WW"
+                        divName = "dungeon_wall_divider_" + itostr(r[2] + 1)
+                        bms.DrawObject(r[3] * m.scale, 58 * m.scale, m.regions.tiles.Lookup(divName))
+                    end if
+                    'Wall Marks
+                    if wall = "SWS"
+                        if m.prandom.get(6) = 0
+                            DrawLeftMark(bms, r, m.prandom.get(1))
+                        end if
+                    else if wall = "SWW"
+                        if m.prandom.get(4) = 0
+                            DrawRightMark(bms, r, m.prandom.get(3))
+                        end if
+                        if m.prandom.get(4) = 0
+                            DrawLeftMark(bms, r, m.prandom.get(3))
+                        end if
+                    else if wall = "WWS"
+                        if m.prandom.get(4) = 0
+                            DrawRightMark(bms, r, m.prandom.get(1) + 2)
+                        end if
+                        if m.prandom.get(4) = 0
+                            DrawLeftMark(bms, r, m.prandom.get(4))
+                        end if
+                    else if wall = "WWW"
+                        if m.prandom.get(4) = 0
+                            DrawRightMark(bms, r, m.prandom.get(3))
+                        end if
+                        if m.prandom.get(4) = 0
+                            DrawLeftMark(bms, r, m.prandom.get(4))
+                        end if
+                    end if
+                end if
+                if m.debugMode
+                    font = m.fonts.GetDefaultFont(12, false, false)
+                    bms.DrawText(tile.front, 5, 35, m.colors.black, font)
+                end if
                 frsp = m.compositor.NewSprite(x, y, CreateObject("roRegion",bms,0,0,bms.GetWidth(),bms.GetHeight()), frontZ)
             else
                 tr = m.regions.tiles.Lookup(tile.front)
-                if tr = invalid and tile.element = m.const.TILE_WALL
-                    if m.regions.tiles.DoesExist(Left(tile.front, 3))
-                        tr = m.regions.tiles.Lookup(Left(tile.front, 3))
-                    else if m.regions.tiles.DoesExist(Left(tile.front, 4) + "15")
-                        tr = m.regions.tiles.Lookup(Left(tile.front, 4) + "15")
-                    end if
-                end if
                 if tr = invalid then tr = m.regions.tiles.Lookup(tile.key + "_0")
                 frsp = m.compositor.NewSprite(x, y, tr , frontZ)
             end if
@@ -691,6 +752,11 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
         chfr = tile.child.front
         if chbk.frameName <> invalid
             rgn = m.regions.tiles.Lookup(chbk.frameName).Copy()
+            if tile.element = m.const.TILE_EXIT_RIGHT
+                bmd = CreateObject("roBitmap", {width:rgn.GetWidth(), height:rgn.GetHeight() * 2, alphaenable:true})
+                bmd.DrawObject(0, rgn.GetHeight(), rgn)
+                rgn = CreateObject("roRegion", bmd, 0, rgn.GetHeight(), rgn.GetWidth(), rgn.GetHeight())
+            end if
             if tile.cropY < 0
                 rgn.offset(0, - tile.cropY * m.scale, 0, tile.cropY * m.scale)
             end if
@@ -731,6 +797,46 @@ Sub DrawWallmark(bms as object, x, y, region)
         x = x - region.GetWidth()
     end if
     bms.DrawObject(x, y - region.GetHeight(), region)
+End Sub
+
+Sub DrawLeftMark(bms as object, r as object, rn as integer)
+    i = 0
+    xw = 0
+    if rn > 3
+        i = 2
+        xw = r[3] - r[2] + 6
+    else if rn > 1
+        i = 1
+        xw = r[1] - r[0] + 6
+    end if
+    if rn = 2 or rn = 3 then xw = xw + 8
+    if rn mod 2  = 0
+        yw = 16 + (21 * i)
+        bms.DrawObject(xw * m.scale, yw * m.scale, m.regions.tiles.Lookup("dungeon_wall_mark_1"))
+    else
+        yw = 33 + (21 * i)
+        bms.DrawObject(xw * m.scale, yw * m.scale, m.regions.tiles.Lookup("dungeon_wall_mark_2"))
+    end if
+End Sub
+
+Sub DrawRightMark(bms as object, r as object, rn as integer)
+    i = 0
+    xw = 24
+    if rn > 3
+        i = 2
+        xw = r[1] - 3
+    else if rn > 1
+        i = 1
+        xw = r[1] - 3
+    end if
+    if rn > 1 then xw = xw + 8
+    if rn mod 2  = 0
+        yw = 17 + (21 * i)
+        bms.DrawObject(xw * m.scale, yw * m.scale, m.regions.tiles.Lookup("dungeon_wall_mark_3"))
+    else
+        yw = 27 + (21 * i)
+        bms.DrawObject(xw * m.scale, yw * m.scale, m.regions.tiles.Lookup("dungeon_wall_mark_4"))
+    end if
 End Sub
 
 Sub DestroyMap()

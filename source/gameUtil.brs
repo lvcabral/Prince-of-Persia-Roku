@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: July 2016
+' **  Updated: August 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -483,7 +483,7 @@ Function FormatTime(seconds as integer) as string
     return textTime
 End Function
 
-Function LoadPalette(file as string, limit = -1 as integer) As Dynamic
+Function LoadPalette(file as string, limit = -1 as integer, ignore = -1 as integer) As Dynamic
     rsp = ReadAsciiFile(file)
     palette = []
     if left(rsp, 8) <> "JASC-PAL"
@@ -497,6 +497,7 @@ Function LoadPalette(file as string, limit = -1 as integer) As Dynamic
     r = -1
     g = -1
     b = -1
+    color = 1
     for i = 3 to 47
         if palette.Count() = limit then exit for
         if r < 0
@@ -505,10 +506,11 @@ Function LoadPalette(file as string, limit = -1 as integer) As Dynamic
             g = Val(obj[i])
         else if b < 0
             b = Val(obj[i])
-            palette.Push(RGBA(r,g,b))
+            if color <> ignore then palette.Push(RGBA(r,g,b))
             r = -1
             g = -1
             b = -1
+            color = color + 1
         end if
     next
     return palette
@@ -530,6 +532,32 @@ Function CacheFile(url as string, file as string) as string
         end if
     end if
     return tmpFile
+End Function
+
+'------- Random Functions -------
+Function CreatePseudoRandom()
+    return {seed: 0, get: get_prandom, seq: seq_prandom}
+End Function
+
+Function get_prandom(max as integer) as integer
+    m.seed = m.seed * 214013 + 2531011
+    return ((m.seed >> 16) mod (max + 1))
+End Function
+
+Function seq_prandom(seed as integer, n as integer, p as integer, max as integer) as integer
+    r0 = -1
+    r1 = -1
+	m.seed = seed
+    m.get(1)
+    for i = 0 to n
+        if i mod p = 0 then r0 = -1
+        while true
+            r1 = m.get(max)
+            if r1 <> r0 then exit while
+        end while
+        r0 = r1
+    next
+    return r1
 End Function
 
 '------- Roku Screens Functions ----

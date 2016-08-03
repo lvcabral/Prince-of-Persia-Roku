@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: April 2016
-' **  Updated: July 2016
+' **  Updated: August 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -12,7 +12,8 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
 
-Function StartMenu(screen as object) as integer
+Function StartMenu() as integer
+    screen = m.mainScreen
     screen.Clear(0)
     scale = Int(GetScale(screen, 640, 432))
     centerX = Cint((screen.GetWidth()-(640*scale))/2)
