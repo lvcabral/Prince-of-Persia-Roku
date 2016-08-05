@@ -1,284 +1,138 @@
 {"frames": {
-
-"sword14":
-{
-	"frame": {"x":3,"y":3,"w":28,"h":3},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":28,"h":3},
-	"sourceSize": {"w":28,"h":3}
-},
-"sword20":
-{
-	"frame": {"x":34,"y":3,"w":21,"h":3},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":21,"h":3},
-	"sourceSize": {"w":21,"h":3}
-},
-"sword17":
-{
-	"frame": {"x":58,"y":3,"w":14,"h":4},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":4},
-	"sourceSize": {"w":14,"h":4}
-},
-"sword3":
-{
-	"frame": {"x":75,"y":3,"w":21,"h":4},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":21,"h":4},
-	"sourceSize": {"w":21,"h":4}
-},
-"sword2":
-{
-	"frame": {"x":3,"y":10,"w":16,"h":5},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":5},
-	"sourceSize": {"w":16,"h":5}
-},
-"sword18":
-{
-	"frame": {"x":22,"y":10,"w":21,"h":6},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":21,"h":6},
-	"sourceSize": {"w":21,"h":6}
-},
-"sword27":
-{
-	"frame": {"x":46,"y":10,"w":21,"h":6},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":21,"h":6},
-	"sourceSize": {"w":21,"h":6}
-},
-"sword11":
-{
-	"frame": {"x":70,"y":10,"w":21,"h":6},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":21,"h":6},
-	"sourceSize": {"w":21,"h":6}
-},
-"sword13":
-{
-	"frame": {"x":3,"y":19,"w":28,"h":6},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":28,"h":6},
-	"sourceSize": {"w":28,"h":6}
-},
-"sword7":
-{
-	"frame": {"x":34,"y":19,"w":21,"h":7},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":21,"h":7},
-	"sourceSize": {"w":21,"h":7}
-},
-"sword5":
-{
-	"frame": {"x":58,"y":19,"w":21,"h":8},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":21,"h":8},
-	"sourceSize": {"w":21,"h":8}
-},
-"sword30":
-{
-	"frame": {"x":82,"y":19,"w":15,"h":8},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":8},
-	"sourceSize": {"w":15,"h":8}
-},
-"sword33":
-{
-	"frame": {"x":100,"y":19,"w":14,"h":8},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":8},
-	"sourceSize": {"w":14,"h":8}
-},
-"sword4":
-{
-	"frame": {"x":3,"y":30,"w":21,"h":8},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":21,"h":8},
-	"sourceSize": {"w":21,"h":8}
-},
-"sword6":
-{
-	"frame": {"x":27,"y":30,"w":14,"h":8},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":8},
-	"sourceSize": {"w":14,"h":8}
-},
-"sword26":
-{
-	"frame": {"x":44,"y":30,"w":28,"h":8},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":28,"h":8},
-	"sourceSize": {"w":28,"h":8}
-},
-"sword29":
-{
-	"frame": {"x":75,"y":30,"w":14,"h":9},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":9},
-	"sourceSize": {"w":14,"h":9}
-},
-"sword15":
-{
-	"frame": {"x":92,"y":30,"w":21,"h":9},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":21,"h":9},
-	"sourceSize": {"w":21,"h":9}
-},
-"sword31":
-{
-	"frame": {"x":3,"y":42,"w":21,"h":10},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":21,"h":10},
-	"sourceSize": {"w":21,"h":10}
-},
-"sword28":
-{
-	"frame": {"x":27,"y":42,"w":14,"h":11},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":11},
-	"sourceSize": {"w":14,"h":11}
-},
-"sword25":
-{
-	"frame": {"x":44,"y":42,"w":28,"h":11},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":28,"h":11},
-	"sourceSize": {"w":28,"h":11}
-},
-"sword32":
-{
-	"frame": {"x":75,"y":42,"w":21,"h":11},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":21,"h":11},
-	"sourceSize": {"w":21,"h":11}
-},
-"sword8":
-{
-	"frame": {"x":99,"y":42,"w":14,"h":12},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":12},
-	"sourceSize": {"w":14,"h":12}
-},
-"sword12":
-{
-	"frame": {"x":3,"y":57,"w":21,"h":12},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":21,"h":12},
-	"sourceSize": {"w":21,"h":12}
-},
-"sword19":
-{
-	"frame": {"x":27,"y":57,"w":14,"h":12},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":12},
-	"sourceSize": {"w":14,"h":12}
-},
-"sword34":
-{
-	"frame": {"x":44,"y":57,"w":14,"h":12},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":12},
-	"sourceSize": {"w":14,"h":12}
-},
 "sword1":
 {
-	"frame": {"x":61,"y":57,"w":7,"h":13},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":7,"h":13},
-	"sourceSize": {"w":7,"h":13}
-},
-"sword16":
-{
-	"frame": {"x":71,"y":57,"w":14,"h":14},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":14},
-	"sourceSize": {"w":14,"h":14}
-},
-"sword9":
-{
-	"frame": {"x":88,"y":57,"w":21,"h":16},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":21,"h":16},
-	"sourceSize": {"w":21,"h":16}
+	"frame": {"x":98 ,"y":17,"w":7,"h":13}
 },
 "sword10":
 {
-	"frame": {"x":3,"y":76,"w":15,"h":18},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":18},
-	"sourceSize": {"w":15,"h":18}
+	"frame": {"x":79 ,"y":25,"w":15,"h":18}
 },
-"sword24":
+"sword11":
 {
-	"frame": {"x":21,"y":76,"w":14,"h":19},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":19},
-	"sourceSize": {"w":14,"h":19}
+	"frame": {"x":86 ,"y":0,"w":21,"h":6}
 },
-"sword23":
+"sword12":
 {
-	"frame": {"x":38,"y":76,"w":14,"h":20},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":20},
-	"sourceSize": {"w":14,"h":20}
+	"frame": {"x":0 ,"y":31,"w":21,"h":12}
 },
-"sword22":
+"sword13":
 {
-	"frame": {"x":55,"y":76,"w":14,"h":22},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":22},
-	"sourceSize": {"w":14,"h":22}
+	"frame": {"x":31 ,"y":0,"w":28,"h":6}
+},
+"sword14":
+{
+	"frame": {"x":0 ,"y":25,"w":28,"h":3}
+},
+"sword15":
+{
+	"frame": {"x":24 ,"y":44,"w":21,"h":9}
+},
+"sword16":
+{
+	"frame": {"x":0 ,"y":87,"w":14,"h":14}
+},
+"sword17":
+{
+	"frame": {"x":89 ,"y":57,"w":14,"h":4}
+},
+"sword18":
+{
+	"frame": {"x":48 ,"y":32,"w":21,"h":6}
+},
+"sword19":
+{
+	"frame": {"x":17 ,"y":88,"w":14,"h":12}
+},
+"sword2":
+{
+	"frame": {"x":79 ,"y":17,"w":16,"h":5}
+},
+"sword20":
+{
+	"frame": {"x":79 ,"y":11,"w":21,"h":3}
 },
 "sword21":
 {
-	"frame": {"x":72,"y":76,"w":14,"h":24},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":24},
-	"sourceSize": {"w":14,"h":24}
-}},
-"meta": {
-	"app": "http://www.codeandweb.com/texturepacker",
-	"version": "1.0",
-	"image": "sword.png",
-	"format": "RGBA8888",
-	"size": {"w":117,"h":117},
-	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:4a6b39fe126ab193e09c98cdbae69b90:35e513c8660e0b53ed433e225c72d9be:2597d2c8665b9351097b94acbdb5cdb3$"
-}
+	"frame": {"x":0 ,"y":60,"w":14,"h":24}
+},
+"sword22":
+{
+	"frame": {"x":17 ,"y":63,"w":14,"h":22}
+},
+"sword23":
+{
+	"frame": {"x":34 ,"y":63,"w":14,"h":20}
+},
+"sword24":
+{
+	"frame": {"x":51 ,"y":61,"w":14,"h":19}
+},
+"sword25":
+{
+	"frame": {"x":0 ,"y":0,"w":28,"h":11}
+},
+"sword26":
+{
+	"frame": {"x":0 ,"y":14,"w":28,"h":8}
+},
+"sword27":
+{
+	"frame": {"x":48 ,"y":41,"w":21,"h":6}
+},
+"sword28":
+{
+	"frame": {"x":68 ,"y":61,"w":14,"h":11}
+},
+"sword29":
+{
+	"frame": {"x":51 ,"y":83,"w":14,"h":9}
+},
+"sword3":
+{
+	"frame": {"x":24 ,"y":56,"w":21,"h":4}
+},
+"sword30":
+{
+	"frame": {"x":48 ,"y":50,"w":15,"h":8}
+},
+"sword31":
+{
+	"frame": {"x":24 ,"y":31,"w":21,"h":10}
+},
+"sword32":
+{
+	"frame": {"x":0 ,"y":46,"w":21,"h":11}
+},
+"sword33":
+{
+	"frame": {"x":89 ,"y":46,"w":14,"h":8}
+},
+"sword34":
+{
+	"frame": {"x":34 ,"y":86,"w":14,"h":12}
+},
+"sword4":
+{
+	"frame": {"x":62 ,"y":0,"w":21,"h":8}
+},
+"sword5":
+{
+	"frame": {"x":55 ,"y":11,"w":21,"h":8}
+},
+"sword6":
+{
+	"frame": {"x":68 ,"y":75,"w":14,"h":8}
+},
+"sword7":
+{
+	"frame": {"x":55 ,"y":22,"w":21,"h":7}
+},
+"sword8":
+{
+	"frame": {"x":72 ,"y":46,"w":14,"h":12}
+},
+"sword9":
+{
+	"frame": {"x":31 ,"y":9,"w":21,"h":16}
+}}
 }

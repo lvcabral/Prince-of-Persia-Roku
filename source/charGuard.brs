@@ -204,7 +204,7 @@ Sub process_command_guard()
             m.updateFrame()
             command = false
         else if data.cmd = m.const.CMD_DIE
-            if m.charName = "jaffar"
+            if m.charName = "vizier"
                 m.opponent.effect = m.opponent.colors.white
                 PlaySound("jaffar-death")
             else if m.charName <> "shadow"

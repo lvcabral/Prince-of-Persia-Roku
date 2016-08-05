@@ -323,7 +323,7 @@ Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
         else
             g.regions.general = LoadBitmapRegions(scale, path + "general/", "general" + suffix)
         end if
-        sprites = ["kid", "sword", "princess", "mouse", "vizier"]
+        sprites = ["kid", "sword", "princess", "mouse", "jaffar"]
         for each name in sprites
             fullPath = path + name + "/"
             fullName = name + suffix

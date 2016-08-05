@@ -96,7 +96,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":6,"h":5},
 	"sourceSize": {"w":6,"h":5}
 },
-"jaffar-live":
+"vizier-live":
 {
 	"frame": {"x":109,"y":3,"w":6,"h":5},
 	"rotated": false,
@@ -432,7 +432,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":28,"h":26},
 	"sourceSize": {"w":28,"h":26}
 },
-"jaffar-splash":
+"vizier-splash":
 {
 	"frame": {"x":34,"y":106,"w":28,"h":26},
 	"rotated": false,

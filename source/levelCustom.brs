@@ -14,7 +14,7 @@
 
 Function build_custom(levelId as integer, mod as object) as object
     DefaultLevelTypes = [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0]
-    DefaultEnemies = [ "", "guard", "guard", "guard", "guard", "guard", "fatguard", "guard", "guard", "guard", "guard", "guard", "guard", "jaffar", "", "" ]
+    DefaultEnemies = [ "", "guard", "guard", "guard", "guard", "guard", "fatguard", "guard", "guard", "guard", "guard", "guard", "guard", "vizier", "", "" ]
     if levelId = 12
         xmlFile = "level12a.xml"
     else if levelId = 13

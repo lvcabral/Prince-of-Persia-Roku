@@ -33,7 +33,7 @@
          "health": 3,
          "guards": [ "", "guard", "guard", "guard", "guard", "guard", "fatguard",
                      "guard", "guard", "guard", "guard", "guard", "guard",
-                     "fatguard", "jaffar", "" ],
+                     "fatguard", "vizier", "" ],
          "levels": true,
          "sprites": true,
          "sounds": false

@@ -1,6 +1,6 @@
 {
     "program": [ { "i": "ADD_ACTOR", "p1": 0, "p2": "princess", "p3": 62,  "p4": 167, "p5": -1 },
-                 { "i": "ADD_ACTOR", "p1": 1, "p2": "vizier", "p3": 140, "p4": 167, "p5": -1 },
+                 { "i": "ADD_ACTOR", "p1": 1, "p2": "jaffar", "p3": 140, "p4": 167, "p5": -1 },
                  { "i": "START" },
                  { "i": "WAIT", "p1": 20 },
                  { "i": "PLAY_SONG", "p1": "scene-1b-princess" },

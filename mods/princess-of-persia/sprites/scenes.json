@@ -1,132 +1,50 @@
 {"frames": {
-
-"star1":
+"clock01":
 {
-	"frame": {"x":3,"y":3,"w":1,"h":1},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":1,"h":1},
-	"sourceSize": {"w":1,"h":1}
-},
-"star0":
-{
-	"frame": {"x":7,"y":3,"w":1,"h":1},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":1,"h":1},
-	"sourceSize": {"w":1,"h":1}
-},
-"star2":
-{
-	"frame": {"x":11,"y":3,"w":1,"h":1},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":1,"h":1},
-	"sourceSize": {"w":1,"h":1}
-},
-"clocksand03":
-{
-	"frame": {"x":15,"y":3,"w":2,"h":8},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":2,"h":8},
-	"sourceSize": {"w":2,"h":8}
-},
-"clocksand02":
-{
-	"frame": {"x":20,"y":3,"w":2,"h":8},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":2,"h":8},
-	"sourceSize": {"w":2,"h":8}
-},
-"clocksand01":
-{
-	"frame": {"x":25,"y":3,"w":2,"h":8},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":2,"h":8},
-	"sourceSize": {"w":2,"h":8}
-},
-"room-pillar":
-{
-	"frame": {"x":30,"y":3,"w":16,"h":48},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":48},
-	"sourceSize": {"w":16,"h":48}
-},
-"clock03":
-{
-	"frame": {"x":49,"y":3,"w":19,"h":28},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":19,"h":28},
-	"sourceSize": {"w":19,"h":28}
+	"frame": {"x":0 ,"y":203,"w":19,"h":28}
 },
 "clock02":
 {
-	"frame": {"x":71,"y":3,"w":19,"h":28},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":19,"h":28},
-	"sourceSize": {"w":19,"h":28}
+	"frame": {"x":22 ,"y":203,"w":19,"h":28}
 },
-"clock06":
+"clock03":
 {
-	"frame": {"x":93,"y":3,"w":19,"h":28},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":19,"h":28},
-	"sourceSize": {"w":19,"h":28}
-},
-"clock07":
-{
-	"frame": {"x":115,"y":3,"w":19,"h":28},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":19,"h":28},
-	"sourceSize": {"w":19,"h":28}
-},
-"clock01":
-{
-	"frame": {"x":137,"y":3,"w":19,"h":28},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":19,"h":28},
-	"sourceSize": {"w":19,"h":28}
-},
-"clock05":
-{
-	"frame": {"x":159,"y":3,"w":19,"h":28},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":19,"h":28},
-	"sourceSize": {"w":19,"h":28}
+	"frame": {"x":44 ,"y":203,"w":19,"h":28}
 },
 "clock04":
 {
-	"frame": {"x":181,"y":3,"w":19,"h":28},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":19,"h":28},
-	"sourceSize": {"w":19,"h":28}
+	"frame": {"x":66 ,"y":203,"w":19,"h":28}
+},
+"clock05":
+{
+	"frame": {"x":88 ,"y":203,"w":19,"h":28}
+},
+"clock06":
+{
+	"frame": {"x":110 ,"y":203,"w":19,"h":28}
+},
+"clock07":
+{
+	"frame": {"x":132 ,"y":203,"w":19,"h":28}
+},
+"clocksand01":
+{
+	"frame": {"x":0 ,"y":234,"w":2,"h":8}
+},
+"clocksand02":
+{
+	"frame": {"x":5 ,"y":234,"w":2,"h":8}
+},
+"clocksand03":
+{
+	"frame": {"x":10 ,"y":234,"w":2,"h":8}
 },
 "princess-room":
 {
-	"frame": {"x":3,"y":54,"w":320,"h":200},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":320,"h":200},
-	"sourceSize": {"w":320,"h":200}
-}},
-"meta": {
-	"app": "http://www.codeandweb.com/texturepacker",
-	"version": "1.0",
-	"image": "scenes.png",
-	"format": "RGBA8888",
-	"size": {"w":326,"h":326},
-	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:e0830449c79ffc2861cb0a5470f2b1e3:652168a1bfbd3ac7695742661c8ac9b1:ac8fbc0ceb6e9271f0fb32e3f91434d6$"
-}
+	"frame": {"x":0 ,"y":0,"w":320,"h":200}
+},
+"room-pillar":
+{
+	"frame": {"x":154 ,"y":203,"w":16,"h":48}
+}}
 }
