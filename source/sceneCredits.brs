@@ -92,9 +92,9 @@ Sub PlayEnding()
 		introScale = scale
 	end if
 	PlaySong("victory")
-	skip = TextScreen("text-the-tyrant", m.colors.darkred, 19000, 7)
+	TextScreen("text-the-tyrant", m.colors.darkred, 19000, 7)
 	CheckHighScores()
-	ShowHighScores(m.mainScreen, 3000)
+	skip = ShowHighScores(m.mainScreen, 3000)
 	if skip then return
 	centerX = Cint((m.mainScreen.GetWidth()-(320*scale))/2)
 	centerY = Cint((m.mainScreen.GetHeight()-(200*scale))/2)
@@ -155,7 +155,7 @@ Sub CheckHighScores()
         newScores.Push({name: "", time: m.timeLeft})
     else
         for each score in m.highScores
-            if m.timeLeft > score.time
+            if m.timeLeft > score.time and index < 0
                 index = counter
                 newScores.Push({name: "", time: m.timeLeft})
                 counter = counter + 1
@@ -165,6 +165,10 @@ Sub CheckHighScores()
             counter = counter + 1
             if counter = 7 then exit for
         next
+		if counter < 7 and index < 0
+			index = counter
+			newScores.Push({name: "", time: m.timeLeft})
+		end if
     end if
     if index >= 0
         newScores[index].name = KeyboardScreen("", "Please type your name")
@@ -173,7 +177,7 @@ Sub CheckHighScores()
     end if
 End Sub
 
-Sub ShowHighScores(screen as object, waitTime = 0 as integer)
+Function ShowHighScores(screen as object, waitTime = 0 as integer) as boolean
 	screen.Clear(0)
 	scale = Int(GetScale(screen, 320, 200))
 	centerX = Cint((screen.GetWidth()-(320*scale))/2)
@@ -200,6 +204,7 @@ Sub ShowHighScores(screen as object, waitTime = 0 as integer)
 	screen.SwapBuffers()
 	while true
     	key = wait(waitTime, m.port)
-		if key <> invalid and key < 100 then exit while
+		if key = invalid or key < 100 then exit while
 	end while
-End Sub
+	return (key<>invalid)
+End Function
