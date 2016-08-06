@@ -105,7 +105,7 @@ Sub start_level(level as object, startRoom as integer, startTile as integer, sta
     m.fallingBlocks = 0
     m.success = false
     m.cursors.shift = false
-    m.effect = m.colors.black
+    m.effect = {color: m.colors.black, cycles: 0}
     m.cycles = 0
     m.maxHealth = startHealth
     m.health = m.maxHealth
@@ -365,13 +365,15 @@ Sub process_command_kid()
             if m.charAction = "drinkpotion"
                 if m.potion = m.const.POTION_HEALTH
                     if m.health < m.maxHealth
-                        m.effect = m.colors.red
+                        m.effect.color = m.colors.red
+                        m.effect.cycles = 3
                         m.health = m.health + 1
                         PlaySound("small-life-potion")
                     end if
                 else if m.potion = m.const.POTION_LIFE
                     if m.maxHealth < m.const.LIMIT_HEALTH
-                        m.effect = m.colors.red
+                        m.effect.color = m.colors.red
+                        m.effect.cycles = 3
                         m.maxHealth = m.maxHealth + 1
                         m.health = m.maxHealth
                         PlaySound("big-life-potion")
@@ -380,7 +382,8 @@ Sub process_command_kid()
                     m.injured(true)
                     PlaySound("harm")
                 else if m.potion = m.const.POTION_WEIGHTLESS
-                    m.effect = m.colors.green
+                    m.effect.color = m.colors.green
+                    m.effect.cycles = 3
                     m.isWeightless = true
                     PlaySound("weightless-potion")
                 else if m.potion = m.const.POTION_INVERT
@@ -388,7 +391,8 @@ Sub process_command_kid()
                 end if
                 m.potion = 0
             else if  m.charAction = "pickupsword"
-                m.effect = m.colors.yellow
+                m.effect.color = m.colors.yellow
+                m.effect.cycles = 3
             end if
         else if data.cmd = m.const.CMD_JARU
 			m.level.shakeFloor(m.blockY - 1,m.room)
@@ -424,9 +428,6 @@ Sub process_command_kid()
             m.health = 0
             m.alive = false
 			m.swordDrawn = false
-        end if
-        if data.cmd <> m.const.CMD_FRAME and data.cmd <> m.const.CMD_EFFECT and m.effect <> m.colors.black
-            m.effect = m.colors.black
         end if
         m.seqPointer = m.seqPointer + 1
     end while
@@ -919,7 +920,8 @@ Sub land_kid(tile as object)
     end if
     m.processCommand()
     if m.action() = "hardland"
-        m.effect = m.colors.red
+        m.effect.color = m.colors.red
+        m.effect.cycles = 1
     end if
 End Sub
 
@@ -1054,6 +1056,8 @@ Sub injured_kid(singleDamage = false as boolean)
     else if m.swordDrawn
         m.action("stabbed")
     end if
+    m.effect.color = m.colors.red
+    m.effect.cycles = 1
     m.splash.visible = true
 End Sub
 

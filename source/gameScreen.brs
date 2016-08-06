@@ -138,11 +138,11 @@ Function PlayGame() as boolean
                 special = CheckSpecialEvents()
                 if special = m.const.SPECIAL_CONTINUE
                     GuardsUpdate()
-                    CheckForOpponent(m.kid.room)
+                    CheckForOpponent()
                     TROBsUpdate()
                     MOBsUpdate()
                     MaskUpdate()
-                    FlashBackGround(m.kid.effect)
+                    FlashBackGround()
                     SoundUpdate()
                     if CheckGameTimer() then return true
                     'Paint Screen
@@ -863,16 +863,20 @@ Sub DestroyMap()
     end if
 End Sub
 
-Sub FlashBackGround(effect as integer)
-    if effect <> m.colors.black
+Sub FlashBackGround()
+    if m.kid.effect.color <> m.colors.black and m.kid.effect.cycles > 0
         m.flash = not m.flash
         if m.flash
-            m.map[0].SetRegion(CreateObject("roRegion",GetPaintedBitmap(effect,m.gameWidth, m.gameHeight,true),0,0,m.gameWidth, m.gameHeight))
+            bmp = GetPaintedBitmap(m.kid.effect.color, m.gameWidth, m.gameHeight, true)
+            m.kid.effect.cycles = m.kid.effect.cycles - 1
         else
-            m.map[0].SetRegion(CreateObject("roRegion",GetPaintedBitmap(m.colors.black,m.gameWidth, m.gameHeight,true),0,0,m.gameWidth, m.gameHeight))
+            bmp = GetPaintedBitmap(m.colors.black, m.gameWidth, m.gameHeight, true)
         end if
+        m.map[0].SetRegion(CreateObject("roRegion", bmp, 0, 0, m.gameWidth, m.gameHeight))
     else if m.flash
-        m.map[0].SetRegion(CreateObject("roRegion",GetPaintedBitmap(m.colors.black,m.gameWidth, m.gameHeight,true),0,0,m.gameWidth, m.gameHeight))
+        bmp = GetPaintedBitmap(m.colors.black, m.gameWidth, m.gameHeight,true)
+        m.map[0].SetRegion(CreateObject("roRegion", bmp, 0, 0, m.gameWidth, m.gameHeight))
+        m.kid.effect.cycles = 0
         m.flash = false
     end if
 End Sub
@@ -976,10 +980,10 @@ Function CheckPlateHitFromAbove(st as object, sk as object) as boolean
     return  res
 End Function
 
-Sub CheckForOpponent(room as integer)
+Sub CheckForOpponent()
     if m.settings.fight = m.const.FIGHT_FROZEN then return
     for each guard in m.guards
-        if guard.room = room and guard.alive and guard.opponent = invalid and guard.active
+        if guard.room = m.kid.room and guard.alive and guard.opponent = invalid and guard.active
             m.kid.opponent = guard
             guard.opponent = m.kid
             if not m.kid.haveSword then m.kid.flee = true

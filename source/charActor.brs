@@ -387,7 +387,10 @@ Sub check_slicer()
                 m.charY = (m.blocky + 1) * m.const.BLOCK_HEIGHT - 10
                 m.updateBlockXY()
                 m.swordDrawn = false
-                if m.charName = "kid" then m.effect = m.colors.white
+                if m.charName = "kid"
+                    m.effect.color = m.colors.white
+                    m.effect.cycles = 1
+                end if
                 m.action("halve")
                 PlaySound("sliced", false, 75)
                 exit for
@@ -797,6 +800,9 @@ Sub stabbed_fighter()
     end if
     if m.charName = "shadow" and m.opponent <> invalid
         m.opponent.stabbed()
+    else if m.charName = "kid"
+        m.effect.color = m.colors.red
+        m.effect.cycles = 1
     end if
     m.splash.visible = true
 End Sub

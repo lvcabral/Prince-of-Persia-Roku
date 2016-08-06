@@ -268,7 +268,8 @@ Function CheckSpecialEvents() as integer
                 if objList <> invalid
                     for each obj in objList
                         if obj.GetData() = "shadow"
-                            m.kid.effect =  m.colors.white
+                            m.kid.effect.color =  m.colors.white
+                            m.kid.effect.cycles = 20
                             m.kid.cycles = 50
                             m.kid.face = shadow.face
                             shadow.visible = false
@@ -281,10 +282,9 @@ Function CheckSpecialEvents() as integer
                     shadow.action(m.kid.action())
                 end if
             else if m.kid.cycles > 0
-                if m.kid.cycles > 30 then m.kid.effect =  m.colors.white
                 if m.kid.cycles = 1 then PlaySound("success")
                 if m.kid.cycles mod 2 = 0
-                    swRegion = m.regions.shadow[m.kid.face].Lookup("shadow-" + itostr(m.kid.frame))
+                    swRegion = m.regions.guards.shadow[m.kid.face].Lookup("shadow-" + itostr(m.kid.frame))
                     if swRegion <> invalid then m.kid.sprite.SetRegion(swRegion)
                 end if
                 m.kid.cycles = m.kid.cycles - 1
