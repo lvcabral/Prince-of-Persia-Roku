@@ -269,7 +269,7 @@ Function CheckSpecialEvents() as integer
                     for each obj in objList
                         if obj.GetData() = "shadow"
                             m.kid.effect.color =  m.colors.white
-                            m.kid.effect.cycles = 20
+                            m.kid.effect.cycles = 10
                             m.kid.cycles = 50
                             m.kid.face = shadow.face
                             shadow.visible = false
