@@ -105,8 +105,8 @@ Function build_custom(levelId as integer, mod as object) as object
         this.guards.Unshift({"room":11, "location":5, "skill":3, "colors":0, "type":"shadow", "direction":1, "active": false, "visible": false})
     else if levelId = 6 and this.rooms[1] <> invalid
         this.guards.Unshift({"room":1, "location":11, "skill":3, "colors":0, "type":"shadow", "direction":1, "active": false, "visible": false})
-    else if levelId = 12 and this.rooms[15] <> invalid and this.rooms[22] <> invalid
-        this.guards.Unshift({"room":22, "location":21, "skill":3, "colors":0, "type":"shadow", "direction":1, "active": false, "visible": false})
+    else if levelId = 12 and this.rooms[15] <> invalid
+        this.guards.Unshift({"room":15, "location":2, "skill":3, "colors":0, "type":"shadow", "direction":1, "active": false, "visible": false})
     end if
     'Add events
     events = xml.GetNamedElements("events").GetChildElements()

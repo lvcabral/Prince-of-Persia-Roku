@@ -2,7 +2,7 @@
 ' ********************************************************************************************************
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **  Created: May 2016
-' **  Updated: July 2016
+' **  Updated: August 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -304,7 +304,7 @@ End Sub
 
 Sub check_floor()
     if m.charAction = "climbdown" or m.charAction = "climbup" or m.room < 0 or not m.alive or not m.visible
-         return
+        return
     end if
     if m.actionCode = 0 or m.actionCode = 1 or m.actionCode = 7 or m.actionCode = 5
         if m.charFcheck

@@ -575,6 +575,7 @@ Sub DrawLevelRooms(xOffset = 0 as integer, yOffset = 0 as integer, maxWidth=1280
     if m.dark then return
     'Draw level rooms
     m.map = [m.compositor.NewSprite(0, 0, CreateObject("roRegion",GetPaintedBitmap(255,maxWidth,maxHeight,true),0,0,maxWidth,maxHeight), 1)]
+    m.map[0].SetMemberFlags(0)
     m.trobs = []
     for ry = m.tileSet.level.height - 1 to 0 step -1
 		for rx = 0 to m.tileSet.level.width - 1
@@ -626,6 +627,7 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
                 yd = tileRegion.GetHeight() - m.const.TILE_HEIGHT * m.scale
             end if
             sprite = m.compositor.NewSprite(x, y - yd, tileRegion, backZ)
+            sprite.SetMemberFlags(0)
             if tile.isWalkable() or tile.element = m.const.TILE_SPACE
                 if tile.backSprite <> invalid  then tile.backSprite.Remove()
                 tile.backSprite = sprite
@@ -658,6 +660,7 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
                 DrawWallmark(bms, 0, tb + 66 * m.scale, m.regions.tiles.Lookup(WallMarks(seed, 4)))
                 bmd = invalid
                 frsp = m.compositor.NewSprite(x, y, CreateObject("roRegion",bms,0,0,bms.GetWidth(),bms.GetHeight()), frontZ)
+                frsp.SetMemberFlags(0)
             else if tile.element = m.const.TILE_WALL
                 wall = Left(tile.front, 3)
                 seed = Int(Val(Mid(tile.front, InStr(1, tile.front, "_") + 1)))
@@ -726,6 +729,7 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
                 if tr = invalid then tr = m.regions.tiles.Lookup(tile.key + "_0")
                 frsp = m.compositor.NewSprite(x, y, tr , frontZ)
             end if
+            frsp.SetMemberFlags(0)
             m.map.Push(frsp)
             if tile.isWalkable() or tile.element = m.const.TILE_SPACE
                 'link the tile to allow masking
@@ -762,6 +766,7 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
             end if
             spbk = m.compositor.NewSprite(x + chbk.x * m.scale, (y - yd) + chbk.y * m.scale, rgn, backZ)
             spbk.setDrawableFlag(chbk.visible)
+            spbk.SetMemberFlags(0)
             if tile.isTrob() then obj.sprite.childBack = spbk
             m.map.Push(spbk)
         else if tile.child.back.frames <> invalid
@@ -770,6 +775,7 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
                 animation.Push(m.regions.general.Lookup(frameName))
             next
             spbk = m.compositor.NewAnimatedSprite(x + chbk.x * m.scale, (y - yd) + chbk.y * m.scale, animation, backZ)
+            spbk.SetMemberFlags(0)
             if tile.isTrob() then obj.sprite.childBack = spbk
             m.map.Push(spbk)
         end if
@@ -779,6 +785,7 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
                 chrg = m.regions.tiles.Lookup("W_15")
             end if
             spfr = m.compositor.NewSprite(x + chfr.x * m.scale, (y - yd) + chfr.y * m.scale, chrg , frontZ)
+            spfr.SetMemberFlags(0)
             spfr.setDrawableFlag(chfr.visible)
             if tile.isTrob() then obj.sprite.childFront = spfr
             m.map.Push(spfr)

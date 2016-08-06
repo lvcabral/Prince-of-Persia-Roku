@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: June 2016
-' **  Updated: July 2016
+' **  Updated: August 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -246,7 +246,9 @@ Function CheckSpecialEvents() as integer
         if m.kid.room = 15 and not shadow.meet
             if m.kid.blockX = 9 and m.kid.blockY = 1
                 m.kid.level.removeObject(1, 0, 15)
-            else if m.kid.blockX = 6 and m.kid.blockY = 0 and not shadow.visible
+            else if m.kid.blockX <= 6 and m.kid.blockY = 0 and not shadow.visible
+                shadow.charY = 0
+                shadow.startfall()
                 shadow.visible = true
             else if not shadow.active and shadow.visible and shadow.action() = "stoop"
                 shadow.action("standup")

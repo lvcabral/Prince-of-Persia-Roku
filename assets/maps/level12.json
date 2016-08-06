@@ -3065,8 +3065,8 @@
    ],
    "guards":[
        {
-          "room":22,
-          "location":21,
+          "room":15,
+          "location":2,
           "skill":3,
           "colors":0,
           "type":"shadow",
