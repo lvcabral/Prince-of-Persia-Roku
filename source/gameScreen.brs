@@ -637,8 +637,13 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
         end if
         if tile.front <> invalid
             if tile.type = m.const.TYPE_PALACE and tile.element = m.const.TILE_WALL
-                if m.settings.modId <> invalid and m.files.Exists("pkg:/mods/" + m.mods[m.settings.modId].url + "palettes/wall.pal")
-                    wc = LoadPalette("pkg:/mods/" + m.mods[m.settings.modId].url + "palettes/wall.pal", 8, 5)
+                useMod = (m.settings.modId <> invalid and m.mods[m.settings.modId].palettes and m.settings.spriteMode = Val(m.settings.modId))
+                if useMod
+                    modPath = m.mods[m.settings.modId].url + m.mods[m.settings.modId].path
+                    if Left(modPath, 3) = "pkg" then modPath = modPath + "palettes/"
+                end if
+                if useMod and m.files.Exists(modPath + "wall.pal")
+                    wc = LoadPalette(modPath + "wall.pal", 8, 5)
                 else
                     wc = m.tileSet.wallColor
                 end if

@@ -22,6 +22,7 @@ Function CreateCutscene(level as integer, scale as float) as object
 	'Scene script properties
 	this.level = level
 	this.scale = scale
+	print "Loading cut scene:"; this.level
     sceneJson = ParseJson(ReadAsciiFile("pkg:/assets/scenes/scene" + itostr(this.level) + ".json"))
 	if sceneJson <> invalid
 		this.program = sceneJson.program

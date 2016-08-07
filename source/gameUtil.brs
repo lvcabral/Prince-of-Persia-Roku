@@ -231,6 +231,7 @@ Function LoadBitmapRegions(scale as float, path as string, jsonFile as string, p
     if pngFile = ""
         pngFile = jsonFile
     end if
+    print "loading ";path + jsonFile + ".json"
     json = ParseJson(ReadAsciiFile(path + jsonFile + ".json"))
     regions = {}
     if json <> invalid
@@ -519,17 +520,17 @@ End Function
 Function RGBA(r as integer, g as integer, b as integer, a = &HFF as integer)
     return ((r << 24) + (g << 16) + (b << 8) + a)
 End Function
+
 '------- Download Functions --------
-Function CacheFile(url as string, file as string) as string
+Function CacheFile(url as string, file as string, overwrite = false as boolean) as string
     tmpFile = "tmp:/" + file
-    if not m.files.Exists(tmpFile)
+    if overwrite or not m.files.Exists(tmpFile)
         http = CreateObject("roUrlTransfer")
-        'http.SetPort(CreateObject("roMessagePort"))
         http.SetUrl(url)
-        print url
         if http.GetToFile(tmpFile) <> 200
             tmpFile = ""
         end if
+        print "CacheFile: "; url; " to "; tmpFile
     end if
     return tmpFile
 End Function

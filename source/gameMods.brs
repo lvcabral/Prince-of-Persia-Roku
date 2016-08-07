@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: July 2016
-' **  Updated: July 2016
+' **  Updated: August 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -11,6 +11,78 @@
 ' **
 ' ********************************************************************************************************
 ' ********************************************************************************************************
+
+Function LoadMods() as object
+    'Edit the line below to add the URL where you are hosting your mods
+    m.webMods = "http://YOURDOMAIN/MODSFOLDER/"
+    'Load internal Mods
+    mods = ParseJson(ReadAsciiFile("pkg:/mods/mods.json"))
+    'Load remote Mods (if available)
+    if CacheFile( m.webMods + "mods.json", "mods.json") <> ""
+        modsWeb = ParseJson(ReadAsciiFile("tmp:/mods.json"))
+        if modsWeb <> invalid then mods.Append(modsWeb)
+    end if
+    return mods
+End Function
+
+Sub DownloadMod(mod as object)
+    modUrl = m.webMods + mod.path
+    if not m.files.Exists("tmp:/" + mod.path) then m.files.CreateDirectory("tmp:/" + mod.path)
+    if mod.levels
+        TextBox(m.mainScreen, 600, 50, "Loading " + mod.name + " levels...")
+        for l = 1 to 11
+            file = "level" + itostr(l) + ".xml"
+            CacheFile(modUrl + "levels/" + file, mod.path + file)
+        next
+        CacheFile(modUrl + "levels/level12a.xml", mod.path + "level12a.xml")
+        CacheFile(modUrl + "levels/level12b.xml", mod.path + "level12b.xml")
+        CacheFile(modUrl + "levels/princess.xml", mod.path + "princess.xml")
+    end if
+    if mod.titles
+        TextBox(m.mainScreen, 600, 50, "Loading " + mod.name + " titles...")
+        CacheFile(modUrl + "titles/intro-screen.png", mod.path + "intro-screen.png")
+        CacheFile(modUrl + "titles/message-author.png", mod.path + "message-author.png")
+        CacheFile(modUrl + "titles/message-game-name.png", mod.path + "message-game-name.png")
+        CacheFile(modUrl + "titles/message-port.png", mod.path + "message-port.png")
+        CacheFile(modUrl + "titles/message-presents.png", mod.path + "message-presents.png")
+        CacheFile(modUrl + "titles/text-in-the-absence.png", mod.path + "text-in-the-absence.png")
+        CacheFile(modUrl + "titles/text-marry-jaffar.png", mod.path + "text-marry-jaffar.png")
+        CacheFile(modUrl + "titles/text-screen.png", mod.path + "text-screen.png")
+        CacheFile(modUrl + "titles/text-the-tyrant.png", mod.path + "text-the-tyrant.png")
+    end if
+    if mod.palettes then CacheFile(modUrl + "palettes/wall.pal", mod.path + "wall.pal")
+    if mod.sprites and mod.files <> invalid and mod.files.sprites <> invalid
+        TextBox(m.mainScreen, 600, 50, "Loading " + mod.name + " sprites...")
+        for each file in mod.files.sprites
+            if file = "guards"
+                CacheFile(modUrl + "sprites/guard.json", mod.path + "guard.json")
+                for g = 1 to 7
+                    guard = "guard" + itostr(g)
+                    CacheFile(modUrl + "sprites/" + guard + ".png", mod.path + guard + ".png")
+                next
+            else
+                CacheFile(modUrl + "sprites/" + file + ".json", mod.path + file + ".json", true)
+                CacheFile(modUrl + "sprites/" + file + ".png", mod.path + file + ".png", true)
+            end if
+        next
+    end if
+    if mod.sounds and mod.files <> invalid and mod.files.sounds <> invalid
+        TextBox(m.mainScreen, 600, 50, "Loading " + mod.name + " sounds...")
+        for each file in mod.files.sounds
+            CacheFile(modUrl + "sounds/" + file + ".wav", mod.path + file + ".wav", true)
+        next
+    end if
+End Sub
+
+Function GetModImage(modId as string) as string
+    mod = m.mods[modId]
+    if Left(mod.url,3) = "pkg"
+        modImage = mod.url + mod.path + modId + "_1.png"
+    else
+        modImage = CacheFile(m.webMods + mod.path + modId + "_1.png", modId + "_1.png")
+    end if
+    return modImage
+End Function
 
 Sub ModsAndCheatsScreen()
     this = {
@@ -75,7 +147,11 @@ Sub ModsAndCheatsScreen()
                     m.settings.modId = this.modArray[this.modIndex].id
                     m.settings.fight = this.fightIndex
                     m.settings.rewFF = this.rewFFIndex
-                    if this.modArray[this.modIndex].sprites then m.settings.spriteMode = val(m.settings.modId)
+                    if this.modArray[this.modIndex].sprites
+                        m.settings.spriteMode = val(m.settings.modId)
+                    else if m.settings.spriteMode <> m.const.SPRITES_MAC
+                        m.settings.spriteMode = m.const.SPRITES_DOS
+                    end if
                     SaveSettings(m.settings)
                     MessageDialog("Prince of Persia", "Your selections are saved!", this.port)
                 end if
@@ -184,8 +260,4 @@ Function ModDescription(mod as object) as string
         modFeatures = modFeatures + "Sounds"
     end if
     return modAuthor + modFeatures
-End Function
-
-Function GetModImage(modId as string) as string
-    return CacheFile("http://www.popot.org/custom_levels/screenshots/" + modId + "_1.png", modId + "_1.png")
 End Function

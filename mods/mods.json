@@ -1,25 +1,16 @@
 {
-     "0000003":
-     {
-         "name": "The Great Escape",
-         "author": "Jalal Noureddine",
-         "year": 2004,
-         "url": "the-great-escape/",
-         "time": 60,
-         "health": 3,
-         "levels": true,
-         "sprites": true,
-         "sounds": false
-     },
      "0000004":
      {
          "name": "New 13 Levels",
          "author": "Jalal Noureddine",
          "year": 2004,
-         "url": "new-13-levels/",
+		 "url": "pkg:/mods/",
+         "path": "new-13-levels/",
          "time": 60,
          "health": 3,
          "levels": true,
+         "titles": false,
+         "palettes": false,
          "sprites": true,
          "sounds": false
      },
@@ -28,13 +19,16 @@
          "name": "SNES-PC-set",
          "author": "Maurice Kaltofen (mk1995)",
          "year": 2007,
-         "url": "snes-pc-set/",
+		 "url": "pkg:/mods/",
+         "path": "snes-pc-set/",
          "time": 60,
          "health": 3,
          "guards": [ "", "guard", "guard", "guard", "guard", "guard", "fatguard",
                      "guard", "guard", "guard", "guard", "guard", "guard",
                      "fatguard", "vizier", "" ],
          "levels": true,
+         "titles": false,
+         "palettes": true,
          "sprites": true,
          "sounds": false
      },
@@ -43,10 +37,13 @@
          "name": "Princess of Persia",
          "author": "Clive Dent (jeminacek)",
          "year": 2015,
-         "url": "princess-of-persia/",
+		 "url": "pkg:/mods/",
+         "path": "princess-of-persia/",
          "time": 60,
          "health": 3,
          "levels": false,
+         "titles": true,
+         "palettes": true,
          "sprites": true,
          "sounds": true
      },
@@ -55,10 +52,13 @@
          "name": "Prince of Persia Revisited",
          "author": "Jaffar24",
          "year": 2016,
-         "url": "prince-of-persia-revisited/",
+		 "url": "pkg:/mods/",
+         "path": "prince-of-persia-revisited/",
          "time": 60,
          "health": 3,
          "levels": true,
+         "titles": false,
+         "palettes": false,
          "sprites": false,
          "sounds": false
      }

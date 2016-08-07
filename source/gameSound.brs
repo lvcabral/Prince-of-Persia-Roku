@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: July 2016
+' **  Updated: August 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -32,14 +32,16 @@ End Function
 Sub LoadModSounds()
     if m.settings.modId <> invalid and m.mods[m.settings.modId].sounds
         m.sounds.modId = invalid
+        modPath = m.mods[m.settings.modId].url + m.mods[m.settings.modId].path
+        if Left(modPath, 3) = "pkg" then modPath = modPath + "sounds/"
         for each name in m.sounds.metadata.clips
             clip = m.sounds.metadata.clips.Lookup(name)
-            wav = "pkg:/mods/" + m.mods[m.settings.modId].url + "sounds/" + name + ".wav"
+            wav = modPath + name + ".wav"
             if clip.type = "wav" and m.files.Exists(wav)
-                m.sounds.AddReplace(name,CreateObject("roAudioResource", wav))
+                m.sounds.AddReplace(name, CreateObject("roAudioResource", wav))
                 m.sounds.modId = m.settings.modId
             else if clip.type = "wav"
-                m.sounds.AddReplace(name,CreateObject("roAudioResource", "pkg:/assets/sounds/" + name + ".wav"))
+                m.sounds.AddReplace(name, CreateObject("roAudioResource", "pkg:/assets/sounds/" + name + ".wav"))
             end if
         next
     else if m.sounds.modId <> invalid
@@ -47,7 +49,7 @@ Sub LoadModSounds()
         for each name in m.sounds.metadata.clips
             clip = m.sounds.metadata.clips.Lookup(name)
             if clip.type = "wav"
-                m.sounds.AddReplace(name,CreateObject("roAudioResource", "pkg:/assets/sounds/" + name + ".wav"))
+                m.sounds.AddReplace(name, CreateObject("roAudioResource", "pkg:/assets/sounds/" + name + ".wav"))
             end if
         next
     end if

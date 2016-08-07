@@ -33,7 +33,7 @@ Sub Main()
     m.fonts = CreateObject("roFontRegistry")
     m.fonts.Register("pkg:/assets/fonts/PoP.ttf")
     m.bitmapFont = [invalid, LoadBitmapFont(1), LoadBitmapFont(2)]
-    m.mods = ParseJson(ReadAsciiFile("pkg:/mods/mods.json"))
+    m.mods = LoadMods()
     m.prandom = CreatePseudoRandom()
     m.manifest = GetManifestArray()
     m.status = []
@@ -84,15 +84,6 @@ Sub Main()
         if m.cameras > 0
             'Configure screen/game areas based on the configuration
             SetupGameScreen()
-            'Setup initial parameters
-            m.currentLevel = 1
-            if m.settings.modId = invalid
-                m.startTime = m.const.TIME_LIMIT
-                m.startHealth = m.const.START_HEALTH
-            else
-                m.startTime = m.mods[m.settings.modId].time * 60
-                m.startHealth = m.mods[m.settings.modId].health
-            end if
             'Restore saved game
             if m.savedGame <> invalid
                 m.mainScreen.Clear(0)
@@ -103,9 +94,9 @@ Sub Main()
                     m.startTime = m.savedGame.time
                     m.startHealth = m.savedGame.health
                     m.settings.modId = m.savedGame.modId
-                    if m.savedGame.modId <> invalid and m.mods[m.settings.modId].sprites
+                    if m.settings.modId <> invalid and m.mods[m.settings.modId].sprites
                         m.settings.spriteMode = Val(m.settings.modId)
-                    else if m.settings.spriteMode > m.const.SPRITES_MAC
+                    else if m.settings.modId <> invalid or m.settings.spriteMode > m.const.SPRITES_MAC
                         m.settings.spriteMode = m.const.SPRITES_DOS
                     end if
                 else
@@ -114,11 +105,23 @@ Sub Main()
             else
                 option = m.const.BUTTON_NO
             end if
-            m.levelTime = m.startTime
             if option <> m.const.BUTTON_CANCEL
+                'Setup initial parameters
+                m.currentLevel = 1
+                if m.settings.modId = invalid
+                    m.startTime = m.const.TIME_LIMIT
+                    m.startHealth = m.const.START_HEALTH
+                else
+                    m.startTime = m.mods[m.settings.modId].time * 60
+                    m.startHealth = m.mods[m.settings.modId].health
+                    if Left(m.mods[m.settings.modId].url, 3) = "tmp"
+                        DownloadMod(m.mods[m.settings.modId])
+                    end if
+                end if
+                m.levelTime = m.startTime
                 'Debug: Uncomment the next two lines to start at a specific location
-                'm.currentLevel = 6
-                'm.checkPoint = {room: 1, tile:19, face: 1}
+                ' m.currentLevel = 12
+                ' m.checkPoint = {room: 15, tile:8, face: 1}
                 print "Starting the Game"
                 'Play introduction and cut scene
                 skip = false
@@ -311,15 +314,19 @@ Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
     print "SpriteModes: "; g.regions.spriteMode; spriteMode
     'Check if a Mod with sprites is loaded
     useModSprite = (g.settings.modId <> invalid and g.mods[g.settings.modId].sprites and spriteMode = Val(g.settings.modId))
+    if useModSprite
+        modPath = g.mods[g.settings.modId].url + g.mods[g.settings.modId].path
+        if Left(modPath, 3) = "pkg" then modPath = modPath + "sprites/"
+    end if
     'Load Regions
     if g.regions.general = invalid or g.regions.spriteMode <> spriteMode or g.regions.scale <> scale
-        if useModSprite and g.files.Exists("pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/scenes.png")
-            g.regions.scenes = LoadBitmapRegions(scale, "pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/", "scenes")
+        if useModSprite and g.files.Exists(modPath + "scenes.png")
+            g.regions.scenes = LoadBitmapRegions(scale, modPath, "scenes")
         else
             g.regions.scenes = LoadBitmapRegions(scale, path + "scenes/", "scenes" + suffix)
         end if
-        if useModSprite and g.files.Exists("pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/general.png")
-            g.regions.general = LoadBitmapRegions(scale, "pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/", "general")
+        if useModSprite and g.files.Exists(modPath + "general.png")
+            g.regions.general = LoadBitmapRegions(scale, modPath, "general")
         else
             g.regions.general = LoadBitmapRegions(scale, path + "general/", "general" + suffix)
         end if
@@ -327,8 +334,8 @@ Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
         for each name in sprites
             fullPath = path + name + "/"
             fullName = name + suffix
-            if useModSprite and g.files.Exists("pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/" + name + ".png")
-                fullPath = "pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/"
+            if useModSprite and g.files.Exists(modPath + name + ".png")
+                fullPath = modPath
                 fullName = name
             end if
             charArray = []
@@ -344,8 +351,8 @@ Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
         fullPath = path + "guards/"
         fullName = guards[i].type + suffix
         fullImage = png + suffix
-        if useModSprite and g.files.Exists("pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/" + png + ".png")
-            fullPath = "pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/"
+        if useModSprite and g.files.Exists(modPath + png + ".png")
+            fullPath = modPath
             fullName = guards[i].type
             fullImage = png
         end if
@@ -359,14 +366,14 @@ Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
             fullPath = path + "tiles/"
             if levelType = g.const.TYPE_DUNGEON
                 fullName = "dungeon" + suffix
-                if useModSprite and g.files.Exists("pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/dungeon.png")
-                    fullPath = "pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/"
+                if useModSprite and g.files.Exists(modPath + "dungeon.png")
+                    fullPath = modPath
                     fullName = "dungeon"
                 end if
             else
                 fullName = "palace" + suffix
-                if useModSprite and g.files.Exists("pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/palace.png")
-                    fullPath = "pkg:/mods/" + g.mods[g.settings.modId].url + "sprites/"
+                if useModSprite and g.files.Exists(modPath + "palace.png")
+                    fullPath = modPath
                     fullName = "palace"
                 end if
             end if

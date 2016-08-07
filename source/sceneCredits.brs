@@ -30,8 +30,9 @@ Function PlayIntro(spriteMode = -1 as integer) as boolean
 	pngGame = "pkg:/assets/titles/message-game-name" + suffix + ".png"
 	pngPort = "pkg:/assets/titles/message-port" + suffix + ".png"
 	'Check if there is a configured mod with custom images
-	if m.settings.modId <> invalid and m.mods[m.settings.modId].sprites and spriteMode = Val(m.settings.modId)
-		modPath = "pkg:/mods/" + m.mods[m.settings.modId].url + "titles/"
+	if m.settings.modId <> invalid and m.mods[m.settings.modId].titles
+		modPath = m.mods[m.settings.modId].url + m.mods[m.settings.modId].path
+        if Left(modPath, 3) = "pkg" then modPath = modPath + "titles/"
 		if m.files.Exists(modPath + "intro-screen.png") then pngIntro = modPath + "intro-screen.png"
 		if m.files.Exists(modPath + "message-presents.png") then pngPresents = modPath + "message-presents.png"
 		if m.files.Exists(modPath + "message-author.png") then pngAuthor = modPath + "message-author.png"
@@ -112,12 +113,15 @@ Function TextScreen(pngFile as string, color as integer, waitTime = 0 as integer
     centerY = Cint((screen.GetHeight() - (200 * scale)) / 2)
 	canvas = GetPaintedBitmap(color, 320 * scale, 200 * scale, true)
 	if spriteMode = -1 then spriteMode = m.settings.spriteMode
-	useModSprite = (m.settings.modId <> invalid and m.mods[m.settings.modId].sprites)
+	useMod = (m.settings.modId <> invalid and m.mods[m.settings.modId].titles)
+	if useMod
+		modPath = m.mods[m.settings.modId].url + m.mods[m.settings.modId].path
+		if Left(modPath, 3) = "pkg" then modPath = modPath + "titles/"
+	end if
 	if spriteMode = m.const.SPRITES_MAC
 		canvas.DrawObject(0, 0, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/titles/text-screen-mac.png"), scale / 2))
 		bmp = CreateObject("roBitmap", "pkg:/assets/titles/" + pngFile + "-mac.png")
-	else if useModSprite and m.files.Exists("pkg:/mods/" + m.mods[m.settings.modId].url + "titles/text-screen.png")
-		modPath = "pkg:/mods/" + m.mods[m.settings.modId].url + "titles/"
+	else if useMod and m.files.Exists(modPath + "text-screen.png")
 		canvas.DrawObject(0, 0, ScaleBitmap(CreateObject("roBitmap", modPath + "text-screen.png"), scale))
 		bmp = CreateObject("roBitmap", modPath + pngFile + ".png")
 	else

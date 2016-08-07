@@ -24,16 +24,13 @@ Function build_custom(levelId as integer, mod as object) as object
     else
         xmlFile = "level" + itostr(levelId) + ".xml"
     end if
-
-    if Left(mod.url,4) = "http"
-        'TODO: Download level xml file
-    else
-        rsp = ReadAsciiFile("pkg:/mods/" + mod.url + "levels/" + xmlFile)
-    end if
+    modPath = mod.url + mod.path
+    if Left(modPath, 3) = "pkg" then modPath = modPath + "levels/"
+    rsp = ReadAsciiFile(modPath + xmlFile)
     if mod.guards <> invalid then DefaultEnemies = mod.guards
     xml = CreateObject("roXMLElement")
     if not xml.Parse(rsp) then
-         print "Invalid xml for level "; levelId
+         print "Invalid xml for level "; levelId; " "; modPath + xmlFile
         return invalid
     endif
     'Create new level object
@@ -42,6 +39,9 @@ Function build_custom(levelId as integer, mod as object) as object
     this.events = []
 	m.level = this
     m.type = DefaultLevelTypes[levelId]
+    'Add Prince
+    prince = xml.GetNamedElements("prince").Simplify()
+    this.prince = {room: Val(prince@room), location: Val(prince@location), direction: Val(prince@direction) - 1}
 	'Build level
     xmlRooms = xml.GetNamedElements("rooms").GetChildElements()
     for each xmlRoom in xmlRooms
@@ -54,7 +54,7 @@ Function build_custom(levelId as integer, mod as object) as object
         if xmlLinks@right > "0" then rmlnk.right = Val(xmlLinks@right) else rmlnk.right = -1
         if xmlLinks@up > "0" then rmlnk.up = Val(xmlLinks@up) else rmlnk.up = -1
         if xmlLinks@down > "0" then rmlnk.down = Val(xmlLinks@down) else rmlnk.down = -1
-        if rmlnk.left > 0 or rmlnk.right > 0 or rmlnk.up > 0 or rmlnk.down > 0
+        if rmlnk.left > 0 or rmlnk.right > 0 or rmlnk.up > 0 or rmlnk.down > 0 or this.prince.room = id
             this.rooms[id] = {x: 0, y: 0, links: {}, up: [], left: [], right: [], tiles: [], layout: false}
             this.rooms[id].links = rmlnk
             'Add tiles
@@ -113,9 +113,6 @@ Function build_custom(levelId as integer, mod as object) as object
     for each event in events
         this.events.Push({number: Val(event@number), room: Val(event@room), location: Val(event@location), next: Val(event@next)})
     next
-    'Add Prince
-    prince = xml.GetNamedElements("prince").Simplify()
-    this.prince = {room: Val(prince@room), location: Val(prince@location), direction: Val(prince@direction) - 1}
     'Create rooms layout
     layoutOffset = {tx: 0, ty: 0, bx: 0, by: 0}
     RoomsLayout(this.rooms, Val(prince@room), layoutOffset)
