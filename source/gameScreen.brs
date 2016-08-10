@@ -769,6 +769,9 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
             if tile.cropY < 0
                 rgn.offset(0, - tile.cropY * m.scale, 0, tile.cropY * m.scale)
             end if
+            if rgn.GetHeight() > m.const.TILE_HEIGHT * m.scale
+                yd = rgn.GetHeight() - m.const.TILE_HEIGHT * m.scale
+            end if
             spbk = m.compositor.NewSprite(x + chbk.x * m.scale, (y - yd) + chbk.y * m.scale, rgn, backZ)
             spbk.setDrawableFlag(chbk.visible)
             spbk.SetMemberFlags(0)

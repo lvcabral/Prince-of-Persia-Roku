@@ -139,6 +139,18 @@ Sub build_rooms()
             end if
         next
     next
+    'Create tiles for disconnected rooms
+    for rr = 1 to m.level.rooms.Count() - 1
+        if m.level.rooms[rr] <> invalid
+            for tt = 0 to 29
+                tile = m.level.rooms[rr].tiles[tt]
+                if not tile.DoesExist("isSpace")
+                    tile = m.buildTile( tt mod 10, int(tt / 10), rr )
+                    m.level.addTile(tt mod 10, int(tt / 10), rr, tile)
+                end if
+            next
+        end if
+    next
 End Sub
 
 Function build_tile(x as integer, y as integer, id as integer)
