@@ -13,12 +13,12 @@
 ' ********************************************************************************************************
 
 Function LoadMods() as object
-    'Edit the line below to add the URL where you are hosting your mods
-    m.webMods = "http://YOURDOMAIN/MODSFOLDER/"
     'Load internal Mods
     mods = ParseJson(ReadAsciiFile("pkg:/mods/mods.json"))
+    'Uncomment and edit the line below to add the URL if you are hosting remote mods
+    'm.webMods = "http://YOURDOMAIN/MODSFOLDER/"
     'Load remote Mods (if available)
-    if CacheFile( m.webMods + "mods.json", "mods.json") <> ""
+    if m.webMods <> invalid and CacheFile(m.webMods + "mods.json", "mods.json") <> ""
         modsWeb = ParseJson(ReadAsciiFile("tmp:/mods.json"))
         if modsWeb <> invalid then mods.Append(modsWeb)
     end if
