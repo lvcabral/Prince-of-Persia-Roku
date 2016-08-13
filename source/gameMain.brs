@@ -43,8 +43,15 @@ Sub Main()
         m.settings = {}
         m.settings.controlMode = m.const.CONTROL_VERTICAL
         m.settings.spriteMode = m.const.SPRITES_DOS
-    else if m.settings.modId <> invalid and m.mods[m.settings.modId].sprites
-        m.settings.spriteMode = Val(m.settings.modId)
+    else if m.settings.modId <> invalid
+        if m.mods.DoesExist(m.settings.modId)
+            if m.mods[m.settings.modId].sprites
+                m.settings.spriteMode = Val(m.settings.modId)
+            end if
+        else
+            m.settings.modId = invalid
+            m.settings.spriteMode = m.const.SPRITES_DOS
+        end if
     end if
     if m.settings.fight = invalid
         m.settings.fight = m.const.FIGHT_ALERT
