@@ -246,6 +246,7 @@ Function CheckSpecialEvents() as integer
         if m.kid.room = 15 and not shadow.meet
             if m.kid.blockX = 9 and m.kid.blockY = 1
                 m.kid.level.removeObject(1, 0, 15)
+                m.kid.health = m.kid.maxHealth
             else if m.kid.blockX <= 6 and m.kid.blockY = 0 and not shadow.visible
                 shadow.charY = 0
                 shadow.startfall()
