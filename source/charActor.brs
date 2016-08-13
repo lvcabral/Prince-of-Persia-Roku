@@ -206,6 +206,7 @@ Sub process_command_actor()
 End Sub
 
 Sub update_position()
+    if not m.alive then return
     m.frameName = m.charName + "-" + itostr(m.frame)
     m.updateBlockXY()
     tempx = 0.0

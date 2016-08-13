@@ -599,6 +599,10 @@ Sub check_room_change_kid()
             m.room = m.level.rooms[m.room].links.up
         end if
     end if
+    if m.room < 0 and m.alive
+        PlaySound("death")
+        m.alive = false
+    end if
 End Sub
 
 Sub check_impale()
