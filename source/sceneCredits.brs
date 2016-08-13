@@ -24,6 +24,8 @@ Function PlayIntro(spriteMode = -1 as integer) as boolean
 		height = 200
 		suffix = "-dos"
 	end if
+	scale = Int(GetScale(screen, width, height))
+	if spriteMode = m.const.SPRITES_MAC then posScale = scale * 2 else posScale = scale
 	pngIntro = "pkg:/assets/titles/intro-screen" + suffix + ".png"
 	pngPresents = "pkg:/assets/titles/message-presents" + suffix + ".png"
 	pngAuthor = "pkg:/assets/titles/message-author" + suffix + ".png"
@@ -40,7 +42,6 @@ Function PlayIntro(spriteMode = -1 as integer) as boolean
 		if m.files.Exists(modPath + "message-port.png") then pngPort = modPath + "message-port.png"
 	end if
 	skip = false
-	scale = Int(GetScale(screen, width, height))
     centerX = Cint((screen.GetWidth()-(width*scale))/2)
     centerY = Cint((screen.GetHeight()-(height*scale))/2)
 	intro = ScaleBitmap(CreateObject("roBitmap", pngIntro), scale)
@@ -55,25 +56,25 @@ Function PlayIntro(spriteMode = -1 as integer) as boolean
         end if
         if s = 1
             screen.DrawObject(centerX, centerY, intro)
-            screen.DrawObject(centerX + 96*2, centerY + 106*2, ScaleBitmap(CreateObject("roBitmap", pngPresents),scale))
+            screen.DrawObject(centerX + 96 * posScale, centerY + 106 * posScale, ScaleBitmap(CreateObject("roBitmap", pngPresents),scale))
             delay = 2500
         else if s = 2
             screen.DrawObject(centerX, centerY, intro)
             delay = 2000
         else if s = 3
             screen.DrawObject(centerX, centerY, intro)
-            screen.DrawObject(centerX + 96*2, centerY + 122*2, ScaleBitmap(CreateObject("roBitmap", pngAuthor),scale))
+            screen.DrawObject(centerX + 96 * posScale, centerY + 122 * posScale, ScaleBitmap(CreateObject("roBitmap", pngAuthor),scale))
             delay = 4000
         else if s = 4
             screen.DrawObject(centerX, centerY, ScaleBitmap(CreateObject("roBitmap", pngIntro),scale))
             delay = 4300
         else if s = 5
             screen.DrawObject(centerX, centerY, intro)
-            screen.DrawObject(centerX + 24*2, centerY + 107*2, ScaleBitmap(CreateObject("roBitmap", pngGame),scale))
+            screen.DrawObject(centerX + 24 * posScale, centerY + 107 * posScale, ScaleBitmap(CreateObject("roBitmap", pngGame),scale))
 			if left(pngPort, 9) = "pkg:/mods"
-            	screen.DrawObject(centerX + 48*2, centerY + 184*2, ScaleBitmap(CreateObject("roBitmap", pngPort),scale))
+            	screen.DrawObject(centerX + 48 * posScale, centerY + 184 * posScale, ScaleBitmap(CreateObject("roBitmap", pngPort),scale))
 			else
-				screen.DrawObject(centerX + 35*2, centerY + 180*2, ScaleBitmap(CreateObject("roBitmap", pngPort),scale))
+				screen.DrawObject(centerX + 35 * posScale, centerY + 180 * posScale, ScaleBitmap(CreateObject("roBitmap", pngPort),scale))
 			end if
             delay = 8700
         end if
