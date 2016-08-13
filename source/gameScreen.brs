@@ -636,7 +636,8 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
             if tile.isTrob() or not tile.isMob() then m.map.Push(sprite)
         end if
         if tile.front <> invalid
-            if tile.type = m.const.TYPE_PALACE and tile.element = m.const.TILE_WALL
+            useWDA = (m.settings.modId <> invalid and m.mods[m.settings.modId].wda)
+            if tile.type = m.const.TYPE_PALACE and tile.element = m.const.TILE_WALL and not useWDA
                 useMod = (m.settings.modId <> invalid and m.mods[m.settings.modId].palettes and m.settings.spriteMode = Val(m.settings.modId))
                 if useMod
                     modPath = m.mods[m.settings.modId].url + m.mods[m.settings.modId].path
