@@ -35,7 +35,7 @@ Function CreateActor(x as integer, y as integer, face as integer, name as string
     end if
     this.moveLeft = false
     this.opponent = invalid
-    this.room = - 1
+    this.room = -1
     this.blockX = 0
     this.blockY = 0
     this.charX = x
@@ -206,7 +206,7 @@ Sub process_command_actor()
 End Sub
 
 Sub update_position()
-    if not m.alive then return
+    if m.room < 0 and m.sword <> invalid then return
     m.frameName = m.charName + "-" + itostr(m.frame)
     m.updateBlockXY()
     tempx = 0.0
