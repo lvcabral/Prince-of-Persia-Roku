@@ -14,18 +14,15 @@
 
 Function PlayIntro(spriteMode = -1 as integer) as boolean
 	screen = m.mainScreen
+	scale = Int(GetScale(screen, 320, 200))
+	posScale = scale
 	if spriteMode = -1 then spriteMode = m.settings.spriteMode
 	if spriteMode = m.const.SPRITES_MAC
-		width = 640
-		height = 400
+		scale = scale / 2
 		suffix = "-mac"
 	else
-		width = 320
-		height = 200
 		suffix = "-dos"
 	end if
-	scale = Int(GetScale(screen, width, height))
-	if spriteMode = m.const.SPRITES_MAC then posScale = scale * 2 else posScale = scale
 	pngIntro = "pkg:/assets/titles/intro-screen" + suffix + ".png"
 	pngPresents = "pkg:/assets/titles/message-presents" + suffix + ".png"
 	pngAuthor = "pkg:/assets/titles/message-author" + suffix + ".png"
@@ -41,11 +38,12 @@ Function PlayIntro(spriteMode = -1 as integer) as boolean
 		if m.files.Exists(modPath + "message-game-name.png") then pngGame = modPath + "message-game-name.png"
 		if m.files.Exists(modPath + "message-port.png") then pngPort = modPath + "message-port.png"
 	end if
+	wait(500, m.port)
 	skip = false
-    centerX = Cint((screen.GetWidth()-(width*scale))/2)
-    centerY = Cint((screen.GetHeight()-(height*scale))/2)
+    centerX = Cint((screen.GetWidth() - (320 * posScale)) / 2)
+    centerY = Cint((screen.GetHeight() - (200 * posScale)) / 2)
 	intro = ScaleBitmap(CreateObject("roBitmap", pngIntro), scale)
-    CrossFade(screen, centerX, centerY, GetPaintedBitmap(m.colors.black,width*scale, height*scale,true), intro, 3)
+    CrossFade(screen, centerX, centerY, GetPaintedBitmap(m.colors.black, 320 * posScale, 200 * posScale,true), intro, 3)
     PlaySong("main-theme")
     msg = wait(2600, m.port)
     for s = 1 to 5
