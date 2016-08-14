@@ -92,6 +92,7 @@ Sub Main()
             'Configure screen/game areas based on the configuration
             SetupGameScreen()
             'Restore saved game
+            m.currentLevel = 1
             if m.savedGame <> invalid
                 m.mainScreen.Clear(0)
                 option = MessageBox(m.gameScreen, 320, 100, "Restore Saved Game?")
@@ -114,7 +115,6 @@ Sub Main()
             end if
             if option <> m.const.BUTTON_CANCEL
                 'Setup initial parameters
-                m.currentLevel = 1
                 if m.settings.modId = invalid
                     m.startTime = m.const.TIME_LIMIT
                     m.startHealth = m.const.START_HEALTH
