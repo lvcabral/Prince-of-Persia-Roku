@@ -26,6 +26,11 @@ Function LoadMods() as object
 End Function
 
 Sub DownloadMod(mod as object)
+    'Clear screen
+    m.mainScreen.Clear(0)
+    m.mainScreen.SwapBuffers()
+    m.mainScreen.Clear(0)
+    'Set mods remote URL
     modUrl = m.webMods + mod.path
     if not m.files.Exists("tmp:/" + mod.path) then m.files.CreateDirectory("tmp:/" + mod.path)
     if mod.levels

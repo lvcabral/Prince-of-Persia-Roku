@@ -10,11 +10,11 @@
 },
 "dungeon_door":
 {
-	"frame": {"x":21,"y":0,"w":70,"h":116},
+	"frame": {"x":21,"y":6,"w":70,"h":110},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":70,"h":116},
-	"sourceSize": {"w":70,"h":116}
+	"spriteSourceSize": {"x":0,"y":0,"w":70,"h":110},
+	"sourceSize": {"w":70,"h":110}
 },
 "dungeon_3_fg":
 {

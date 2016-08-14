@@ -90,7 +90,7 @@ Function CheckSpecialEvents() as integer
         if m.kid.level.exitOpen = 1 and m.kid.blockY = 0
             tile = m.kid.level.getTileAt(4, 0, 4)
             tile.element = m.const.TILE_MIRROR
-            tile.back  = tile.key + "13"
+            tile.back  = tile.key + "_13"
             tile.front = tile.back + "_fg"
             if tile.backSprite <> invalid and tile.frontSprite <> invalid
                 tile.backSprite.SetRegion(m.regions.tiles.Lookup(tile.back))

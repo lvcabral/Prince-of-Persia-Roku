@@ -443,22 +443,11 @@ Sub TROBsUpdate()
                     end if
                 end if
             else if trob.tile.element = m.const.TILE_EXIT_RIGHT
+                rgn = trob.sprite.childBack.GetRegion()
                 if trob.tile.state = trob.tile.STATE_RAISING
-                    rgn = trob.sprite.childBack.GetRegion()
-                    if m.settings.spriteMode = m.const.SPRITES_MAC and trob.tile.type = m.const.TYPE_DUNGEON
-                        if trob.tile.child.back.y < 15
-                            trob.tile.child.back.y = trob.tile.child.back.y + 1
-                            trob.sprite.childBack.MoveTo(trob.sprite.childBack.GetX(),  trob.sprite.childBack.GetY() + 1 * m.scale)
-                        end if
-                    end if
                     rgn.offset(0, 1 * m.scale, 0, -1 * m.scale)
                 else if trob.tile.state = trob.tile.STATE_DROPPING
-                    rgn = trob.sprite.childBack.GetRegion()
                     rgn.offset(0, -10 * m.scale, 0, 10 * m.scale)
-                else if trob.tile.state = trob.tile.STATE_OPEN
-                    if m.settings.spriteMode = m.const.SPRITES_MAC and trob.tile.type = m.const.TYPE_DUNGEON
-                        trob.tile.child.back.y = 15
-                    end if
                 end if
                 trob.sprite.childBack.setDrawableFlag(trob.tile.child.back.visible)
                 trob.sprite.childFront.setDrawableFlag(trob.tile.child.front.visible)
@@ -766,6 +755,13 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
                 bmd = CreateObject("roBitmap", {width:rgn.GetWidth(), height:rgn.GetHeight() * 2, alphaenable:true})
                 bmd.DrawObject(0, rgn.GetHeight(), rgn)
                 rgn = CreateObject("roRegion", bmd, 0, rgn.GetHeight(), rgn.GetWidth(), rgn.GetHeight())
+                if tileRegion <> invalid
+                    if m.settings.spriteMode = m.const.SPRITES_MAC
+                        chbk.y = CInt(tileRegion.GetHeight()/m.scale) - 71
+                    else
+                        chbk.y = CInt(tileRegion.GetHeight()/m.scale) - 67
+                    end if
+                end if
             end if
             if tile.cropY < 0
                 rgn.offset(0, - tile.cropY * m.scale, 0, tile.cropY * m.scale)
@@ -793,7 +789,7 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
             if chrg = invalid and Left(chfr.frameName, 2) = "W_"
                 chrg = m.regions.tiles.Lookup("W_15")
             end if
-            spfr = m.compositor.NewSprite(x + chfr.x * m.scale, (y - yd) + chfr.y * m.scale, chrg , frontZ)
+            spfr = m.compositor.NewSprite(x + chfr.x * m.scale, (y - yd) + chfr.y * m.scale, chrg, frontZ)
             spfr.SetMemberFlags(0)
             spfr.setDrawableFlag(chfr.visible)
             if tile.isTrob() then obj.sprite.childFront = spfr

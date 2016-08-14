@@ -195,10 +195,10 @@ Function build_tile(x as integer, y as integer, id as integer)
 	else if t.element = m.const.TILE_LOOSE_BOARD
 		tile = CreateLooseBoard(tile)
 	else if t.element = m.const.TILE_EXIT_RIGHT
-        if m.spriteMode = m.const.SPRITES_MAC and m.level.type = m.const.TYPE_DUNGEON
-            tile = CreateExitDoor(tile, 5)
+        if m.spriteMode = m.const.SPRITES_MAC
+            tile = CreateExitDoor(tile, 8, 10)
         else
-            tile = CreateExitDoor(tile, 9, 8)
+            tile = CreateExitDoor(tile)
         end if
 	else if t.element = m.const.TILE_TORCH or t.element = m.const.TILE_TORCH_WITH_DEBRIS
 		tile.child.back.frames = GenerateFrameNames("fire_", 1, 9, "", true)

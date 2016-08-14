@@ -12,7 +12,7 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
 
-Function CreateExitDoor(tile as object, openHeight = 8 as integer, doorX = 10 as integer) as object
+Function CreateExitDoor(tile as object, openHeight = 9 as integer, doorX = 8 as integer) as object
 	'Constants
 	tile.STATE_OPEN = 0
 	tile.STATE_RAISING = 1
@@ -28,7 +28,7 @@ Function CreateExitDoor(tile as object, openHeight = 8 as integer, doorX = 10 as
 	else
 		tile.child.back.x = doorX
 	end if
-	tile.child.back.y = 12
+	tile.child.back.y = tile.const.TILE_HEIGHT - 67
 	tile.child.back.height = tile.const.BLOCK_HEIGHT - 12
 	tile.cropY = 0
 	tile.state = tile.STATE_CLOSED

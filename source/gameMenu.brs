@@ -120,6 +120,7 @@ Sub SettingsMenu(screen as object)
                     option = OptionsMenu(screen, [{text: "IBM-PC MS-DOS", image:"graphics_dos"},{text:"Macintosh Classic", image:"graphics_mac"}], m.settings.spriteMode)
                     if option >= 0 and option <> m.settings.spriteMode
                         m.settings.spriteMode = option
+                        m.settings.modId = invalid
                         SaveSettings(m.settings)
                     end if
                 else if selected = 2
