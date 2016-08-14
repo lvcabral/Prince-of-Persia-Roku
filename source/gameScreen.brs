@@ -636,7 +636,7 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
             if tile.isTrob() or not tile.isMob() then m.map.Push(sprite)
         end if
         if tile.front <> invalid
-            useWDA = (m.settings.modId <> invalid and m.mods[m.settings.modId].wda)
+            useWDA = (m.settings.SpriteMode > m.const.SPRITES_MAC and m.settings.modId <> invalid and m.mods[m.settings.modId].wda)
             if tile.type = m.const.TYPE_PALACE and tile.element = m.const.TILE_WALL and not useWDA
                 useMod = (m.settings.modId <> invalid and m.mods[m.settings.modId].palettes and m.settings.spriteMode = Val(m.settings.modId))
                 if useMod
@@ -760,7 +760,7 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
         'Child frames
         chbk = tile.child.back
         chfr = tile.child.front
-        if chbk.frameName <> invalid
+        if chbk.frameName <> invalid and m.regions.tiles.DoesExist(chbk.frameName)
             rgn = m.regions.tiles.Lookup(chbk.frameName).Copy()
             if tile.element = m.const.TILE_EXIT_RIGHT
                 bmd = CreateObject("roBitmap", {width:rgn.GetWidth(), height:rgn.GetHeight() * 2, alphaenable:true})

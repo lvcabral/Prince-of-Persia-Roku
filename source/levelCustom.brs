@@ -27,6 +27,7 @@ Function build_custom(levelId as integer, mod as object) as object
     modPath = mod.url + mod.path
     if Left(modPath, 3) = "pkg" then modPath = modPath + "levels/"
     rsp = ReadAsciiFile(modPath + xmlFile)
+    if mod.types <> invalid then DefaultLevelTypes = mod.types
     if mod.guards <> invalid then DefaultEnemies = mod.guards
     xml = CreateObject("roXMLElement")
     if not xml.Parse(rsp) then
