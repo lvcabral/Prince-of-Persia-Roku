@@ -27,7 +27,7 @@ Function PlayGame() as boolean
     m.topOffset = 3 * m.scale
     m.speed = 80 '~12 fps
     m.redraw = true
-    m.blink = false
+    m.blink = [false, false]
     m.flash = false
     m.gameOver = false
     m.showTime = false

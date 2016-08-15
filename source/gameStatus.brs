@@ -22,12 +22,12 @@ Sub DrawStatusBar(screen as object, width as integer, height as integer)
         lifePos = 6 * m.scale
     end if
     if m.kid.health = 1
-        if m.blink
+        if m.blink[0]
             screen.drawobject(0, height - lifePos, lifeFull)
         else
             screen.drawobject(0, height - lifePos, lifeEmpty)
         end if
-        m.blink = not m.blink
+        m.blink[0] = not m.blink[0]
     else if m.kid.health > 1
         for h = 0 to m.kid.health-1
             screen.drawobject(lifeFull.GetWidth()*h+h, height - lifePos, lifeFull)
@@ -41,10 +41,18 @@ Sub DrawStatusBar(screen as object, width as integer, height as integer)
     enemy = m.kid.opponent
     if enemy <> invalid and enemy.health > 0 and enemy.sprite <> invalid and enemy.charName <> "skeleton"
         if enemy.swordDrawn or (enemy.sprite.GetX() > 0 and enemy.sprite.GetX() < m.gameScreen.GetWidth())
-            for h = 1 to enemy.health
-                guardLife = m.regions.general.Lookup(enemy.charImage + "-live")
-                screen.drawobject(width - guardLife.GetWidth() * h, height - lifePos, guardLife)
-            next
+            if enemy.health = 1
+                if m.blink[1]
+                    guardLife = m.regions.general.Lookup(enemy.charImage + "-live")
+                    screen.drawobject(width - guardLife.GetWidth(), height - lifePos, guardLife)
+                end if
+                m.blink[1] = not m.blink[1]
+            else
+                for h = 1 to enemy.health
+                    guardLife = m.regions.general.Lookup(enemy.charImage + "-live")
+                    screen.drawobject(width - guardLife.GetWidth() * h, height - lifePos, guardLife)
+                next
+            end if
         end if
     end if
     if m.status.Count() > 0
