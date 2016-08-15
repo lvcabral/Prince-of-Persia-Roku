@@ -29,7 +29,7 @@ Function PlayIntro(spriteMode = -1 as integer) as boolean
 	pngGame = "pkg:/assets/titles/message-game-name" + suffix + ".png"
 	pngPort = "pkg:/assets/titles/message-port" + suffix + ".png"
 	'Check if there is a configured mod with custom images
-	if m.settings.modId <> invalid and m.mods[m.settings.modId].titles
+	if spriteMode > m.const.SPRITES_MAC and m.settings.modId <> invalid and m.mods[m.settings.modId].titles
 		modPath = m.mods[m.settings.modId].url + m.mods[m.settings.modId].path
         if Left(modPath, 3) = "pkg" then modPath = modPath + "titles/"
 		if m.files.Exists(modPath + "intro-screen.png") then pngIntro = modPath + "intro-screen.png"
