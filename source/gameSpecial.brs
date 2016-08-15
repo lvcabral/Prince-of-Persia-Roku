@@ -114,9 +114,9 @@ Function CheckSpecialEvents() as integer
                     bmp = GetPaintedBitmap(m.colors.black, 36 * m.scale, 56 * m.scale, true)
                     rgn = CreateObject("roRegion", bmp, 0, 0, bmp.GetWidth(), bmp.GetHeight())
                     if m.settings.spriteMode = m.const.SPRITES_MAC
-                        m.reflex.mask = m.compositor.NewSprite(94 * m.scale, 3 * m.scale, rgn, 35)
+                        m.reflex.mask = m.compositor.NewSprite(94 * m.scale, 3 * m.scale, rgn, 29)
                     else
-                        m.reflex.mask = m.compositor.NewSprite(96 * m.scale, 3 * m.scale, rgn, 35)
+                        m.reflex.mask = m.compositor.NewSprite(97 * m.scale, 3 * m.scale, rgn, 29)
                     end if
                 else
                     m.reflex.kid.SetRegion(kdRegion)
