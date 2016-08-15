@@ -716,7 +716,7 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
                 end if
                 if m.debugMode
                     font = m.fonts.GetDefaultFont(12, false, false)
-                    bms.DrawText(tile.front, 5, 35, m.colors.black, font)
+                    bms.DrawText(tile.front, 5, 35, m.colors.white, font)
                 end if
                 frsp = m.compositor.NewSprite(x, y, CreateObject("roRegion",bms,0,0,bms.GetWidth(),bms.GetHeight()), frontZ)
             else
