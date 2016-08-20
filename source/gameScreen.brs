@@ -411,9 +411,9 @@ Sub TROBsUpdate()
                 if trob.tile.front = trob.tile.key + "_" + itostr(m.const.TILE_FLOOR) + "_fg" or trob.tile.front = trob.tile.key + "_" + itostr(m.const.TILE_DEBRIS) + "_fg"
                     trob.sprite.front.setRegion(m.regions.tiles.Lookup(trob.tile.front))
                     trob.sprite.back.setRegion(m.regions.tiles.Lookup(trob.tile.back))
-                    if trob.sprite.childBack <> invalid
-                        trob.tile.child.back.frames = invalid
-                        trob.sprite.childBack.Remove()
+                    if trob.sprite.childFront <> invalid
+                        trob.tile.child.front.frames = invalid
+                        trob.sprite.childFront.Remove()
                     end if
                 end if
             else if trob.tile.element = m.const.TILE_SWORD or trob.tile.element = m.const.TILE_TORCH
@@ -795,6 +795,15 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
             spfr = m.compositor.NewSprite(x + chfr.x * m.scale, (y - yd) + chfr.y * m.scale, chrg, frontZ)
             spfr.SetMemberFlags(0)
             spfr.setDrawableFlag(chfr.visible)
+            if tile.isTrob() then obj.sprite.childFront = spfr
+            m.map.Push(spfr)
+        else if tile.child.front.frames <> invalid
+            animation = []
+            for each frameName in tile.child.front.frames
+                animation.Push(m.regions.general.Lookup(frameName))
+            next
+            spfr = m.compositor.NewAnimatedSprite(x + chfr.x * m.scale, (y - yd) + chfr.y * m.scale, animation, frontZ)
+            spfr.SetMemberFlags(0)
             if tile.isTrob() then obj.sprite.childFront = spfr
             m.map.Push(spfr)
         end if

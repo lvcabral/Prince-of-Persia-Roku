@@ -226,20 +226,20 @@ Function build_tile(x as integer, y as integer, id as integer)
         tile.front = potion
         if m.spriteMode = m.const.SPRITES_MAC
             if t.modifier <> tile.const.POTION_LIFE
-                tile.child.back.frames = GenerateFrameNames("bubble_", 1, 6, "_"+colors[t.modifier], false, 2)
+                tile.child.front.frames = GenerateFrameNames("bubble_", 1, 6, "_"+colors[t.modifier], false, 2)
             end if
             px = 20
             py = 52
         else
-            tile.child.back.frames = GenerateFrameNames("bubble_", 1, 7, "_"+colors[t.modifier], true)
+            tile.child.front.frames = GenerateFrameNames("bubble_", 1, 7, "_"+colors[t.modifier], true)
             px = 25
             py = 53
             if t.modifier > tile.const.POTION_HEALTH and t.modifier < tile.const.POTION_POISON
     			py = py - 4
     		end if
         end if
-		tile.child.back.x = px
-		tile.child.back.y = py
+		tile.child.front.x = px
+		tile.child.front.y = py
 		tile.hasObject = true
     else if t.element = m.const.TILE_TAPESTRY
         if m.type = m.const.TYPE_PALACE and t.modifier > 0
