@@ -93,7 +93,7 @@ Sub PlayEnding()
 	end if
 	PlaySong("victory")
 	TextScreen("text-the-tyrant", m.colors.darkred, 19000, 7)
-	CheckHighScores()
+	if not m.usedCheat then CheckHighScores()
 	skip = ShowHighScores(m.mainScreen, 3000)
 	if skip then return
 	centerX = Cint((m.mainScreen.GetWidth()-(320*scale))/2)

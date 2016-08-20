@@ -55,6 +55,7 @@ Function PlayGame() as boolean
                         m.savedGame.health = m.startHealth
                         m.savedGame.time = m.levelTime
                         m.savedGame.modId = m.settings.modId
+                        m.savedGame.cheat = m.usedCheat
                         SaveGame(m.savedGame)
                     end if
                 else
@@ -93,6 +94,7 @@ Function PlayGame() as boolean
                     m.status.Clear()
                     m.showTime = true
                 end if
+                m.usedCheat = true
             else if id = m.code.BUTTON_REWIND_PRESSED
                 if m.settings.rewFF = m.const.REWFF_LEVEL
                     PreviousLevel()
@@ -108,6 +110,7 @@ Function PlayGame() as boolean
                         m.showTime = true
                     end if
                 end if
+                m.usedCheat = true
             else if id = m.code.BUTTON_SELECT_PRESSED
                 if m.debugMode or m.settings.okMode = m.const.OKMODE_TIME
                     m.debugMode = false
@@ -740,7 +743,7 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
                     bw = tile.getBounds().width * m.scale
                     bh = tile.getBounds().height * m.scale
                     bmt = CreateObject("roBitmap", {width:bw, height:bh, alphaenable:true})
-                    bmt.drawrect(0,0,bw, bh, m.colors.red)
+                    bmt.drawrect(0,0,bw, bh, &hFF000070)
                     slr = CreateObject("roRegion",bmt,0,0,bmt.GetWidth(),bmt.GetHeight())
                     m.map.Push(m.compositor.NewSprite(x + (15*m.scale), y + (10*m.scale), slr, 35))
                 end if

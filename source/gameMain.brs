@@ -92,6 +92,15 @@ Sub Main()
             SetupGameScreen()
             'Restore saved game
             m.currentLevel = 1
+            if m.settings.modId = invalid
+                m.startTime = m.const.TIME_LIMIT
+                m.startHealth = m.const.START_HEALTH
+            else
+                m.startTime = m.mods[m.settings.modId].time * 60
+                m.startHealth = m.mods[m.settings.modId].health
+            end if
+            m.checkPoint = invalid
+            m.usedCheat = (m.settings.fight > m.const.FIGHT_ATTACK)
             if m.savedGame <> invalid
                 m.mainScreen.Clear(0)
                 option = MessageBox(m.gameScreen, 320, 100, "Restore Saved Game?")
@@ -106,29 +115,21 @@ Sub Main()
                     else if m.settings.modId <> invalid or m.settings.spriteMode > m.const.SPRITES_MAC
                         m.settings.spriteMode = m.const.SPRITES_DOS
                     end if
-                else
-                    m.checkPoint = invalid
+                    if m.saveGame.cheat <> invalid then m.usedCheat = (m.usedCheat and m.saveGame.cheat)
                 end if
             else
                 option = m.const.BUTTON_NO
             end if
             if option <> m.const.BUTTON_CANCEL
-                'Setup initial parameters
-                if m.settings.modId = invalid
-                    m.startTime = m.const.TIME_LIMIT
-                    m.startHealth = m.const.START_HEALTH
-                else
-                    m.startTime = m.mods[m.settings.modId].time * 60
-                    m.startHealth = m.mods[m.settings.modId].health
-                    if Left(m.mods[m.settings.modId].url, 3) = "tmp"
-                        DownloadMod(m.mods[m.settings.modId])
-                    end if
+                'Download mod if remote
+                if m.settings.modId <> invalid and Left(m.mods[m.settings.modId].url, 3) = "tmp"
+                    DownloadMod(m.mods[m.settings.modId])
                 end if
-                m.levelTime = m.startTime
                 'Debug: Uncomment the next two lines to start at a specific location
                 ' m.currentLevel = 12
                 ' m.checkPoint = {room: 15, tile:8, face: 1}
                 print "Starting the Game"
+                m.levelTime = m.startTime
                 'Play introduction and cut scene
                 skip = false
                 if m.currentLevel = 1
@@ -398,6 +399,8 @@ Function GetTheme() as object
                 OverhangSliceHD: "pkg:/images/overhang_hd.jpg",
                 ListScreenHeaderText: "#FFFFFF",
                 ListScreenDescriptionText: "#FFFFFF",
+                ListItemHighlightSD: "pkg:/images/item_highlight_sd.png",
+                ListItemHighlightHD: "pkg:/images/item_highlight_hd.png",
                 ListItemHighlightText: "#FF0000"
             }
     return theme

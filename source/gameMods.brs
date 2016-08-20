@@ -79,12 +79,16 @@ Sub DownloadMod(mod as object)
     end if
 End Sub
 
-Function GetModImage(modId as string) as string
-    mod = m.mods[modId]
-    if Left(mod.url,3) = "pkg"
-        modImage = mod.url + mod.path + modId + "_1.png"
+Function GetModImage(modId as dynamic) as string
+    if modId <> invalid
+        mod = m.mods[modId]
+        if Left(mod.url,3) = "pkg"
+            modImage = mod.url + mod.path + modId + "_1.png"
+        else
+            modImage = CacheFile(m.webMods + mod.path + modId + "_1.png", modId + "_1.png")
+        end if
     else
-        modImage = CacheFile(m.webMods + mod.path + modId + "_1.png", modId + "_1.png")
+        modImage = "pkg:/assets/titles/intro-screen-dos.png"
     end if
     return modImage
 End Function
@@ -114,11 +118,10 @@ Sub ModsAndCheatsScreen()
     this.okIndex    = m.settings.okMode
     if m.settings.modId <> invalid
         this.modName = m.mods[m.settings.modId].name
-        this.modImage = GetModImage(m.settings.modId)
     else
         this.modName = this.modArray[0].name
-        this.modImage = "pkg:/assets/titles/intro-screen-dos.png"
     end if
+    this.modImage = GetModImage(m.settings.modId)
     listItems = GetMenuItems(this)
     this.screen.SetContent(listItems)
     this.screen.Show()
@@ -165,7 +168,6 @@ Sub ModsAndCheatsScreen()
                     MessageDialog("Prince of Persia", "Your selections are saved!", this.port)
                 end if
             else if msg.isRemoteKeyPressed()
-                bump = false
                 remoteKey = msg.GetIndex()
                 if listIndex = 0 'Mods
                     if remoteKey = m.code.BUTTON_LEFT_PRESSED
@@ -175,15 +177,15 @@ Sub ModsAndCheatsScreen()
                         this.modIndex = this.modIndex + 1
                         if this.modIndex = this.modArray.Count() then this.modIndex = 0
                     end if
-                    listItems[listIndex].Title = "Game Mod: " + this.modArray[this.modIndex].name
+                    saveIndex = listItems.Count() - 1
+                    listItems[listIndex].Title = "  Mod: " + this.modArray[this.modIndex].name
                     listItems[listIndex].ShortDescriptionLine1 = ModDescription(this.modArray[this.modIndex])
-                    if this.modIndex > 0
-                        listItems[listIndex].HDPosterUrl = GetModImage(this.modArray[this.modIndex].id)
-                    else
-                        listItems[listIndex].HDPosterUrl = "pkg:/assets/titles/intro-screen-dos.png"
-                    end if
+                    listItems[listIndex].HDPosterUrl = GetModImage(this.modArray[this.modIndex].id)
+                    listItems[saveIndex].HDPosterUrl = GetModImage(this.modArray[this.modIndex].id)
                     listItems[listIndex].SDPosterUrl = listItems[listIndex].HDPosterUrl
+                    listItems[saveIndex].SDPosterUrl = listItems[listIndex].HDPosterUrl
                     this.screen.SetItem(listIndex, listItems[listIndex])
+                    this.screen.SetItem(saveIndex, listItems[saveIndex])
                 else if listIndex = 1 'Fight Mode
                     if remoteKey = m.code.BUTTON_LEFT_PRESSED
                         this.fightIndex = this.fightIndex - 1
@@ -192,7 +194,7 @@ Sub ModsAndCheatsScreen()
                         this.fightIndex = this.fightIndex + 1
                         if this.fightIndex = this.fightModes.Count() then this.fightIndex = 0
                     end if
-                    listItems[listIndex].Title = "Fight Mode: " + this.fightModes[this.fightIndex]
+                    listItems[listIndex].Title = "  Fight Mode: " + this.fightModes[this.fightIndex]
                     listItems[listIndex].ShortDescriptionLine1 = this.fightHelp[this.fightIndex]
                     listItems[listIndex].HDPosterUrl = "pkg:/images/fight_" + itostr(this.fightIndex) + ".jpg"
                     listItems[listIndex].SDPosterUrl = listItems[listIndex].HDPosterUrl
@@ -205,7 +207,7 @@ Sub ModsAndCheatsScreen()
                         this.rewFFIndex = this.rewFFIndex + 1
                         if this.rewFFIndex = this.rewFFModes.Count() then this.rewFFIndex = 0
                     end if
-                    listItems[listIndex].Title ="REW & FF keys: " + this.rewFFModes[this.rewFFIndex]
+                    listItems[listIndex].Title ="  REW & FF keys: " + this.rewFFModes[this.rewFFIndex]
                     listItems[listIndex].ShortDescriptionLine1 = this.rewFFHelp[this.rewFFIndex]
                     listItems[listIndex].HDPosterUrl = "pkg:/images/rewff_" + itostr(this.rewFFIndex) + ".jpg"
                     listItems[listIndex].SDPosterUrl = listItems[listIndex].HDPosterUrl
@@ -218,8 +220,10 @@ Sub ModsAndCheatsScreen()
                         this.okIndex = this.okIndex + 1
                         if this.okIndex = this.okModes.Count() then this.okIndex = 0
                     end if
-                    listItems[listIndex].Title = "OK Key: " + this.okModes[this.okIndex]
+                    listItems[listIndex].Title = "  OK Key: " + this.okModes[this.okIndex]
                     listItems[listIndex].ShortDescriptionLine1 = this.okHelp[this.okIndex]
+                    listItems[listIndex].HDPosterUrl = "pkg:/images/okmode_" + itostr(this.okIndex) + ".jpg"
+                    listItems[listIndex].SDPosterUrl = listItems[listIndex].HDPosterUrl
                     this.screen.SetItem(listIndex, listItems[listIndex])
                 end if
                 m.sounds.navSingle.Trigger(50)
@@ -232,7 +236,7 @@ End Sub
 Function GetMenuItems(menu as object)
     listItems = []
     listItems.Push({
-                Title: "Game Mod: " + menu.modName
+                Title: "  Mod: " + menu.modName
                 HDSmallIconUrl: "pkg:/images/icon_arrows.png"
                 SDSmallIconUrl: "pkg:/images/icon_arrows.png"
                 HDPosterUrl: menu.modImage
@@ -241,7 +245,7 @@ Function GetMenuItems(menu as object)
                 ShortDescriptionLine2: "Use Left and Right to select a Mod"
                 })
     listItems.Push({
-                Title: "Fight Mode: " + menu.fightModes[menu.fightIndex]
+                Title: "  Fight Mode: " + menu.fightModes[menu.fightIndex]
                 HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
                 SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
                 HDPosterUrl: "pkg:/images/fight_" + itostr(menu.fightIndex) + ".jpg"
@@ -250,7 +254,7 @@ Function GetMenuItems(menu as object)
                 ShortDescriptionLine2: "Use Left and Right to select a Fight Mode"
                 })
     listItems.Push({
-                Title: "REW & FF Keys: " + menu.rewFFModes[menu.rewFFIndex]
+                Title: "  REW & FF Keys: " + menu.rewFFModes[menu.rewFFIndex]
                 HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
                 SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
                 HDPosterUrl: "pkg:/images/rewff_" + itostr(menu.rewFFIndex) + ".jpg"
@@ -259,16 +263,21 @@ Function GetMenuItems(menu as object)
                 ShortDescriptionLine2: "Use Left and Right to select the keys mode"
                 })
     listItems.Push({
-                Title: "OK Key: " + menu.okModes[menu.okIndex]
+                Title: "  OK Key: " + menu.okModes[menu.okIndex]
                 HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
                 SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
+                HDPosterUrl: "pkg:/images/okmode_" + itostr(menu.okIndex) + ".jpg",
+                SDPosterUrl: "pkg:/images/okmode_" + itostr(menu.okIndex) + ".jpg",
                 ShortDescriptionLine1: menu.okHelp[menu.okIndex]
                 ShortDescriptionLine2: "Use Left and Right to select the OK key mode"
                 })
     listItems.Push({
-                Title: "Save Selections!"
+                Title: "  Save Selections!"
                 HDSmallIconUrl: "pkg:/images/icon_save_bw.png"
                 SDSmallIconUrl: "pkg:/images/icon_save_bw.png"
+                HDPosterUrl: menu.modImage
+                SDPosterUrl: menu.modImage
+                ShortDescriptionLine1: "Using cheats (fight mode or keys)" + chr(10) + "disable highscore record"
                 ShortDescriptionLine2: "Press OK to save"
                 })
     return listItems
