@@ -109,6 +109,9 @@ Sub ModsAndCheatsScreen()
     this.rewFFModes = ["Game Level", "Kid's Health", "Remaining Time"]
     this.rewFFHelp  = ["Keys advance or return levels", "Keys increase or decrease health", "Keys increase or decrease 1 minute"]
     this.rewFFIndex = m.settings.rewFF
+    this.okModes    = ["Remaining Time", "Debug Mode"]
+    this.okHelp     = ["Show game remaining time", "Turn on/off Debug mode"]
+    this.okIndex    = m.settings.okMode
     if m.settings.modId <> invalid
         this.modName = m.mods[m.settings.modId].name
         this.modImage = GetModImage(m.settings.modId)
@@ -148,10 +151,11 @@ Sub ModsAndCheatsScreen()
                 end if
             else if msg.isListItemSelected()
                 index = msg.GetIndex()
-                if index = 3 'Save
+                if index = 4 'Save
                     m.settings.modId = this.modArray[this.modIndex].id
                     m.settings.fight = this.fightIndex
                     m.settings.rewFF = this.rewFFIndex
+                    m.settings.okMode = this.okIndex
                     if this.modArray[this.modIndex].sprites
                         m.settings.spriteMode = val(m.settings.modId)
                     else if m.settings.spriteMode <> m.const.SPRITES_MAC
@@ -206,6 +210,17 @@ Sub ModsAndCheatsScreen()
                     listItems[listIndex].HDPosterUrl = "pkg:/images/rewff_" + itostr(this.rewFFIndex) + ".jpg"
                     listItems[listIndex].SDPosterUrl = listItems[listIndex].HDPosterUrl
                     this.screen.SetItem(listIndex, listItems[listIndex])
+                else if listIndex = 3 'OK Key Mode
+                    if remoteKey = m.code.BUTTON_LEFT_PRESSED
+                        this.okIndex = this.okIndex - 1
+                        if this.okIndex < 0 then this.okIndex = this.okModes.Count() - 1
+                    else if remoteKey = m.code.BUTTON_RIGHT_PRESSED
+                        this.okIndex = this.okIndex + 1
+                        if this.okIndex = this.okModes.Count() then this.okIndex = 0
+                    end if
+                    listItems[listIndex].Title = "OK Key: " + this.okModes[this.okIndex]
+                    listItems[listIndex].ShortDescriptionLine1 = this.okHelp[this.okIndex]
+                    this.screen.SetItem(listIndex, listItems[listIndex])
                 end if
                 m.sounds.navSingle.Trigger(50)
             end if
@@ -235,13 +250,20 @@ Function GetMenuItems(menu as object)
                 ShortDescriptionLine2: "Use Left and Right to select a Fight Mode"
                 })
     listItems.Push({
-                Title: "REW & FF keys: " + menu.rewFFModes[menu.rewFFIndex]
+                Title: "REW & FF Keys: " + menu.rewFFModes[menu.rewFFIndex]
                 HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
                 SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
                 HDPosterUrl: "pkg:/images/rewff_" + itostr(menu.rewFFIndex) + ".jpg"
                 SDPosterUrl: "pkg:/images/rewff_" + itostr(menu.rewFFIndex) + ".jpg"
                 ShortDescriptionLine1: menu.rewFFHelp[menu.rewFFIndex]
                 ShortDescriptionLine2: "Use Left and Right to select the keys mode"
+                })
+    listItems.Push({
+                Title: "OK Key: " + menu.okModes[menu.okIndex]
+                HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
+                SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
+                ShortDescriptionLine1: menu.okHelp[menu.okIndex]
+                ShortDescriptionLine2: "Use Left and Right to select the OK key mode"
                 })
     listItems.Push({
                 Title: "Save Selections!"

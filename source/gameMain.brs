@@ -53,10 +53,9 @@ Sub Main()
             m.settings.spriteMode = m.const.SPRITES_DOS
         end if
     end if
-    if m.settings.fight = invalid
-        m.settings.fight = m.const.FIGHT_ALERT
-        m.settings.rewFF = m.const.REWFF_LEVEL
-    end if
+    if m.settings.fight = invalid then m.settings.fight = m.const.FIGHT_ALERT
+    if m.settings.rewFF = invalid then m.settings.rewFF = m.const.REWFF_LEVEL
+    if m.settings.okMode = invalid then m.settings.okMode = m.const.OKMODE_TIME
     'Game/Debug switches
     m.debugMode = false ' flag to enable/disable debug code
     m.dark = false 'flag for debugging without map tiles paint

@@ -112,6 +112,9 @@ Function GetConstants() as object
     const.REWFF_HEALTH = 1
     const.REWFF_TIME   = 2
 
+    const.OKMODE_TIME  = 0
+    const.OKMODE_DEBUG = 1
+
     const.DO_MOVE = 0
     const.DO_STRIKE = 1
     const.DO_DEFEND = 2

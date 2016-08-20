@@ -29,6 +29,7 @@ Function PlayGame() as boolean
     m.redraw = true
     m.blink = [false, false]
     m.flash = false
+    m.debugMode = false
     m.gameOver = false
     m.showTime = false
     m.timeShown = 0
@@ -108,7 +109,7 @@ Function PlayGame() as boolean
                     end if
                 end if
             else if id = m.code.BUTTON_SELECT_PRESSED
-                if m.debugMode
+                if m.debugMode or m.settings.okMode = m.const.OKMODE_TIME
                     m.debugMode = false
                     m.dark = false
                     m.status.Clear()
@@ -469,7 +470,6 @@ Sub MOBsUpdate()
                     if mob.sprite.back <> invalid and mob.sprite.visible
                         mob.sprite.back.setRegion(m.regions.tiles.Lookup(mob.tile.back))
                     else
-                        if mob.sprite.back <> invalid then mob.sprite.back.Remove()
                         if mob.tile.backSprite <> invalid then mob.tile.backSprite.Remove()
                     end if
                     if mob.tile.state = mob.tile.STATE_SHAKING
@@ -479,7 +479,7 @@ Sub MOBsUpdate()
                             if mob.sprite.front <> invalid then mob.sprite.front.Remove()
                         end if
                     else if mob.tile.state = mob.tile.STATE_INACTIVE
-                        if mob.sprite.visible then
+                        if mob.sprite.visible
                             if mob.sprite.front <> invalid then mob.sprite.front.setDrawableFlag(true)
                         else
                             if mob.sprite.front <> invalid then mob.sprite.front.Remove()
@@ -496,7 +496,7 @@ Sub MOBsUpdate()
                                 space = mob.tile.key + "_0_0"
                             end if
                             mob.floor = m.tileSet.level.floorStartFall(mob.tile)
-                            if mob.sprite.back <> invalid then
+                            if mob.sprite.back <> invalid
                                 m.map.Push(m.compositor.NewSprite(mob.sprite.back.GetX(), mob.sprite.back.GetY(), m.regions.tiles.Lookup(space), 10))
                                 mob.floor.fromAbove = IsFromAbove(mob.sprite.back, m.kid.sprite)
                             end if
