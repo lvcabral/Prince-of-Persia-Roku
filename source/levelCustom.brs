@@ -72,8 +72,8 @@ Function build_custom(levelId as integer, mod as object) as object
                         if m.type = m.const.TYPE_DUNGEON then tl.modifier = 0 else tl.modifier = 2
                     end if
                 else if tl.element = m.const.TILE_LOOSE_BOARD
-                    'Put modifier 1 for stuck board loose (modifier bit m: rrmccccc) Pag. 11 pdf POP Spec File format
-                    'tl.modifier = (tl.element and 0x20) >> 5
+                    'Set modifier to 1 for stuck loose tile
+                    if Val(xmlTile@element) = 43 then tl.modifier = 1 else tl.modifier = 0
                 else if tl.element = m.const.TILE_GATE
                     if tl.modifier = 2 then tl.modifier = 0
                 end if

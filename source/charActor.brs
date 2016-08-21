@@ -345,7 +345,11 @@ Sub check_floor()
                 if m.actionCode = 5 then return 'being bumped
                 m.startFall()
             else if tile.element = m.const.TILE_LOOSE_BOARD
-                if m.charAction = "testfoot" then tile.shake(false) else tile.shake(true)
+                if m.charAction = "testfoot"
+                    tile.shake(false)
+                else if tile.element = 0
+                    tile.shake(true)
+                end if
             else if tile.element = m.const.TILE_RAISE_BUTTON or tile.element = m.const.TILE_DROP_BUTTON
                 tile.push()
             else if tile.element = m.const.TILE_SPIKES

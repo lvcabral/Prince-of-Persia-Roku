@@ -72,5 +72,5 @@ Sub shake_loose(fall as boolean)
         m.state = m.STATE_SHAKING
         m.stage = 0
     end if
-    m.fall = fall
+    m.fall = fall and m.modifier = 0
 End Sub
