@@ -347,7 +347,7 @@ Sub check_floor()
             else if tile.element = m.const.TILE_LOOSE_BOARD
                 if m.charAction = "testfoot"
                     tile.shake(false)
-                else if tile.element = 0
+                else if tile.modifier = 0
                     tile.shake(true)
                 end if
             else if tile.element = m.const.TILE_RAISE_BUTTON or tile.element = m.const.TILE_DROP_BUTTON
