@@ -62,7 +62,7 @@ Function CreateKid(level as object, startRoom as integer, startTile as integer, 
     this.grab = grab_kid
     this.tryPickup = try_pickup
     this.drinkPotion = drink_potion
-    this.gotSword = got_sword
+    this.getSword = get_sword
     this.block = block_kid
     this.fastSheathe = fast_sheathe
     this.tryEngarde = try_engarde
@@ -217,7 +217,7 @@ Sub update_behaviour_kid()
         end if
 	else if m.charAction = "stoop"
 		if m.pickupSword and m.frameID(109)
-			m.gotSword()
+			m.getSword()
 		else if m.pickupPotion and m.frameID(109)
 			m.drinkPotion()
 		else if not m.keyD() and m.frameID(109)
@@ -637,12 +637,13 @@ Sub try_pickup()
             if tileF.element = m.const.TILE_POTION or tileF.element = m.const.TILE_SWORD
                 m.blockX = m.blockX + 1
             end if
-            m.charX = ConvertBlockXtoX(m.blockX) + (1 * BoolToInt(m.pickupPotion))
+            m.charX = ConvertBlockXtoX(m.blockX) + (3 * BoolToInt(m.pickupPotion))
         else if m.faceL()
             if tile.element = m.const.TILE_POTION or tile.element = m.const.TILE_SWORD
-                m.blockX = m.blockX + 1
+                m.charX = ConvertBlockXtoX(m.blockX + 1) - 6
+            else
+                m.charX = ConvertBlockXtoX(m.blockX) - 3
             end if
-            m.charX = ConvertBlockXtoX(m.blockX) - 3
         end if
         m.action("stoop")
         m.allowCrawl = false
@@ -651,30 +652,42 @@ Sub try_pickup()
 End Sub
 
 Sub drink_potion()
-    m.action("drinkpotion")
-    m.pickupPotion = false
-    m.allowCrawl = true
-    if m.faceL()
-        x = m.blockX - 1
+    tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
+    if tile.element = m.const.TILE_POTION and tile.hasObject
+        x = m.blockX
     else
-        x = m.blockX + 1
+        if m.faceL() then x = m.blockX - 1 else x = m.blockX + 1
+        tile = m.level.getTileAt(x , m.blockY, m.room)
     end if
-    m.potion = m.level.getTileAt(x , m.blockY, m.room).modifier
-    m.level.removeObject(x, m.blockY, m.room)
+    if tile.element = m.const.TILE_POTION and tile.hasObject
+        m.action("drinkpotion")
+        m.pickupPotion = false
+        m.allowCrawl = true
+        m.potion = tile.modifier
+        m.level.removeObject(x, m.blockY, m.room)
+    else if m.action() = "stoop"
+        m.action("standup")
+    end if
 End Sub
 
-Sub got_sword()
-    m.action("pickupsword")
-    m.pickupSword = false
-    m.allowCrawl = true
-    if m.faceL()
-        x = m.blockX - 1
+Sub get_sword()
+    tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
+    if tile.element = m.const.TILE_SWORD and tile.hasObject
+        x = m.blockX
     else
-        x = m.blockX + 1
+        if m.faceL() then x = m.blockX - 1 else x = m.blockX + 1
+        tile = m.level.getTileAt(x , m.blockY, m.room)
     end if
-    m.level.removeObject(x, m.blockY, m.room)
-    m.haveSword = true
-    PlaySound("glory")
+    if tile.element = m.const.TILE_SWORD and tile.hasObject
+        m.action("pickupsword")
+        m.pickupSword = false
+        m.allowCrawl = true
+        m.level.removeObject(x, m.blockY, m.room)
+        m.haveSword = true
+        PlaySound("glory")
+    else if m.action() = "stoop"
+        m.action("standup")
+    end if
 End Sub
 
 Sub turn_kid()
@@ -695,7 +708,7 @@ Sub walk_kid()
 	else
 		tileF = m.level.getTileAt(m.blockX + 1, m.blockY, m.room)
 	end if
-    if m.nearBarrier() or (tileF.element = m.const.TILE_SPACE) or (tileF.element = m.const.TILE_POTION) or (tileF.element = m.const.TILE_LOOSE_BOARD) or (tileF.element = m.const.TILE_SWORD)
+    if m.nearBarrier() or (tileF.element = m.const.TILE_SPACE) or (tileF.element = m.const.TILE_LOOSE_BOARD)
         px = m.distanceToEdge()
         print "dtoedge"; px
         if tile.element = m.const.TILE_GATE and not tile.canCross(m.getCharBounds().height) and m.faceR()
