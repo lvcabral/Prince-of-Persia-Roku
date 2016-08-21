@@ -691,12 +691,12 @@ Sub get_sword()
 End Sub
 
 Sub turn_kid()
-    if not m.haveSword or not m.canSeeOpponent() or m.opponentDistance() > 0
-        m.action("turn")
-    else
+    if m.haveSword and m.canSeeOpponent() and m.canReachOpponent() and m.opponentDistance() < 90
         m.action("turndraw")
         m.swordDrawn = true
         m.flee = false
+    else
+        m.action("turn")
     end if
 End Sub
 

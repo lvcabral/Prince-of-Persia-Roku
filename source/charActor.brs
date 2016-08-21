@@ -638,20 +638,36 @@ End Function
 
 Function can_reach_opponent() as boolean
     can = true
-    if m.opponent = invalid or m.blockY <> m.opponent.blockY
-        return false
-    else if m.faceL() and m.blockX > m.opponent.blockX
-        min = m.opponent.blockX
-        max = m.blockX
-    else if m.faceR() and m.blockX < m.opponent.blockX
-        min = m.blockX
-        max = m.opponent.blockX
+    if m.opponent = invalid or m.blockY <> m.opponent.blockY then return false
+    if m.room = m.opponent.room
+        xOff = 0
+    else if m.level.rooms[m.room].links.right = m.opponent.room
+        xOff = 10
+    else if m.level.rooms[m.room].links.left = m.opponent.room
+        xOff = -10
     else
-        return true
+        return false
+    end if
+    if m.blockX > m.opponent.blockX + xOff
+        min = m.opponent.blockX + xOff
+        max = m.blockX
+    else
+        min = m.blockX
+        max = m.opponent.blockX + xOff
     end if
     for x = min to max
-        tile = m.level.getTileAt(x, m.blockY, m.room)
-        if tile.isBarrier() or tile.isMob() or tile.element = m.const.TILE_SLICER
+        if x < 0
+            room = m.level.rooms[m.room].links.left
+            blockX = x - xOff
+        else if x > 9
+            room = m.level.rooms[m.room].links.right
+            blockX = x - xOff
+        else
+            room = m.room
+            blockX = x
+        end if
+        tile = m.level.getTileAt(blockX, m.blockY, room)
+        if tile = invalid or tile.isBarrier() or tile.isMob() or tile.isSpace() or tile.element = m.const.TILE_SLICER
             can = false
             exit for
         end if
