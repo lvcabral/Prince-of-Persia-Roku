@@ -87,12 +87,14 @@ Function build_custom(levelId as integer, mod as object) as object
             if Val(xmlGuard@location) > 0 and Val(xmlGuard@location) < 31
                 colors = Val(xmlGuard@colors)
                 if colors < 1 or colors > 7 then colors = 1
+                direction = Val(xmlGuard@direction)
+                if direction = 2 then direction = 0
                 gd = { room: id,
                        location: Val(xmlGuard@location),
                        skill: Val(xmlGuard@skill),
                        colors: colors,
                        type: DefaultEnemies[levelId],
-                       direction: Val(xmlGuard@direction) - 1 }
+                       direction: direction }
                 this.guards.Push(gd)
             end if
         end if
