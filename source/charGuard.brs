@@ -144,12 +144,14 @@ Sub update_behaviour_guard()
         if (m.faceL() and m.oppRightSide()) or (m.faceR() and m.oppLeftSide())
             m.turnengarde()
         end if
-        if distance >= 35
-            m.oppTooFar(distance)
-        else if distance < 12
-            m.oppTooClose(distance)
-        else
-            m.oppInRange(distance)
+        if m.canReach
+            if distance >= 35
+                m.oppTooFar(distance)
+            else if distance < 12
+                m.oppTooClose(distance)
+            else
+                m.oppInRange(distance)
+            end if
         end if
     else if m.swordDrawn and m.opponent.room = m.room and m.opponent.droppedOut
         m.guardAdvance()

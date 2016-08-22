@@ -516,6 +516,10 @@ Sub check_fight()
     if m.charName = "kid"
         m.canReach = m.canReachOpponent()
         m.opponent.canReach = m.canReach
+        if not m.canReach and m.room <> m.opponent.room
+            m.opponent = invalid
+            return
+        end if
     end if
     distance = m.opponentDistance()
 	if m.charAction = "engarde" and m.charName = "kid"
@@ -570,21 +574,6 @@ Sub check_fight_barrier()
     else if not m.active or not m.alive or m.room < 0
         return
     end if
-    'Check Vertical
-    tileT = m.level.getTileAt(m.blockX, m.blockY - 1, m.room)
-    if m.charAction = "freefall"
-        if tileT.element = m.const.TILE_WALL
-            if m.faceL()
-                m.charX = ConvertBlockXtoX(m.blockX + 1) - 1
-            else
-                m.charX = ConvertBlockXtoX(m.blockX)
-            end if
-            m.updateBlockXY()
-            print "bump: freefall"
-        end if
-        return
-    end if
-    'Check Horizontal
     tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
     m.element = tile.element 'current tile element for debugging
     if tile.isBarrier()
