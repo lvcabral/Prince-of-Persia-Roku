@@ -1010,7 +1010,6 @@ Sub CheckForOpponent()
         if guard.room = m.kid.room and guard.alive and guard.opponent = invalid and guard.active
             m.kid.opponent = guard
             guard.opponent = m.kid
-            if not m.kid.haveSword then m.kid.flee = true
         else if m.kid.opponent = invalid and guard.opponent <> invalid
             guard.opponent = invalid
         end if

@@ -149,6 +149,8 @@ Sub update_behaviour_guard()
         else
             m.oppInRange(distance)
         end if
+    else if m.swordDrawn and m.opponent.room = m.room and m.opponent.droppedOut
+        m.guardAdvance()
     else
         if m.canSeeOpponent()
             m.engarde()
@@ -296,16 +298,12 @@ Sub guard_advance()
         tile2F = m.level.getTileAt(m.blockX + 2, m.blockY, m.room)
         tileD = m.level.getTileAt(m.blockX + 1, m.blockY + 1, m.room)
     end if
-    if tileF.isWalkable() and tileF.element <> m.const.TILE_LOOSE_BOARD
+    if tileF.isWalkable() and tile2F.isWalkable() and (m.canReach or m.opponent.droppedOut)
         m.advance()
-    else if tile2F.isWalkable() and tile2F.element <> m.const.TILE_LOOSE_BOARD
-        m.advance()
-    else if m.opponent.droppedOut and tileD.isWalkable() and m.opponent.blockY = m.blockY + 1
-        print "follow down"
+    else if m.opponent.room = m.room and not m.canReach and m.opponent.droppedOut and m.opponent.blockY = m.blockY + 1
         'follow kid down
-        m.advance()
-    else
-        print "retreat after dropped out"
+        if CanAdvance(tileF) and CanAdvance(tileD) then m.advance()
+    else if m.opponent.droppedOut
         m.opponent.droppedOut = false
         m.retreat()
     end if
@@ -338,7 +336,7 @@ Sub opp_too_far(distance)
     else if m.opponent.charAction = "runjump" and distance < 50
         if m.fight = m.const.FIGHT_ATTACK then m.strike()
     else
-        if m.canReachOpponent() then m.guardAdvance()
+        m.guardAdvance()
     end if
 End Sub
 

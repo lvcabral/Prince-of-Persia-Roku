@@ -104,6 +104,8 @@ Sub start_level(level as object, startRoom as integer, startTile as integer, sta
     m.element = 0
     m.fallingBlocks = 0
     m.success = false
+    m.flee = false
+    m.droppedOut = false
     m.cursors.shift = false
     m.effect = {color: m.colors.black, cycles: 0}
     m.cycles = 0
@@ -691,7 +693,7 @@ Sub get_sword()
 End Sub
 
 Sub turn_kid()
-    if m.haveSword and m.canSeeOpponent() and m.canReachOpponent() and m.opponentDistance() < 90
+    if m.haveSword and m.canSeeOpponent() and m.canReach and m.opponentDistance() <= 0
         m.action("turndraw")
         m.swordDrawn = true
         m.flee = false
@@ -1008,12 +1010,8 @@ Sub start_fall_kid()
         else if m.frameID(13)
             act = "stepfall2"
         end if
-        if m.swordDrawn
-            m.droppedOut = true
-        end if
-        if m.faceL()
-            m.level.maskTile(m.blockX + 1,m.blockY,m.room)
-        end if
+        if m.swordDrawn then m.droppedOut = true
+        if m.faceL() then m.level.maskTile(m.blockX + 1,m.blockY,m.room)
         m.action(act)
         m.processCommand()
     end if
@@ -1098,7 +1096,7 @@ Sub block_kid()
 End Sub
 
 Sub try_engarde()
-    if m.opponent.alive and m.canSeeOpponent() and m.canReachOpponent() and m.opponentDistance() < 90
+    if m.haveSword and m.opponent.alive and m.canSeeOpponent() and m.canReach and m.opponentDistance() < 90
         m.engarde()
         m.flee = false
     end if

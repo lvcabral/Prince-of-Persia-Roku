@@ -76,6 +76,7 @@ Function ImplementActor(char as object, room as integer, tile as integer, face a
     char.swordDrawn = false
     char.blocked = false
     char.flee = false
+    char.canReach = false
     char.allowAdvance = true
     char.allowRetreat = true
     char.allowBlock = true
@@ -144,7 +145,6 @@ Sub SetActorMethods(char as object)
     char.faceR = face_r
     char.distanceToFloor = distance_to_floor
     char.distanceToEdge = distance_to_edge
-    char.canReachOpponent = can_reach_opponent
 End Sub
 
 Function update_actor()
@@ -269,6 +269,7 @@ Sub update_block_xy()
             if m.opponent.blockX > 3 or m.blockY <> m.opponent.blockY
                 print "flee"
                 m.flee = false
+                m.droppedOut = false
                 m.opponent = invalid
             end if
         end if
@@ -280,6 +281,7 @@ Sub update_block_xy()
         if m.charName = "kid" and m.flee and m.opponent <> invalid and not m.canSeeOpponent()
             if m.opponent.blockX < 6 or m.blockY <> m.opponent.blockY
                 m.flee = false
+                m.droppedOut = false
                 m.opponent = invalid
             end if
         end if
@@ -500,6 +502,7 @@ Sub SetFighterMethods(char as object)
     char.opponentDistance = opponent_distance
     char.updateSwordPosition = update_sword_position
     char.canSeeOpponent = can_see_opponent
+    char.canReachOpponent = can_reach_opponent
 End Sub
 
 Sub check_fight()
@@ -509,6 +512,10 @@ Sub check_fight()
         m.processCommand()
         m.blocked = false
         return
+    end if
+    if m.charName = "kid"
+        m.canReach = m.canReachOpponent()
+        m.opponent.canReach = m.canReach
     end if
     distance = m.opponentDistance()
 	if m.charAction = "engarde" and m.charName = "kid"
@@ -637,7 +644,7 @@ Function moving_to() as integer
 End Function
 
 Function can_reach_opponent() as boolean
-    can = true
+    canReach = true
     if m.opponent = invalid or m.blockY <> m.opponent.blockY then return false
     if m.room = m.opponent.room
         xOff = 0
@@ -667,12 +674,16 @@ Function can_reach_opponent() as boolean
             blockX = x
         end if
         tile = m.level.getTileAt(blockX, m.blockY, room)
-        if tile = invalid or tile.isBarrier() or tile.isMob() or tile.isSpace() or tile.element = m.const.TILE_SLICER
-            can = false
+        if tile = invalid or not CanAdvance(tile)
+            canReach = false
             exit for
         end if
     next
-    return can
+    return canReach
+End Function
+
+Function CanAdvance(tile as object) as boolean
+    return (tile.isWalkable() and not (tile.isBarrier() or tile.isMob() or tile.isSpace() or tile.element = m.const.TILE_SLICER))
 End Function
 
 Sub bump_fighter()
