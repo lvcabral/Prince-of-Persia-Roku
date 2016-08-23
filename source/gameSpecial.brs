@@ -103,26 +103,27 @@ Function CheckSpecialEvents() as integer
             m.kid.level.exitOpen = 3
         else if m.kid.level.exitOpen = 3
             if m.guards.Count() = 0 then return m.const.SPECIAL_CONTINUE
+            tile = m.kid.level.getTileAt(kid.blockX, m.kid.blockY, m.kid.room)
             shadow = m.guards[0]
-            if m.kid.charAction <> "runjump" and m.kid.blockX = 4 and m.kid.blockY = 0
+            if m.kid.charAction <> "runjump" and tile.element = m.const.TILE_MIRROR
                 'Show mirror reflex
                 kdRegion = m.regions.kid[Abs(m.kid.face - 1)].Lookup(m.kid.frameName).Copy()
                 reflexPos = (150 * m.scale) - Abs(m.kid.sprite.GetX() - (150 * m.scale)) - kdRegion.GetWidth()
-                if m.reflex = invalid
-                    m.reflex = {}
-                    m.reflex.kid = m.compositor.NewSprite(reflexPos, m.kid.sprite.GetY(), kdRegion, m.kid.z)
+                if tile.reflex = invalid
+                    tile.reflex = {}
+                    tile.reflex.kid = m.compositor.NewSprite(reflexPos, m.kid.sprite.GetY(), kdRegion, m.kid.z)
                     bmp = GetPaintedBitmap(m.colors.black, 36 * m.scale, 56 * m.scale, true)
                     rgn = CreateObject("roRegion", bmp, 0, 0, bmp.GetWidth(), bmp.GetHeight())
                     if m.settings.spriteMode = m.const.SPRITES_MAC
-                        m.reflex.mask = m.compositor.NewSprite(94 * m.scale, 3 * m.scale, rgn, 29)
+                        tile.reflex.mask = m.compositor.NewSprite(94 * m.scale, 3 * m.scale, rgn, 29)
                     else
-                        m.reflex.mask = m.compositor.NewSprite(97 * m.scale, 3 * m.scale, rgn, 29)
+                        tile.reflex.mask = m.compositor.NewSprite(97 * m.scale, 3 * m.scale, rgn, 29)
                     end if
                 else
-                    m.reflex.kid.SetRegion(kdRegion)
-                    m.reflex.kid.MoveTo(reflexPos, m.kid.sprite.GetY())
-                    m.reflex.kid.SetDrawableFlag(true)
-                    m.reflex.mask.SetDrawableFlag(true)
+                    tile.reflex.kid.SetRegion(kdRegion)
+                    tile.reflex.kid.MoveTo(reflexPos, m.kid.sprite.GetY())
+                    tile.reflex.kid.SetDrawableFlag(true)
+                    tile.reflex.mask.SetDrawableFlag(true)
                 end if
             else if m.kid.charAction = "runjump" and m.kid.blockX < 8 and m.kid.blockY = 0
                 'Split kid and shadow when jumping through the mirror
@@ -142,9 +143,9 @@ Function CheckSpecialEvents() as integer
                 shadow.action("stand")
             else if shadow.room <> 4 and shadow.blockY > 0 and shadow.action() = "stand"
                 shadow.visible = false
-            else if m.reflex <> invalid then
-                m.reflex.kid.SetDrawableFlag(false)
-                m.reflex.mask.SetDrawableFlag(false)
+            else if tile.reflex <> invalid then
+                tile.reflex.kid.SetDrawableFlag(false)
+                tile.reflex.mask.SetDrawableFlag(false)
             end if
         end if
     else if m.currentLevel = 5

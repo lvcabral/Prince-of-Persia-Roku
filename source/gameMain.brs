@@ -115,7 +115,7 @@ Sub Main()
                     else if m.settings.modId <> invalid or m.settings.spriteMode > m.const.SPRITES_MAC
                         m.settings.spriteMode = m.const.SPRITES_DOS
                     end if
-                    if m.saveGame.cheat <> invalid then m.usedCheat = (m.usedCheat and m.saveGame.cheat)
+                    if m.savedGame.cheat <> invalid then m.usedCheat = (m.usedCheat and m.savedGame.cheat)
                 end if
             else
                 option = m.const.BUTTON_NO
@@ -367,8 +367,12 @@ Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
         charArray.Push(LoadBitmapRegions(scale, fullPath, fullName, fullImage, true))
         g.regions.guards.AddReplace(png, charArray)
     next
+    levelColor = ""
     if levelType >= 0
-        if g.regions.tiles = invalid or g.regions.spriteMode <> spriteMode or g.regions.levelType <> levelType or g.regions.scale <> scale
+        if g.settings.modId <> invalid and g.mods[g.settings.modId].levelColors <> invalid
+            levelColor = g.mods[g.settings.modId].levelColors[g.currentLevel]
+        end if
+        if g.regions.tiles = invalid or g.regions.spriteMode <> spriteMode or g.regions.levelType <> levelType or g.regions.levelColor <> levelColor or g.regions.scale <> scale
             g.regions.tiles = invalid
             fullPath = path + "tiles/"
             if levelType = g.const.TYPE_DUNGEON
@@ -384,11 +388,12 @@ Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
                     fullName = "palace"
                 end if
             end if
-            g.regions.tiles = LoadBitmapRegions(scale, fullPath, fullName)
+            g.regions.tiles = LoadBitmapRegions(scale, fullPath, fullName, fullName + levelColor)
         end if
     end if
     g.regions.spriteMode = spriteMode
     g.regions.levelType = levelType
+    g.regions.levelColor = levelColor
     g.regions.scale = scale
 End Sub
 
