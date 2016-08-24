@@ -423,7 +423,7 @@ Sub TROBsUpdate()
                     trob.sprite.childBack.setRegion(m.regions.tiles.Lookup(trob.tile.child.back.frameName))
                     trob.sprite.childFront.setRegion(m.regions.tiles.Lookup(trob.tile.child.front.frameName))
                 end if
-            else if trob.tile.element = m.const.TILE_SLICER
+            else if trob.tile.element = m.const.TILE_SLICER and trob.tile.stage > 0 and trob.tile.stage <= 5
                 trob.sprite.childBack.setRegion(m.regions.tiles.Lookup(trob.tile.child.back.frameName))
                 trob.sprite.childFront.setRegion(m.regions.tiles.Lookup(trob.tile.child.front.frameName))
                 if trob.tile.blood.visible
