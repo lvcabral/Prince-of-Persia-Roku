@@ -59,221 +59,209 @@
 {
 	"frame": {"x":252 ,"y":82,"w":60,"h":79}
 },
-"dungeon_10_fg_3":
+"dungeon_11":
 {
 	"frame": {"x":378 ,"y":0,"w":60,"h":79}
 },
-"dungeon_10_fg_4":
+"dungeon_11_fg":
 {
 	"frame": {"x":315 ,"y":82,"w":60,"h":79}
 },
-"dungeon_10_fg_5":
+"dungeon_12_fg":
 {
 	"frame": {"x":252 ,"y":164,"w":60,"h":79}
 },
-"dungeon_11":
+"dungeon_14":
 {
 	"frame": {"x":441 ,"y":0,"w":60,"h":79}
 },
-"dungeon_11_fg":
+"dungeon_14_fg":
 {
 	"frame": {"x":378 ,"y":82,"w":60,"h":79}
 },
-"dungeon_12_fg":
+"dungeon_15":
 {
 	"frame": {"x":315 ,"y":164,"w":60,"h":79}
 },
-"dungeon_14":
+"dungeon_15_down":
 {
 	"frame": {"x":441 ,"y":82,"w":60,"h":79}
 },
-"dungeon_14_fg":
+"dungeon_15_fg":
 {
 	"frame": {"x":378 ,"y":164,"w":60,"h":79}
 },
-"dungeon_15":
+"dungeon_16":
 {
 	"frame": {"x":441 ,"y":164,"w":60,"h":79}
 },
-"dungeon_15_down":
+"dungeon_16_fg":
 {
 	"frame": {"x":0 ,"y":246,"w":60,"h":79}
 },
-"dungeon_15_fg":
+"dungeon_17":
 {
 	"frame": {"x":63 ,"y":246,"w":60,"h":79}
 },
-"dungeon_16":
+"dungeon_17_fg":
 {
 	"frame": {"x":0 ,"y":328,"w":60,"h":79}
 },
-"dungeon_16_fg":
+"dungeon_18":
 {
 	"frame": {"x":126 ,"y":246,"w":60,"h":79}
 },
-"dungeon_17":
+"dungeon_18_fg":
 {
 	"frame": {"x":63 ,"y":328,"w":60,"h":79}
 },
-"dungeon_17_fg":
+"dungeon_19":
 {
 	"frame": {"x":0 ,"y":410,"w":60,"h":79}
 },
-"dungeon_18":
+"dungeon_19_fg":
 {
 	"frame": {"x":189 ,"y":246,"w":60,"h":79}
 },
-"dungeon_18_fg":
+"dungeon_2":
 {
 	"frame": {"x":126 ,"y":328,"w":60,"h":79}
 },
-"dungeon_19":
+"dungeon_2_0":
 {
 	"frame": {"x":63 ,"y":410,"w":60,"h":79}
 },
-"dungeon_19_fg":
+"dungeon_2_0_fg":
 {
 	"frame": {"x":252 ,"y":246,"w":60,"h":79}
 },
-"dungeon_2":
+"dungeon_2_1":
 {
 	"frame": {"x":189 ,"y":328,"w":60,"h":79}
 },
-"dungeon_2_0":
+"dungeon_2_1_fg":
 {
 	"frame": {"x":126 ,"y":410,"w":60,"h":79}
 },
-"dungeon_2_0_fg":
+"dungeon_2_2":
 {
 	"frame": {"x":315 ,"y":246,"w":60,"h":79}
 },
-"dungeon_2_1":
+"dungeon_2_2_fg":
 {
 	"frame": {"x":252 ,"y":328,"w":60,"h":79}
 },
-"dungeon_2_1_fg":
+"dungeon_2_3":
 {
 	"frame": {"x":189 ,"y":410,"w":60,"h":79}
 },
-"dungeon_2_2":
+"dungeon_2_3_fg":
 {
 	"frame": {"x":378 ,"y":246,"w":60,"h":79}
 },
-"dungeon_2_2_fg":
+"dungeon_2_4":
 {
 	"frame": {"x":315 ,"y":328,"w":60,"h":79}
 },
-"dungeon_2_3":
+"dungeon_2_4_fg":
 {
 	"frame": {"x":252 ,"y":410,"w":60,"h":79}
 },
-"dungeon_2_3_fg":
+"dungeon_2_5":
 {
 	"frame": {"x":441 ,"y":246,"w":60,"h":79}
 },
-"dungeon_2_4":
+"dungeon_2_5_fg":
 {
 	"frame": {"x":378 ,"y":328,"w":60,"h":79}
 },
-"dungeon_2_4_fg":
+"dungeon_2_fg":
 {
 	"frame": {"x":315 ,"y":410,"w":60,"h":79}
 },
-"dungeon_2_5":
+"dungeon_20":
 {
 	"frame": {"x":441 ,"y":328,"w":60,"h":79}
 },
-"dungeon_2_5_fg":
+"dungeon_20_fg":
 {
 	"frame": {"x":378 ,"y":410,"w":60,"h":79}
 },
-"dungeon_2_fg":
+"dungeon_21":
 {
 	"frame": {"x":441 ,"y":410,"w":60,"h":79}
 },
-"dungeon_20":
+"dungeon_21_fg":
 {
 	"frame": {"x":504 ,"y":0,"w":60,"h":79}
 },
-"dungeon_20_fg":
+"dungeon_22":
 {
 	"frame": {"x":567 ,"y":0,"w":60,"h":79}
 },
-"dungeon_21":
+"dungeon_22_bright":
 {
 	"frame": {"x":504 ,"y":82,"w":60,"h":79}
 },
-"dungeon_21_fg":
+"dungeon_22_fg":
 {
 	"frame": {"x":630 ,"y":0,"w":60,"h":79}
 },
-"dungeon_22":
+"dungeon_3":
 {
 	"frame": {"x":567 ,"y":82,"w":60,"h":79}
 },
-"dungeon_22_bright":
+"dungeon_3_fg":
 {
 	"frame": {"x":504 ,"y":164,"w":60,"h":79}
 },
-"dungeon_22_fg":
+"dungeon_30":
 {
 	"frame": {"x":630 ,"y":82,"w":60,"h":79}
 },
-"dungeon_3":
+"dungeon_30_fg":
 {
 	"frame": {"x":567 ,"y":164,"w":60,"h":79}
 },
-"dungeon_3_fg":
+"dungeon_4":
 {
 	"frame": {"x":504 ,"y":246,"w":60,"h":79}
 },
-"dungeon_30":
+"dungeon_4_fg":
 {
 	"frame": {"x":630 ,"y":164,"w":60,"h":79}
 },
-"dungeon_30_fg":
+"dungeon_6":
 {
 	"frame": {"x":567 ,"y":246,"w":60,"h":79}
 },
-"dungeon_4":
+"dungeon_6_down":
 {
 	"frame": {"x":504 ,"y":328,"w":60,"h":79}
 },
-"dungeon_4_fg":
+"dungeon_6_down_fg":
 {
 	"frame": {"x":630 ,"y":246,"w":60,"h":79}
 },
-"dungeon_6":
+"dungeon_6_fg":
 {
 	"frame": {"x":567 ,"y":328,"w":60,"h":79}
 },
-"dungeon_6_down":
+"dungeon_8":
 {
 	"frame": {"x":504 ,"y":410,"w":60,"h":79}
 },
-"dungeon_6_down_fg":
+"dungeon_8_fg":
 {
 	"frame": {"x":630 ,"y":328,"w":60,"h":79}
 },
-"dungeon_6_fg":
+"dungeon_9":
 {
 	"frame": {"x":567 ,"y":410,"w":60,"h":79}
 },
-"dungeon_8":
-{
-	"frame": {"x":630 ,"y":410,"w":60,"h":79}
-},
-"dungeon_8_fg":
-{
-	"frame": {"x":0 ,"y":492,"w":60,"h":79}
-},
-"dungeon_9":
-{
-	"frame": {"x":63 ,"y":492,"w":60,"h":79}
-},
 "dungeon_9_fg":
 {
-	"frame": {"x":0 ,"y":574,"w":60,"h":79}
+	"frame": {"x":630 ,"y":410,"w":60,"h":79}
 },
 "dungeon_door":
 {
@@ -281,15 +269,15 @@
 },
 "dungeon_door_fg":
 {
-	"frame": {"x":126 ,"y":492,"w":60,"h":79}
+	"frame": {"x":0 ,"y":492,"w":60,"h":79}
 },
 "dungeon_falling":
 {
-	"frame": {"x":63 ,"y":574,"w":60,"h":79}
+	"frame": {"x":63 ,"y":492,"w":60,"h":79}
 },
 "dungeon_gate":
 {
-	"frame": {"x":0 ,"y":656,"w":60,"h":79}
+	"frame": {"x":0 ,"y":574,"w":60,"h":79}
 },
 "dungeon_gate_fg":
 {
@@ -297,83 +285,83 @@
 },
 "dungeon_loose_1":
 {
-	"frame": {"x":189 ,"y":492,"w":60,"h":79}
+	"frame": {"x":126 ,"y":492,"w":60,"h":79}
 },
 "dungeon_loose_2":
 {
-	"frame": {"x":126 ,"y":574,"w":60,"h":79}
+	"frame": {"x":63 ,"y":574,"w":60,"h":79}
 },
 "dungeon_loose_3":
 {
-	"frame": {"x":63 ,"y":656,"w":60,"h":79}
+	"frame": {"x":0 ,"y":656,"w":60,"h":79}
 },
 "dungeon_loose_4":
 {
-	"frame": {"x":252 ,"y":492,"w":60,"h":79}
+	"frame": {"x":189 ,"y":492,"w":60,"h":79}
 },
 "dungeon_loose_5":
 {
-	"frame": {"x":189 ,"y":574,"w":60,"h":79}
+	"frame": {"x":126 ,"y":574,"w":60,"h":79}
 },
 "dungeon_loose_6":
 {
-	"frame": {"x":126 ,"y":656,"w":60,"h":79}
+	"frame": {"x":63 ,"y":656,"w":60,"h":79}
 },
 "dungeon_loose_7":
 {
-	"frame": {"x":315 ,"y":492,"w":60,"h":79}
+	"frame": {"x":252 ,"y":492,"w":60,"h":79}
 },
 "dungeon_loose_8":
 {
-	"frame": {"x":252 ,"y":574,"w":60,"h":79}
+	"frame": {"x":189 ,"y":574,"w":60,"h":79}
 },
 "dungeon_slicer_1":
 {
-	"frame": {"x":189 ,"y":656,"w":60,"h":79}
+	"frame": {"x":126 ,"y":656,"w":60,"h":79}
 },
 "dungeon_slicer_1_fg":
 {
-	"frame": {"x":378 ,"y":492,"w":60,"h":79}
+	"frame": {"x":315 ,"y":492,"w":60,"h":79}
 },
 "dungeon_slicer_2":
 {
-	"frame": {"x":315 ,"y":574,"w":60,"h":79}
+	"frame": {"x":252 ,"y":574,"w":60,"h":79}
 },
 "dungeon_slicer_2_fg":
 {
-	"frame": {"x":252 ,"y":656,"w":60,"h":79}
+	"frame": {"x":189 ,"y":656,"w":60,"h":79}
 },
 "dungeon_slicer_3":
 {
-	"frame": {"x":441 ,"y":492,"w":60,"h":79}
+	"frame": {"x":378 ,"y":492,"w":60,"h":79}
 },
 "dungeon_slicer_3_fg":
 {
-	"frame": {"x":378 ,"y":574,"w":60,"h":79}
+	"frame": {"x":315 ,"y":574,"w":60,"h":79}
 },
 "dungeon_slicer_4":
 {
-	"frame": {"x":315 ,"y":656,"w":60,"h":79}
+	"frame": {"x":252 ,"y":656,"w":60,"h":79}
 },
 "dungeon_slicer_4_fg":
 {
-	"frame": {"x":504 ,"y":492,"w":60,"h":79}
+	"frame": {"x":441 ,"y":492,"w":60,"h":79}
 },
 "dungeon_slicer_5":
 {
-	"frame": {"x":441 ,"y":574,"w":60,"h":79}
+	"frame": {"x":378 ,"y":574,"w":60,"h":79}
 },
 "dungeon_slicer_5_fg":
 {
-	"frame": {"x":378 ,"y":656,"w":60,"h":79}
+	"frame": {"x":315 ,"y":656,"w":60,"h":79}
 },
 "dungeon_wall_0":
 {
-	"frame": {"x":567 ,"y":492,"w":60,"h":79}
+	"frame": {"x":504 ,"y":492,"w":60,"h":79}
 },
 "dungeon_wall_1":
 {
-	"frame": {"x":504 ,"y":574,"w":60,"h":79}
+	"frame": {"x":441 ,"y":574,"w":60,"h":79}
 },
 "dungeon_wall_divider_1":
 {
@@ -405,18 +393,18 @@
 },
 "SWS":
 {
-	"frame": {"x":441 ,"y":656,"w":60,"h":79}
+	"frame": {"x":378 ,"y":656,"w":60,"h":79}
 },
 "SWW":
 {
-	"frame": {"x":630 ,"y":492,"w":60,"h":79}
+	"frame": {"x":567 ,"y":492,"w":60,"h":79}
 },
 "WWS":
 {
-	"frame": {"x":567 ,"y":574,"w":60,"h":79}
+	"frame": {"x":504 ,"y":574,"w":60,"h":79}
 },
 "WWW":
 {
-	"frame": {"x":504 ,"y":656,"w":60,"h":79}
+	"frame": {"x":441 ,"y":656,"w":60,"h":79}
 }}
 }

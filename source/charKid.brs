@@ -390,6 +390,15 @@ Sub process_command_kid()
                     PlaySound("weightless-potion")
                 else if m.potion = m.const.POTION_INVERT
                     FlipScreen()
+                else if m.potion = m.const.POTION_OPEN
+                    tileAction = m.level.getTileAt(0, 0, 8)
+                    if tileAction <> invalid
+                        if tileAction.element = m.const.TILE_DROP_BUTTON or tileAction.element = m.const.TILE_RAISE_BUTTON
+                            tileAction.push()
+                        else if tileAction.element = m.const.TILE_LOOSE_BOARD
+                            tile.shake(true)
+                        end if
+                    end if
                 end if
                 m.potion = 0
             else if  m.charAction = "pickupsword"

@@ -211,17 +211,11 @@ Function build_tile(x as integer, y as integer, id as integer)
         end if
 	else if t.element = m.const.TILE_POTION
 		colors = ["red", "red", "red", "green", "green", "blue", "blue"]
-        potion = tile.front + "_" + itostr(t.modifier)
-        if m.type = m.const.TYPE_PALACE
-            if m.spriteMode = m.const.SPRITES_MAC
-                if t.modifier > 2 then potion = tile.front + "_1"
-            else
-                if t.modifier = 3 or t.modifier = 4
-                    potion = tile.front + "_2"
-                else if t.modifier = 5
-                    potion = tile.front + "_1"
-                end if
-            end if
+        potion = tile.front + "_1"
+        if m.spriteMode = m.const.SPRITES_MAC
+            if t.modifier = 2 then potion = tile.front + "_2"
+        else
+            if t.modifier > 1 and t.modifier < 5 then potion = tile.front + "_2"
         end if
         tile.front = potion
         if m.spriteMode = m.const.SPRITES_MAC
