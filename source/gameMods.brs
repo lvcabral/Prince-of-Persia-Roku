@@ -80,17 +80,32 @@ Sub DownloadMod(mod as object)
 End Sub
 
 Function GetModImage(modId as dynamic) as string
+    cloud = false
+    modImage = "pkg:/assets/titles/intro-screen-dos.png"
+    modCover = "tmp:/0000001.png"
     if modId <> invalid
         mod = m.mods[modId]
         if Left(mod.url,3) = "pkg"
             modImage = mod.url + mod.path + modId + "_1.png"
         else
             modImage = CacheFile(m.webMods + mod.path + modId + "_1.png", modId + "_1.png")
+            cloud = true
         end if
-    else
-        modImage = "pkg:/assets/titles/intro-screen-dos.png"
+        modCover = "tmp:/" + modId + ".png"
     end if
-    return modImage
+    if modImage <> "" and not m.files.Exists(modCover)
+        bmp = GetPaintedBitmap(0, 360, 240, true)
+        bmp.DrawObject(20, 20, CreateObject("roBitmap", modImage))
+        bmp.DrawLine(19, 19, 19 + 322, 19, m.colors.white)
+        bmp.DrawLine(19 + 322, 19, 19 + 322, 19 + 202, m.colors.white)
+        bmp.DrawLine(19 + 322, 19 + 202, 19, 19 + 202, m.colors.white)
+        bmp.DrawLine(19, 19 + 202, 19, 19, m.colors.white)
+        if cloud then bmp.DrawObject(312, 192, CreateObject("roBitmap", "pkg:/images/icon_cloud.png"))
+        bmp.Finish()
+        png = bmp.GetPng(0, 0, 360, 240)
+        png.WriteFile(modCover)
+    end if
+    return modCover
 End Function
 
 Sub ModsAndCheatsScreen()
