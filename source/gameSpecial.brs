@@ -78,6 +78,9 @@ Function CheckSpecialEvents() as integer
                 skeleton.charX = ConvertBlockXtoX(5)
                 skeleton.charY = ConvertBlockYtoY(1)
                 skeleton.face = m.const.FACE_RIGHT
+                skeleton.fallingBlocks = 0
+                skeleton.charXVel = 0
+                skeleton.charYVel = 0
                 skeleton.action("stand")
                 skeleton.swordDrawn = false
                 skeleton.active = true
