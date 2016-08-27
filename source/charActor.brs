@@ -312,7 +312,7 @@ Sub check_floor()
     if m.actionCode = 0 or m.actionCode = 1 or m.actionCode = 7 or m.actionCode = 5
         if m.charFcheck
             tile = m.level.getTileAt(m.blockX, m.blockY,m.room)
-            if tile.element = m.const.TILE_SPACE
+            if tile.isSpace()
                 if m.actionCode = 5 then return 'being bumped
                 if m.leapOfFaith
                     'show tiles
@@ -330,21 +330,12 @@ Sub check_floor()
                     end if
                 else
                     if m.charName = "skeleton"
-                        if m.room = 3
-                            m.charX = ConvertBlockXtoX(m.blockX) + 20
-                        else
-                            m.charX = ConvertBlockXtoX(m.blockX) + 15
-                        end if
-                    else if m.charName = "guard"
                         m.charX = ConvertBlockXtoX(m.blockX) + 15
                     else
-                        m.charX = ConvertBlockXtoX(m.blockX) + 5
+                        m.charX = ConvertBlockXtoX(m.blockX) + 7
                     end if
                     m.updateBlockXY()
                 end if
-                m.startFall()
-            else if tile.isSpace()
-                if m.actionCode = 5 then return 'being bumped
                 m.startFall()
             else if tile.element = m.const.TILE_LOOSE_BOARD
                 if m.charAction = "testfoot"
@@ -359,18 +350,24 @@ Sub check_floor()
             end if
         end if
     else if m.actionCode = 4   ' freefall
-        if m.charY > ConvertBlockYtoY(m.blockY)
+        if m.charY >= ConvertBlockYtoY(m.blockY)
             tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
             print m.charName;" falling at tile=";tile.element; " y="; m.charY
             if tile.isWalkable()
                 print m.charName;" m.fallingBlocks=";m.fallingBlocks; " y="; m.charY
                 m.land(tile)
             else if not m.isWeightless
-                print m.charName;" m.fallingBlocks++";m.fallingBlocks; " y="; m.charY
                 m.fallingBlocks = m.fallingBlocks + 1
+                print m.charName;" m.fallingBlocks++";m.fallingBlocks; " y="; m.charY
                 if m.fallingBlocks = 3 and m.charName = "kid"
                     PlaySound("scream")
                 end if
+            end if
+        else if m.blockY > 2
+            tile = m.level.getTileAt(m.blockX, 2, m.room)
+            if not tile.isSpace()
+                m.blockY = 2
+                m.land(tile)
             end if
         end if
     end if

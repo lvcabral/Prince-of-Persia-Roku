@@ -112,7 +112,7 @@ End Function
 Function update_guard()
     m.updateBehaviour()
     m.processCommand()
-    if m.opponent <> invalid
+    if m.opponent <> invalid or m.action() <> "stand"
         m.updateAcceleration()
         m.updateVelocity()
         m.checkFight()
@@ -132,7 +132,7 @@ End Function
 
 Sub update_behaviour_guard()
     if m.opponent = invalid or not m.opponent.alive or not m.alive
-        if m.alive and m.charAction <> "stand" and m.swordDrawn then
+        if m.alive and m.charAction = "engarde" and m.swordDrawn
             m.action("stand")
             m.swordDrawn = false
         end if
