@@ -34,7 +34,7 @@ Sub DownloadMod(mod as object)
     modUrl = m.webMods + mod.path
     if not m.files.Exists("tmp:/" + mod.path) then m.files.CreateDirectory("tmp:/" + mod.path)
     if mod.levels
-        TextBox(m.mainScreen, 600, 50, "Loading " + mod.name + " levels...")
+        TextBox(m.mainScreen, 620, 50, "Loading " + mod.name + " levels...")
         for l = 1 to 11
             file = "level" + itostr(l) + ".xml"
             CacheFile(modUrl + "levels/" + file, mod.path + file)
@@ -44,7 +44,7 @@ Sub DownloadMod(mod as object)
         CacheFile(modUrl + "levels/princess.xml", mod.path + "princess.xml")
     end if
     if mod.titles
-        TextBox(m.mainScreen, 600, 50, "Loading " + mod.name + " titles...")
+        TextBox(m.mainScreen, 620, 50, "Loading " + mod.name + " titles...")
         CacheFile(modUrl + "titles/intro-screen.png", mod.path + "intro-screen.png")
         CacheFile(modUrl + "titles/message-author.png", mod.path + "message-author.png")
         CacheFile(modUrl + "titles/message-game-name.png", mod.path + "message-game-name.png")
@@ -57,7 +57,7 @@ Sub DownloadMod(mod as object)
     end if
     if mod.palettes then CacheFile(modUrl + "palettes/wall.pal", mod.path + "wall.pal")
     if mod.sprites and mod.files <> invalid and mod.files.sprites <> invalid
-        TextBox(m.mainScreen, 600, 50, "Loading " + mod.name + " sprites...")
+        TextBox(m.mainScreen, 620, 50, "Loading " + mod.name + " sprites...")
         for each file in mod.files.sprites
             if file = "guards"
                 CacheFile(modUrl + "sprites/guard.json", mod.path + "guard.json")
@@ -72,7 +72,7 @@ Sub DownloadMod(mod as object)
         next
     end if
     if mod.sounds and mod.files <> invalid and mod.files.sounds <> invalid
-        TextBox(m.mainScreen, 600, 50, "Loading " + mod.name + " sounds...")
+        TextBox(m.mainScreen, 620, 50, "Loading " + mod.name + " sounds...")
         for each file in mod.files.sounds
             CacheFile(modUrl + "sounds/" + file + ".wav", mod.path + file + ".wav", true)
         next
@@ -115,9 +115,9 @@ Sub ModsAndCheatsScreen()
            }
     this.screen.SetMessagePort(this.port)
     this.screen.SetHeader("Mods and Cheats")
-    this.modArray = [{name: "(none)", author:"Jordan Mechner", levels: false, sprites: false, sounds: false}]
+    this.modArray = [{name: "(none)", author:"", levels: false, sprites: false, sounds: false}]
     this.modIndex = 0
-    for each mod in m.mods
+    for each mod in m.mods.Keys()
         if mod = m.settings.modId then this.modIndex = this.modArray.Count()
         m.mods[mod].id = mod
         this.modArray.Push(m.mods[mod])
@@ -137,6 +137,25 @@ Sub ModsAndCheatsScreen()
         this.modName = this.modArray[0].name
     end if
     this.modImage = GetModImage(m.settings.modId)
+    this.saveMode = m.settings.saveGame
+    if this.saveMode
+        if m.savedGame <> invalid
+            this.saveTitle = SavedGameTitle(m.savedGame)
+            this.saveImage = GetModImage(m.savedGame.modId)
+            if m.savedGame.modId <> invalid
+                this.saveDesc = m.mods[m.savedGame.modId].name
+            else
+                this.saveDesc = "Original Game Levels"
+            end if
+        else
+            this.saveTitle = "(enabled)"
+            this.saveDesc = ""
+        end if
+    else
+        this.saveTitle = "(disabled)"
+        this.saveImage = ""
+        this.saveDesc = ""
+    end if
     listItems = GetMenuItems(this)
     this.screen.SetContent(listItems)
     this.screen.Show()
@@ -169,10 +188,11 @@ Sub ModsAndCheatsScreen()
                 end if
             else if msg.isListItemSelected()
                 index = msg.GetIndex()
-                if index = 4 'Save
+                if index = listItems.Count() - 1 'Save
                     m.settings.modId = this.modArray[this.modIndex].id
                     m.settings.fight = this.fightIndex
                     m.settings.rewFF = this.rewFFIndex
+                    m.settings.saveGame = this.saveMode
                     m.settings.okMode = this.okIndex
                     if this.modArray[this.modIndex].sprites
                         m.settings.spriteMode = val(m.settings.modId)
@@ -240,6 +260,33 @@ Sub ModsAndCheatsScreen()
                     listItems[listIndex].HDPosterUrl = "pkg:/images/okmode_" + itostr(this.okIndex) + ".jpg"
                     listItems[listIndex].SDPosterUrl = listItems[listIndex].HDPosterUrl
                     this.screen.SetItem(listIndex, listItems[listIndex])
+                else if listIndex = 4 'Save Game
+                    if remoteKey = m.code.BUTTON_LEFT_PRESSED or remoteKey = m.code.BUTTON_RIGHT_PRESSED
+                        this.saveMode = not this.saveMode
+                    end if
+                    if this.saveMode
+                        if m.savedGame <> invalid
+                            this.saveTitle = SavedGameTitle(m.savedGame)
+                            this.saveImage = GetModImage(m.savedGame.modId)
+                            if m.savedGame.modId <> invalid
+                                this.saveDesc = m.mods[m.savedGame.modId].name
+                            else
+                                this.saveDesc = "Original Game Levels"
+                            end if
+                        else
+                            this.saveTitle = "(enabled)"
+                            this.saveDesc = ""
+                        end if
+                    else
+                        this.saveTitle = "(disabled)"
+                        this.saveImage = ""
+                        this.saveDesc = ""
+                    end if
+                    listItems[listIndex].Title = "  Saved Game: " + this.saveTitle
+                    listItems[listIndex].ShortDescriptionLine1 = this.saveDesc
+                    listItems[listIndex].HDPosterUrl = this.saveImage
+                    listItems[listIndex].SDPosterUrl = this.saveImage
+                    this.screen.SetItem(listIndex, listItems[listIndex])
                 end if
                 m.sounds.navSingle.Trigger(50)
             end if
@@ -275,7 +322,7 @@ Function GetMenuItems(menu as object)
                 HDPosterUrl: "pkg:/images/rewff_" + itostr(menu.rewFFIndex) + ".jpg"
                 SDPosterUrl: "pkg:/images/rewff_" + itostr(menu.rewFFIndex) + ".jpg"
                 ShortDescriptionLine1: menu.rewFFHelp[menu.rewFFIndex]
-                ShortDescriptionLine2: "Use Left and Right to select the keys mode"
+                ShortDescriptionLine2: "Use Left and Right to set arrow keys mode"
                 })
     listItems.Push({
                 Title: "  OK Key: " + menu.okModes[menu.okIndex]
@@ -284,7 +331,16 @@ Function GetMenuItems(menu as object)
                 HDPosterUrl: "pkg:/images/okmode_" + itostr(menu.okIndex) + ".jpg",
                 SDPosterUrl: "pkg:/images/okmode_" + itostr(menu.okIndex) + ".jpg",
                 ShortDescriptionLine1: menu.okHelp[menu.okIndex]
-                ShortDescriptionLine2: "Use Left and Right to select the OK key mode"
+                ShortDescriptionLine2: "Use Left and Right to set OK key mode"
+                })
+    listItems.Push({
+                Title: "  Saved Game: " + menu.saveTitle
+                HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
+                SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
+                HDPosterUrl: menu.saveImage,
+                SDPosterUrl: menu.saveImage,
+                ShortDescriptionLine1: menu.saveDesc,
+                ShortDescriptionLine2: "Use Left and Right to enable/disable save"
                 })
     listItems.Push({
                 Title: "  Save Selections!"
@@ -292,13 +348,14 @@ Function GetMenuItems(menu as object)
                 SDSmallIconUrl: "pkg:/images/icon_save_bw.png"
                 HDPosterUrl: menu.modImage
                 SDPosterUrl: menu.modImage
-                ShortDescriptionLine1: "Using cheats (fight mode or keys)" + chr(10) + "disable highscore record"
+                ShortDescriptionLine1: "Using cheats (fight mode or keys)" + chr(10) + "disables highscore record"
                 ShortDescriptionLine2: "Press OK to save"
                 })
     return listItems
 End Function
 
 Function ModDescription(mod as object) as string
+    if mod.author = "" then return "Original Game Levels"
     modAuthor = "Author: " + mod.author + chr(10)
     modFeatures = ""
     if mod.levels then modFeatures = "Levels"
@@ -311,4 +368,8 @@ Function ModDescription(mod as object) as string
         modFeatures = modFeatures + "Sounds"
     end if
     return modAuthor + modFeatures
+End Function
+
+Function SavedGameTitle(game as object) as string
+    return "Level: " + itostr(game.level) + "  Time: "  + itostr(CInt(game.time / 60)) + "min"
 End Function

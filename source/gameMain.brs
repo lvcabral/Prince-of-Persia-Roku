@@ -55,6 +55,7 @@ Sub Main()
     end if
     if m.settings.fight = invalid then m.settings.fight = m.const.FIGHT_ALERT
     if m.settings.rewFF = invalid then m.settings.rewFF = m.const.REWFF_LEVEL
+    if m.settings.saveGame = invalid then m.settings.saveGame = true
     if m.settings.okMode = invalid then m.settings.okMode = m.const.OKMODE_TIME
     'Game/Debug switches
     m.debugMode = false ' flag to enable/disable debug code
@@ -101,7 +102,7 @@ Sub Main()
             end if
             m.checkPoint = invalid
             m.usedCheat = (m.settings.fight > m.const.FIGHT_ATTACK)
-            if m.savedGame <> invalid
+            if m.settings.saveGame and m.savedGame <> invalid
                 m.mainScreen.Clear(0)
                 option = MessageBox(m.gameScreen, 320, 100, "Restore Saved Game?")
                 if option = m.const.BUTTON_YES
@@ -116,6 +117,7 @@ Sub Main()
                         m.settings.spriteMode = m.const.SPRITES_DOS
                     end if
                     if m.savedGame.cheat <> invalid then m.usedCheat = (m.usedCheat and m.savedGame.cheat)
+                    SaveSettings(m.settings)
                 end if
             else
                 option = m.const.BUTTON_NO
@@ -126,8 +128,8 @@ Sub Main()
                     DownloadMod(m.mods[m.settings.modId])
                 end if
                 'Debug: Uncomment the next two lines to start at a specific location
-                ' m.currentLevel = 12
-                ' m.checkPoint = {room: 15, tile:8, face: 1}
+                'm.currentLevel = 3
+                'm.checkPoint = {room: 6, tile: 7, face: 1}
                 print "Starting the Game"
                 m.levelTime = m.startTime
                 'Play introduction and cut scene

@@ -291,15 +291,14 @@ Function MessageBox(screen as object, width as integer, height as integer, text 
     end while
 End Function
 
-Sub TextBox(screen as object, width as integer, height as integer, text as string)
+Sub TextBox(screen as object, width as integer, height as integer, text as string, border = false as boolean)
     leftX = Cint((screen.GetWidth()-width)/2)
     topY = Cint((screen.GetHeight()-height)/2)
-    xt = leftX + int(width / 2) - ((Len(text) + 1) * 14) / 2
-    xb = leftX + int(width / 2) - (13 * 14) / 2
+    xt = leftX + int(width / 2) - (Len(text) * 13) / 2
     yt = topY + height / 2 - 15
     m.mainScreen.SwapBuffers()
     screen.DrawRect(leftX, topY, width, height, m.colors.black)
     m.bitmapFont[2].write(screen, text, xt, yt)
-    DrawBorder(screen, width, height, m.colors.white, 0)
+    if border then DrawBorder(screen, width, height, m.colors.white, 0)
     m.mainScreen.SwapBuffers()
 End Sub

@@ -46,7 +46,7 @@ Function PlayGame() as boolean
             id = event.GetInt()
             if id = m.code.BUTTON_BACK_PRESSED
                 m.audioPlayer.stop()
-                if m.kid.alive and m.kid.level.number > 2
+                if m.kid.alive and m.kid.level.number > 2 and m.settings.saveGame
                     saveOpt = MessageBox(m.gameScreen, 230, 100, "Save Game?")
                     if saveOpt = m.const.BUTTON_YES
                         if m.savedGame = invalid then m.savedGame = {}
