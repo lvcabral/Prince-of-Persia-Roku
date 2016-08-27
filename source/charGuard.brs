@@ -121,6 +121,10 @@ Function update_guard()
         m.checkFightBarrier()
         m.checkFloor()
         m.checkRoomChange()
+    else if m.charName = "shadow"
+        m.updateAcceleration()
+        m.updateVelocity()
+        m.checkFloor()
     end if
     m.updatePosition()
     m.updateSwordPosition()

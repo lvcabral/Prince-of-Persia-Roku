@@ -134,24 +134,32 @@ Function CheckSpecialEvents() as integer
             else if m.kid.charAction = "runjump" and m.kid.blockX < 8 and m.kid.blockY = 0
                 'Split kid and shadow when jumping through the mirror
                 if shadow.blockY > 0 and shadow.action() = "stand"
+                    shadow.meet = false
                     shadow.charX = ConvertBlockXtoX(1)
                     shadow.charY = ConvertBlockYtoY(0)
                     shadow.action("runjump")
+                else if m.kid.blockX = 4
+                    shadow.meet = true
                 else if m.kid.blockX = 3
                     PlaySound("mirror")
-                else if shadow.sprite.GetX() >= tile.backSprite.GetX() and shadow.action() = "runjump"
-                    shadow.visible = true
                 end if
-            else if not shadow.visible and shadow.action() <> "runjump" and shadow.action() <> "stand"
-                shadow.room = 4
-                shadow.charX = ConvertBlockXtoX(1)
-                shadow.charY = ConvertBlockYtoY(1)
-                shadow.action("stand")
             else if m.reflex <> invalid
                 m.reflex.kid.SetDrawableFlag(false)
                 m.reflex.mask.SetDrawableFlag(false)
             end if
-            if shadow.visible and m.kid.level.rooms[shadow.room].links.right = -1 and shadow.blockX = 8
+            if shadow.meet and shadow.sprite.GetX() >= tile.backSprite.GetX() and shadow.action() = "runjump"
+                shadow.visible = true
+            else if not shadow.visible and shadow.action() <> "runjump" and shadow.action() <> "stand"
+                'Restore Shadow position
+                shadow.room = 4
+                shadow.baseX  = m.kid.level.rooms[shadow.room].x * m.const.ROOM_WIDTH
+                shadow.baseY  = m.kid.level.rooms[shadow.room].y * m.const.ROOM_HEIGHT
+                shadow.charX = ConvertBlockXtoX(2)
+                shadow.charY = ConvertBlockYtoY(1)
+                shadow.action("stand")
+            end if
+            if shadow.visible and shadow.blockY > 0
+                'Hide Shadow
                 shadow.visible = false
                 shadow.action("stand")
                 shadow.active = false
