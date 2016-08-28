@@ -223,7 +223,7 @@ Function CheckSpecialEvents() as integer
         if m.kid.room = 16
             'The Mouse saves the day!
             if m.mouse = invalid
-                if m.wait = invalid then m.wait = 1 else m.wait = m.wait + 1
+                if m.wait = invalid then m.wait = 1 else m.wait++
                 if m.wait < 110 then return m.const.SPECIAL_CONTINUE
                 m.mouse = CreateMouse(m.tileSet.level, 12, 6, m.const.FACE_LEFT)
                 m.mouse.action("scurry")

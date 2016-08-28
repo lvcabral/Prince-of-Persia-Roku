@@ -31,9 +31,9 @@ Function build_custom(levelId as integer, mod as object) as object
     if mod.guards <> invalid then DefaultEnemies = mod.guards
     xml = CreateObject("roXMLElement")
     if not xml.Parse(rsp)
-         print "Invalid xml for level "; levelId; " "; modPath + xmlFile
+        print "Invalid xml for level "; levelId; " "; modPath + xmlFile
         return invalid
-    endif
+    end if
     'Create new level object
 	this = CreateLevel(levelId, "Custom Level", DefaultLevelTypes[levelId])
     this.guards = []

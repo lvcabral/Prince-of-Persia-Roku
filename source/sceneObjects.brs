@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: May 2016
-' **  Updated: May 2016
+' **  Updated: August 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -36,7 +36,7 @@ Sub update_clock()
     if m.active
         m.sandStep = (m.sandStep + 1) Mod 3
         m.child.frameName = m.sandFrames[m.sandStep]
-        m.step = m.step + 1
+        m.step++
         if m.step = 40
             m.clockStep = (m.clockStep + 1) Mod 7
             m.frameName = m.clockFrames[m.clockStep]

@@ -260,24 +260,22 @@ Function get_tile_at(x as integer, y as integer, id as integer) as object
     if room <> invalid
         if x < 0
             id = m.getRoomId(room.x - 1, room.y)
-            x = x + 10
+            x += 10
         end if
         if x > 9
             id = m.getRoomId(room.x + 1, room.y)
-            x = x - 10
+            x -= 10
         end if
         if y < 0
             room = m.getRoomId(room.x, room.y - 1)
-            y = y + 3
+            y += 3
         end if
         if y > 2
             room = m.getRoomId(room.x, room.y + 1)
-            y = y - 3
+            y -= 3
         end if
     end if
-    if id < 0
-        return CreateTile(m.const.TILE_WALL, 0, m.level.type)
-    end if
+    if id < 0 then return CreateTile(m.const.TILE_WALL, 0, m.level.type)
     return m.level.rooms[id].tiles[x + y * 10]
 End Function
 

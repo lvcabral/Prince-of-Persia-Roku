@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: March 2016
-' **  Updated: March 2016
+' **  Updated: August 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -30,7 +30,7 @@ Sub update_sword()
             m.tick = rnd(128) + 39
     		m.redraw = true
         end if
-        m.stage = m.stage + 1
+        m.stage++
         if m.stage = m.tick
             m.back = m.back + "_bright"
             m.stage = -1

@@ -18,7 +18,7 @@ Function PlayIntro(spriteMode = -1 as integer) as boolean
 	posScale = scale
 	if spriteMode = -1 then spriteMode = m.settings.spriteMode
 	if spriteMode = m.const.SPRITES_MAC
-		scale = scale / 2
+		scale /= 2
 		suffix = "-mac"
 	else
 		suffix = "-dos"
@@ -161,11 +161,11 @@ Sub CheckHighScores()
             if m.timeLeft > score.time and index < 0
                 index = counter
                 newScores.Push({name: "", time: m.timeLeft})
-                counter = counter + 1
+                counter++
                 if counter = 7 then exit for
             end if
             newScores.Push(score)
-            counter = counter + 1
+            counter++
             if counter = 7 then exit for
         next
 		if counter < 7 and index < 0
@@ -199,7 +199,7 @@ Function ShowHighScores(screen as object, waitTime = 0 as integer) as boolean
 	for each score in m.highScores
 	    m.bitmapFont[2].write(canvas, score.name, xn, ys)
 	    m.bitmapFont[2].write(canvas, FormatTime(score.time), xt, ys)
-	    ys = ys + 12 * scale
+	    ys += (12 * scale)
 	next
 	screen.DrawObject(centerX, centerY, canvas)
 	screen.SwapBuffers()

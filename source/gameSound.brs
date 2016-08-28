@@ -87,7 +87,7 @@ Sub PlaySoundMp3(clip as string, overlap as boolean)
     meta = g.sounds.metadata.clips.Lookup(clip)
     if meta = invalid then return
     if ctrl.cycles = 0 or meta.priority > ctrl.priority or (ctrl.clip = clip and overlap)
-        print "play sound mp3: "; clip
+        ' print "play sound mp3: "; clip
         ctrl.clip = clip
         ctrl.priority = meta.priority
         ctrl.cycles = cint(meta.duration / g.speed)
@@ -103,7 +103,7 @@ Sub PlaySoundWav(clip as  string, overlap = false as boolean, volume = 50 as int
     ctrl = g.sounds.wav
     meta = g.sounds.metadata.clips.Lookup(clip)
     if meta <> invalid and (meta.priority >= ctrl.priority or ctrl.cycles = 0)
-        print "play sound wav: "; clip
+        ' print "play sound wav: "; clip
         ctrl.clip = clip
         ctrl.priority = meta.priority
         ctrl.cycles = cint(meta.duration / g.speed)

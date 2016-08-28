@@ -206,10 +206,10 @@ Sub ModsAndCheatsScreen()
                 remoteKey = msg.GetIndex()
                 if listIndex = 0 'Mods
                     if remoteKey = m.code.BUTTON_LEFT_PRESSED
-                        this.modIndex = this.modIndex - 1
+                        this.modIndex--
                         if this.modIndex < 0 then this.modIndex = this.modArray.Count() - 1
                     else if remoteKey = m.code.BUTTON_RIGHT_PRESSED
-                        this.modIndex = this.modIndex + 1
+                        this.modIndex++
                         if this.modIndex = this.modArray.Count() then this.modIndex = 0
                     end if
                     saveIndex = listItems.Count() - 1
@@ -223,10 +223,10 @@ Sub ModsAndCheatsScreen()
                     this.screen.SetItem(saveIndex, listItems[saveIndex])
                 else if listIndex = 1 'Fight Mode
                     if remoteKey = m.code.BUTTON_LEFT_PRESSED
-                        this.fightIndex = this.fightIndex - 1
+                        this.fightIndex--
                         if this.fightIndex < 0 then this.fightIndex = this.fightModes.Count() - 1
                     else if remoteKey = m.code.BUTTON_RIGHT_PRESSED
-                        this.fightIndex = this.fightIndex + 1
+                        this.fightIndex++
                         if this.fightIndex = this.fightModes.Count() then this.fightIndex = 0
                     end if
                     listItems[listIndex].Title = "  Fight Mode: " + this.fightModes[this.fightIndex]
@@ -236,10 +236,10 @@ Sub ModsAndCheatsScreen()
                     this.screen.SetItem(listIndex, listItems[listIndex])
                 else if listIndex = 2 'Rew and FF
                     if remoteKey = m.code.BUTTON_LEFT_PRESSED
-                        this.rewFFIndex = this.rewFFIndex - 1
+                        this.rewFFIndex--
                         if this.rewFFIndex < 0 then this.rewFFIndex = this.rewFFModes.Count() - 1
                     else if remoteKey = m.code.BUTTON_RIGHT_PRESSED
-                        this.rewFFIndex = this.rewFFIndex + 1
+                        this.rewFFIndex++
                         if this.rewFFIndex = this.rewFFModes.Count() then this.rewFFIndex = 0
                     end if
                     listItems[listIndex].Title ="  REW & FF keys: " + this.rewFFModes[this.rewFFIndex]
@@ -249,10 +249,10 @@ Sub ModsAndCheatsScreen()
                     this.screen.SetItem(listIndex, listItems[listIndex])
                 else if listIndex = 3 'OK Key Mode
                     if remoteKey = m.code.BUTTON_LEFT_PRESSED
-                        this.okIndex = this.okIndex - 1
+                        this.okIndex--
                         if this.okIndex < 0 then this.okIndex = this.okModes.Count() - 1
                     else if remoteKey = m.code.BUTTON_RIGHT_PRESSED
-                        this.okIndex = this.okIndex + 1
+                        this.okIndex++
                         if this.okIndex = this.okModes.Count() then this.okIndex = 0
                     end if
                     listItems[listIndex].Title = "  OK Key: " + this.okModes[this.okIndex]

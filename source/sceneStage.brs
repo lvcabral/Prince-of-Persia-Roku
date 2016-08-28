@@ -66,12 +66,12 @@ Function PlayScene(screen as object, level as integer, fadeIn = true as boolean)
             ticks = m.clock.TotalMilliseconds()
             if ticks > m.speed
                 if scene.sceneState <> scene.STATE_FADEOUT and m.fade <> 0
-                    m.fade = m.fade - 12
+                    m.fade -= 12
                     if m.fade <= 0 then m.fade = 0
                     front = GetPaintedBitmap(m.fade, width * imgScale, height * imgScale, true)
                     stage[3].SetRegion(CreateObject("roRegion", front , 0, 0, width * imgScale, height * imgScale))
                 else if scene.sceneState = scene.STATE_FADEOUT
-                    m.fade = m.fade + 12
+                    m.fade += 12
                     if m.fade > &hFF then m.fade = &hFF
                     front = GetPaintedBitmap(m.fade, width * imgScale, height * imgScale, true)
                     stage[3].SetRegion(CreateObject("roRegion", front, 0, 0, width * imgScale, height * imgScale))
@@ -184,6 +184,6 @@ Sub FlashBackStage(scene as object, stage as object)
         else
             stage[0].SetRegion(CreateObject("roRegion",GetPaintedBitmap(&hFFFFFFFF, width, height, true), 0, 0, width, height))
         end if
-        scene.tick = scene.tick + 1
+        scene.tick++
     end if
 End Sub

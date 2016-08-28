@@ -40,13 +40,13 @@ Sub update_loose()
             m.stage = 0
             m.back = m.key + "_falling"
         else if m.stage >= m.frames.count()
-            m.stage = m.stage + 1
+            m.stage++
 		else if m.stage = 3 and not m.fall
 			m.back = m.key + "_" + itostr(m.const.TILE_LOOSE_BOARD)
 			m.state = m.STATE_INACTIVE
 		else
 			m.back = m.key + m.frames[m.stage]
-			m.stage = m.stage + 1
+			m.stage++
 			if m.stage = 1 or m.stage = 3 or m.stage = 7
 			    PlaySound("loose-floor-"+itostr(rnd(3)))
 			end if
@@ -54,9 +54,9 @@ Sub update_loose()
 		m.redraw = true
 	else if m.state = m.STATE_FALLING
 		v = m.FALL_VELOCITY * m.stage
-		m.y = m.y + v
-		m.stage = m.stage + 1
-		m.vacc = m.vacc + v
+		m.y += v
+		m.stage++
+		m.vacc += v
 		if m.vacc > m.yTo
 			m.state = m.STATE_CRASHED
             m.vacc = 0
@@ -72,5 +72,5 @@ Sub shake_loose(fall as boolean)
         m.state = m.STATE_SHAKING
         m.stage = 0
     end if
-    m.fall = fall and m.modifier = 0
+    m.fall = (fall and m.modifier = 0)
 End Sub

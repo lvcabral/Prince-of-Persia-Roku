@@ -163,7 +163,7 @@ End Sub
 Sub NextLevel()
     g = GetGlobalAA()
     if g.currentLevel = g.maxLevels then return
-    g.currentLevel = g.currentLevel + 1
+    g.currentLevel++
     g.startHealth = g.kid.maxHealth
     g.levelTime = g.timeLeft
     g.checkPoint = invalid
@@ -174,7 +174,7 @@ End Sub
 Sub PreviousLevel()
     g = GetGlobalAA()
     if g.currentLevel = 1 or g.currentLevel = g.maxLevels then return
-    g.currentLevel = g.currentLevel - 1
+    g.currentLevel--
     g.startHealth = g.kid.maxHealth
     g.checkPoint = invalid
     ResetGame()
@@ -315,7 +315,7 @@ Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
     path = "pkg:/assets/sprites/"
     if spriteMode = g.const.SPRITES_MAC
         suffix = "-mac"
-        scale = scale / 2.0
+        scale /= 2.0
     else
         suffix = "-dos"
     end if

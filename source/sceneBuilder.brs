@@ -91,6 +91,6 @@ Sub execute_program()
 		else if opcode.i = "PLAY_SOUND"
 			PlaySound(opcode.p1)
 		end if
-		m.pc = m.pc + 1
+		m.pc++
 	end while
 End Sub

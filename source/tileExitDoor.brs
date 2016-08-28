@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: March 2016
-' **  Updated: May 2016
+' **  Updated: August 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -50,19 +50,16 @@ Sub update_door()
 		if door.height = (m.openHeight + m.type)
 			m.state = m.STATE_OPEN
 		else
-			print "door raising"
-			door.height = door.height - 1
-			m.cropY = m.cropY - 1
+			door.height--
+			m.cropY--
 		end if
 		m.redraw = true
     else if m.state = m.STATE_DROPPING
         if door.height >= (m.const.BLOCK_HEIGHT - 12)
             m.state = m.STATE_CLOSED
-            print "door closed"
         else
-            door.height = door.height + 10
-			m.cropY = m.cropY + 10
-            print "door dropping"
+			door.height += 10
+			m.cropY += 10
         end if
         m.redraw = true
 	else if m.state = m.STATE_OPEN

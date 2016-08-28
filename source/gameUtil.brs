@@ -514,7 +514,7 @@ Function LoadPalette(file as string, limit = -1 as integer, ignore = -1 as integ
             r = -1
             g = -1
             b = -1
-            color = color + 1
+            color++
         end if
     next
     return palette
@@ -623,7 +623,7 @@ Function GetRegistryString(key as String, default = "") As String
     sec = CreateObject("roRegistrySection", "PoP")
     if sec.Exists(key)
         return sec.Read(key)
-    endif
+    end if
     return default
 End Function
 

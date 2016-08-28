@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: March 2016
-' **  Updated: March 2016
+' **  Updated: August 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -39,11 +39,9 @@ Function CreateSpikes(tile as object) as object
 End Function
 
 Sub update_spikes()
-    if m.modifier <> 0
-        return
-    end if
+	if m.modifier <> 0 then return
 	if m.state = m.STATE_RAISING
-		m.stage = m.stage + 1
+		m.stage++
 		m.child.back.frameName = m.key + "_" + itostr(m.const.TILE_SPIKES) + "_" + itostr(m.stage)
 		m.child.front.frameName = m.key + "_" + itostr(m.const.TILE_SPIKES) + "_" + itostr(m.stage) + "_fg"
 		if m.stage = 5
@@ -52,22 +50,18 @@ Sub update_spikes()
 		end if
 		m.redraw = true
 	else if m.state = m.STATE_FULL_OUT
-		m.stage = m.stage + 1
+		m.stage++
 		if m.stage > 15
 			m.state = m.STATE_DROPPING
 			m.stage = 5
 		end if
 		m.redraw = true
 	else if m.state = m.STATE_DROPPING
-		m.stage = m.stage - 1
-		if m.stage = 3
-			m.stage = m.stage - 1
-		end if
+		m.stage--
+		if m.stage = 3 then m.stage--
 		m.child.back.frameName = m.key + "_" + itostr(m.const.TILE_SPIKES) + "_" + itostr(m.stage)
 		m.child.front.frameName = m.key + "_" + itostr(m.const.TILE_SPIKES) + "_" + itostr(m.stage) + "_fg"
-		if m.stage = 0
-			m.state = m.STATE_INACTIVE
-		end if
+		if m.stage = 0 then m.state = m.STATE_INACTIVE
         m.redraw = true
     end if
 End Sub

@@ -85,17 +85,17 @@ Function get_tileat(x as integer, y as integer, room as integer) as object
 	newRoom = room
 	if x < 0
 		newRoom = m.rooms[room].links.left
-		x = x + 10
+		x += 10
 	else if x > 9
 		newRoom = m.rooms[room].links.right
-		x = x - 10
+		x -= 10
 	end if
 	if y < 0
 		newRoom = m.rooms[room].links.up
-		y = y + 3
+		y += 3
 	else if y > 2
 		newRoom = m.rooms[room].links.down
-		y = y - 3
+		y -= 3
 	end if
 	if newRoom = -1 or m.rooms[newRoom] = invalid
 		return CreateTile(m.const.TILE_WALL, 0, m.type)
@@ -106,18 +106,14 @@ End Function
 Sub shake_floor(y as integer, room as integer)
 	for x = 0 to 10
 		tile = m.getTileAt(x,y,room)
-		if tile.element = m.const.TILE_LOOSE_BOARD
-			tile.shake(false)
-		end if
+		if tile.element = m.const.TILE_LOOSE_BOARD then tile.shake(false)
 	next
 End Sub
 
 Function floor_start_fall(tile as object) as object
     'Remove floor from room map and set space tile
     space = CreateTile(m.const.TILE_SPACE, 0, tile.type)
-    if (tile.type = m.const.TYPE_PALACE)
-        space.back = tile.key + "_0_1"
-    end if
+    if (tile.type = m.const.TYPE_PALACE) then space.back = tile.key + "_0_1"
     m.addTile(tile.roomX, tile.roomY, tile.room, space)
 	'Calculate stop level
     floor = {}
@@ -132,7 +128,7 @@ Function floor_start_fall(tile as object) as object
     tile.yTo = m.const.BLOCK_HEIGHT
 	while (m.getTileAt(floor.x, floor.y, floor.room).element = m.const.TILE_SPACE)
         tile.yTo = tile.yTo + m.const.BLOCK_HEIGHT
-        floor.y = floor.y + 1
+        floor.y++
         if floor.y = 3
             floor.y = 0
             floor.room = m.rooms[floor.room].links.down

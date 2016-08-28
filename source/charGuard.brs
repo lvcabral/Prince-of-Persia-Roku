@@ -226,7 +226,7 @@ Sub process_command_guard()
 			m.swordDrawn = false
             m.opponent = invalid
         end if
-        m.seqPointer = m.seqPointer + 1
+        m.seqPointer++
     end while
 End Sub
 
@@ -235,26 +235,20 @@ Function get_guard_bounds() as object
     f = g.regions.guards.Lookup(m.charImage)[m.face].Lookup(m.frameName)
 	fWidth  = f.getWidth() / m.scale
 	fHeight = f.getHeight() / m.scale
-	if m.faceL()
-		x = m.x - m.charFdx
-	else
-		x = m.x + m.charFdx - fWidth
-	end if
+	if m.faceL() then x = m.x - m.charFdx else x = m.x + m.charFdx - fWidth
     y = m.y + m.charFdy - fHeight
-    if (m.charFood and m.faceL()) or (not m.charFood and m.faceR())
-        x = x + 1
-    end if
+    if (m.charFood and m.faceL()) or (not m.charFood and m.faceR()) then x++
     return {x: x, y: y, width: fWidth, height: fHeight}
 End Function
 
 Sub check_room_change_guard()
     if m.charY > 189
-        m.charY = m.charY - 189
-        m.baseY = m.baseY + 189
+        m.charY -= 189
+        m.baseY += 189
         if m.room >= 0 then m.room = m.level.rooms[m.room].links.down
     else if m.charY < 0
-        m.charY = m.charY + 189
-        m.baseY = m.baseY - 189
+        m.charY += 189
+        m.baseY -= 189
         if m.room >= 0 then m.room = m.level.rooms[m.room].links.up
     end if
 End Sub

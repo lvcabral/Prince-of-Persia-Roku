@@ -186,9 +186,9 @@ Sub process_command_actor()
                 PlaySound("smack-wall")
             end if
         else if data.cmd = m.const.CMD_UP
-            m.blockY = m.blockY - 1
+            m.blockY--
         else if data.cmd = m.const.CMD_DOWN
-            m.blockY = m.blockY + 1
+            m.blockY++
         else if data.cmd = m.const.CMD_GOTO
             m.charAction = data.p1
             m.seqPointer = data.p2 - 1
@@ -201,7 +201,7 @@ Sub process_command_actor()
             m.alive = false
 			m.swordDrawn = false
         end if
-        m.seqPointer = m.seqPointer + 1
+        m.seqPointer++
     end while
 End Sub
 
@@ -217,7 +217,7 @@ Sub update_position()
     end if
 
     if (m.charFood and m.faceL()) or (not m.charFood and m.faceR())
-        tempx = tempx + 0.5
+        tempx += 0.5
     end if
     m.x = m.baseX + ConvertX(tempx)
     m.y = m.baseY + m.charY + m.charFdy
@@ -261,8 +261,8 @@ Sub update_block_xy()
     m.blockY = ConvertYtoBlockY(footY-3)
     'if m.charName = "kid" then print "update_block_xy charX="; m.charX;" footX="; footX; " blockX=",m.blockX
     if m.blockX < 0 and m.charX < 0
-        m.charX = m.charX + 140
-        m.baseX = m.baseX - 320
+        m.charX += 140
+        m.baseX -= 320
         m.blockX = 9
         m.room = m.level.rooms[m.room].links.left
         if m.charName = "kid" and m.flee and m.opponent <> invalid and not m.canSeeOpponent()
@@ -274,8 +274,8 @@ Sub update_block_xy()
             end if
         end if
     else if m.blockX > 9 and m.room > -1
-        m.charX = m.charX - 140
-        m.baseX = m.baseX + 320
+        m.charX -= 140
+        m.baseX += 320
         m.blockX = 0
         m.room = m.level.rooms[m.room].links.right
         if m.charName = "kid" and m.flee and m.opponent <> invalid and not m.canSeeOpponent()
@@ -289,8 +289,8 @@ Sub update_block_xy()
 End Sub
 
 Sub update_velocity()
-    m.charX = m.charX + m.charXVel
-    m.charY = m.charY + m.charYVel
+    m.charX += m.charXVel
+    m.charY += m.charYVel
 End Sub
 
 Sub update_acceleration()
@@ -357,7 +357,7 @@ Sub check_floor()
                 print m.charName;" m.fallingBlocks=";m.fallingBlocks; " y="; m.charY
                 m.land(tile)
             else if not m.isWeightless
-                m.fallingBlocks = m.fallingBlocks + 1
+                m.fallingBlocks++
                 print m.charName;" m.fallingBlocks++";m.fallingBlocks; " y="; m.charY
                 if m.fallingBlocks = 3 and m.charName = "kid"
                     PlaySound("scream")
@@ -423,24 +423,16 @@ Sub try_spikes(x as integer, y as integer)
         else if tile.element <> m.const.TILE_SPACE
             return
         end if
-        y = y + 1
+        y++
     end while
 End Sub
 
 Sub bump_fall()
     if m.actionCode = 4
-        if m.faceL()
-            m.charX = m.charX + 1
-        else
-            m.charX = m.charX - 1
-        end if
+        if m.faceL() then m.charX++ else m.charX--
         m.charXVel = 0
     else
-        if m.faceL()
-            m.charX = m.charX + 2
-        else
-            m.charX = m.charX - 2
-        end if
+        if m.faceL() then m.charX += 2 else m.charX -= 2
         m.action("bumpfall")
         m.processCommand()
     end if
@@ -677,19 +669,11 @@ Sub bump_fighter()
     tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
 
     if tile.isSpace()
-        if m.moveLeft
-            m.charX = m.charX + 2
-        else
-            m.charX = m.charX - 2
-        end if
+        if m.moveLeft then m.charX += 2 else m.charX -= 2
         m.bumpFall()
     else
         if m.fallingBlocks > 0 and (m.frameID(24, 25) or m.frameID(40, 42) or m.frameID(102, 106))
-            if m.moveLeft
-                m.charX = m.charX + 5
-            else
-                m.charX = m.charX - 5
-            end if
+            if m.moveLeft then m.charX += 5 else m.charX -= 5
             m.land(tile)
         else
 			print "bumping on fight..."
@@ -723,9 +707,7 @@ Function opponent_distance()
     else
         distance = m.opponent.charX - m.charX
     end if
-    if distance >= 0 and m.face <> m.opponent.face
-		distance = distance + 13
-	end if
+    if distance >= 0 and m.face <> m.opponent.face then distance += 13
     return distance
 End Function
 
@@ -734,11 +716,7 @@ Sub engarde_fighter()
         if m.charName = "kid" then PlaySound("sword-drawn")
         m.action("engarde")
         m.swordDrawn = true
-        if m.faceL()
-            m.moveLeft = true
-        else
-            m.moveLeft = false
-        end if
+        m.moveLeft = m.faceL()
     end if
 End Sub
 

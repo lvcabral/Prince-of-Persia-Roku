@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: March 2016
-' **  Updated: July 2016
+' **  Updated: August 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -56,14 +56,14 @@ Function update_gate()
 			m.stage = 0
 			if m.audio then PlaySound("gate-end", true)
 		else
-			m.cropY = m.cropY - 1
+			m.cropY--
 			if m.cropY mod 2 = 0
 	            if m.audio then PlaySound("gate-open", true)
 			end if
 		end if
 		m.redraw = true
 	else if m.state =  m.STATE_WAITING and not m.stuck
-		m.stage = m.stage + 1
+		m.stage++
 		if m.stage = m.WAIT_CYCLES
 			m.state = m.STATE_DROPPING
 			m.stage = 0
@@ -71,20 +71,20 @@ Function update_gate()
 		m.redraw = true
 	else if m.state =  m.STATE_DROPPING
 		if m.stage = 0
-			m.cropY = m.cropY + 1
+			m.cropY++
 			if m.cropY >= 0
 				m.cropY = 0
 				m.state = m.STATE_CLOSED
                 if m.audio then PlaySound("gate-end", true)
 			end if
-			m.stage = m.stage + 1
+			m.stage++
             if m.audio then PlaySound("gate-close", true)
 		else
 			m.stage = (m.stage + 1) mod 4
 		end if
 		m.redraw = true
 	else if m.state =  m.STATE_FAST_DROPPING
-		m.cropY = m.cropY + 10
+		m.cropY += 10
 		if m.cropY >= 0
 			m.cropY = 0
 			m.state = m.STATE_CLOSED
@@ -118,6 +118,5 @@ Function get_gate_bounds()
 End Function
 
 Function can_cross(height as integer) as boolean
-    print "canCross: "; Abs(m.cropY); height
     return (Abs(m.cropY)  >  height)
 End Function

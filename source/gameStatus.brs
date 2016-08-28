@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: April 2016
-' **  Updated: July 2016
+' **  Updated: August 2016
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -104,9 +104,7 @@ Sub DebugInfo(x as integer, y as integer)
     if x <> m.saveX or y <> m.saveY or m.kid.frameName <> m.saveFrameName
         strDebug = str(x)+","+str(y)+" "+m.kid.action()+" "+m.kid.frameName+" R:"+itostr(m.kid.room)+" T:"+ itostr(m.kid.blockX) + "," + itostr(m.kid.blockY)
         print strDebug
-        if m.debugMode
-            m.status.Push({text:strDebug, duration: 0, alert: false})
-        end if
+        if m.debugMode then m.status.Push({text:strDebug, duration: 0, alert: false})
         m.saveX = x
         m.saveY = y
         m.saveFrameName = m.kid.frameName
@@ -135,7 +133,7 @@ Function LoadBitmapFont(scale = 1.0 as float) As Dynamic
     else if xml.font = invalid then
         print "Missing font tag"
         return invalid
-    endif
+    end if
     xmlChars = xml.getnamedelements("chars").getchildelements()
     bitmap=CreateObject("robitmap", "pkg:/assets/fonts/prince_0.png")
     this.chars = {}
@@ -200,7 +198,7 @@ Function write_text(screen as object, text as string, x as integer, y as integer
         if letter <> invalid
             yl = y + (yOff - letter.image.GetHeight())
             screen.drawobject(x, yl + letter.yOffset, letter.image)
-            x = x + letter.image.GetWidth() + xOff
+            x += (letter.image.GetWidth() + xOff)
         end if
     next
 End Function

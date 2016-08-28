@@ -199,8 +199,8 @@ Sub HighScoresScreen(screen as object)
 	    for each score in m.highScores
 	        m.bitmapFont[2].write(screen, score.name, xn, ys)
 	        m.bitmapFont[2].write(screen, FormatTime(score.time), xt, ys)
-	        ys = ys + 12 * 2
-			c = c + 1
+	        ys += (12 * 2)
+			c++
 			if c = 7 then exit for
 	    next
         if m.highScores.Count() > 0

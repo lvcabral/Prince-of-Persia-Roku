@@ -85,12 +85,12 @@ Function PlayGame() as boolean
                     NextLevel()
                 else if m.settings.rewFF = m.const.REWFF_HEALTH
                     if m.kid.maxHealth < m.const.LIMIT_HEALTH and m.kid.alive
-                        m.kid.maxHealth = m.kid.maxHealth + 1
+                        m.kid.maxHealth++
                         m.kid.health = m.kid.maxHealth
                         PlaySound("big-life-potion", true)
                     end if
                 else if m.settings.rewFF = m.const.REWFF_TIME
-                    m.startTime = m.startTime + 60
+                    m.startTime += 60
                     m.status.Clear()
                     m.showTime = true
                 end if
@@ -105,7 +105,7 @@ Function PlayGame() as boolean
                     end if
                 else if m.settings.rewFF = m.const.REWFF_TIME
                     if m.timeLeft > 60 then
-                        m.startTime = m.startTime - 60
+                        m.startTime -= 60
                         m.status.Clear()
                         m.showTime = true
                     end if
