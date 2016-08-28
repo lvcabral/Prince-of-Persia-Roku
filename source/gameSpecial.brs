@@ -88,82 +88,80 @@ Function CheckSpecialEvents() as integer
                 skeleton.meet = true
             end if
         end if
-    else if m.currentLevel = 4 and m.kid.room = 4 and m.kid.level.exitOpen > 0
+    else if m.currentLevel = 4 and m.kid.level.exitOpen > 0
+        if m.guards.Count() = 0 then return m.const.SPECIAL_CONTINUE
+        shadow = m.guards[0]
         'Show Mirror on Level 4
-        if m.kid.level.exitOpen = 1 and m.kid.blockY = 0
-            tile = m.kid.level.getTileAt(4, 0, 4)
-            tile.element = m.const.TILE_MIRROR
-            tile.back  = tile.key + "_13"
-            tile.front = tile.back + "_fg"
-            if tile.backSprite <> invalid and tile.frontSprite <> invalid
-                tile.backSprite.SetRegion(m.regions.tiles.Lookup(tile.back))
-                tile.frontSprite.SetRegion(m.regions.tiles.Lookup(tile.front))
-            end if
-            tile.redraw  = true
-            m.kid.level.exitOpen = 2
-        else if m.kid.level.exitOpen = 2 and m.kid.blockY = 0
-            PlaySound("suspense")
-            m.kid.level.exitOpen = 3
-        else if m.kid.level.exitOpen = 3
-            if m.guards.Count() = 0 then return m.const.SPECIAL_CONTINUE
-            tile = m.kid.level.getTileAt(m.kid.blockX, m.kid.blockY, m.kid.room)
-            shadow = m.guards[0]
-            if m.kid.charAction <> "runjump" and tile.element = m.const.TILE_MIRROR
-                'Show mirror reflex
-                kdRegion = m.regions.kid[Abs(m.kid.face - 1)].Lookup(m.kid.frameName).Copy()
-                ctrMirror = tile.backSprite.GetX() + (22 * m.scale)
-                reflexPos =  ctrMirror - Abs(m.kid.sprite.GetX() - ctrMirror) - kdRegion.GetWidth()
-                if m.reflex = invalid
-                    m.reflex = {}
-                    m.reflex.kid = m.compositor.NewSprite(reflexPos, m.kid.sprite.GetY(), kdRegion, m.kid.z - 2)
-                    bmp = GetPaintedBitmap(m.colors.black, 36 * m.scale, 56 * m.scale, true)
-                    rgn = CreateObject("roRegion", bmp, 0, 0, bmp.GetWidth(), bmp.GetHeight())
-                    if m.settings.spriteMode = m.const.SPRITES_MAC
-                        maskX = tile.backSprite.GetX() - (34 * m.scale)
+        if m.kid.room = 4
+            if m.kid.level.exitOpen = 1 and m.kid.blockY = 0
+                tile = m.kid.level.getTileAt(4, 0, 4)
+                tile.element = m.const.TILE_MIRROR
+                tile.back  = tile.key + "_13"
+                tile.front = tile.back + "_fg"
+                if tile.backSprite <> invalid and tile.frontSprite <> invalid
+                    tile.backSprite.SetRegion(m.regions.tiles.Lookup(tile.back))
+                    tile.frontSprite.SetRegion(m.regions.tiles.Lookup(tile.front))
+                end if
+                tile.redraw  = true
+                m.kid.level.exitOpen = 2
+            else if m.kid.level.exitOpen = 2 and m.kid.blockY = 0
+                PlaySound("suspense")
+                m.kid.level.exitOpen = 3
+            else if m.kid.level.exitOpen = 3
+                tile = m.kid.level.getTileAt(m.kid.blockX, m.kid.blockY, m.kid.room)
+                if m.kid.charAction <> "runjump" and tile.element = m.const.TILE_MIRROR
+                    'Show mirror reflex
+                    kdRegion = m.regions.kid[Abs(m.kid.face - 1)].Lookup(m.kid.frameName).Copy()
+                    ctrMirror = tile.backSprite.GetX() + (22 * m.scale)
+                    reflexPos =  ctrMirror - Abs(m.kid.sprite.GetX() - ctrMirror) - kdRegion.GetWidth()
+                    if m.reflex = invalid
+                        m.reflex = {}
+                        m.reflex.kid = m.compositor.NewSprite(reflexPos, m.kid.sprite.GetY(), kdRegion, m.kid.z - 2)
+                        bmp = GetPaintedBitmap(m.colors.black, 36 * m.scale, 56 * m.scale, true)
+                        rgn = CreateObject("roRegion", bmp, 0, 0, bmp.GetWidth(), bmp.GetHeight())
+                        if m.settings.spriteMode = m.const.SPRITES_MAC
+                            maskX = tile.backSprite.GetX() - (34 * m.scale)
+                        else
+                            maskX = tile.backSprite.GetX() - (31 * m.scale)
+                        end if
+                        maskY = tile.backSprite.GetY() + (16 * m.scale)
+                        m.reflex.mask = m.compositor.NewSprite(maskX, maskY, rgn, m.kid.z - 1)
                     else
-                        maskX = tile.backSprite.GetX() - (31 * m.scale)
+                        m.reflex.kid.SetRegion(kdRegion)
+                        m.reflex.kid.MoveTo(reflexPos, m.kid.sprite.GetY())
+                        m.reflex.kid.SetDrawableFlag(true)
+                        m.reflex.mask.SetDrawableFlag(true)
                     end if
-                    maskY = tile.backSprite.GetY() + (16 * m.scale)
-                    m.reflex.mask = m.compositor.NewSprite(maskX, maskY, rgn, m.kid.z - 1)
-                else
-                    m.reflex.kid.SetRegion(kdRegion)
-                    m.reflex.kid.MoveTo(reflexPos, m.kid.sprite.GetY())
-                    m.reflex.kid.SetDrawableFlag(true)
-                    m.reflex.mask.SetDrawableFlag(true)
+                else if m.kid.charAction = "runjump" and m.kid.blockX < 8 and m.kid.blockY = 0
+                    'Split kid and shadow when jumping through the mirror
+                    if shadow.blockY > 0 and shadow.action() = "stand"
+                        shadow.meet = false
+                        shadow.charX = ConvertBlockXtoX(1)
+                        shadow.charY = ConvertBlockYtoY(0)
+                        shadow.action("runjump")
+                    else if m.kid.blockX = 4
+                        shadow.meet = true
+                    else if m.kid.blockX = 3
+                        PlaySound("mirror")
+                    end if
+                else if m.reflex <> invalid
+                    m.reflex.kid.SetDrawableFlag(false)
+                    m.reflex.mask.SetDrawableFlag(false)
                 end if
-            else if m.kid.charAction = "runjump" and m.kid.blockX < 8 and m.kid.blockY = 0
-                'Split kid and shadow when jumping through the mirror
-                if shadow.blockY > 0 and shadow.action() = "stand"
-                    shadow.meet = false
-                    shadow.charX = ConvertBlockXtoX(1)
-                    shadow.charY = ConvertBlockYtoY(0)
-                    shadow.action("runjump")
-                else if m.kid.blockX = 4
-                    shadow.meet = true
-                else if m.kid.blockX = 3
-                    PlaySound("mirror")
+                if shadow.meet and shadow.sprite.GetX() >= tile.backSprite.GetX() and shadow.action() = "runjump"
+                    shadow.visible = true
+                else if not shadow.visible and shadow.action() <> "runjump" and shadow.action() <> "stand"
+                    'Restore Shadow position
+                    shadow.room = 4
+                    shadow.baseX  = m.kid.level.rooms[shadow.room].x * m.const.ROOM_WIDTH
+                    shadow.baseY  = m.kid.level.rooms[shadow.room].y * m.const.ROOM_HEIGHT
+                    shadow.charX = ConvertBlockXtoX(2)
+                    shadow.charY = ConvertBlockYtoY(1)
+                    shadow.action("stand")
                 end if
-            else if m.reflex <> invalid
-                m.reflex.kid.SetDrawableFlag(false)
-                m.reflex.mask.SetDrawableFlag(false)
             end if
-            if shadow.meet and shadow.sprite.GetX() >= tile.backSprite.GetX() and shadow.action() = "runjump"
-                shadow.visible = true
-            else if not shadow.visible and shadow.action() <> "runjump" and shadow.action() <> "stand"
-                'Restore Shadow position
-                shadow.room = 4
-                shadow.baseX  = m.kid.level.rooms[shadow.room].x * m.const.ROOM_WIDTH
-                shadow.baseY  = m.kid.level.rooms[shadow.room].y * m.const.ROOM_HEIGHT
-                shadow.charX = ConvertBlockXtoX(2)
-                shadow.charY = ConvertBlockYtoY(1)
-                shadow.action("stand")
-            end if
-            if shadow.visible and shadow.blockY > 0
-                'Hide Shadow
-                shadow.visible = false
-                shadow.action("stand")
-                shadow.active = false
-            end if
+            'Hide Shadow
+            if shadow.visible and shadow.blockY > 0 then shadow.visible = false
         end if
     else if m.currentLevel = 5
         'Shadow drinks potion before kid
