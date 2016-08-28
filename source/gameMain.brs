@@ -17,7 +17,7 @@ Sub Main()
     'Constants
     m.code = bslUniversalControlEventCodes()
     m.const = GetConstants()
-    m.colors = { red: &hAA0000FF, green:&h00AA00FF, yellow: &hFFFF55FF, black: &hFF, white: &hFFFFFFFF, gray: &h404040FF, navy: &h100060FF, darkred: &h810000FF }
+    m.colors = { red: &hAA0000FF, green:&h00AA00FF, yellow: &hFFFF55FF, black: &hFF, white: &hFFFFFFFF, gray: &h404040FF, navy: &h080030FF, darkred: &h810000FF }
     m.maxLevels = 14
     'Util objects
     app = CreateObject("roAppManager")

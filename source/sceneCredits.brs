@@ -69,7 +69,7 @@ Function PlayIntro(spriteMode = -1 as integer) as boolean
         else if s = 5
             screen.DrawObject(centerX, centerY, intro)
             screen.DrawObject(centerX + 24 * posScale, centerY + 107 * posScale, ScaleBitmap(CreateObject("roBitmap", pngGame),scale))
-			if left(pngPort, 9) = "pkg:/mods"
+			if left(pngPort, 9) = "pkg:/mods" or left(pngPort, 5) = "tmp:/"
             	screen.DrawObject(centerX + 48 * posScale, centerY + 184 * posScale, ScaleBitmap(CreateObject("roBitmap", pngPort),scale))
 			else
 				screen.DrawObject(centerX + 35 * posScale, centerY + 180 * posScale, ScaleBitmap(CreateObject("roBitmap", pngPort),scale))
@@ -110,7 +110,7 @@ Function TextScreen(pngFile as string, color as integer, waitTime = 0 as integer
     scale = Int(GetScale(screen, 320, 200))
     centerX = Cint((screen.GetWidth() - (320 * scale)) / 2)
     centerY = Cint((screen.GetHeight() - (200 * scale)) / 2)
-	canvas = GetPaintedBitmap(color, 320 * scale, 200 * scale, true)
+	canvas = GetPaintedBitmap(&HFF, 320 * scale, 200 * scale, true)
 	if spriteMode = -1 then spriteMode = m.settings.spriteMode
 	useMod = (m.settings.modId <> invalid and m.mods[m.settings.modId].titles)
 	if useMod
@@ -135,6 +135,7 @@ Function TextScreen(pngFile as string, color as integer, waitTime = 0 as integer
 	else
 		bmp = ScaleBitmap(bmp, scale / 2)
 	end if
+	canvas.DrawRect(16 * scale, 16 * scale, 288 * scale, 156 * scale, color)
 	canvas.DrawObject(30 * scale, 25 * scale, bmp)
 	if fadeIn > 0
 		CrossFade(screen, centerX, centerY, GetPaintedBitmap(0, 320 * scale, 200 * scale, true), canvas, fadeIn)
