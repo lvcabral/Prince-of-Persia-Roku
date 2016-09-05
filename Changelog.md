@@ -1,5 +1,59 @@
 #Changelog
 
+#####0.12 - 05-Aug-2016 - Feature Complete and Support for Mods
+* Add: High Score screens (add, view) #12
+* Add: [Mod] New Mods and Cheats screen #50
+* Add: [Mod] Support to Custom Levels using PoP1 XML format #47
+* Add: [Mod] Support to Custom Sprites and Sounds (limited to wav sound effects) #48
+* Add: [Mod] Support to customize: initial heath, time limit and guard type per level
+* Add: [Mod] Support to customize each level setting type and color variation #74
+* Add: [Mod] Support for downloading Mods from web #60
+* Add: [Mod] Support for WDA (wall-drawing algorithm) in palace levels #61
+* Add: [Mod] Loose tiles defined as element 43 should be stuck and never fall #67
+* Add: Message to alert users with low end devices
+* Add: Only save high scores if no cheats were used (fight mode or REW&FF keys) #56
+* Add: [Events] Level 12 - When kid enter rooms 15 without the sword in the floor his health is restored #63
+* Add: [Events] The potion with modifier "6" activates the upper left tile of room 8 #75
+* Change: Opening the channel always play the Mac intro (higher resolution)
+* Change: Disclaimer only shows at channel startup
+* Change: Change Menus to use better graphics and added mods and high scores to Game Settings #49
+* Change: The game introduction is now always played before the game starts (to support Mods)
+* Change: Now there are two sets of Guards skills, one as DOS 1.0 and other as Mac (same as Apple II)
+* Change: Draw wall tiles (colors and marks) programmatically using pseudo random routine
+* Change: OK Button now can be configured on the Mod/Cheat to only show the remaining time or enter debug mode
+* Change: Now there is an option to enable/disable saving the game on Mods and Cheat screen #82
+* Refactor: Decouple regions collections from the objects to avoid memory leak #45
+* Refactor: Switch sprite names Jaffar and Vizier to match DOS original resources
+* Refactor: Use new mathematical operators introduced by Roku Firmware 7.1
+* Fix: [Events] Level 1 - At Room 1 there is no gate sound if the gate is not on Y=0 #51
+* Fix: [Events] Level 4 - Sometimes the Kid is jumping through the mirror and the shadow is not coming out #79
+* Fix: [Events] Level 6 - The change to next level is always happening on the Room 3 #53
+* Fix: Guard falling on spikes is getting back stand #42
+* Fix: Kid is bumping into the wall when drinking a potion facing right and with back to a wall #41
+* Fix: When a loose plate fall into a Door tile, erases the door frame (L11) #39 - Same as JS
+* Fix: Loose plates that fall over other loose plates eventually get the sprite stuck #25
+* Fix: Kid should not be killed during climbing when a slicer is close to the edge - #54
+* Fix: Missing tile regions crashes the game
+* Fix: Missing potion regions on Palace levels
+* Fix: Drop and Raise events crashing when pointing to a tile not a gate, exit door or spikes
+* Fix: Plate falling over a potion tile is not destroying the potion
+* Fix: No red background flash when kid is stabbed #59
+* Fix: The initial credits screen has text placed wrong in 9 screens mode #62
+* Fix: Last remaining guard health is not flashing #65
+* Fix: Drink potion close to the edge makes kid fall #69
+* Fix: Kid is changing to engarde with space between him and the enemy #68
+* Fix: Guards are falling to death by themselves #18
+* Fix: Guard is trying to move and ignoring barriers (closed gate, space)
+* Fix: Guard not following down the kid when he falls (L2R4) #17
+* Fix: Guard should not affect loose floor until it has an opponent #70
+* Fix: Guard when on top of a loose floor with back to a wall is bumping into the wall #71
+* Fix: Kid is not always disconnecting from the guard when flee from the room #72
+* Fix: Crash when kid dies in a slicer with multiple (>3) slicers in a row #76
+* Fix: Mirror in multi rooms mode is showing the reflex behind it when the room is not in the top row
+* Fix: Skeleton falls and moves to right position in room 3, but when kid enters the room skeleton falls #80
+* Fix: Guard is not falling in a narrow space, he's jumping to other side or flashing in the edge #73
+* Fix: The intro scene has a small synchronization issue with the song #81
+
 #####v0.11 - 22-Jun-2016 - Flip Screen Potion Effect, Skeleton, Mouse and Shadow fixes, Multiple Slicer fixes
 * Add: Reversal Potion (big green): Flip screen upside down (L9)
 * Add: [Events] Level 3 - The sound of the gate at room 2 must be heard from anywhere
