@@ -9,7 +9,7 @@ This port was made using the [HTML5 version](https://github.com/ultrabolido/Prin
 
 With the high resolution of the current Full HD TV's I had the idea to implement a new feature for the game, never before seen on Prince of Persia ports, the multi-room mode, this way instead of only being able to see the current room you are playing at, now you can see 4 (2x2 mode) or even 9 (3x3 mode) rooms at the same time. This feature I created gives (literally) a new perspective to the game.
 
-There are two selectable options of sprites, the classic MS-DOS (1990) and Macintosh (1992) versions, all levels and cut scenes are already implemented, the only missing feature is the High Scores screen. There are also some known bugs listed at the "issues" section of the repository.
+There are two selectable options of sprites, the classic MS-DOS (1990) and Macintosh (1992) versions, all levels and cut scenes are already implemented. In addition to that, it also supports Mods with custom levels, graphics and sounds. Some examples, converted from the [Community DOS Mods](http://www.popot.org/custom_levels.php), are available in the source code.
 
 I will be publishing here in the following months a simple code documentation describing the files and architecture.
 
