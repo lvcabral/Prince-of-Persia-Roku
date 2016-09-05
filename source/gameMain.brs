@@ -33,10 +33,19 @@ Sub Main()
     m.fonts = CreateObject("roFontRegistry")
     m.fonts.Register("pkg:/assets/fonts/PoP.ttf")
     m.bitmapFont = [invalid, LoadBitmapFont(1), LoadBitmapFont(2)]
-    m.mods = LoadMods()
     m.prandom = CreatePseudoRandom()
     m.manifest = GetManifestArray()
     m.status = []
+    'Initialize Screen
+    if isHD()
+        m.mainScreen = CreateObject("roScreen", true, 854, 480)
+    else
+        m.mainScreen = CreateObject("roScreen", true, 640, 480)
+    end if
+    m.mainScreen.SetMessagePort(m.port)
+    'Load Mods
+    TextBox(m.mainScreen, 620, 50, "Loading...")
+    m.mods = LoadMods()
     'Initialize Settings
     m.settings = LoadSettings()
     if m.settings = invalid
@@ -72,12 +81,6 @@ Sub Main()
     end if
     'Play Game Introduction and Disclaimer
     if m.intro
-        if isHD()
-            m.mainScreen = CreateObject("roScreen", true, 854, 480)
-        else
-            m.mainScreen = CreateObject("roScreen", true, 640, 480)
-        end if
-        m.mainScreen.SetMessagePort(m.port)
         print "Starting intro..."
         PlayIntro(m.const.SPRITES_MAC)
         PlaySong("scene-1b-princess", true)
@@ -319,8 +322,6 @@ Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
     else
         suffix = "-dos"
     end if
-    'print "scales: "; g.regions.scale; scale
-    print "SpriteModes: "; g.regions.spriteMode; spriteMode
     'Check if a Mod with sprites is loaded
     useModSprite = (g.settings.modId <> invalid and g.mods[g.settings.modId].sprites and spriteMode = Val(g.settings.modId))
     if useModSprite
@@ -356,7 +357,11 @@ Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
     g.regions.guards = {}
     for i = 0 to guards.Count() - 1
         charArray = []
-        if guards[i].type = "guard" then png = guards[i].type + itostr(guards[i].colors) else png = guards[i].type
+        if guards[i].type = "guard"
+            png = guards[i].type + itostr(guards[i].colors)
+        else
+            png = guards[i].type
+        end if
         fullPath = path + "guards/"
         fullName = guards[i].type + suffix
         fullImage = png + suffix
