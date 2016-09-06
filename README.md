@@ -18,7 +18,8 @@ If you have a Roku or Roku TV you can install the preview channel using this lin
 Recommended devices:
 Roku 4, Roku 3, Roku 2 HD (3000X), Roku 2 XD (3050X), Roku 2 XS (3100X), new Roku Streaming Stick (3600X) and new 4K Roku TV's (6000X).
 
-Below links to some preview videos I published on YouTube during the development (I will edit one for the latest version soon):
+Below links to some preview videos I published on YouTube during the development:
+* [Demo v0.12 YouTube](https://www.youtube.com/watch?v=gFOKxBuw66o)
 * [Preview v0.8 YouTube](https://www.youtube.com/watch?v=4tVxNFCUSiE)
 * [Preview v0.6 YouTube](https://www.youtube.com/watch?v=gYzuH9f3ADU)
 * [Preview v0.5 YouTube](https://www.youtube.com/watch?v=r6B0xgb8GSE)
