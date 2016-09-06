@@ -62,7 +62,7 @@ Sub Main()
             m.settings.spriteMode = m.const.SPRITES_DOS
         end if
     end if
-    if m.settings.fight = invalid then m.settings.fight = m.const.FIGHT_ALERT
+    if m.settings.fight = invalid then m.settings.fight = m.const.FIGHT_ATTACK
     if m.settings.rewFF = invalid then m.settings.rewFF = m.const.REWFF_LEVEL
     if m.settings.saveGame = invalid then m.settings.saveGame = true
     if m.settings.okMode = invalid then m.settings.okMode = m.const.OKMODE_TIME
