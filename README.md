@@ -5,7 +5,7 @@ A port of the classic game Prince of Persia (1989) to Roku streaming devices and
 
 I started this project, in Februrary of 2016, as a programming excercise while I was learning more about Roku Brightscript 2D gamming API.
 
-This port was made using the [HTML5 version](https://github.com/ultrabolido/PrinceJS) (incomplete port) developed by @ultrabolido as a starting point, and the original [Apple II Assembly](https://github.com/jmechner/Prince-of-Persia-Apple-II ) code by Jordan Mechner as a reference for the functionalities. I also got a lot of help from the [Prince of Persia Modding Community](http://www.princed.org/), where I could get tools, assets and all my questions answered on the [Forum](http://forum.princed.org/), thanks guys!
+This port was made using the (unfinished) [HTML5 version](https://github.com/ultrabolido/PrinceJS) developed by @ultrabolido as a starting point, and the original [Apple II Assembly](https://github.com/jmechner/Prince-of-Persia-Apple-II ) code by Jordan Mechner as a reference for the functionalities. I also got a lot of help from the [Prince of Persia Modding Community](http://www.princed.org/), where I could get tools, assets and all my questions answered on the [Forum](http://forum.princed.org/), thanks guys!
 
 With the high resolution of the current Full HD TV's I had the idea to implement a new feature for the game, never before seen on Prince of Persia ports, the multi-room mode, this way instead of only being able to see the current room you are playing at, now you can see 4 (2x2 mode) or even 9 (3x3 mode) rooms at the same time. This feature I created gives (literally) a new perspective to the game.
 
