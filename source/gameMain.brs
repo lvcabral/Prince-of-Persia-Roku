@@ -36,6 +36,10 @@ Sub Main()
     m.prandom = CreatePseudoRandom()
     m.manifest = GetManifestArray()
     m.status = []
+    'Check Roku model for performance alert
+    if not IsOpenGL()
+        MessageDialog("Prince of Persia", "Warning: Your Roku device doesn't support accelerated graphics, this game will not perform well.")
+    end if
     'Initialize Screen
     if isHD()
         m.mainScreen = CreateObject("roScreen", true, 854, 480)
@@ -44,6 +48,7 @@ Sub Main()
     end if
     m.mainScreen.SetMessagePort(m.port)
     'Load Mods
+    Sleep(500)
     TextBox(m.mainScreen, 620, 50, "Loading...")
     m.mods = LoadMods()
     'Initialize Settings
@@ -75,10 +80,6 @@ Sub Main()
     m.savedGame = LoadSavedGame()
     m.highScores = LoadHighScores()
     if m.highScores = invalid then m.highScores = []
-    'Check Roku model for performance alert
-    if not IsOpenGL()
-        MessageDialog("Prince of Persia", "Warning: Your Roku device doesn't support accelerated graphics, this game will not perform well.")
-    end if
     'Play Game Introduction and Disclaimer
     if m.intro
         print "Starting intro..."
