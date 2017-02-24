@@ -24,7 +24,7 @@ Below links to some preview videos I published on YouTube during the development
 * [Preview v0.6 YouTube](https://www.youtube.com/watch?v=gYzuH9f3ADU)
 * [Preview v0.5 YouTube](https://www.youtube.com/watch?v=r6B0xgb8GSE)
 
-You should also take a look at my other retro-game project [Lode Runner for Roku](https://github.com/lvcabral/Lode-Runner-Roku)
+You should also take a look at my other retro-game remake projects [Lode Runner for Roku](https://github.com/lvcabral/Lode-Runner-Roku) and [Donkey Kong for Roku](https://github.com/lvcabral/Donkey-Kong-Roku)
 
 Disclaimer: This source code shall not be used commercially or sold in any form, the objective of this project is educational.
 
