@@ -5,6 +5,8 @@
 
 .settings
 
+.vscode
+
 out
 
 mods-web
