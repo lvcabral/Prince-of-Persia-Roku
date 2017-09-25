@@ -11,12 +11,10 @@ With the high resolution of the current Full HD TV's I had the idea to implement
 
 There are two selectable options of sprites, the classic MS-DOS (1990) and Macintosh (1992) versions, all levels and cut scenes are already implemented. In addition to that, it also supports Mods with custom levels, graphics and sounds. Some examples, converted from the [Community DOS Mods](http://www.popot.org/custom_levels.php), are available in the source code.
 
-I will be publishing here in the following months a simple code documentation describing the files and architecture.
-
 If you have a Roku or Roku TV you can install the preview channel using this link: https://my.roku.com/add/PoPPreview
 
 Recommended devices:
-Roku 4, Roku 3, Roku 2 HD (3000X), Roku 2 XD (3050X), Roku 2 XS (3100X), new Roku Streaming Stick (3600X) and new 4K Roku TV's (6000X).
+Roku Ultra, Roku Premiere+, Roku 4, Roku 3, Roku 2 HD (3000X), Roku 2 XD (3050X), Roku 2 XS (3100X), new Roku Streaming Stick (3600X) and new 4K Roku TV's (6000X).
 
 Below links to some preview videos I published on YouTube during the development:
 * [Demo v0.12 YouTube](https://www.youtube.com/watch?v=gFOKxBuw66o)
@@ -24,7 +22,7 @@ Below links to some preview videos I published on YouTube during the development
 * [Preview v0.6 YouTube](https://www.youtube.com/watch?v=gYzuH9f3ADU)
 * [Preview v0.5 YouTube](https://www.youtube.com/watch?v=r6B0xgb8GSE)
 
-You should also take a look at my other retro-game remake projects [Lode Runner for Roku](https://github.com/lvcabral/Lode-Runner-Roku) and [Donkey Kong for Roku](https://github.com/lvcabral/Donkey-Kong-Roku)
+You should also take a look at my other retro-game remake projects [Lode Runner for Roku](https://github.com/lvcabral/Lode-Runner-Roku) and [Donkey Kong for Roku](https://www.youtube.com/watch?v=NA59qZk7fQU)
 
 Disclaimer: This source code shall not be used commercially or sold in any form, the objective of this project is educational.
 
