@@ -38,7 +38,13 @@ Sub Main()
     m.status = []
     'Check Roku model for performance alert
     if not IsOpenGL()
+        m.mainScreen = CreateObject("roScreen")
+        m.mainScreen.SetMessagePort(m.port)
         MessageDialog("Prince of Persia", "Warning: Your Roku device doesn't support accelerated graphics, this game will not perform well.")
+    else if IsRokuStick()
+        m.mainScreen = CreateObject("roScreen")
+        m.mainScreen.SetMessagePort(m.port)
+        MessageDialog("Prince of Persia", "Warning: Your Roku Stick device has limited memory, this game only works properly on the 4 rooms mode.")
     end if
     'Initialize Screen
     if isHD()

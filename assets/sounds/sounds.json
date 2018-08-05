@@ -5,12 +5,6 @@
 	   "duration":3526,
 	   "priority":30
 	},
-	"creaking-door":
-	{
-	   "type":"mp3",
-	   "duration":679,
-	   "priority":10
-	},
 	"death":
 	{
 	   "type":"mp3",
@@ -20,7 +14,7 @@
 	"drink":
 	{
 	   "type":"mp3",
-	   "duration":679,
+	   "duration":1044,
 	   "priority":20
 	},
 	"exit-door-open":
@@ -32,7 +26,7 @@
 	"exit-door-close":
 	{
 	   "type":"mp3",
-	   "duration":914,
+	   "duration":940,
 	   "priority":10
 	},
 	"fight-death":
@@ -40,12 +34,6 @@
 	   "type":"mp3",
 	   "duration":7706,
 	   "priority":30
-	},
-	"gate-fast-close":
-	{
-	   "type":"mp3",
-	   "duration":626,
-	   "priority":10
 	},
 	"glory":
 	{
@@ -68,7 +56,7 @@
 	"mirror":
 	{
 	   "type":"mp3",
-	   "duration":522,
+	   "duration":914,
 	   "priority":20
 	},
 	"small-life-potion":
@@ -80,7 +68,7 @@
 	"spikes":
 	{
 	   "type":"mp3",
-	   "duration":522,
+	   "duration":914,
 	   "priority":10
 	},
 	"success":
@@ -92,7 +80,7 @@
 	"success-suspense":
 	{
 	   "type":"mp3",
-	   "duration":7340,
+	   "duration":7418,
 	   "priority":100
 	},
 	"suspense":
@@ -119,11 +107,23 @@
 	   "duration":106,
 	   "priority":10
 	},
+	"creaking-door":
+	{
+	   "type":"wav",
+	   "duration":731,
+	   "priority":10
+	},
 	"gate-close":
 	{
 	   "type":"wav",
 	   "duration":97,
 	   "priority":15
+	},
+	"gate-fast-close":
+	{
+	   "type":"wav",
+	   "duration":679,
+	   "priority":10
 	},
 	"gate-end":
 	{

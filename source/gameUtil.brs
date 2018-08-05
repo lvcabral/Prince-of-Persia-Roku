@@ -406,8 +406,14 @@ End Function
 
 Function IsOpenGL() as Boolean
     di = CreateObject("roDeviceInfo")
-    model = Val(Left(di.GetModel(),1))
-    return (model = 3 or model = 4 or model = 6)
+    gp = di.GetGraphicsPlatform()
+    return (lcase(gp)="opengl")
+End Function
+
+Function IsRokuStick() as Boolean
+    di = CreateObject("roDeviceInfo")
+    model = di.GetModel()
+    return (model = "3600X")
 End Function
 
 'Nullable Boolean
