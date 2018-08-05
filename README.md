@@ -14,7 +14,7 @@ There are two selectable options of sprites, the classic MS-DOS (1990) and Macin
 If you have a Roku or Roku TV you can install the preview channel using this link: https://my.roku.com/add/PoPPreview
 
 Recommended devices:
-Roku Ultra, Roku Premiere+, Roku 4, Roku 3, Roku 2 HD (3000X), Roku 2 XD (3050X), Roku 2 XS (3100X), new Roku Streaming Stick (3600X) and new 4K Roku TV's (6000X).
+Roku Ultra, Roku Premiere(+), Roku 4, Roku 3, Roku 2 HD (3000X), Roku 2 XD (3050X), Roku 2 XS (3100X), new Roku Streaming Sticks (3800X, 3810X), new Roku Express (3900X, 3910X) and the 4K Roku TV's (6000X, 7000X, 8000X).
 
 Below links to some preview videos I published on YouTube during the development:
 * [Demo v0.12 YouTube](https://www.youtube.com/watch?v=gFOKxBuw66o)
