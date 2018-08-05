@@ -1,5 +1,9 @@
 # Prince of Persia Changelog
 
+##### 0.13 - 04-Aug-2018 - Sound Effects Fix
+* Add: Warning for Roku Stick (3600X) users to use only 4 rooms mode, due to device memory limitations
+* Fix: Some mp3 sound effects are not playing on newer Roku firmwares (8.0 and newer)
+
 ##### 0.12 - 05-Aug-2016 - Feature Complete and Support for Mods
 * Add: High Score screens (add, view) #12
 * Add: [Mod] New Mods and Cheats screen #50
