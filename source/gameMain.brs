@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: August 2016
+' **  Updated: July 2019
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -30,8 +30,8 @@ Sub Main()
     m.audioPlayer.SetMessagePort(m.audioPort)
     m.sounds = LoadSounds(true)
     m.files = CreateObject("roFileSystem")
-    m.fonts = CreateObject("roFontRegistry")
-    m.fonts.Register("pkg:/assets/fonts/PoP.ttf")
+    m.fonts = {reg:CreateObject("roFontRegistry")}
+    m.fonts.reg.Register("pkg:/assets/fonts/PoP.ttf")
     m.bitmapFont = [invalid, LoadBitmapFont(1), LoadBitmapFont(2)]
     m.prandom = CreatePseudoRandom()
     m.manifest = GetManifestArray()
@@ -74,7 +74,7 @@ Sub Main()
         end if
     end if
     if m.settings.fight = invalid then m.settings.fight = m.const.FIGHT_ATTACK
-    if m.settings.rewFF = invalid then m.settings.rewFF = m.const.REWFF_LEVEL
+    if m.settings.rewFF = invalid then m.settings.rewFF = m.const.REWFF_NONE
     if m.settings.saveGame = invalid then m.settings.saveGame = true
     if m.settings.okMode = invalid then m.settings.okMode = m.const.OKMODE_TIME
     'Game/Debug switches
@@ -113,7 +113,7 @@ Sub Main()
             m.checkPoint = invalid
             m.usedCheat = (m.settings.fight > m.const.FIGHT_ATTACK)
             if m.settings.saveGame and m.savedGame <> invalid
-                m.mainScreen.Clear(0)
+                ClearScreenBuffers()
                 option = MessageBox(m.gameScreen, 320, 100, "Restore Saved Game?")
                 if option = m.const.BUTTON_YES
                     m.currentLevel = m.savedGame.level
@@ -319,6 +319,14 @@ Sub ResetScreen(mainWidth as integer, mainHeight as integer, gameWidth as intege
     g.gameCanvas = CreateObject("roBitmap",{width:gameWidth, height:gameHeight, alphaenable:true})
 End Sub
 
+Sub ClearScreenBuffers()
+    m.mainScreen.Clear(0)
+    m.mainScreen.SwapBuffers()
+    m.mainScreen.Clear(0)
+    m.mainScreen.SwapBuffers()
+    m.mainScreen.Clear(0)
+End Sub
+
 Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float, guards = [] as object)
     g = GetGlobalAA()
     if g.regions = invalid then g.regions = {spriteMode: spriteMode, levelType: levelType, scale: scale}
@@ -413,14 +421,16 @@ End Sub
 
 Function GetTheme() as object
     theme = {
-                BackgroundColor: "#000000",
+                BackgroundColor: "#000000FF",
                 OverhangSliceSD: "pkg:/images/overhang_sd.jpg",
                 OverhangSliceHD: "pkg:/images/overhang_hd.jpg",
-                ListScreenHeaderText: "#FFFFFF",
-                ListScreenDescriptionText: "#FFFFFF",
+                ListScreenHeaderText: "#FFFFFFFF",
+                ListScreenDescriptionText: "#FFFFFFFF",
                 ListItemHighlightSD: "pkg:/images/item_highlight_sd.png",
                 ListItemHighlightHD: "pkg:/images/item_highlight_hd.png",
-                ListItemHighlightText: "#FF0000"
+                ListItemText: "#C0C0C0FF",
+                ListItemHighlightText: "#FF0000FF"
             }
+    m.theme = theme
     return theme
 End Function

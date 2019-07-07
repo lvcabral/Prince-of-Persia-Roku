@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: May 2016
-' **  Updated: August 2016
+' **  Updated: July 2019
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -13,10 +13,7 @@
 ' ********************************************************************************************************
 
 Function PlayGame() as boolean
-    'Clear screen (needed for non-OpenGL devices)
-    m.mainScreen.Clear(0)
-    m.mainScreen.SwapBuffers()
-    m.mainScreen.Clear(0)
+    ClearScreenBuffers()
     'Set offsets
     m.xOff = (m.const.ROOM_WIDTH * m.scale) * m.tileSet.level.rooms[m.kid.room].x
     m.yOff = (m.const.ROOM_HEIGHT * m.scale) * m.tileSet.level.rooms[m.kid.room].y
@@ -83,18 +80,20 @@ Function PlayGame() as boolean
             else if id = m.code.BUTTON_FAST_FORWARD_PRESSED
                 if m.settings.rewFF = m.const.REWFF_LEVEL
                     NextLevel()
+                    m.usedCheat = true
                 else if m.settings.rewFF = m.const.REWFF_HEALTH
                     if m.kid.maxHealth < m.const.LIMIT_HEALTH and m.kid.alive
                         m.kid.maxHealth++
                         m.kid.health = m.kid.maxHealth
                         PlaySound("big-life-potion", true)
                     end if
+                    m.usedCheat = true
                 else if m.settings.rewFF = m.const.REWFF_TIME
                     m.startTime += 60
                     m.status.Clear()
                     m.showTime = true
+                    m.usedCheat = true
                 end if
-                m.usedCheat = true
             else if id = m.code.BUTTON_REWIND_PRESSED
                 if m.settings.rewFF = m.const.REWFF_LEVEL
                     PreviousLevel()
@@ -718,7 +717,7 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
                     end if
                 end if
                 if m.debugMode
-                    font = m.fonts.GetDefaultFont(12, false, false)
+                    font = m.fonts.reg.GetDefaultFont(12, false, false)
                     bms.DrawText(tile.front, 5, 35, m.colors.white, font)
                 end if
                 frsp = m.compositor.NewSprite(x, y, CreateObject("roRegion",bms,0,0,bms.GetWidth(),bms.GetHeight()), frontZ)

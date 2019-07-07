@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: August 2016
+' **  Updated: July 2019
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -111,6 +111,7 @@ Function GetConstants() as object
     const.REWFF_LEVEL  = 0
     const.REWFF_HEALTH = 1
     const.REWFF_TIME   = 2
+    const.REWFF_NONE   = 3
 
     const.OKMODE_TIME  = 0
     const.OKMODE_DEBUG = 1
@@ -294,6 +295,31 @@ Function ScaleBitmap(bitmap as object, scale as float, simpleMode = false as boo
         region.SetScaleMode(1)
         scaled = CreateObject("roBitmap",{width:int(bitmap.GetWidth()*scale), height:int(bitmap.GetHeight()*scale), alphaenable:bitmap.GetAlphaEnable()})
         scaled.DrawScaledObject(0,0,scale,scale,region)
+	end if
+    return scaled
+End Function
+
+Function ScaleToSize(bitmap as object, width as integer, height as integer, ratio = true as boolean) as object
+    if bitmap = invalid then return bitmap
+    if ratio and bitmap.GetWidth() <= width and bitmap.GetHeight() <= height
+        scaled = bitmap
+    else
+        region = CreateObject("roRegion", bitmap, 0, 0, bitmap.GetWidth(), bitmap.GetHeight())
+        region.SetScaleMode(1)
+        if ratio
+            if bitmap.GetWidth() > bitmap.GetHeight()
+                scale = width / bitmap.GetWidth()
+            else
+                scale = height / bitmap.GetHeight()
+            end if
+            scaled = CreateObject("roBitmap",{width:int(bitmap.GetWidth()*scale), height:int(bitmap.GetHeight()*scale), alphaenable:bitmap.GetAlphaEnable()})
+            scaled.DrawScaledObject(0,0,scale,scale,region)
+        else
+            scaleX = width / bitmap.GetWidth()
+            scaleY = height / bitmap.GetHeight()
+            scaled = CreateObject("roBitmap",{width:width, height:height, alphaenable:bitmap.GetAlphaEnable()})
+            scaled.DrawScaledObject(0,0,scaleX,scaleY,region)
+        end if
 	end if
     return scaled
 End Function
@@ -536,10 +562,13 @@ Function CacheFile(url as string, file as string, overwrite = false as boolean) 
     if overwrite or not m.files.Exists(tmpFile)
         http = CreateObject("roUrlTransfer")
         http.SetUrl(url)
-        if http.GetToFile(tmpFile) <> 200
+        ret = http.GetToFile(tmpFile)
+        if ret = 200
+            print "CacheFile: "; url; " to "; tmpFile
+        else
+            print "File not cached! http return code: "; ret
             tmpFile = ""
         end if
-        print "CacheFile: "; url; " to "; tmpFile
     end if
     return tmpFile
 End Function

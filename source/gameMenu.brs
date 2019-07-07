@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: April 2016
-' **  Updated: August 2016
+' **  Updated: July 2019
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -20,7 +20,7 @@ Function StartMenu() as integer
     centerY = Cint((screen.GetHeight()-(432*scale))/2)
     backImage = ScaleBitmap(CreateObject("roBitmap", "pkg:/images/start_menu.jpg"), scale)
     CrossFade(screen, centerX, centerY, GetPaintedBitmap(m.colors.black, 640 * scale, 432 * scale, true), backImage, 4)
-    menuFont = m.fonts.getFont("Prince of Persia Game Font", 26, false, false)
+    menuFont = m.fonts.reg.getFont("Prince of Persia Game Font", 26, false, false)
     button = -1
     selected = 0
     while true
@@ -69,7 +69,7 @@ Sub SettingsMenu(screen as object)
     scale = Int(GetScale(screen, 640, 432))
     centerX = Cint((screen.GetWidth()-(640*scale))/2)
     centerY = Cint((screen.GetHeight()-(432*scale))/2)
-    menuFont = m.fonts.getFont("Prince of Persia Game Font", 30, false, false)
+    menuFont = m.fonts.reg.getFont("Prince of Persia Game Font", 30, false, false)
     colorWhite = &hFFFFFFFF
     colorRed = &hFF0000FF
     button = -1
@@ -141,7 +141,7 @@ Function OptionsMenu(screen as object, options as object, default as integer) as
     scale = Int(GetScale(screen, 640, 432))
     centerX = Cint((screen.GetWidth()-(640*scale))/2)
     centerY = Cint((screen.GetHeight()-(432*scale))/2)
-    menuFont = m.fonts.getFont("Prince of Persia Game Font", 26, false, false)
+    menuFont = m.fonts.reg.getFont("Prince of Persia Game Font", 26, false, false)
     colorWhite = &hFFFFFFFF
     colorRed = &hFF0000FF
     button = -1
