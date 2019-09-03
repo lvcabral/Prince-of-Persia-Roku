@@ -636,7 +636,6 @@ Function KeyboardScreen(title = "", prompt = "", text = "", button1 = "Okay", bu
     screen.Show()
     while true
         msg = wait(0, port)
-
         if type(msg) = "roKeyboardScreenEvent"
             if msg.isScreenClosed()
                 exit while

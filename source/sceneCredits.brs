@@ -161,6 +161,9 @@ Function TextScreen(pngFile as string, color as integer, waitTime = 0 as integer
     screen.SwapBuffers()
 	while true
     	key = wait(waitTime, m.port)
+		if type(key) = "roUniversalControlEvent"
+			key = key.getInt()
+		end if
 		if key = invalid or key < 100 then exit while
 	end while
 	return (key <> invalid)
@@ -228,6 +231,9 @@ Function ShowHighScores(screen as object, waitTime = 0 as integer) as boolean
 	screen.SwapBuffers()
 	while true
     	key = wait(waitTime, m.port)
+		if type(key) = "roUniversalControlEvent"
+			key = key.getInt()
+		end if
 		if key = invalid or key < 100 then exit while
 	end while
 	return (key<>invalid)

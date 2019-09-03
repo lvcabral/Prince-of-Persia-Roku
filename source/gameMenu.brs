@@ -38,6 +38,9 @@ Function StartMenu() as integer
         end if
         key = wait(0, m.port)
         if key <> invalid
+            if type(key) = "roUniversalControlEvent"
+                key = key.getInt()
+            end if
             if key = m.code.BUTTON_UP_PRESSED or key = m.code.BUTTON_RIGHT_PRESSED
                 m.sounds.navSingle.Trigger(50)
                 if button > 0
@@ -91,6 +94,9 @@ Sub SettingsMenu(screen as object)
         end if
         key = wait(0, m.port)
         if key <> invalid
+            if type(key) = "roUniversalControlEvent"
+                key = key.getInt()
+            end if
             if key = m.code.BUTTON_UP_PRESSED or key = m.code.BUTTON_RIGHT_PRESSED
                 m.sounds.navSingle.Trigger(50)
                 if button > 0
@@ -164,6 +170,9 @@ Function OptionsMenu(screen as object, options as object, default as integer) as
         end if
         key = wait(0, m.port)
         if key <> invalid
+            if type(key) = "roUniversalControlEvent"
+                key = key.getInt()
+            end if
             if key = m.code.BUTTON_DOWN_PRESSED or key = m.code.BUTTON_LEFT_PRESSED or key = m.code.BUTTON_UP_PRESSED or key = m.code.BUTTON_RIGHT_PRESSED
                 m.sounds.navSingle.Trigger(50)
                 if button = 1
@@ -211,6 +220,9 @@ Sub HighScoresScreen(screen as object)
 	    screen.SwapBuffers()
 		key = wait(0, m.port)
 		if key <> invalid
+            if type(key) = "roUniversalControlEvent"
+                key = key.getInt()
+            end if
 			if key = m.code.BUTTON_INFO_PRESSED and m.highScores.Count() > 0
 				m.sounds.select.Trigger(50)
                 saveOpt = MessageBox(screen, 230, 100, "Reset Scores?", 2)
@@ -235,6 +247,9 @@ Sub CreditsScreen(screen as object)
     m.mainScreen.SwapBuffers()
     while true
         key = wait(0, m.port)
+        if type(key) = "roUniversalControlEvent"
+            key = key.getInt()
+        end if
         if key <> invalid and key < 100 then exit while
     end while
 End Sub
@@ -266,6 +281,9 @@ Function MessageBox(screen as object, width as integer, height as integer, text 
         end if
         key = wait(0, m.port)
         if key <> invalid
+            if type(key) = "roUniversalControlEvent"
+                key = key.getInt()
+            end if
             if key = m.code.BUTTON_LEFT_PRESSED or key = m.code.BUTTON_UP_PRESSED
                 m.sounds.navSingle.Trigger(50)
                 if button > m.const.BUTTON_YES
