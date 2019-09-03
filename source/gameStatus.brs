@@ -133,7 +133,7 @@ End Sub
 
 Function LoadBitmapFont(scale = 1.0 as float) As Dynamic
     this = {scale: scale}
-    rsp = ReadAsciiFile("pkg:/assets/fonts/prince.fnt")
+    rsp = ReadAsciiFile("pkg:/assets/fonts/prince-fnt.xml")
     xml=CreateObject("roXMLElement")
     if not xml.Parse(rsp)
          print "Can't parse feed"
@@ -143,12 +143,18 @@ Function LoadBitmapFont(scale = 1.0 as float) As Dynamic
         return invalid
     end if
     xmlChars = xml.getnamedelements("chars").getchildelements()
-    bitmap=CreateObject("robitmap", "pkg:/assets/fonts/prince_0.png")
+    bitmap=CreateObject("robitmap", "pkg:/assets/fonts/prince-fnt.png")
     this.chars = {}
     for each char in xmlChars
-        name = "chr" + char@id
-        yOff = (val(char@height) + val(char@yoffset) - 11) * scale
-        this.chars.AddReplace(name, {image: ScaleBitmap(CreateObject("roRegion",bitmap,val(char@x),val(char@y),val(char@width),val(char@height)),scale), yOffset: yOff})
+        charAttr = char.getAttributes()
+        name = "chr" + charAttr["id"]
+        x = val(charAttr["x"])
+        y = val(charAttr["y"])
+        width = val(charAttr["width"])
+        height = val(charAttr["height"])
+        yoffset = val(charAttr["yoffset"])
+        yOff = (height + yoffset - 11) * scale
+        this.chars.AddReplace(name, {image: ScaleBitmap(CreateObject("roRegion",bitmap,x,y,width,height),scale), yOffset: yOff})
     next
     this.write = write_text
     return this
