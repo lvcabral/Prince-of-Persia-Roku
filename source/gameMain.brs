@@ -20,8 +20,7 @@ Sub Main()
     m.colors = { red: &hAA0000FF, green:&h00AA00FF, yellow: &hFFFF55FF, black: &hFF, white: &hFFFFFFFF, gray: &h404040FF, navy: &h080030FF, darkred: &h810000FF }
     m.maxLevels = 14
     'Util objects
-    app = CreateObject("roAppManager")
-    app.SetTheme(GetTheme())
+    m.theme = GetTheme()
     m.port = CreateObject("roMessagePort")
     m.clock = CreateObject("roTimespan")
     m.timer = CreateObject("roTimespan")
@@ -437,6 +436,5 @@ Function GetTheme() as object
                 ListItemText: "#C0C0C0FF",
                 ListItemHighlightText: "#FF0000FF"
             }
-    m.theme = theme
     return theme
 End Function
