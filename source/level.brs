@@ -23,8 +23,12 @@ Function CreateLevel(number as integer, name as string, levelType as integer) as
 	this.type = levelType
 	this.exitOpen = 0
 
-	dim rooms[25]
-	this.rooms = rooms
+	' dim rooms[25]
+	' this.rooms = rooms
+	this.rooms = []
+	for i = 1 to 25
+		this.rooms.push(invalid)
+	next
     this.trobs = []
     this.mobs = []
     this.masked = []

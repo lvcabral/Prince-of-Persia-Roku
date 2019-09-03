@@ -50,11 +50,13 @@ Function build_level(levelId as integer) as object
 	m.type = json.type
 	level.width = json.size.width
 	level.height = json.size.height
-	dim layout[level.height, level.width]
-	level.layout = layout
+	' dim layout[level.height, level.width]
+	' level.layout = layout
+    level.layout = []
 	'Load rooms from json
 	for y = 0 to level.height - 1
-		level.layout[y] = []
+		' level.layout[y] = []
+        level.layout.push([0])
 		for x = 0 to level.width - 1
 			index = y * level.width + x
 			id = json.room[index].id
@@ -309,14 +311,17 @@ Function WallMarks(seed as integer, i as integer) as string
 End Function
 
 Function GenerateWallPattern(room as integer) as object
-    Dim wallPattern[3, 4, 11]
+    'Dim wallPattern[3, 4, 11]
+    wallPattern = [[],[],[]]
     m.prandom.seed = room
     m.prandom.get(1)
     for row = 0 to 2
         for subrow = 0 to 3
+            wallPattern[row].push([])
             if subrow mod 2 = 0 then colorBase = 4 else colorBase = 0
             prevColor = -1
             for col = 0 to 10
+                wallPattern[row][subrow].push(0)
                 while true
                     color = colorBase + m.prandom.get(3)
                     if color <> prevColor
