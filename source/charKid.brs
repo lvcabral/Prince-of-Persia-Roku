@@ -116,7 +116,7 @@ Sub start_level(level as object, startRoom as integer, startTile as integer, sta
     else
         m.startup = false
         m.haveSword = true
-        if m.level.number <> 13 then
+        if m.level.number <> 13
             m.health = m.maxHealth
             m.turn()
         else
@@ -187,7 +187,9 @@ Sub update_behaviour_kid()
 			m.tryPickup()
 		end if
 	else if m.charAction = "startrun"
-		if m.keyU() then m.action("standjump")
+		if m.keyU()
+            m.action("standjump")
+        end if
 	else if m.charAction = "running"
 		if (m.keyL() and m.faceR()) or (m.keyR() and m.faceL())
 			m.action("runturn")
@@ -264,7 +266,9 @@ Sub update_behaviour_kid()
             m.startFall()
         end if
 	else if m.charAction = "freefall" or m.charAction = "bumpfall"
-		if m.keyS() then m.tryGrabEdge()
+		if m.keyS()
+            m.tryGrabEdge()
+        end if
     else if m.charAction = "drinkpotion"
         if m.frameID(195)
             PlaySound("drink")
@@ -417,8 +421,8 @@ Sub process_command_kid()
             m.frame = data.p1
             m.updateFrame()
             command = false
-            if m.charAction = "medland" and m.frame = 108
-                if not m.startup then m.injured(true)
+            if m.charAction = "medland" and m.frame = 108 and not m.startup
+                m.injured(true)
             end if
         else if data.cmd = m.const.CMD_NEXTLEVEL
             if not m.success
@@ -539,14 +543,18 @@ Sub check_barrier()
         tileNext = m.level.getTileAt(blockX, m.blockY, m.room)
         if tileNext <> invalid and tileNext.isBarrier()
             if tileNext.element = m.const.TILE_WALL
-                if m.charAction = "stand" or m.charAction = "bump" then return
+                if m.charAction = "stand" or m.charAction = "bump"
+                    return
+                end if
                 if m.faceL()
                     m.charX = ConvertBlockXtoX(blockX + 1) - 1
                 else
                     m.charX = ConvertBlockXtoX(blockX)
                 end if
-                if m.charAction <> "freefall" then m.updateBlockXY()
-                print "bump: tile wall"; m.charX; m.blockX
+                if m.charAction <> "freefall"
+                    m.updateBlockXY()
+                end if
+                'print "bump: tile wall"; m.charX; m.blockX
                 m.bump()
             else if tileNext.element = m.const.TILE_GATE
                 if m.faceL() and tileNext.intersects(m.getCharBounds())
@@ -556,7 +564,7 @@ Sub check_barrier()
                     else
                         m.charX = ConvertBlockXtoX(blockX + 1) - 1
                         m.updateBlockXY()
-                        print "bump: tile gate"
+                        'print "bump: tile gate"
                         m.bump()
                     end if
                 end if
@@ -567,16 +575,18 @@ Sub check_barrier()
                 if m.faceL()
                     m.charX = ConvertBlockXtoX(blockX + 1) - 1
                     m.updateBlockXY()
-                    print "bump: tile tapestry"
+                    'print "bump: tile tapestry"
                     m.bump()
                 end if
             else if tileNext.element = m.const.TILE_MIRROR
-                print "Mirror ahead..."
-                if m.charAction = "stand" or m.charAction = "bump" then return
+                'print "Mirror ahead..."
+                if m.charAction = "stand" or m.charAction = "bump"
+                    return
+                end if
                 if m.faceL() and (tileNext.intersects(m.getCharBounds()) or m.charAction <> "runjump")
                     m.charX = ConvertBlockXtoX(blockX) + 3
                     m.updateBlockXY()
-                    print "bump: tile mirror"
+                    'print "bump: tile mirror"
                     m.bump()
                 end if
             end if
@@ -587,12 +597,20 @@ End Sub
 Sub check_room_change_kid()
     if m.charY > 189
         m.charY -= 189
-        if m.gameHeight > 200 then m.baseY += 189
-        if m.room >= 0 then m.room = m.level.rooms[m.room].links.down
+        if m.gameHeight > 200
+            m.baseY += 189
+        end if
+        if m.room >= 0
+            m.room = m.level.rooms[m.room].links.down
+        end if
     else if m.charY < 0
         m.charY += 189
-        if m.gameHeight > 200 then m.baseY -= 189
-        if m.room >= 0 then m.room = m.level.rooms[m.room].links.up
+        if m.gameHeight > 200
+            m.baseY -= 189
+        end if
+        if m.room >= 0
+            m.room = m.level.rooms[m.room].links.up
+        end if
     end if
     if m.room < 0 and m.alive
         PlaySound("death")
@@ -629,7 +647,9 @@ Sub try_pickup()
     m.pickupPotion = (tile.element = m.const.TILE_POTION and tile.hasObject) or (tileF.element = m.const.TILE_POTION and tileF.hasObject)
     if m.pickupPotion or m.pickupSword
         if m.faceR()
-            if tileF.element = m.const.TILE_POTION or tileF.element = m.const.TILE_SWORD then m.blockX++
+            if tileF.element = m.const.TILE_POTION or tileF.element = m.const.TILE_SWORD
+                m.blockX++
+            end if
             m.charX = ConvertBlockXtoX(m.blockX) + (3 * BoolToInt(m.pickupPotion))
         else if m.faceL()
             if tile.element = m.const.TILE_POTION or tile.element = m.const.TILE_SWORD
@@ -649,7 +669,11 @@ Sub drink_potion()
     if tile.element = m.const.TILE_POTION and tile.hasObject
         x = m.blockX
     else
-        if m.faceL() then x = m.blockX - 1 else x = m.blockX + 1
+        if m.faceL()
+            x = m.blockX - 1
+        else
+            x = m.blockX + 1
+        end if
         tile = m.level.getTileAt(x , m.blockY, m.room)
     end if
     if tile.element = m.const.TILE_POTION and tile.hasObject
@@ -668,7 +692,11 @@ Sub get_sword()
     if tile.element = m.const.TILE_SWORD and tile.hasObject
         x = m.blockX
     else
-        if m.faceL() then x = m.blockX - 1 else x = m.blockX + 1
+        if m.faceL()
+            x = m.blockX - 1
+        else
+            x = m.blockX + 1
+        end if
         tile = m.level.getTileAt(x , m.blockY, m.room)
     end if
     if tile.element = m.const.TILE_SWORD and tile.hasObject
@@ -744,15 +772,23 @@ Sub walk_kid()
         end if
     else if tile.element = m.const.TILE_SLICER or tileF.element = m.const.TILE_SLICER
         px = m.distanceToEdge()
-        if m.faceL() then px -= 8 else px -= 6
-        if px <= 0 then px = 11
+        if m.faceL()
+            px -= 8
+        else
+            px -= 6
+        end if
+        if px <= 0
+            px = 11
+        end if
     end if
     if px > 14
         px = 14
     else if px < 1
         px = 0
     end if
-    if px > 0 then m.action("step" + itostr(px))
+    if px > 0
+        m.action("step" + itostr(px))
+    end if
 End Sub
 
 Sub jump_kid()
@@ -939,7 +975,11 @@ Sub bump_kid()
     if not m.alive or m.room < 0 then return
     tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
     if tile.isSpace()
-        if m.faceL() then m.charX += 2 else m.charX -= 2
+        if m.faceL()
+            m.charX += 2
+        else
+            m.charX -= 2
+        end if
         m.bumpFall()
     else
         y = m.distanceToFloor()
@@ -947,10 +987,14 @@ Sub bump_kid()
             m.bumpFall()
         else
             if m.frameID(24,25) or m.frameID(40,42) or m.frameID(102,106)
-                if m.faceL() then m.charX += 5 else m.charX -= 5
+                if m.faceL()
+                    m.charX += 5
+                else
+                    m.charX -= 5
+                end if
                 m.land(tile)
             else
-				print "bumping..."
+				'print "bumping..."
                 m.action("bump")
                 m.processCommand()
             end if
@@ -963,13 +1007,21 @@ Sub start_fall_kid()
     if m.charAction.mid(0,4) = "hang"
         blockX = m.blockX
         if m.charAction = "hangstraight"
-            if m.faceL() then blockX++ else blockX--
+            if m.faceL()
+                blockX++
+            else
+                blockX--
+            end if
         end if
         tile = m.level.getTileAt(blockX,m.blockY,m.room)
         if not tile.isSpace()
             tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
             if tile.element = m.const.TILE_WALL
-                if m.faceL() then m.charX += 7 else m.charX -= 7
+                if m.faceL()
+                    m.charX += 7
+                else
+                    m.charX -= 7
+                end if
             end if
             m.action("hangdrop")
         else
@@ -985,8 +1037,12 @@ Sub start_fall_kid()
         else if m.frameID(13)
             act = "stepfall2"
         end if
-        if m.swordDrawn then m.droppedOut = true
-        if m.faceL() then m.level.maskTile(m.blockX + 1,m.blockY,m.room)
+        if m.swordDrawn
+            m.droppedOut = true
+        end if
+        if m.faceL()
+            m.level.maskTile(m.blockX + 1,m.blockY,m.room)
+        end if
         m.action(act)
         m.processCommand()
     end if
@@ -1060,11 +1116,17 @@ End Sub
 
 Sub block_kid()
     if m.frameID(158) or m.frameID(165)
-        if m.opponent <> invalid and m.opponent.frameID(18) then return
+        if m.opponent <> invalid and m.opponent.frameID(18)
+            return
+        end if
         m.action("block")
-        if m.opponent <> invalid and m.opponent.frameID(3) then m.processCommand()
+        if m.opponent <> invalid and m.opponent.frameID(3)
+            m.processCommand()
+        end if
     else
-        if not m.frameID(167) then return
+        if not m.frameID(167)
+            return
+        end if
         m.action("striketoblock")
     end if
     m.allowBlock = false
@@ -1092,7 +1154,9 @@ Function can_do_kid(doAction as integer) as boolean
         frames = [0]
     end if
     for each frame in frames
-        if m.frameID(frame + 150) then return true
+        if m.frameID(frame + 150)
+            return true
+        end if
     next
     return false
 End Function

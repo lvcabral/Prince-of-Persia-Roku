@@ -58,7 +58,9 @@ Sub DrawStatusBar(screen as object, width as integer, height as integer)
     if m.status.Count() > 0
         text = m.status[0].text
         if m.status[0].duration = 0
-            if m.status.count() > 1 then m.status.Delete(0)
+            if m.status.count() > 1
+                m.status.Delete(0)
+            end if
         else if m.status[0].mark = invalid
         	m.status[0].mark = m.timer.TotalMilliseconds()
             m.status[0].count = 0
@@ -69,9 +71,13 @@ Sub DrawStatusBar(screen as object, width as integer, height as integer)
             else if m.status[0].alert
                 if timeGap > m.status[0].count + 500
                     m.status[0].count = m.status[0].count + 500
-                    if m.status[0].count mod 1000 = 0 then PlaySound("status-alert")
+                    if m.status[0].count mod 1000 = 0
+                        PlaySound("status-alert")
+                    end if
                 end if
-                if m.status[0].count mod 1000 <> 0 then text = ""
+                if m.status[0].count mod 1000 <> 0
+                    text = ""
+                end if
             end if
         end if
         if text <> ""
@@ -104,7 +110,9 @@ Sub DebugInfo(x as integer, y as integer)
     if x <> m.saveX or y <> m.saveY or m.kid.frameName <> m.saveFrameName
         strDebug = str(x)+","+str(y)+" "+m.kid.action()+" "+m.kid.frameName+" R:"+itostr(m.kid.room)+" T:"+ itostr(m.kid.blockX) + "," + itostr(m.kid.blockY)
         print strDebug
-        if m.debugMode then m.status.Push({text:strDebug, duration: 0, alert: false})
+        if m.debugMode
+            m.status.Push({text:strDebug, duration: 0, alert: false})
+        end if
         m.saveX = x
         m.saveY = y
         m.saveFrameName = m.kid.frameName
@@ -127,10 +135,10 @@ Function LoadBitmapFont(scale = 1.0 as float) As Dynamic
     this = {scale: scale}
     rsp = ReadAsciiFile("pkg:/assets/fonts/prince.fnt")
     xml=CreateObject("roXMLElement")
-    if not xml.Parse(rsp) then
+    if not xml.Parse(rsp)
          print "Can't parse feed"
         return invalid
-    else if xml.font = invalid then
+    else if xml.font = invalid
         print "Missing font tag"
         return invalid
     end if

@@ -48,11 +48,17 @@ Function push_button(stuck = false as boolean, sound = true as boolean)
     if not m.active
         m.active = true
 		m.redraw = true
-        if not m.isMasked then m.front = invalid
+        if not m.isMasked
+            m.front = invalid
+        end if
         m.back = m.back + "_down"
-        if sound then PlaySound("button-open")
+        if sound
+            PlaySound("button-open")
+        end if
     end if
-    if not m.stuck then m.stuck = stuck
+    if not m.stuck
+        m.stuck = stuck
+    end if
     m.onPushed(m.modifier, m.element, m.stuck)
     m.pushes++
     m.stage = 0

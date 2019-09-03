@@ -67,9 +67,13 @@ End Function
 Sub update_star()
 	stage = Rnd(10)
 	if stage = 1
-		if m.state > 0 then m.state = m.state - 1
+		if m.state > 0
+            m.state = m.state - 1
+        end if
 	else if stage = 2
-		if m.state < 2 then m.state = m.state + 1
+		if m.state < 2
+            m.state = m.state + 1
+        end if
     end if
     m.frameName = "star" + itostr(m.state)
 End Sub

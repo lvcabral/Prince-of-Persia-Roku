@@ -16,7 +16,9 @@ Function PlayIntro(spriteMode = -1 as integer) as boolean
 	screen = m.mainScreen
 	scale = Int(GetScale(screen, 320, 200))
 	posScale = scale
-	if spriteMode = -1 then spriteMode = m.settings.spriteMode
+	if spriteMode = -1
+		spriteMode = m.settings.spriteMode
+	end if
 	if spriteMode = m.const.SPRITES_MAC
 		scale /= 2
 		suffix = "-mac"
@@ -31,12 +33,24 @@ Function PlayIntro(spriteMode = -1 as integer) as boolean
 	'Check if there is a configured mod with custom images
 	if spriteMode > m.const.SPRITES_MAC and m.settings.modId <> invalid and m.mods[m.settings.modId].titles
 		modPath = m.mods[m.settings.modId].url + m.mods[m.settings.modId].path
-        if Left(modPath, 3) = "pkg" then modPath = modPath + "titles/"
-		if m.files.Exists(modPath + "intro-screen.png") then pngIntro = modPath + "intro-screen.png"
-		if m.files.Exists(modPath + "message-presents.png") then pngPresents = modPath + "message-presents.png"
-		if m.files.Exists(modPath + "message-author.png") then pngAuthor = modPath + "message-author.png"
-		if m.files.Exists(modPath + "message-game-name.png") then pngGame = modPath + "message-game-name.png"
-		if m.files.Exists(modPath + "message-port.png") then pngPort = modPath + "message-port.png"
+        if Left(modPath, 3) = "pkg"
+			modPath = modPath + "titles/"
+		end if
+		if m.files.Exists(modPath + "intro-screen.png")
+			pngIntro = modPath + "intro-screen.png"
+		end if
+		if m.files.Exists(modPath + "message-presents.png")
+			pngPresents = modPath + "message-presents.png"
+		end if
+		if m.files.Exists(modPath + "message-author.png")
+			pngAuthor = modPath + "message-author.png"
+		end if
+		if m.files.Exists(modPath + "message-game-name.png")
+			pngGame = modPath + "message-game-name.png"
+		end if
+		if m.files.Exists(modPath + "message-port.png")
+			pngPort = modPath + "message-port.png"
+		end if
 	end if
 	wait(500, m.port)
 	skip = false
@@ -115,7 +129,9 @@ Function TextScreen(pngFile as string, color as integer, waitTime = 0 as integer
 	useMod = (m.settings.modId <> invalid and m.mods[m.settings.modId].titles)
 	if useMod
 		modPath = m.mods[m.settings.modId].url + m.mods[m.settings.modId].path
-		if Left(modPath, 3) = "pkg" then modPath = modPath + "titles/"
+		if Left(modPath, 3) = "pkg"
+			modPath = modPath + "titles/"
+		end if
 	end if
 	if spriteMode = m.const.SPRITES_MAC
 		canvas.DrawObject(0, 0, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/titles/text-screen-mac.png"), scale / 2))
@@ -130,7 +146,7 @@ Function TextScreen(pngFile as string, color as integer, waitTime = 0 as integer
 	if bmp = invalid and m.files.Exists( "pkg:/assets/titles/" + pngFile + ".png")
 		bmp = CreateObject("roBitmap", "pkg:/assets/titles/" + pngFile + ".png")
 	end if
-	if bmp.GetWidth() <= 320 then
+	if bmp.GetWidth() <= 320
 		bmp = ScaleBitmap(bmp, scale)
 	else
 		bmp = ScaleBitmap(bmp, scale / 2)
@@ -163,11 +179,15 @@ Sub CheckHighScores()
                 index = counter
                 newScores.Push({name: "", time: m.timeLeft})
                 counter++
-                if counter = 7 then exit for
+                if counter = 7
+					exit for
+				end if
             end if
             newScores.Push(score)
             counter++
-            if counter = 7 then exit for
+            if counter = 7
+				exit for
+			end if
         next
 		if counter < 7 and index < 0
 			index = counter

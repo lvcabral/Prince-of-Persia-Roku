@@ -23,11 +23,15 @@ Function CheckSpecialEvents() as integer
                 exit for
             end if
         next
-        if button.element = m.const.TILE_DROP_BUTTON and button.pushes = 0 then button.push(false, false)
+        if button.element = m.const.TILE_DROP_BUTTON and button.pushes = 0
+            button.push(false, false)
+        end if
     else if m.currentLevel = 3
         'Room 2 gate sound shall be heard from anywhere
         gate = m.tileSet.level.getTileAt(9, 0, 2)
-        if gate <> invalid and gate.element = m.const.TILE_GATE and not gate.audio then gate.audio = true
+        if gate <> invalid and gate.element = m.const.TILE_GATE and not gate.audio
+            gate.audio = true
+        end if
         if m.kid.room = 1
             'Skeleton is alive!
             if m.guards.Count() = 0 or m.kid.blockY = 0 or m.kid.level.exitOpen = 0
@@ -89,7 +93,9 @@ Function CheckSpecialEvents() as integer
             end if
         end if
     else if m.currentLevel = 4 and m.kid.level.exitOpen > 0
-        if m.guards.Count() = 0 then return m.const.SPECIAL_CONTINUE
+        if m.guards.Count() = 0
+            return m.const.SPECIAL_CONTINUE
+        end if
         shadow = m.guards[0]
         'Show Mirror on Level 4
         if m.kid.room = 4
@@ -161,7 +167,9 @@ Function CheckSpecialEvents() as integer
                 end if
             end if
             'Hide Shadow
-            if shadow.visible and shadow.blockY > 0 then shadow.visible = false
+            if shadow.visible and shadow.blockY > 0
+                shadow.visible = false
+            end if
         end if
     else if m.currentLevel = 5
         'Shadow drinks potion before kid
@@ -221,8 +229,14 @@ Function CheckSpecialEvents() as integer
         if m.kid.room = 16
             'The Mouse saves the day!
             if m.mouse = invalid
-                if m.wait = invalid then m.wait = 1 else m.wait++
-                if m.wait < 110 then return m.const.SPECIAL_CONTINUE
+                if m.wait = invalid
+                    m.wait = 1
+                else
+                    m.wait++
+                end if
+                if m.wait < 110
+                    return m.const.SPECIAL_CONTINUE
+                end if
                 m.mouse = CreateMouse(m.tileSet.level, 12, 6, m.const.FACE_LEFT)
                 m.mouse.action("scurry")
             else if m.mouse.room = 12 and m.mouse.blockX = 6 and m.mouse.meet
@@ -301,10 +315,14 @@ Function CheckSpecialEvents() as integer
                     shadow.action(m.kid.action())
                 end if
             else if m.kid.cycles > 0
-                if m.kid.cycles = 1 then PlaySound("success")
+                if m.kid.cycles = 1
+                    PlaySound("success")
+                end if
                 if m.kid.cycles mod 2 = 0
                     swRegion = m.regions.guards.shadow[m.kid.face].Lookup("shadow-" + itostr(m.kid.frame))
-                    if swRegion <> invalid then m.kid.sprite.SetRegion(swRegion)
+                    if swRegion <> invalid
+                        m.kid.sprite.SetRegion(swRegion)
+                    end if
                 end if
                 m.kid.cycles = m.kid.cycles - 1
             else if m.kid.room = 2 and shadow.meet and not shadow.visible and m.kid.cycles = 0
@@ -355,7 +373,9 @@ Function CheckSpecialEvents() as integer
             if not m.guards[0].alive
                 if m.kid.level.exitOpen = 0
                     button = m.kid.level.getTileAt(0, 0, 24)
-                    if button.element = m.const.TILE_RAISE_BUTTON then button.push(false, false)
+                    if button.element = m.const.TILE_RAISE_BUTTON
+                        button.push(false, false)
+                    end if
                 end if
             end if
         end if

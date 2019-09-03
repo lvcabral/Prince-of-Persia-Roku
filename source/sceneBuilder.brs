@@ -61,7 +61,9 @@ End Function
 Sub execute_program()
 	if m.sceneState = m.STATE_WAITING
 		m.waitingTime = m.waitingTime - 1
-		if m.waitingTime = 0 then m.sceneState = m.STATE_RUNNING
+		if m.waitingTime = 0
+			m.sceneState = m.STATE_RUNNING
+		end if
 	end if
 	while m.sceneState = m.STATE_RUNNING
 		opcode = m.program[m.pc]
@@ -71,7 +73,9 @@ Sub execute_program()
 			m.sceneState = m.STATE_FADEOUT
 		else if opcode.i = "ACTION"
 			actor = m.actors[opcode.p1]
-            if actor <> invalid then actor.action(opcode.p2)
+            if actor <> invalid
+				actor.action(opcode.p2)
+			end if
 		else if opcode.i = "ADD_ACTOR"
 			m.actors.Push(CreateActor(opcode.p3, opcode.p4, opcode.p5, opcode.p2, m.scale))
 		else if opcode.i = "REM_ACTOR"

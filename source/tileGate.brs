@@ -54,11 +54,15 @@ Function update_gate()
 		if m.cropY = -47
 			m.state = m.STATE_WAITING
 			m.stage = 0
-			if m.audio then PlaySound("gate-end", true)
+			if m.audio
+				PlaySound("gate-end", true)
+			end if
 		else
 			m.cropY--
 			if m.cropY mod 2 = 0
-	            if m.audio then PlaySound("gate-open", true)
+	            if m.audio
+					PlaySound("gate-open", true)
+				end if
 			end if
 		end if
 		m.redraw = true
@@ -75,10 +79,14 @@ Function update_gate()
 			if m.cropY >= 0
 				m.cropY = 0
 				m.state = m.STATE_CLOSED
-                if m.audio then PlaySound("gate-end", true)
+                if m.audio
+					PlaySound("gate-end", true)
+				end if
 			end if
 			m.stage++
-            if m.audio then PlaySound("gate-close", true)
+            if m.audio
+				PlaySound("gate-close", true)
+			end if
 		else
 			m.stage = (m.stage + 1) mod 4
 		end if
@@ -104,7 +112,9 @@ End Sub
 Sub drop_gate()
     if m.state <> m.STATE_CLOSED
         m.state = m.STATE_FAST_DROPPING
-        if m.audio then PlaySound("gate-fast-close")
+        if m.audio
+			PlaySound("gate-fast-close")
+		end if
     end if
 End Sub
 

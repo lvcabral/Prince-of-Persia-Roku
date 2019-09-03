@@ -542,7 +542,9 @@ Function LoadPalette(file as string, limit = -1 as integer, ignore = -1 as integ
             g = Val(obj[i])
         else if b < 0
             b = Val(obj[i])
-            if color <> ignore then palette.Push(RGBA(r,g,b))
+            if color <> ignore
+                palette.Push(RGBA(r,g,b))
+            end if
             r = -1
             g = -1
             b = -1
@@ -635,7 +637,7 @@ Function KeyboardScreen(title = "", prompt = "", text = "", button1 = "Okay", bu
     while true
         msg = wait(0, port)
 
-        if type(msg) = "roKeyboardScreenEvent" then
+        if type(msg) = "roKeyboardScreenEvent"
             if msg.isScreenClosed()
                 exit while
             else if msg.isButtonPressed()

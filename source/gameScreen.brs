@@ -46,7 +46,9 @@ Function PlayGame() as boolean
                 if m.kid.alive and m.kid.level.number > 2 and m.settings.saveGame
                     saveOpt = MessageBox(m.gameScreen, 230, 100, "Save Game?")
                     if saveOpt = m.const.BUTTON_YES
-                        if m.savedGame = invalid then m.savedGame = {}
+                        if m.savedGame = invalid
+                            m.savedGame = {}
+                        end if
                         m.savedGame.level = m.kid.level.number
                         m.savedGame.checkPoint = m.kid.checkPoint
                         m.savedGame.health = m.startHealth
@@ -103,7 +105,7 @@ Function PlayGame() as boolean
                         PlaySound("harm", true)
                     end if
                 else if m.settings.rewFF = m.const.REWFF_TIME
-                    if m.timeLeft > 60 then
+                    if m.timeLeft > 60
                         m.startTime -= 60
                         m.status.Clear()
                         m.showTime = true
@@ -133,7 +135,9 @@ Function PlayGame() as boolean
             ticks = m.clock.TotalMilliseconds()
             if ticks > m.speed
                 'Update sprites
-                if not m.redraw then m.redraw = CheckMapRedraw()
+                if not m.redraw
+                    m.redraw = CheckMapRedraw()
+                end if
                 KidUpdate()
                 if m.redraw or CheckVerticalNav()
                     DrawLevelRooms(m.xOff, m.yOff, m.gameWidth, m.gameHeight)
@@ -147,7 +151,9 @@ Function PlayGame() as boolean
                     MaskUpdate()
                     FlashBackGround()
                     SoundUpdate()
-                    if CheckGameTimer() then return true
+                    if CheckGameTimer()
+                        return true
+                    end if
                     'Paint Screen
                     m.compositor.AnimationTick(ticks)
                     m.compositor.DrawAll()
@@ -168,7 +174,7 @@ End Function
 Sub FlipScreen()
     g = GetGlobalAA()
     g.flip = not g.flip
-    if g.flip then
+    if g.flip
         g.compositor.SetDrawTo(g.gameCanvas, g.colors.black)
         g.speed = 30
     else
@@ -245,7 +251,9 @@ Sub GuardsUpdate()
             anchorX = (guard.x * m.scale) - gdRegion.GetWidth() - m.xOff
         end if
         anchorY = (guard.y * m.scale) - gdRegion.GetHeight() + m.topOffset - m.yOff
-        if guard.opponent <> invalid or guard.charName = "shadow" then DebugGuard(anchorX, anchorY, guard)
+        if guard.opponent <> invalid or guard.charName = "shadow"
+            DebugGuard(anchorX, anchorY, guard)
+        end if
         if guard.sprite = invalid and anchorX > 0 and anchorX <= m.gameWidth and anchorY > 0 and anchorY <= m.gameHeight
             guard.sprite = m.compositor.NewSprite(anchorX, anchorY, gdRegion, guard.z)
             guard.sprite.SetData(guard.charName)
@@ -290,9 +298,15 @@ End Sub
 Sub DestroyChars()
     if m.kid <> invalid
         m.kid.opponent = invalid
-        if m.kid.sprite <> invalid then m.kid.sprite.Remove()
-        if m.kid.sword.sprite <> invalid then m.kid.sword.sprite.Remove()
-        if m.kid.splash.sprite <> invalid then m.kid.splash.sprite.Remove()
+        if m.kid.sprite <> invalid
+            m.kid.sprite.Remove()
+        end if
+        if m.kid.sword.sprite <> invalid
+            m.kid.sword.sprite.Remove()
+        end if
+        if m.kid.splash.sprite <> invalid
+            m.kid.splash.sprite.Remove()
+        end if
         m.kid = invalid
     end if
     if m.reflex <> invalid
@@ -304,14 +318,22 @@ Sub DestroyChars()
     end if
     if m.guards <> invalid and m.guards.Count() > 0
         for each guard in m.guards
-            if guard.sprite <> invalid then  guard.sprite.Remove()
-            if guard.sword.sprite <> invalid then guard.sword.sprite.remove()
-            if guard.splash.sprite <> invalid then guard.splash.sprite.remove()
+            if guard.sprite <> invalid
+                guard.sprite.Remove()
+            end if
+            if guard.sword.sprite <> invalid
+                guard.sword.sprite.remove()
+            end if
+            if guard.splash.sprite <> invalid
+                guard.splash.sprite.remove()
+            end if
         next
         m.guards.Clear()
     end if
     if m.mouse <> invalid
-        if m.mouse.sprite <> invalid then m.mouse.sprite.Remove()
+        if m.mouse.sprite <> invalid
+            m.mouse.sprite.Remove()
+        end if
         m.mouse = invalid
     end if
 End Sub
@@ -374,7 +396,9 @@ Sub TROBsUpdate()
                     trob.tile.start()
                     trob.tile.stage = trob.tile.stage - slicerGap
                     slicerGap = slicerGap + 5
-                    if slicerGap = 15 then slicerGap = 0
+                    if slicerGap = 15
+                        slicerGap = 0
+                    end if
                 end if
             end if
         end if
@@ -454,7 +478,9 @@ Sub TROBsUpdate()
                 end if
                 trob.sprite.childBack.setDrawableFlag(trob.tile.child.back.visible)
                 trob.sprite.childFront.setDrawableFlag(trob.tile.child.front.visible)
-                if trob.tile.child.front.visible then trob.sprite.childBack.SetZ(30)
+                if trob.tile.child.front.visible
+                    trob.sprite.childBack.SetZ(30)
+                end if
             end if
             trob.tile.redraw = false
         end if
@@ -472,22 +498,34 @@ Sub MOBsUpdate()
                     if mob.sprite.back <> invalid and mob.sprite.visible
                         mob.sprite.back.setRegion(m.regions.tiles.Lookup(mob.tile.back))
                     else
-                        if mob.tile.backSprite <> invalid then mob.tile.backSprite.Remove()
+                        if mob.tile.backSprite <> invalid
+                            mob.tile.backSprite.Remove()
+                        end if
                     end if
                     if mob.tile.state = mob.tile.STATE_SHAKING
                         if mob.sprite.visible
-                            if mob.sprite.front <> invalid then mob.sprite.front.setDrawableFlag(false)
+                            if mob.sprite.front <> invalid
+                                mob.sprite.front.setDrawableFlag(false)
+                            end if
                         else
-                            if mob.sprite.front <> invalid then mob.sprite.front.Remove()
+                            if mob.sprite.front <> invalid
+                                mob.sprite.front.Remove()
+                            end if
                         end if
                     else if mob.tile.state = mob.tile.STATE_INACTIVE
                         if mob.sprite.visible
-                            if mob.sprite.front <> invalid then mob.sprite.front.setDrawableFlag(true)
+                            if mob.sprite.front <> invalid
+                                mob.sprite.front.setDrawableFlag(true)
+                            end if
                         else
-                            if mob.sprite.front <> invalid then mob.sprite.front.Remove()
+                            if mob.sprite.front <> invalid
+                                mob.sprite.front.Remove()
+                            end if
                         end if
                     else if mob.tile.state = mob.tile.STATE_FALLING
-                        if mob.sprite.front <> invalid then mob.sprite.front.Remove()
+                        if mob.sprite.front <> invalid
+                            mob.sprite.front.Remove()
+                        end if
                         if mob.sprite.back <> invalid and mob.sprite.visible
                             mob.sprite.back.MoveTo(mob.tile.x * m.scale - m.xOff, mob.tile.y * m.scale - m.yOff)
                         end if
@@ -511,8 +549,12 @@ Sub MOBsUpdate()
                             end if
                         end if
                     else if mob.tile.state = mob.tile.STATE_CRASHED
-                        if mob.sprite.back <> invalid then mob.sprite.back.Remove()
-                        if mob.tile.backSprite <> invalid then mob.tile.backSprite.Remove()
+                        if mob.sprite.back <> invalid
+                            mob.sprite.back.Remove()
+                        end if
+                        if mob.tile.backSprite <> invalid
+                            mob.tile.backSprite.Remove()
+                        end if
                         if mob.floor <> invalid
                             debris = m.tileSet.level.floorStopFall(mob.floor)
                             if debris <> invalid and debris.backSprite <> invalid and debris.frontSprite <> invalid
@@ -525,7 +567,9 @@ Sub MOBsUpdate()
                         end if
                     end if
                 end if
-                if mob.tile <> invalid then mob.tile.redraw = false
+                if mob.tile <> invalid
+                    mob.tile.redraw = false
+                end if
             end if
         end if
     next
@@ -554,7 +598,9 @@ Sub MaskUpdate()
             end if
         next
         for each tt in m.kid.level.masked
-            if  tt <> invalid and tt.isMasked then return
+            if tt <> invalid and tt.isMasked
+                return
+            end if
         next
         m.kid.level.masked.Clear()
     end if
@@ -607,7 +653,9 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
     if x >= -m.const.TILE_WIDTH * m.scale and x <= maxWidth and y >= -m.const.TILE_HEIGHT * m.scale and y<=maxHeight 'only what can be shown
         if tile.isTrob() or tile.isMob()
             obj.sprite.visible = true
-            if x < maxWidth-tile.width then obj.tile.audio = true
+            if x < maxWidth-tile.width
+                obj.tile.audio = true
+            end if
         end if
         if tile.back <> invalid
             tileRegion = m.regions.tiles.Lookup(tile.back)
@@ -620,11 +668,17 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
             sprite = m.compositor.NewSprite(x, y - yd, tileRegion, backZ)
             sprite.SetMemberFlags(0)
             if tile.isWalkable() or tile.element = m.const.TILE_SPACE
-                if tile.backSprite <> invalid  then tile.backSprite.Remove()
+                if tile.backSprite <> invalid
+                    tile.backSprite.Remove()
+                end if
                 tile.backSprite = sprite
             end if
-            if tile.isTrob() or tile.isMob() then obj.sprite.back = sprite
-            if tile.isTrob() or not tile.isMob() then m.map.Push(sprite)
+            if tile.isTrob() or tile.isMob()
+                obj.sprite.back = sprite
+            end if
+            if tile.isTrob() or not tile.isMob()
+                m.map.Push(sprite)
+            end if
         end if
         if tile.front <> invalid
             useWDA = (m.settings.SpriteMode > m.const.SPRITES_MAC and m.settings.modId <> invalid and m.mods[m.settings.modId].wda)
@@ -632,7 +686,9 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
                 useMod = (m.settings.modId <> invalid and m.mods[m.settings.modId].palettes and m.settings.spriteMode = Val(m.settings.modId))
                 if useMod
                     modPath = m.mods[m.settings.modId].url + m.mods[m.settings.modId].path
-                    if Left(modPath, 3) = "pkg" then modPath = modPath + "palettes/"
+                    if Left(modPath, 3) = "pkg"
+                        modPath = modPath + "palettes/"
+                    end if
                 end if
                 if useMod and m.files.Exists(modPath + "wall.pal")
                     wc = LoadPalette(modPath + "wall.pal", 8, 5)
@@ -723,14 +779,18 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
                 frsp = m.compositor.NewSprite(x, y, CreateObject("roRegion",bms,0,0,bms.GetWidth(),bms.GetHeight()), frontZ)
             else
                 tr = m.regions.tiles.Lookup(tile.front)
-                if tr = invalid then tr = m.regions.tiles.Lookup(tile.key + "_0")
+                if tr = invalid
+                    tr = m.regions.tiles.Lookup(tile.key + "_0")
+                end if
                 frsp = m.compositor.NewSprite(x, y, tr , frontZ)
             end if
             frsp.SetMemberFlags(0)
             m.map.Push(frsp)
             if tile.isWalkable() or tile.element = m.const.TILE_SPACE
                 'link the tile to allow masking
-                if tile.frontSprite <> invalid then tile.frontSprite.Remove()
+                if tile.frontSprite <> invalid
+                    tile.frontSprite.Remove()
+                end if
                 tile.frontSprite = frsp
             end if
             if tile.isTrob() or tile.isMob()
@@ -774,7 +834,9 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
             spbk = m.compositor.NewSprite(x + chbk.x * m.scale, (y - yd) + chbk.y * m.scale, rgn, backZ)
             spbk.setDrawableFlag(chbk.visible)
             spbk.SetMemberFlags(0)
-            if tile.isTrob() then obj.sprite.childBack = spbk
+            if tile.isTrob()
+                obj.sprite.childBack = spbk
+            end if
             m.map.Push(spbk)
         else if tile.child.back.frames <> invalid
             animation = []
@@ -783,7 +845,9 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
             next
             spbk = m.compositor.NewAnimatedSprite(x + chbk.x * m.scale, (y - yd) + chbk.y * m.scale, animation, backZ)
             spbk.SetMemberFlags(0)
-            if tile.isTrob() then obj.sprite.childBack = spbk
+            if tile.isTrob()
+                obj.sprite.childBack = spbk
+            end if
             m.map.Push(spbk)
         end if
         if chfr.frameName <> invalid
@@ -794,7 +858,9 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
             spfr = m.compositor.NewSprite(x + chfr.x * m.scale, (y - yd) + chfr.y * m.scale, chrg, frontZ)
             spfr.SetMemberFlags(0)
             spfr.setDrawableFlag(chfr.visible)
-            if tile.isTrob() then obj.sprite.childFront = spfr
+            if tile.isTrob()
+                obj.sprite.childFront = spfr
+            end if
             m.map.Push(spfr)
         else if tile.child.front.frames <> invalid
             animation = []
@@ -803,7 +869,9 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
             next
             spfr = m.compositor.NewAnimatedSprite(x + chfr.x * m.scale, (y - yd) + chfr.y * m.scale, animation, frontZ)
             spfr.SetMemberFlags(0)
-            if tile.isTrob() then obj.sprite.childFront = spfr
+            if tile.isTrob()
+                obj.sprite.childFront = spfr
+            end if
             m.map.Push(spfr)
         end if
     end if
@@ -816,7 +884,7 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
 End Sub
 
 Sub DrawWallmark(bms as object, x, y, region)
-    if x > 0 then
+    if x > 0
         x = x - region.GetWidth()
     end if
     bms.DrawObject(x, y - region.GetHeight(), region)
@@ -832,7 +900,9 @@ Sub DrawLeftMark(bms as object, r as object, rn as integer)
         i = 1
         xw = r[1] - r[0] + 6
     end if
-    if rn = 2 or rn = 3 then xw = xw + 8
+    if rn = 2 or rn = 3
+        xw = xw + 8
+    end if
     if rn mod 2  = 0
         yw = 16 + (21 * i)
         bms.DrawObject(xw * m.scale, yw * m.scale, m.regions.tiles.Lookup("dungeon_wall_mark_1"))
@@ -852,7 +922,9 @@ Sub DrawRightMark(bms as object, r as object, rn as integer)
         i = 1
         xw = r[1] - 3
     end if
-    if rn > 1 then xw = xw + 8
+    if rn > 1
+        xw = xw + 8
+    end if
     if rn mod 2  = 0
         yw = 17 + (21 * i)
         bms.DrawObject(xw * m.scale, yw * m.scale, m.regions.tiles.Lookup("dungeon_wall_mark_3"))
@@ -881,7 +953,9 @@ Sub DestroyMap()
     end if
     if m.map <> invalid
         for each sprite in m.map
-            if sprite <> invalid then sprite.remove()
+            if sprite <> invalid
+                sprite.remove()
+            end if
         next
     end if
 End Sub
@@ -920,7 +994,11 @@ Function CheckMapRedraw() as boolean
                 print "changed camera focus left - new offsets:"; m.xOff; m.yOff
             end if
         else if m.kid.blockX = 9 and m.tileSet.level.rooms[m.oldRoom].links.right > 0
-            if m.kid.swordDrawn then gap = midWidth else gap = 0
+            if m.kid.swordDrawn
+                gap = midWidth
+            else
+                gap = 0
+            end if
             if m.kid.x + gap > m.const.ROOM_WIDTH
                 m.kid.baseX = m.kid.baseX - m.const.ROOM_WIDTH
                 redraw = true

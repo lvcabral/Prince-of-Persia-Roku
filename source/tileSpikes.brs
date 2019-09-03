@@ -39,7 +39,9 @@ Function CreateSpikes(tile as object) as object
 End Function
 
 Sub update_spikes()
-	if m.modifier <> 0 then return
+	if m.modifier <> 0
+		return
+	end if
 	if m.state = m.STATE_RAISING
 		m.stage++
 		m.child.back.frameName = m.key + "_" + itostr(m.const.TILE_SPIKES) + "_" + itostr(m.stage)
@@ -58,10 +60,14 @@ Sub update_spikes()
 		m.redraw = true
 	else if m.state = m.STATE_DROPPING
 		m.stage--
-		if m.stage = 3 then m.stage--
+		if m.stage = 3
+			m.stage--
+		end if
 		m.child.back.frameName = m.key + "_" + itostr(m.const.TILE_SPIKES) + "_" + itostr(m.stage)
 		m.child.front.frameName = m.key + "_" + itostr(m.const.TILE_SPIKES) + "_" + itostr(m.stage) + "_fg"
-		if m.stage = 0 then m.state = m.STATE_INACTIVE
+		if m.stage = 0
+			m.state = m.STATE_INACTIVE
+		end if
         m.redraw = true
     end if
 End Sub

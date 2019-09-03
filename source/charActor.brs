@@ -297,10 +297,14 @@ Sub update_acceleration()
     if m.actionCode = 4 'freefall
         if m.isWeightless
             m.charYVel = m.charYVel + m.const.GRAVITY_WEIGHTLESS
-            if m.charYVel > m.const.TOP_SPEED_WEIGHTLESS then m.charYVel = m.const.TOP_SPEED_WEIGHTLESS
+            if m.charYVel > m.const.TOP_SPEED_WEIGHTLESS
+                m.charYVel = m.const.TOP_SPEED_WEIGHTLESS
+            end if
         else
             m.charYVel = m.charYVel + m.const.GRAVITY_NORMAL
-            if m.charYVel > m.const.TOP_SPEED_NORMAL then m.charYVel = m.const.TOP_SPEED_NORMAL
+            if m.charYVel > m.const.TOP_SPEED_NORMAL
+                m.charYVel = m.const.TOP_SPEED_NORMAL
+            end if
         end if
     end if
 End Sub
@@ -313,7 +317,9 @@ Sub check_floor()
         if m.charFcheck
             tile = m.level.getTileAt(m.blockX, m.blockY,m.room)
             if tile.isSpace()
-                if m.actionCode = 5 then return 'being bumped
+                if m.actionCode = 5
+                    return 'being bumped
+                end if
                 if m.leapOfFaith
                     'show tiles
                     tile.element = m.const.TILE_FLOOR
@@ -374,8 +380,11 @@ Sub check_floor()
 End Sub
 
 Sub check_slicer()
-    if not m.alive or m.room < 0 then return
-    if m.charAction = "climbdown" or m.charAction = "climbup" then return
+    if not m.alive or m.room < 0
+        return
+    else if m.charAction = "climbdown" or m.charAction = "climbup"
+        return
+    end if
     for t = -1 to 1
         tile = m.level.getTileAt(m.blockX + t, m.blockY, m.room)
         if tile.element = m.const.TILE_SLICER
@@ -429,10 +438,18 @@ End Sub
 
 Sub bump_fall()
     if m.actionCode = 4
-        if m.faceL() then m.charX++ else m.charX--
+        if m.faceL()
+            m.charX++
+        else
+            m.charX--
+        end if
         m.charXVel = 0
     else
-        if m.faceL() then m.charX += 2 else m.charX -= 2
+        if m.faceL()
+            m.charX += 2
+        else
+            m.charX -= 2
+        end if
         m.action("bumpfall")
         m.processCommand()
     end if
@@ -522,12 +539,20 @@ Sub check_fight()
 			m.opponent.turnengarde()
 		end if
 	else if m.charAction = "stabbed"
-		if m.frameID(23) or m.frameID(173) then m.splash.visible = false
+		if m.frameID(23) or m.frameID(173)
+            m.splash.visible = false
+        end if
 	else if m.charAction = "dropdead"
-		if m.frameID(30) or m.frameID(180) then m.splash.visible = false
+		if m.frameID(30) or m.frameID(180)
+            m.splash.visible = false
+        end if
 	else if m.charAction = "strike"
-		if m.opponent.charAction = "climbstairs" then return
-		if not m.frameID(153,154) and not m.frameID(3,4) then return
+		if m.opponent.charAction = "climbstairs"
+            return
+        end if
+		if not m.frameID(153,154) and not m.frameID(3,4)
+            return
+        end if
 		if not m.opponent.frameID(150) and not m.opponent.frameID(0)
             if m.frameID(154) or m.frameID(4)
                 if m.opponent.swordDrawn
@@ -543,7 +568,9 @@ Sub check_fight()
                         PlaySound("guard-hit")
                     end if
 				else
-                    if m.charName = "kid" then PlaySound("sword-attack")
+                    if m.charName = "kid"
+                        PlaySound("sword-attack")
+                    end if
                 end if
 			end if
 		else
@@ -669,11 +696,19 @@ Sub bump_fighter()
     tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
 
     if tile.isSpace()
-        if m.moveLeft then m.charX += 2 else m.charX -= 2
+        if m.moveLeft
+            m.charX += 2
+        else
+            m.charX -= 2
+        end if
         m.bumpFall()
     else
         if m.fallingBlocks > 0 and (m.frameID(24, 25) or m.frameID(40, 42) or m.frameID(102, 106))
-            if m.moveLeft then m.charX += 5 else m.charX -= 5
+            if m.moveLeft
+                m.charX += 5
+            else
+                m.charX -= 5
+            end if
             m.land(tile)
         else
 			print "bumping on fight..."
@@ -713,7 +748,9 @@ End Function
 
 Sub engarde_fighter()
     if m.haveSword
-        if m.charName = "kid" then PlaySound("sword-drawn")
+        if m.charName = "kid"
+            PlaySound("sword-drawn")
+        end if
         m.action("engarde")
         m.swordDrawn = true
         m.moveLeft = m.faceL()
@@ -765,10 +802,14 @@ Sub block_fighter()
             m.retreat()
             return
         end if
-        if not m.canDo(m.const.DO_BLOCK)  then return
+        if not m.canDo(m.const.DO_BLOCK)
+            return
+        end if
         m.action("block")
     else
-        if not m.canDo(m.const.DO_STRIKE_TO_BLOCK) then return
+        if not m.canDo(m.const.DO_STRIKE_TO_BLOCK)
+            return
+        end if
         m.action("striketoblock")
     end if
     m.allowBlock = false

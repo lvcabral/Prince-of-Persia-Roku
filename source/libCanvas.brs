@@ -95,9 +95,11 @@ Sub paint_component(component as object)
         rect = m.GetCanvasRect()
     end if
     if component.DoesExist("Text")
-        if type(component.TextAttrs.font) = "roString"
+        if type(component.TextAttrs.font) = "roString" or type(component.TextAttrs.font) = "String"
             font = m.fonts.Lookup(component.TextAttrs.font)
-            if font = invalid then font = m.fonts.large
+            if font = invalid
+                font = m.fonts.medium
+            end if
         else if type(component.TextAttrs.font) = "roFont"
             font = component.TextAttrs.font
         else

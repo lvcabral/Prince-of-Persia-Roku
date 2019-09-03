@@ -126,7 +126,9 @@ Sub Main()
                     else if m.settings.modId <> invalid or m.settings.spriteMode > m.const.SPRITES_MAC
                         m.settings.spriteMode = m.const.SPRITES_DOS
                     end if
-                    if m.savedGame.cheat <> invalid then m.usedCheat = (m.usedCheat and m.savedGame.cheat)
+                    if m.savedGame.cheat <> invalid
+                        m.usedCheat = (m.usedCheat and m.savedGame.cheat)
+                    end if
                     SaveSettings(m.settings)
                 end if
             else
@@ -152,7 +154,9 @@ Sub Main()
                         skip = TextScreen("text-in-the-absence", m.colors.navy, 15000, 7)
                     end if
                 end if
-                if not skip then skip = PlayScene(m.gameScreen, m.currentLevel)
+                if not skip
+                    skip = PlayScene(m.gameScreen, m.currentLevel)
+                end if
                 if m.currentLevel = 1 and not skip
                     TextScreen("text-marry-jaffar", m.colors.navy, 18000, 7)
                 end if
@@ -341,7 +345,9 @@ Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
     useModSprite = (g.settings.modId <> invalid and g.mods[g.settings.modId].sprites and spriteMode = Val(g.settings.modId))
     if useModSprite
         modPath = g.mods[g.settings.modId].url + g.mods[g.settings.modId].path
-        if Left(modPath, 3) = "pkg" then modPath = modPath + "sprites/"
+        if Left(modPath, 3) = "pkg"
+            modPath = modPath + "sprites/"
+        end if
     end if
     'Load Regions
     if g.regions.general = invalid or g.regions.spriteMode <> spriteMode or g.regions.scale <> scale

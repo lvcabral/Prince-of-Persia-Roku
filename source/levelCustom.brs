@@ -51,10 +51,26 @@ Function build_custom(levelId as integer, mod as object) as object
         xmlLinks = xmlRoom.GetNamedElements("links").Simplify()
         id = Val(xmlRoom@number)
         rmlnk = {hideUp: false, hideLeft: false, leftZ: 5}
-        if xmlLinks@left > "0" then rmlnk.left = Val(xmlLinks@left) else rmlnk.left = -1
-        if xmlLinks@right > "0" then rmlnk.right = Val(xmlLinks@right) else rmlnk.right = -1
-        if xmlLinks@up > "0" then rmlnk.up = Val(xmlLinks@up) else rmlnk.up = -1
-        if xmlLinks@down > "0" then rmlnk.down = Val(xmlLinks@down) else rmlnk.down = -1
+        if xmlLinks@left > "0"
+            rmlnk.left = Val(xmlLinks@left)
+        else
+            rmlnk.left = -1
+        end if
+        if xmlLinks@right > "0"
+            rmlnk.right = Val(xmlLinks@right)
+        else
+            rmlnk.right = -1
+        end if
+        if xmlLinks@up > "0"
+            rmlnk.up = Val(xmlLinks@up)
+        else
+            rmlnk.up = -1
+        end if
+        if xmlLinks@down > "0"
+            rmlnk.down = Val(xmlLinks@down)
+        else
+            rmlnk.down = -1
+        end if
         if rmlnk.left > 0 or rmlnk.right > 0 or rmlnk.up > 0 or rmlnk.down > 0 or this.prince.room = id
             this.rooms[id] = {x: 0, y: 0, links: {}, up: [], left: [], right: [], tiles: [], layout: false}
             this.rooms[id].links = rmlnk
@@ -62,20 +78,34 @@ Function build_custom(levelId as integer, mod as object) as object
             for each xmlTile in xmlTiles
                 tl = {element: Val(xmlTile@element) and &h1F, modifier: Val(xmlTile@modifier)}
                 if tl.element = m.const.TILE_WALL
-                    if tl.modifier > 1 then tl.modifier = 0
+                    if tl.modifier > 1
+                        tl.modifier = 0
+                    end if
                 else if tl.element = m.const.TILE_SPACE
-                    if tl.modifier = 255 then tl.modifier = 0
+                    if tl.modifier = 255
+                        tl.modifier = 0
+                    end if
                 else if tl.element = m.const.TILE_FLOOR
-                    if tl.modifier = 3 then
+                    if tl.modifier = 3
                         tl.modifier = 2
                     else if tl.modifier = 255
-                        if m.type = m.const.TYPE_DUNGEON then tl.modifier = 0 else tl.modifier = 2
+                        if m.type = m.const.TYPE_DUNGEON
+                            tl.modifier = 0
+                        else
+                            tl.modifier = 2
+                        end if
                     end if
                 else if tl.element = m.const.TILE_LOOSE_BOARD
                     'Set modifier to 1 for stuck loose tile
-                    if Val(xmlTile@element) = 43 then tl.modifier = 1 else tl.modifier = 0
+                    if Val(xmlTile@element) = 43
+                        tl.modifier = 1
+                    else
+                        tl.modifier = 0
+                    end if
                 else if tl.element = m.const.TILE_GATE
-                    if tl.modifier = 2 then tl.modifier = 0
+                    if tl.modifier = 2
+                        tl.modifier = 0
+                    end if
                 end if
                 this.rooms[id].tiles.Push(tl)
             next
@@ -86,9 +116,13 @@ Function build_custom(levelId as integer, mod as object) as object
             'Add Guard
             if Val(xmlGuard@location) > 0 and Val(xmlGuard@location) < 31
                 colors = Val(xmlGuard@colors)
-                if colors < 1 or colors > 7 then colors = 1
+                if colors < 1 or colors > 7
+                    colors = 1
+                end if
                 direction = Val(xmlGuard@direction)
-                if direction = 2 then direction = 0
+                if direction = 2
+                    direction = 0
+                end if
                 gd = { room: id,
                        location: Val(xmlGuard@location),
                        skill: Val(xmlGuard@skill),

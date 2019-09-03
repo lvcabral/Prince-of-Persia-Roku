@@ -102,7 +102,9 @@ Function GetModImage(modId as dynamic) as string
         bmp.DrawLine(19 + 322, 19, 19 + 322, 19 + 202, m.colors.white)
         bmp.DrawLine(19 + 322, 19 + 202, 19, 19 + 202, m.colors.white)
         bmp.DrawLine(19, 19 + 202, 19, 19, m.colors.white)
-        if cloud then bmp.DrawObject(312, 192, CreateObject("roBitmap", "pkg:/images/icon_cloud.png"))
+        if cloud
+            bmp.DrawObject(312, 192, CreateObject("roBitmap", "pkg:/images/icon_cloud.png"))
+        end if
         bmp.Finish()
         png = bmp.GetPng(0, 0, 360, 240)
         png.WriteFile(modCover)
@@ -183,10 +185,14 @@ Sub ModsAndCheatsScreen()
             if listIndex = 0 'Mods
                 if remoteKey = m.code.BUTTON_LEFT_PRESSED
                     this.modIndex--
-                    if this.modIndex < 0 then this.modIndex = this.modArray.Count() - 1
+                    if this.modIndex < 0
+                        this.modIndex = this.modArray.Count() - 1
+                    end if
                 else if remoteKey = m.code.BUTTON_RIGHT_PRESSED
                     this.modIndex++
-                    if this.modIndex = this.modArray.Count() then this.modIndex = 0
+                    if this.modIndex = this.modArray.Count()
+                        this.modIndex = 0
+                    end if
                 end if
                 listItems[listIndex].Title = " Mod: " + this.modArray[this.modIndex].name
                 listItems[listIndex].ShortDescriptionLine1 = ModDescription(this.modArray[this.modIndex])
@@ -202,10 +208,14 @@ Sub ModsAndCheatsScreen()
             else if listIndex = 1 'Fight Mode
                 if remoteKey = m.code.BUTTON_LEFT_PRESSED
                     this.fightIndex--
-                    if this.fightIndex < 0 then this.fightIndex = this.fightModes.Count() - 1
+                    if this.fightIndex < 0
+                        this.fightIndex = this.fightModes.Count() - 1
+                    end if
                 else if remoteKey = m.code.BUTTON_RIGHT_PRESSED
                     this.fightIndex++
-                    if this.fightIndex = this.fightModes.Count() then this.fightIndex = 0
+                    if this.fightIndex = this.fightModes.Count()
+                        this.fightIndex = 0
+                    end if
                 end if
                 listItems[listIndex].Title = " Fight Mode: " + this.fightModes[this.fightIndex]
                 listItems[listIndex].ShortDescriptionLine1 = this.fightHelp[this.fightIndex]
@@ -216,10 +226,14 @@ Sub ModsAndCheatsScreen()
             else if listIndex = 2 'Rew and FF
                 if remoteKey = m.code.BUTTON_LEFT_PRESSED
                     this.rewFFIndex--
-                    if this.rewFFIndex < 0 then this.rewFFIndex = this.rewFFModes.Count() - 1
+                    if this.rewFFIndex < 0
+                        this.rewFFIndex = this.rewFFModes.Count() - 1
+                    end if
                 else if remoteKey = m.code.BUTTON_RIGHT_PRESSED
                     this.rewFFIndex++
-                    if this.rewFFIndex = this.rewFFModes.Count() then this.rewFFIndex = 0
+                    if this.rewFFIndex = this.rewFFModes.Count()
+                        this.rewFFIndex = 0
+                    end if
                 end if
                 listItems[listIndex].Title =" REW & FF keys: " + this.rewFFModes[this.rewFFIndex]
                 listItems[listIndex].ShortDescriptionLine1 = this.rewFFHelp[this.rewFFIndex]
@@ -230,10 +244,14 @@ Sub ModsAndCheatsScreen()
             else if listIndex = 3 'OK Key Mode
                 if remoteKey = m.code.BUTTON_LEFT_PRESSED
                     this.okIndex--
-                    if this.okIndex < 0 then this.okIndex = this.okModes.Count() - 1
+                    if this.okIndex < 0
+                        this.okIndex = this.okModes.Count() - 1
+                    end if
                 else if remoteKey = m.code.BUTTON_RIGHT_PRESSED
                     this.okIndex++
-                    if this.okIndex = this.okModes.Count() then this.okIndex = 0
+                    if this.okIndex = this.okModes.Count()
+                        this.okIndex = 0
+                    end if
                 end if
                 listItems[listIndex].Title = " OK Key: " + this.okModes[this.okIndex]
                 listItems[listIndex].ShortDescriptionLine1 = this.okHelp[this.okIndex]
@@ -334,12 +352,16 @@ Function ModDescription(mod as object) as string
     modAuthor = "Author: " + mod.author + chr(10)
     modFeatures = ""
     if mod.levels then modFeatures = "Levels"
-    if mod.sprites then
-        if modFeatures <> "" then modFeatures = modFeatures + ", "
+    if mod.sprites
+        if modFeatures <> ""
+            modFeatures = modFeatures + ", "
+        end if
         modFeatures = modFeatures + "Sprites"
     end if
-    if mod.sounds then
-        if modFeatures <> "" then modFeatures = modFeatures + ", "
+    if mod.sounds
+        if modFeatures <> ""
+            modFeatures = modFeatures + ", "
+        end if
         modFeatures = modFeatures + "Sounds"
     end if
     return modAuthor + modFeatures

@@ -47,7 +47,9 @@ Sub update_slicer()
             end if
             if m.stage = 3
                 m.state = m.STATE_SLICE
-                if m.audio then PlaySound("slicer", true)
+                if m.audio
+                    PlaySound("slicer", true)
+                end if
             else
                 m.state = m.STATE_MOVING
             end if

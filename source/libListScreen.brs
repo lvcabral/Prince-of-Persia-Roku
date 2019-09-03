@@ -108,8 +108,16 @@ Sub set_list_content(list as object)
         bmp = CreateObject("roBitmap",{width:250, height:250, alphaenable:true})
         pst = ScaleToSize(CreateObject("roBitmap", m.content[i].HDPosterUrl), 250, 250)
         if pst <> invalid
-            if pst.GetWidth() < 250 then offX = (250 - pst.GetWidth()) / 2 else offX = 0
-            if pst.GetHeight() < 250 then offY = (250 - pst.GetHeight()) / 2 else offY = 0
+            if pst.GetWidth() < 250
+                offX = (250 - pst.GetWidth()) / 2
+            else
+                offX = 0
+            end if
+            if pst.GetHeight() < 250
+                offY = (250 - pst.GetHeight()) / 2
+            else
+                offY = 0
+            end if
             bmp.DrawObject(offX, offY, pst)
         else
             print "invalid list image:"; m.content[i].HDPosterUrl

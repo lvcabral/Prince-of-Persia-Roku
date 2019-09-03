@@ -34,7 +34,9 @@ Sub LoadModSounds()
     if m.settings.modId <> invalid and m.mods[m.settings.modId].sounds
         m.sounds.modId = invalid
         modPath = m.mods[m.settings.modId].url + m.mods[m.settings.modId].path
-        if Left(modPath, 3) = "pkg" then modPath = modPath + "sounds/"
+        if Left(modPath, 3) = "pkg"
+            modPath = modPath + "sounds/"
+        end if
         for each name in m.sounds.metadata.clips
             clip = m.sounds.metadata.clips.Lookup(name)
             wav = modPath + name + ".wav"

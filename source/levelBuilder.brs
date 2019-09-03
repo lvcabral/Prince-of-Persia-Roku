@@ -87,7 +87,7 @@ Sub build_rooms()
         for x = 0 to m.level.width - 1
             id = m.level.layout[y][x]
             if id <> invalid and id > 0
-                if  m.level.rooms[id].links.left = invalid then
+                if  m.level.rooms[id].links.left = invalid
                     m.level.rooms[id].links.left = m.getRoomId(x - 1, y)
                     m.level.rooms[id].links.right = m.getRoomId(x + 1, y)
                     m.level.rooms[id].links.up = m.getRoomId(x, y - 1)
@@ -213,9 +213,13 @@ Function build_tile(x as integer, y as integer, id as integer)
 		colors = ["red", "red", "red", "green", "green", "blue", "blue"]
         potion = tile.front + "_1"
         if m.spriteMode = m.const.SPRITES_MAC
-            if t.modifier = 2 then potion = tile.front + "_2"
+            if t.modifier = 2
+                potion = tile.front + "_2"
+            end if
         else
-            if t.modifier > 1 and t.modifier < 5 then potion = tile.front + "_2"
+            if t.modifier > 1 and t.modifier < 5
+                potion = tile.front + "_2"
+            end if
         end if
         tile.front = potion
         if m.spriteMode = m.const.SPRITES_MAC
@@ -315,7 +319,9 @@ Function GenerateWallPattern(room as integer) as object
             for col = 0 to 10
                 while true
                     color = colorBase + m.prandom.get(3)
-                    if color <> prevColor then exit while
+                    if color <> prevColor
+                        exit while
+                    end if
                 end while
                 wallPattern[row][subrow][col] = color
                 prevColor = color

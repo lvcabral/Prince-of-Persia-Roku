@@ -58,7 +58,7 @@ Function PlayScene(screen as object, level as integer, fadeIn = true as boolean)
     while true
         event = m.port.GetMessage()
         if type(event) = "roUniversalControlEvent" and fadeIn
-            if event.GetInt() < 100 then
+            if event.GetInt() < 100
                 skip = true
                 exit while
             end if
@@ -67,12 +67,16 @@ Function PlayScene(screen as object, level as integer, fadeIn = true as boolean)
             if ticks > m.speed
                 if scene.sceneState <> scene.STATE_FADEOUT and m.fade <> 0
                     m.fade -= 12
-                    if m.fade <= 0 then m.fade = 0
+                    if m.fade <= 0
+                        m.fade = 0
+                    end if
                     front = GetPaintedBitmap(m.fade, width * imgScale, height * imgScale, true)
                     stage[3].SetRegion(CreateObject("roRegion", front , 0, 0, width * imgScale, height * imgScale))
                 else if scene.sceneState = scene.STATE_FADEOUT
                     m.fade += 12
-                    if m.fade > &hFF then m.fade = &hFF
+                    if m.fade > &hFF
+                        m.fade = &hFF
+                    end if
                     front = GetPaintedBitmap(m.fade, width * imgScale, height * imgScale, true)
                     stage[3].SetRegion(CreateObject("roRegion", front, 0, 0, width * imgScale, height * imgScale))
                 end if
@@ -143,26 +147,38 @@ Function PlayScene(screen as object, level as integer, fadeIn = true as boolean)
                 m.compositor.DrawAll()
                 m.mainScreen.SwapBuffers()
                 m.clock.Mark()
-                if m.fade >= &hFF then exit while
+                if m.fade >= &hFF
+                    exit while
+                end if
             end if
         end if
     end while
     'Destroy scene objects
     for each sprite in stage
-        if sprite <> invalid then sprite.Remove()
+        if sprite <> invalid
+            sprite.Remove()
+        end if
     next
     stage.Clear()
     for each actor in scene.actors
-        if actor <> invalid then actor.sprite.Remove()
+        if actor <> invalid
+            actor.sprite.Remove()
+        end if
     next
     scene.actors.Clear()
     for each obj in scene.objects
-        if obj.sprite <> invalid then obj.sprite.Remove()
+        if obj.sprite <> invalid
+            obj.sprite.Remove()
+        end if
     next
     scene.objects.Clear()
     for each trob in scene.trobs
-        if trob.sprite <> invalid then trob.sprite.Remove()
-        if trob.child.sprite <> invalid then trob.child.sprite.Remove()
+        if trob.sprite <> invalid
+            trob.sprite.Remove()
+        end if
+        if trob.child.sprite <> invalid
+            trob.child.sprite.Remove()
+        end if
     next
     scene.trobs.Clear()
     scene = invalid

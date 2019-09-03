@@ -47,22 +47,34 @@ End Sub
 
 Sub set_focused_item(index as integer)
     m.focus = index
-    if m.visible then m.Show()
+    if m.visible
+        m.Show()
+    end if
 End Sub
 
 Sub set_content_item(index as integer, item as object, refresh = true as boolean)
     bmp = CreateObject("roBitmap",{width:250, height:250, alphaenable:true})
     pst = ScaleToSize(CreateObject("roBitmap", item.HDPosterUrl), 250, 250)
     if pst <> invalid
-        if pst.GetWidth() < 250 then offX = (250 - pst.GetWidth()) / 2 else offX = 0
-        if pst.GetHeight() < 250 then offY = (250 - pst.GetHeight()) / 2 else offY = 0
+        if pst.GetWidth() < 250
+            offX = (250 - pst.GetWidth()) / 2
+        else
+            offX = 0
+        end if
+        if pst.GetHeight() < 250
+            offY = (250 - pst.GetHeight()) / 2 
+        else
+            offY = 0
+        end if
         bmp.DrawObject(offX, offY, pst)
     else
         print "invalid content image:"; item.HDPosterUrl
     end if
     AddToCache(item.HDPosterUrl + "250x250", bmp)
     m.content[index] = item
-    if m.visible and refresh then m.Show()
+    if m.visible and refresh
+        m.Show()
+    end if
 End Sub
 
 Function get_content_list() as object
@@ -107,7 +119,9 @@ End Function
 
 Sub InitCache()
     g = GetGlobalAA()
-    if g.files = invalid then g.files = CreateObject("roFileSystem")
+    if g.files = invalid
+        g.files = CreateObject("roFileSystem")
+    end if
     if g.cache = invalid 
         g.cache = {}
         g.cacheId = 0
@@ -132,6 +146,8 @@ End Function
 Function CachedFile(fileName as string) as string
     g = GetGlobalAA()
     tmpFile = g.cache.Lookup(fileName)
-    if tmpFile = invalid then tmpFile = ""
+    if tmpFile = invalid
+        tmpFile = ""
+    end if
     return tmpFile
 End Function

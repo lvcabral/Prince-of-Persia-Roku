@@ -142,7 +142,9 @@ Sub update_behaviour_guard()
     if m.refracTimer > 0 then m.refracTimer = m.refracTimer - 1
     if m.blockTimer > 0 then m.blockTimer = m.blockTimer - 1
     if m.strikeTimer > 0 then m.strikeTimer = m.strikeTimer - 1
-    if m.charAction = "stabbed" or m.charAction = "stabkill" or m.charAction = "dropdead" or m.charAction = "stepfall" or m.charAction = "freefall" or m.charAction = "halve" then return
+    if m.charAction = "stabbed" or m.charAction = "stabkill" or m.charAction = "dropdead" or m.charAction = "stepfall" or m.charAction = "freefall" or m.charAction = "halve"
+        return
+    end if
     distance = m.opponentDistance()
     if m.swordDrawn and m.blockY = m.opponent.blockY
         if (m.faceL() and m.oppRightSide()) or (m.faceR() and m.oppLeftSide())
@@ -245,11 +247,15 @@ Sub check_room_change_guard()
     if m.charY > 189
         m.charY -= 189
         m.baseY += 189
-        if m.room >= 0 then m.room = m.level.rooms[m.room].links.down
+        if m.room >= 0
+            m.room = m.level.rooms[m.room].links.down
+        end if
     else if m.charY < 0
         m.charY += 189
         m.baseY -= 189
-        if m.room >= 0 then m.room = m.level.rooms[m.room].links.up
+        if m.room >= 0
+            m.room = m.level.rooms[m.room].links.up
+        end if
     end if
 End Sub
 
@@ -304,7 +310,9 @@ Sub guard_advance()
         m.advance()
     else if m.opponent.room = m.room and not m.canReach and m.opponent.droppedOut and m.opponent.blockY = m.blockY + 1
         'follow kid down
-        if CanAdvance(tileF) and CanAdvance(tileD) then m.advance()
+        if CanAdvance(tileF) and CanAdvance(tileD)
+            m.advance()
+        end if
     else if m.opponent.droppedOut
         m.opponent.droppedOut = false
         m.retreat()
@@ -312,7 +320,7 @@ Sub guard_advance()
 End Sub
 
 Function opp_left_side() as boolean
-    if m.room < 0 or m.opponent.room < 0 then
+    if m.room < 0 or m.opponent.room < 0
         return (m.blockX > m.opponent.blockX)
     else if m.level.rooms[m.room].x = m.level.rooms[m.opponent.room].x
         return (m.blockX > m.opponent.blockX)
@@ -322,7 +330,7 @@ Function opp_left_side() as boolean
 End Function
 
 Function opp_right_side() as boolean
-    if m.room < 0 or m.opponent.room < 0 then
+    if m.room < 0 or m.opponent.room < 0
         return (m.blockX < m.opponent.blockX)
     else if m.level.rooms[m.room].x = m.level.rooms[m.opponent.room].x
         return (m.blockX < m.opponent.blockX)
@@ -334,9 +342,13 @@ End Function
 Sub opp_too_far(distance)
     if m.refracTimer <> 0 then return
     if m.opponent.charAction = "running" and distance < 40
-        if m.fight = m.const.FIGHT_ATTACK then m.strike()
+        if m.fight = m.const.FIGHT_ATTACK
+            m.strike()
+        end if
     else if m.opponent.charAction = "runjump" and distance < 50
-        if m.fight = m.const.FIGHT_ATTACK then m.strike()
+        if m.fight = m.const.FIGHT_ATTACK
+            m.strike()
+        end if
     else
         m.guardAdvance()
     end if
@@ -354,7 +366,9 @@ Sub opp_in_range(distance)
     if not m.opponent.swordDrawn
         if m.refracTimer = 0
             if distance < 29
-                if m.fight = m.const.FIGHT_ATTACK then m.strike()
+                if m.fight = m.const.FIGHT_ATTACK
+                    m.strike()
+                end if
             else
                 m.advance()
             end if
@@ -372,35 +386,43 @@ Sub opp_in_range_armed(distance)
         if m.refracTimer = 0
             if distance < 12
                 m.tryAdvance()
-            else
-                if m.fight = m.const.FIGHT_ATTACK then m.tryStrike()
+            else if m.fight = m.const.FIGHT_ATTACK
+                m.tryStrike()
             end if
         end if
     end if
 End Sub
 
 Sub try_advance()
-    if m.charSkill = 0 or m.strikeTimer = 0
-        if m.advanceProbability > (rnd(255) - 1) then m.advance()
+    if (m.charSkill = 0 or m.strikeTimer = 0) and m.advanceProbability > (rnd(255) - 1)
+        m.advance()
     end if
 End Sub
 
 Sub try_block()
     if m.opponent.frameID(152,153) or m.opponent.frameID(162)
         if (m.blockTimer <> 0)
-            if m.impairblockProbability > (rnd(255) - 1) then m.block()
+            if m.impairblockProbability > (rnd(255) - 1)
+                m.block()
+            end if
         else
-            if m.blockProbability > (rnd(255) - 1) then m.block()
+            if m.blockProbability > (rnd(255) - 1)
+                m.block()
+            end if
         end if
     end if
 End Sub
 
 Sub try_strike()
-    if m.opponent.frameID(169) or m.opponent.frameID(151)  then return
+    if m.opponent.frameID(169) or m.opponent.frameID(151) then return
     if m.frameID(0) or m.frameID(150)
-        if m.restrikeProbability > (rnd(255) - 1) then m.strike()
+        if m.restrikeProbability > (rnd(255) - 1)
+            m.strike()
+        end if
     else
-        if m.strikeProbability > (rnd(255) - 1) then m.strike()
+        if m.strikeProbability > (rnd(255) - 1)
+            m.strike()
+        end if
     end if
 End Sub
 
@@ -432,9 +454,13 @@ Function can_do_guard(doAction as integer) as boolean
     end if
     for each frame in frames
         if m.charName = "shadow"
-            if m.frameID(frame + 150) then return true
+            if m.frameID(frame + 150)
+                return true
+            end if
         else
-            if m.frameID(frame) then return true
+            if m.frameID(frame)
+                return true
+            end if
         end if
     next
     return false
