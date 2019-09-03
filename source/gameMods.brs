@@ -30,53 +30,55 @@ Function LoadMods() as object
     return mods
 End Function
 
-Sub DownloadMod(mod as object)
+Sub DownloadMod(webMod as object)
     ClearScreenBuffers()
     'Set mods remote URL
-    modUrl = m.webMods + mod.path
-    if not m.files.Exists("tmp:/" + mod.path) then m.files.CreateDirectory("tmp:/" + mod.path)
-    if mod.levels
-        TextBox(m.mainScreen, 620, 50, "Loading " + mod.name + " levels...")
+    modUrl = m.webMods + webMod.path
+    if not m.files.Exists("tmp:/" + webMod.path) then m.files.CreateDirectory("tmp:/" + webMod.path)
+    if webMod.levels
+        TextBox(m.mainScreen, 620, 50, "Loading " + webMod.name + " levels...")
         for l = 1 to 11
             file = "level" + itostr(l) + ".xml"
-            CacheFile(modUrl + "levels/" + file, mod.path + file)
+            CacheFile(modUrl + "levels/" + file, webMod.path + file)
         next
-        CacheFile(modUrl + "levels/level12a.xml", mod.path + "level12a.xml")
-        CacheFile(modUrl + "levels/level12b.xml", mod.path + "level12b.xml")
-        CacheFile(modUrl + "levels/princess.xml", mod.path + "princess.xml")
+        CacheFile(modUrl + "levels/level12a.xml", webMod.path + "level12a.xml")
+        CacheFile(modUrl + "levels/level12b.xml", webMod.path + "level12b.xml")
+        CacheFile(modUrl + "levels/princess.xml", webMod.path + "princess.xml")
     end if
-    if mod.titles
-        TextBox(m.mainScreen, 620, 50, "Loading " + mod.name + " titles...")
-        CacheFile(modUrl + "titles/intro-screen.png", mod.path + "intro-screen.png")
-        CacheFile(modUrl + "titles/message-author.png", mod.path + "message-author.png")
-        CacheFile(modUrl + "titles/message-game-name.png", mod.path + "message-game-name.png")
-        CacheFile(modUrl + "titles/message-port.png", mod.path + "message-port.png")
-        CacheFile(modUrl + "titles/message-presents.png", mod.path + "message-presents.png")
-        CacheFile(modUrl + "titles/text-in-the-absence.png", mod.path + "text-in-the-absence.png")
-        CacheFile(modUrl + "titles/text-marry-jaffar.png", mod.path + "text-marry-jaffar.png")
-        CacheFile(modUrl + "titles/text-screen.png", mod.path + "text-screen.png")
-        CacheFile(modUrl + "titles/text-the-tyrant.png", mod.path + "text-the-tyrant.png")
+    if webMod.titles
+        TextBox(m.mainScreen, 620, 50, "Loading " + webMod.name + " titles...")
+        CacheFile(modUrl + "titles/intro-screen.png", webMod.path + "intro-screen.png")
+        CacheFile(modUrl + "titles/message-author.png", webMod.path + "message-author.png")
+        CacheFile(modUrl + "titles/message-game-name.png", webMod.path + "message-game-name.png")
+        CacheFile(modUrl + "titles/message-port.png", webMod.path + "message-port.png")
+        CacheFile(modUrl + "titles/message-presents.png", webMod.path + "message-presents.png")
+        CacheFile(modUrl + "titles/text-in-the-absence.png", webMod.path + "text-in-the-absence.png")
+        CacheFile(modUrl + "titles/text-marry-jaffar.png", webMod.path + "text-marry-jaffar.png")
+        CacheFile(modUrl + "titles/text-screen.png", webMod.path + "text-screen.png")
+        CacheFile(modUrl + "titles/text-the-tyrant.png", webMod.path + "text-the-tyrant.png")
     end if
-    if mod.palettes then CacheFile(modUrl + "palettes/wall.pal", mod.path + "wall.pal")
-    if mod.sprites and mod.files <> invalid and mod.files.sprites <> invalid
-        TextBox(m.mainScreen, 620, 50, "Loading " + mod.name + " sprites...")
-        for each file in mod.files.sprites
+    if webMod.palettes
+        CacheFile(modUrl + "palettes/wall.pal", webMod.path + "wall.pal")
+    end if
+    if webMod.sprites and webMod.files <> invalid and webMod.files.sprites <> invalid
+        TextBox(m.mainScreen, 620, 50, "Loading " + webMod.name + " sprites...")
+        for each file in webMod.files.sprites
             if file = "guards"
-                CacheFile(modUrl + "sprites/guard.json", mod.path + "guard.json")
+                CacheFile(modUrl + "sprites/guard.json", webMod.path + "guard.json")
                 for g = 1 to 7
                     guard = "guard" + itostr(g)
-                    CacheFile(modUrl + "sprites/" + guard + ".png", mod.path + guard + ".png")
+                    CacheFile(modUrl + "sprites/" + guard + ".png", webMod.path + guard + ".png")
                 next
             else
-                CacheFile(modUrl + "sprites/" + file + ".json", mod.path + file + ".json", true)
-                CacheFile(modUrl + "sprites/" + file + ".png", mod.path + file + ".png", true)
+                CacheFile(modUrl + "sprites/" + file + ".json", webMod.path + file + ".json", true)
+                CacheFile(modUrl + "sprites/" + file + ".png", webMod.path + file + ".png", true)
             end if
         next
     end if
-    if mod.sounds and mod.files <> invalid and mod.files.sounds <> invalid
-        TextBox(m.mainScreen, 620, 50, "Loading " + mod.name + " sounds...")
-        for each file in mod.files.sounds
-            CacheFile(modUrl + "sounds/" + file + ".wav", mod.path + file + ".wav", true)
+    if webMod.sounds and webMod.files <> invalid and webMod.files.sounds <> invalid
+        TextBox(m.mainScreen, 620, 50, "Loading " + webMod.name + " sounds...")
+        for each file in webMod.files.sounds
+            CacheFile(modUrl + "sounds/" + file + ".wav", webMod.path + file + ".wav", true)
         next
     end if
 End Sub
@@ -86,11 +88,11 @@ Function GetModImage(modId as dynamic) as string
     modImage = "pkg:/assets/titles/intro-screen-dos.png"
     modCover = "tmp:/0000001.png"
     if modId <> invalid
-        mod = m.mods[modId]
-        if Left(mod.url,3) = "pkg"
-            modImage = mod.url + mod.path + modId + "_1.png"
+        modAA = m.mods[modId]
+        if Left(modAA.url,3) = "pkg"
+            modImage = modAA.url + modAA.path + modId + "_1.png"
         else
-            modImage = CacheFile(m.webMods + mod.path + modId + "_1.png", modId + "_1.png")
+            modImage = CacheFile(m.webMods + modAA.path + modId + "_1.png", modId + "_1.png")
             cloud = true
         end if
         modCover = "tmp:/" + modId + ".png"
@@ -121,10 +123,10 @@ Sub ModsAndCheatsScreen()
     this.screen.SetHeader("Mods and Cheats")
     this.modArray = [{name: "(none)", author:"", levels: false, sprites: false, sounds: false}]
     this.modIndex = 0
-    for each mod in m.mods.Keys()
-        if mod = m.settings.modId then this.modIndex = this.modArray.Count()
-        m.mods[mod].id = mod
-        this.modArray.Push(m.mods[mod])
+    for each modId in m.mods.Keys()
+        if modId = m.settings.modId then this.modIndex = this.modArray.Count()
+        m.mods[modId].id = modId
+        this.modArray.Push(m.mods[modId])
     next
     this.fightModes = ["Attack", "Alert", "Frozen"]
     this.fightHelp  = ["Enemies will attack you!", "Enemies will be alert and follow you", "Enemies will be static"]
@@ -347,18 +349,18 @@ Function GetMenuItems(menu as object)
     return listItems
 End Function
 
-Function ModDescription(mod as object) as string
-    if mod.author = "" then return "Original Game Levels"
-    modAuthor = "Author: " + mod.author + chr(10)
+Function ModDescription(modAA as object) as string
+    if modAA.author = "" then return "Original Game Levels"
+    modAuthor = "Author: " + modAA.author + chr(10)
     modFeatures = ""
-    if mod.levels then modFeatures = "Levels"
-    if mod.sprites
+    if modAA.levels then modFeatures = "Levels"
+    if modAA.sprites
         if modFeatures <> ""
             modFeatures = modFeatures + ", "
         end if
         modFeatures = modFeatures + "Sprites"
     end if
-    if mod.sounds
+    if modAA.sounds
         if modFeatures <> ""
             modFeatures = modFeatures + ", "
         end if
