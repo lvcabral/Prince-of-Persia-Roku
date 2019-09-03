@@ -38,7 +38,11 @@ Function PlayScene(screen as object, level as integer, fadeIn = true as boolean)
     LoadGameSprites(m.settings.spriteMode, -1, regScale)
     'Draw scene stage
     stage = []
-    if fadeIn then m.fade = &hFF else m.fade = 0
+    if fadeIn
+        m.fade = &hFF
+    else
+        m.fade = 0
+    end if
     back = GetPaintedBitmap(&hFF, width * imgScale, height * imgScale, true)
     stage.Push(m.compositor.NewSprite(0, 0, CreateObject("roRegion", back, 0, 0, width * imgScale, height * imgScale), 1))
     stage.Push(m.compositor.NewSprite(0, 0, m.regions.scenes.Lookup("princess-room"), 10))

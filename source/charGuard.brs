@@ -58,8 +58,17 @@ Function CreateGuard(level as object, room as integer, position as integer, face
     this.haveSword = true
     this.meet = false
 
-    if active <> invalid then this.active = active else this.active = true
-    if visible <> invalid then this.visible = visible else this.visible = true
+    if active <> invalid
+        this.active = active
+    else
+        this.active = true
+    end if
+
+    if visible <> invalid
+        this.visible = visible
+    else
+        this.visible = true
+    end if
 
     this.baseX  = level.rooms[room].x * this.const.ROOM_WIDTH
     this.baseY  = level.rooms[room].y * this.const.ROOM_HEIGHT
