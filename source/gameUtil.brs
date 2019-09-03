@@ -288,12 +288,12 @@ Function ScaleBitmap(bitmap as object, scale as float, simpleMode = false as boo
     if scale = 1.0
         scaled = bitmap
     else if scale = int(scale) or simpleMode
-		scaled = CreateObject("roBitmap",{width:int(bitmap.GetWidth()*scale), height:int(bitmap.GetHeight()*scale), alphaenable:bitmap.GetAlphaEnable()})
+		scaled = CreateObject("roBitmap",{width:int(bitmap.GetWidth()*scale), height:int(bitmap.GetHeight()*scale), alphaenable:true})
 		scaled.DrawScaledObject(0,0,scale,scale,bitmap)
     else
         region = CreateObject("roRegion", bitmap, 0, 0, bitmap.GetWidth(), bitmap.GetHeight())
         region.SetScaleMode(1)
-        scaled = CreateObject("roBitmap",{width:int(bitmap.GetWidth()*scale), height:int(bitmap.GetHeight()*scale), alphaenable:bitmap.GetAlphaEnable()})
+        scaled = CreateObject("roBitmap",{width:int(bitmap.GetWidth()*scale), height:int(bitmap.GetHeight()*scale), alphaenable:true})
         scaled.DrawScaledObject(0,0,scale,scale,region)
 	end if
     return scaled
@@ -420,11 +420,13 @@ End Function
 
 Function GetManifestArray() as Object
     manifest = ReadAsciiFile("pkg:/manifest")
-    lines = manifest.Tokenize(chr(10))
+    lines = manifest.Split(chr(10))
     aa = {}
     for each line in lines
-        entry = line.Tokenize("=")
-        aa.AddReplace(entry[0],entry[1].Trim())
+        if line <> ""
+            entry = line.Split("=")
+            aa.AddReplace(entry[0],entry[1].Trim())
+        end if
     end for
     print aa
     return aa
@@ -529,7 +531,7 @@ Function LoadPalette(file as string, limit = -1 as integer, ignore = -1 as integ
     rsp = rsp.Mid(rsp.InStr("16") + 3)
     rsp = rsp.Replace(Chr(13)+Chr(10), " ")
     rsp = rsp.Replace(Chr(10), " ")
-    obj = rsp.Tokenize(" ")
+    obj = rsp.Split(" ")
     r = -1
     g = -1
     b = -1
