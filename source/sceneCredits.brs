@@ -63,8 +63,7 @@ Function PlayIntro(spriteMode = -1 as integer) as boolean
     for s = 1 to 5
         if msg <> invalid
             m.audioPlayer.stop()
-			skip = true
-            exit for
+            return true
         end if
         if s = 1
             screen.DrawObject(centerX, centerY, intro)
