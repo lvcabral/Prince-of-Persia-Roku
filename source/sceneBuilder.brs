@@ -12,7 +12,7 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
 
-Function CreateCutscene(level as integer, scale as float) as object
+Function CreateCutscene(level as integer, scale as float) as dynamic
 	this = {}
 	'Constants
 	this.const = m.const
