@@ -12,11 +12,13 @@
 ' ********************************************************************************************************
 
 Function CreateActor(x as integer, y as integer, face as integer, name as string, scale as float) as object
+    g = GetGlobalAA()
     this = {}
     'constants
     this.const = m.const
     'sprites and animations
-    this.spriteMode = m.settings.spriteMode
+    ' TODO: Settings is invalid when called inside sceneBuilder method
+    this.spriteMode = g.settings.spriteMode
     this.animations = ParseJson(ReadAsciiFile("pkg:/assets/anims/" + name + ".json"))
     'properties
     this.charName = name
