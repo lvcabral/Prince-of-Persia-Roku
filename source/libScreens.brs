@@ -4,7 +4,7 @@
 ' **
 ' **  libCanvas.brs - Library with generic methods for Screen objects
 ' **  Created: June 2018
-' **  Updated: July 2019
+' **  Updated: September 2019
 ' **
 ' **  Copyright (C) Marcelo Lv Cabral < https://lvcabral.com >
 ' ********************************************************************************************************
@@ -47,34 +47,7 @@ End Sub
 
 Sub set_focused_item(index as integer)
     m.focus = index
-    if m.visible
-        m.Show()
-    end if
-End Sub
-
-Sub set_content_item(index as integer, item as object, refresh = true as boolean)
-    bmp = CreateObject("roBitmap",{width:250, height:250, alphaenable:true})
-    pst = ScaleToSize(CreateObject("roBitmap", item.HDPosterUrl), 250, 250)
-    if pst <> invalid
-        if pst.GetWidth() < 250
-            offX = (250 - pst.GetWidth()) / 2
-        else
-            offX = 0
-        end if
-        if pst.GetHeight() < 250
-            offY = (250 - pst.GetHeight()) / 2 
-        else
-            offY = 0
-        end if
-        bmp.DrawObject(offX, offY, pst)
-    else
-        print "invalid content image:"; item.HDPosterUrl
-    end if
-    AddToCache(item.HDPosterUrl + "250x250", bmp)
-    m.content[index] = item
-    if m.visible and refresh
-        m.Show()
-    end if
+    if m.visible then m.Show()
 End Sub
 
 Function get_content_list() as object
@@ -119,24 +92,22 @@ End Function
 
 Sub InitCache()
     g = GetGlobalAA()
-    if g.files = invalid
-        g.files = CreateObject("roFileSystem")
-    end if
+    if g.files = invalid then g.files = CreateObject("roFileSystem")
     if g.cache = invalid 
         g.cache = {}
         g.cacheId = 0
     end if
 End Sub
 
-Function AddToCache(fileName as string, bmp as object) as string
+Function AddToCache(fileName as string, bmp as object, update = false as boolean) as string
     g = GetGlobalAA()
     tmpFile = g.cache.Lookup(fileName)
     if tmpFile = invalid
         g.cacheId++
-        tmpFile = "tmp:/cached" + g.cacheId.toStr() + ".png"
+        tmpFile = "tmp:/cached" + itostr(g.cacheId) + ".png"
         g.cache.AddReplace(fileName,tmpFile)
     end if
-    if not g.files.Exists(tmpFile)
+    if update or not g.files.Exists(tmpFile)
         png = bmp.GetPng(0, 0, bmp.GetWidth(), bmp.GetHeight())
         png.WriteFile(tmpFile)
     end if
@@ -146,8 +117,24 @@ End Function
 Function CachedFile(fileName as string) as string
     g = GetGlobalAA()
     tmpFile = g.cache.Lookup(fileName)
-    if tmpFile = invalid
-        tmpFile = ""
-    end if
+    if tmpFile = invalid then tmpFile = fileName
     return tmpFile
+End Function
+
+Function CenterImage(url, width as integer, height as integer) as string
+    if url = invalid or url = "" then return ""
+    por = CreateObject("roBitmap", url)
+    if por.GetWidth() <> width or por.GetHeight() <> height
+        bmp = CreateObject("roBitmap",{width:width, height:height, alphaenable:true})
+        pst = ScaleToSize(por, width, height)
+        if pst <> invalid
+            if pst.GetWidth() < width then offX = (width - pst.GetWidth()) / 2 else offX = 0
+            if pst.GetHeight() < height then offY = (height - pst.GetHeight()) / 2 else offY = 0
+            bmp.DrawObject(offX, offY, pst)
+        else
+            print "invalid image:"; url
+        end if
+        url = AddToCache(url + "300x300", bmp, true)
+    end if
+    return url
 End Function

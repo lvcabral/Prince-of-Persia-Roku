@@ -4,7 +4,7 @@
 ' **
 ' **  libCanvas.brs - Library to implement generic Canvas object
 ' **  Created: June 2018
-' **  Updated: July 2019
+' **  Updated: September 2019
 ' **
 ' **  Copyright (C) Marcelo Lv Cabral < https://lvcabral.com >
 ' ********************************************************************************************************
@@ -12,7 +12,7 @@
 
 Function CreateCanvas() as object
     ' Objects
-    this = {screen: m.mainScreen, layers:{}, fonts: m.fonts, colors: m.colors}
+    this = {screen: m.mainScreen, layers:{}, colors: m.colors}
     this.scale = m.mainScreen.GetHeight() / 720
     this.timer = CreateObject("roTimespan")
     ' Methods
@@ -23,7 +23,11 @@ Function CreateCanvas() as object
     this.Show = show_canvas
     this.Close = close_canvas
     this.Paint = paint_component
-    ' Canvas Stack   
+    if m.fonts = invalid
+        m.fonts = {reg:CreateObject("roFontRegistry")}
+    end if
+    this.fonts = m.fonts
+    ' Canvas Stack 
     if m.stack = invalid
         m.stack = []
         m.fonts.AddReplace("mini", m.fonts.reg.GetDefaultFont(20 * this.scale, false, false))
@@ -33,7 +37,6 @@ Function CreateCanvas() as object
         m.fonts.AddReplace("big", m.fonts.reg.GetDefaultFont(40 * this.scale, false, false))
         m.fonts.AddReplace("huge", m.fonts.reg.GetDefaultFont(46 * this.scale, false, false))       
     end if
-    print "check font huge:";this.fonts.huge
     this.stackId = m.stack.Count()
     m.stack.Push(this)
     return this
@@ -53,12 +56,12 @@ Function get_canvas_rect() as object
 End Function
 
 Sub set_layer(zOrder as integer, layer as object)
-    m.layers.AddReplace(zOrder.ToStr(), layer)
+    m.layers.AddReplace(itostr(zOrder), layer)
 End Sub
 
 Sub clear_layer(zOrder as integer)
-    if m.layers.DoesExist(zOrder.ToStr())
-        m.layers.Delete(zOrder.ToStr())
+    if m.layers.DoesExist(itostr(zOrder))
+        m.layers.Delete(itostr(zOrder))
     end if
 End Sub
 
@@ -68,7 +71,7 @@ Sub show_canvas(scope = invalid)
         scope = m.layers.keys()
     end if
     for each id in scope
-        print "Layer "; id
+        'print "Layer "; id
         m.timer.Mark()
         layer = m.layers[id]
         if type(layer) = "roArray"
@@ -78,7 +81,7 @@ Sub show_canvas(scope = invalid)
         else
             m.Paint(layer)
         end if
-        Print "Layer took: "; m.timer.TotalMilliseconds()
+        'print "Layer took: "; m.timer.TotalMilliseconds()
     next
     m.screen.SwapBuffers()
 End Sub
@@ -97,7 +100,7 @@ Sub paint_component(component as object)
     if component.DoesExist("Text")
         if type(component.TextAttrs.font) = "roString" or type(component.TextAttrs.font) = "String"
             font = m.fonts.Lookup(component.TextAttrs.font)
-            if font = invalid
+            if font = invalid 
                 font = m.fonts.medium
             end if
         else if type(component.TextAttrs.font) = "roFont"
@@ -119,7 +122,7 @@ Sub paint_component(component as object)
                         x += CInt(rect.w * m.scale - tw)
                     end if
                 end if
-                if component.TextAttrs.DoesExist("color")
+                if component.TextAttrs.color <> invalid
                     color = HexToInt(component.TextAttrs.color)
                 else
                     color = m.colors.white
