@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: July 2019
+' **  Updated: September 2019
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -31,7 +31,7 @@ Sub Main()
     m.files = CreateObject("roFileSystem")
     m.fonts = {reg:CreateObject("roFontRegistry")}
     m.fonts.reg.Register("pkg:/assets/fonts/PoP.ttf")
-    m.bitmapFont = [invalid, LoadBitmapFont(1), LoadBitmapFont(2)]
+    m.bitmapFont = LoadBitmapFont()
     m.prandom = CreatePseudoRandom()
     m.manifest = GetManifestArray()
     m.status = []
@@ -134,6 +134,7 @@ Sub Main()
                 option = m.const.BUTTON_NO
             end if
             if option <> m.const.BUTTON_CANCEL
+                ClearScreenBuffers()
                 'Download mod if remote
                 if m.settings.modId <> invalid and Left(m.mods[m.settings.modId].url, 3) = "tmp"
                     DownloadMod(m.mods[m.settings.modId])
@@ -264,12 +265,17 @@ Sub SetupGameScreen()
 			m.gameWidth = 640
 			m.gameHeight = 400
 		else 'classic 1x1 scale 2
-			maxResolution = false
 			m.cameras = 1
-			m.gameWidth = 640
-			m.gameHeight = 400
-			m.scale = 2.0
-		end if
+			maxResolution = false
+            if m.settings.spriteMode = m.const.SPRITES_MAC
+                m.gameWidth = 640
+                m.gameHeight = 400
+                m.scale = 2.0
+            else
+                m.gameWidth = 320
+                m.gameHeight = 200
+            end if
+        end if
 		if maxResolution
 			m.mainWidth = 1280
 			m.mainHeight = 720
@@ -287,11 +293,16 @@ Sub SetupGameScreen()
 			m.gameWidth = 640
 			m.gameHeight = 400
 		else 'classic 1x1 scale 2
-			maxResolution = false
 			m.cameras = 1
-			m.gameWidth = 640
-			m.gameHeight = 400
-			m.scale = 2.0
+			maxResolution = false
+            if m.settings.spriteMode = m.const.SPRITES_MAC
+                m.gameWidth = 640
+                m.gameHeight = 400
+                m.scale = 2.0
+            else
+                m.gameWidth = 320
+                m.gameHeight = 200
+            end if
 		end if
 		if maxResolution
 			m.mainWidth = 854
@@ -309,10 +320,16 @@ Sub ResetScreen(mainWidth as integer, mainHeight as integer, gameWidth as intege
     g.mainScreen = CreateObject("roScreen", true, mainWidth, mainHeight)
     g.mainScreen.SetMessagePort(g.port)
     if mainWidth <> gameWidth or mainHeight <> gameHeight
-        xOff = Cint((mainWidth-gameWidth) / 2)
-        yOff = Cint((mainHeight-gameHeight) / 2)
-        drwRegions = dfSetupDisplayRegions(g.mainScreen, xOff, yOff, gameWidth, gameHeight)
-        g.gameScreen = drwRegions.main
+        if m.gameWidth = 320
+            g.gameXOff = Cint((g.mainWidth-g.gameWidth*2)/2)
+            g.gameYOff = Cint((g.mainHeight-g.gameHeight*2)/2)
+            g.gameScale = 2.0
+        else
+            g.gameXOff = Cint((g.mainWidth-g.gameWidth)/2)
+            g.gameYOff = Cint((g.mainHeight-g.gameHeight)/2)
+            g.gameScale = 1.0
+        end if
+        g.gameScreen = CreateObject("roBitmap", {width:g.gameWidth, height:g.gameHeight, alphaenable:true})
     else
         g.gameScreen = g.mainScreen
     end if

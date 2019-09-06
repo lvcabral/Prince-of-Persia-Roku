@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: April 2016
-' **  Updated: August 2016
+' **  Updated: September 2019
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -208,7 +208,7 @@ Function ShowHighScores(screen as object, waitTime = 0 as integer) as boolean
 	scale = Int(GetScale(screen, 320, 200))
 	centerX = Cint((screen.GetWidth()-(320*scale))/2)
 	centerY = Cint((screen.GetHeight()-(200*scale))/2)
-	canvas = GetPaintedBitmap( m.colors.darkred, 320 * scale, 200 * scale, true)
+	canvas = GetPaintedBitmap(m.colors.darkred, 320 * scale, 200 * scale, true)
 	if m.settings.spriteMode = m.const.SPRITES_MAC
 		canvas.DrawObject(0, 0, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/titles/text-screen-mac.png"), scale / 2))
 		canvas.DrawObject(22 * scale, 22 * scale, ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/titles/message-game-name-mac.png"), scale / 2))
@@ -220,8 +220,8 @@ Function ShowHighScores(screen as object, waitTime = 0 as integer) as boolean
 	xt = 217 * scale
 	ys = 85 * scale
 	for each score in m.highScores
-	    m.bitmapFont[2].write(canvas, score.name, xn, ys)
-	    m.bitmapFont[2].write(canvas, FormatTime(score.time), xt, ys)
+	    m.bitmapFont.write(canvas, score.name, xn, ys, 2.0)
+	    m.bitmapFont.write(canvas, FormatTime(score.time), xt, ys, 2.0)
 	    ys += (12 * scale)
 	next
 	screen.DrawObject(centerX, centerY, canvas)

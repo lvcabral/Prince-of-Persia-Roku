@@ -149,6 +149,13 @@ Function PlayScene(screen as object, level as integer, fadeIn = true as boolean)
                 'Paint Screen
                 m.compositor.AnimationTick(ticks)
                 m.compositor.DrawAll()
+                if type(m.gameScreen) = "roBitmap"
+                    if m.gameScale <> 1.0
+                        m.mainScreen.drawscaledobject(m.gameXOff, m.gameYOff, m.gameScale, m.gameScale, m.gameScreen)
+                    else
+                        m.mainScreen.drawobject(m.gameXOff, m.gameYOff, m.gameScreen)
+                    end if
+                end if
                 m.mainScreen.SwapBuffers()
                 m.clock.Mark()
                 if m.fade >= &hFF

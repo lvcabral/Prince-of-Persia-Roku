@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: April 2016
-' **  Updated: July 2019
+' **  Updated: September 2019
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -206,16 +206,16 @@ Sub HighScoresScreen(screen as object)
 	    ys = centerY + 85 * 2
 		c = 0
 	    for each score in m.highScores
-	        m.bitmapFont[2].write(screen, score.name, xn, ys)
-	        m.bitmapFont[2].write(screen, FormatTime(score.time), xt, ys)
+	        m.bitmapFont.write(screen, score.name, xn, ys, 2.0)
+	        m.bitmapFont.write(screen, FormatTime(score.time), xt, ys, 2.0)
 	        ys += (12 * 2)
 			c++
 			if c = 7 then exit for
 	    next
         if m.highScores.Count() > 0
-		    m.bitmapFont[2].write(screen, "[ Press * to reset the High Scores ]", xn - 52, 370)
+		    m.bitmapFont.write(screen, "[ Press * to reset the High Scores ]", xn - 52, 370, 2.0)
         else
-            m.bitmapFont[2].write(screen, "< No High Scores are recorded yet >", xn - 52, ys + 8)
+            m.bitmapFont.write(screen, "< No High Scores are recorded yet >", xn - 52, ys + 8, 2.0)
         end if
 	    screen.SwapBuffers()
 		key = wait(0, m.port)
@@ -266,14 +266,14 @@ Function MessageBox(screen as object, width as integer, height as integer, text 
     while true
         if button <> selected
             screen.DrawRect(leftX, topY, width, height, m.colors.black)
-            m.bitmapFont[2].write(screen, text, xt, yt)
+            m.bitmapFont.write(screen, text, xt, yt, 2.0)
             DrawBorder(screen, width, height, m.colors.white, 0)
             boff = [0,60,100]
             line = [42,28,84]
-            m.bitmapFont[2].write(screen, "Yes", xb + boff[0], yt + 30)
-            m.bitmapFont[2].write(screen, "No", xb + boff[1], yt + 30)
+            m.bitmapFont.write(screen, "Yes", xb + boff[0], yt + 30, 2.0)
+            m.bitmapFont.write(screen, "No", xb + boff[1], yt + 30, 2.0)
             if options = 3
-                m.bitmapFont[2].write(screen, "Cancel", xb + boff[2], yt + 30)
+                m.bitmapFont.write(screen, "Cancel", xb + boff[2], yt + 30, 2.0)
             end if
             screen.DrawLine(xb + boff[selected], yt + 50, xb + boff[selected] + line[selected], yt + 50, m.colors.white)
             m.mainScreen.SwapBuffers()
@@ -316,7 +316,7 @@ Sub TextBox(screen as object, width as integer, height as integer, text as strin
     yt = topY + height / 2 - 15
     m.mainScreen.SwapBuffers()
     screen.DrawRect(leftX, topY, width, height, m.colors.black)
-    m.bitmapFont[2].write(screen, text, xt, yt)
+    m.bitmapFont.write(screen, text, xt, yt, 2.0)
     if border then DrawBorder(screen, width, height, m.colors.white, 0)
     m.mainScreen.SwapBuffers()
 End Sub

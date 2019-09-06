@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: April 2016
-' **  Updated: August 2016
+' **  Updated: September 2019
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -83,7 +83,7 @@ Sub DrawStatusBar(screen as object, width as integer, height as integer)
         if text <> ""
             x = int(width / 2) - (Len(text) * (7 * m.scale)) / 2
             y = height - (8 * m.scale)
-            m.bitmapFont[m.scale].write(screen, text, x, y)
+            m.bitmapFont.write(screen, text, x, y, m.scale)
         end if
     end if
 
@@ -109,10 +109,8 @@ End Sub
 Sub DebugInfo(x as integer, y as integer)
     if x <> m.saveX or y <> m.saveY or m.kid.frameName <> m.saveFrameName
         strDebug = str(x)+","+str(y)+" "+m.kid.action()+" "+m.kid.frameName+" R:"+itostr(m.kid.room)+" T:"+ itostr(m.kid.blockX) + "," + itostr(m.kid.blockY)
-        print strDebug
-        if m.debugMode
-            m.status.Push({text:strDebug, duration: 0, alert: false})
-        end if
+        'print strDebug
+        m.status.Push({text:strDebug, duration: 0, alert: false})
         m.saveX = x
         m.saveY = y
         m.saveFrameName = m.kid.frameName
@@ -131,8 +129,7 @@ Sub DebugGuard(x as integer, y as integer, guard as object)
     end if
 End Sub
 
-Function LoadBitmapFont(scale = 1.0 as float) As Dynamic
-    this = {scale: scale}
+Function LoadBitmapFont() As Dynamic
     rsp = ReadAsciiFile("pkg:/assets/fonts/prince-fnt.xml")
     xml=CreateObject("roXMLElement")
     if not xml.Parse(rsp)
@@ -143,8 +140,8 @@ Function LoadBitmapFont(scale = 1.0 as float) As Dynamic
         return invalid
     end if
     xmlChars = xml.getnamedelements("chars").getchildelements()
-    bitmap=CreateObject("robitmap", "pkg:/assets/fonts/prince-fnt.png")
-    this.chars = {}
+    bitmap=CreateObject("roBitmap", "pkg:/assets/fonts/prince-fnt.png")
+    this = {}
     for each char in xmlChars
         charAttr = char.getAttributes()
         name = "chr" + charAttr["id"]
@@ -153,16 +150,17 @@ Function LoadBitmapFont(scale = 1.0 as float) As Dynamic
         width = val(charAttr["width"])
         height = val(charAttr["height"])
         yoffset = val(charAttr["yoffset"])
-        yOff = (height + yoffset - 11) * scale
-        this.chars.AddReplace(name, {image: ScaleBitmap(CreateObject("roRegion",bitmap,x,y,width,height),scale), yOffset: yOff})
+        yOff = (height + yoffset - 11)
+        letter = CreateObject("roRegion",bitmap,x,y,width,height)
+        this.AddReplace(name, {image: letter, yOffset: yOff})
     next
     this.write = write_text
     return this
 End Function
 
-Function write_text(screen as object, text as string, x as integer, y as integer, redraw = false as boolean) as object
-	xOff = 2 * m.scale
-	yOff = 8 * m.scale
+Function write_text(screen as object, text as string, x as integer, y as integer, scale = 1.0 as float) as object
+	xOff = 2 * scale
+	yOff = 8 * scale
     for c = 0 to len(text) - 1
         ci = asc(text.mid(c,1))
         'Convert accented characters not supported by the font
@@ -192,18 +190,11 @@ Function write_text(screen as object, text as string, x as integer, y as integer
             ci = 32
         end if
         'write the letter
-        letter = m.chars.Lookup("chr" + itostr(ci))
+        letter = m.Lookup("chr" + itostr(ci))
         if letter <> invalid
-            yl = y + (yOff - letter.image.GetHeight())
-            if not redraw
-                screen.drawobject(x, yl + letter.yOffset, letter.image)
-            else
-                bmp = CreateObject("roBitmap", {width:letter.GetWidth(), height:letter.GetHeight(), alphaenable:true})
-                bmp.Clear(m.colors.black)
-                bmp.DrawObject(0, 0, letter)
-                screen.DrawObject(x, yl + letter.yOffset, bmp)
-            end if
-            x += (letter.image.GetWidth() + xOff)
+            yl = y + (yOff - letter.image.GetHeight() * scale)
+            screen.drawscaledobject(x, yl + letter.yOffset * scale, scale, scale, letter.image)
+            x += (letter.image.GetWidth() * scale + xOff)
         end if
     next
 End Function

@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: May 2016
-' **  Updated: July 2019
+' **  Updated: September 2019
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -134,6 +134,7 @@ Function PlayGame() as boolean
             'Game screen process
             ticks = m.clock.TotalMilliseconds()
             if ticks > m.speed
+                m.clock.Mark()
                 'Update sprites
                 if not m.redraw
                     m.redraw = CheckMapRedraw()
@@ -161,8 +162,14 @@ Function PlayGame() as boolean
                         m.mainScreen.DrawObject(canvasX, canvasY, FlipVertically(m.gameCanvas))
                     end if
                     DrawStatusBar(m.gameScreen, m.gameWidth, m.gameHeight)
+                    if type(m.gameScreen) = "roBitmap"
+                        if m.gameScale <> 1.0
+                            m.mainScreen.drawscaledobject(m.gameXOff, m.gameYOff, m.gameScale, m.gameScale, m.gameScreen)
+                        else
+                            m.mainScreen.drawobject(m.gameXOff, m.gameYOff, m.gameScreen)
+                        end if
+                    end if
                     m.mainScreen.SwapBuffers()
-                    m.clock.Mark()
                 else if special = m.const.SPECIAL_FINISH
                     return true
                 end if
@@ -201,7 +208,7 @@ Sub KidUpdate()
         m.kid.sprite.SetRegion(kdRegion)
         m.kid.sprite.MoveTo(anchorX, anchorY)
     end if
-    DebugInfo(anchorX, anchorY)
+    if m.debugMode then DebugInfo(anchorX, anchorY)
     'Sword Sprite Update
     if m.kid.sword.visible
         if m.kid.sword.sprite <> invalid
@@ -251,7 +258,7 @@ Sub GuardsUpdate()
             anchorX = (guard.x * m.scale) - gdRegion.GetWidth() - m.xOff
         end if
         anchorY = (guard.y * m.scale) - gdRegion.GetHeight() + m.topOffset - m.yOff
-        if guard.opponent <> invalid or guard.charName = "shadow"
+        if m.debugMode and (guard.opponent <> invalid or guard.charName = "shadow")
             DebugGuard(anchorX, anchorY, guard)
         end if
         if guard.sprite = invalid and anchorX > 0 and anchorX <= m.gameWidth and anchorY > 0 and anchorY <= m.gameHeight
