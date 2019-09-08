@@ -1,5 +1,9 @@
 # Prince of Persia Changelog
 
+### v0.15 - 07-Sep-2019 - Emulator Support
+- Change: Performance improvements of the map painting performace #96
+- Change: Small changes to support the 2D API emulator that allows to run the game on Chrome browser #96
+
 ### v0.14 - 06-Jul-2019 - Removed Deprecated SDK v1 Objects
 
 - Add: Option to disable cheat keys (REW/FF) and make it disabled by default #95
