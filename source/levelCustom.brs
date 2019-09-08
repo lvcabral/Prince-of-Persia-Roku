@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: July 2016
-' **  Updated: August 2016
+' **  Updated: September 2019
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -12,7 +12,7 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
 
-Function build_custom(levelId as integer, mod as object) as object
+Function build_custom(levelId as integer, modObj as object) as object
     DefaultLevelTypes = [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0]
     DefaultEnemies = [ "", "guard", "guard", "guard", "guard", "guard", "fatguard", "guard", "guard", "guard", "guard", "guard", "guard", "vizier", "", "" ]
     if levelId = 12
@@ -24,11 +24,11 @@ Function build_custom(levelId as integer, mod as object) as object
     else
         xmlFile = "level" + itostr(levelId) + ".xml"
     end if
-    modPath = mod.url + mod.path
+    modPath = modObj.url + modObj.path
     if Left(modPath, 3) = "pkg" then modPath = modPath + "levels/"
     rsp = ReadAsciiFile(modPath + xmlFile)
-    if mod.levelTypes <> invalid then DefaultLevelTypes = mod.levelTypes
-    if mod.guards <> invalid then DefaultEnemies = mod.guards
+    if modObj.levelTypes <> invalid then DefaultLevelTypes = modObj.levelTypes
+    if modObj.guards <> invalid then DefaultEnemies = modObj.guards
     xml = CreateObject("roXMLElement")
     if not xml.Parse(rsp)
         print "Invalid xml for level "; levelId; " "; modPath + xmlFile
@@ -42,32 +42,37 @@ Function build_custom(levelId as integer, mod as object) as object
     m.type = DefaultLevelTypes[levelId]
     'Add Prince
     prince = xml.GetNamedElements("prince").Simplify()
-    this.prince = {room: Val(prince@room), location: Val(prince@location), direction: Val(prince@direction) - 1}
+    prattr = prince.GetAttributes()
+    this.prince = {room: Val(prattr["room"]), location: Val(prattr["location"]), direction: Val(prattr["direction"]) - 1}
 	'Build level
     xmlRooms = xml.GetNamedElements("rooms").GetChildElements()
     for each xmlRoom in xmlRooms
+        xmlRomAt = xmlRoom.GetAttributes()
         xmlTiles = xmlRoom.GetNamedElements("tile")
+        xmlTilAt = xmlTiles.GetAttributes()
         xmlGuard = xmlRoom.GetNamedElements("guard").Simplify()
+        xmlGrdAt = xmlGuard.GetAttributes()
         xmlLinks = xmlRoom.GetNamedElements("links").Simplify()
-        id = Val(xmlRoom@number)
+        xmlLnkAt = xmlLinks.GetAttributes()        
+        id = Val(xmlRomAt[number])
         rmlnk = {hideUp: false, hideLeft: false, leftZ: 5}
-        if xmlLinks@left > "0"
-            rmlnk.left = Val(xmlLinks@left)
+        if xmlLnkAt["left"] > "0"
+            rmlnk.left = Val(xmlLnkAt["left"])
         else
             rmlnk.left = -1
         end if
-        if xmlLinks@right > "0"
-            rmlnk.right = Val(xmlLinks@right)
+        if xmlLnkAt["right"] > "0"
+            rmlnk.right = Val(xmlLnkAt["right"])
         else
             rmlnk.right = -1
         end if
-        if xmlLinks@up > "0"
-            rmlnk.up = Val(xmlLinks@up)
+        if xmlLnkAt["up"] > "0"
+            rmlnk.up = Val(xmlLnkAt["up"])
         else
             rmlnk.up = -1
         end if
-        if xmlLinks@down > "0"
-            rmlnk.down = Val(xmlLinks@down)
+        if xmlLnkAt["down"] > "0"
+            rmlnk.down = Val(xmlLnkAt["down"])
         else
             rmlnk.down = -1
         end if
@@ -76,7 +81,7 @@ Function build_custom(levelId as integer, mod as object) as object
             this.rooms[id].links = rmlnk
             'Add tiles
             for each xmlTile in xmlTiles
-                tl = {element: Val(xmlTile@element) and &h1F, modifier: Val(xmlTile@modifier)}
+                tl = {element: Val(xmlTilAt["element"]) and &h1F, modifier: Val(xmlTilAt["modifier"])}
                 if tl.element = m.const.TILE_WALL
                     if tl.modifier > 1
                         tl.modifier = 0
@@ -97,7 +102,7 @@ Function build_custom(levelId as integer, mod as object) as object
                     end if
                 else if tl.element = m.const.TILE_LOOSE_BOARD
                     'Set modifier to 1 for stuck loose tile
-                    if Val(xmlTile@element) = 43
+                    if Val(xmlTilAt["element"]) = 43
                         tl.modifier = 1
                     else
                         tl.modifier = 0
@@ -114,18 +119,18 @@ Function build_custom(levelId as integer, mod as object) as object
                 this.rooms[id].wallPattern = GenerateWallPattern(id)
             end if
             'Add Guard
-            if Val(xmlGuard@location) > 0 and Val(xmlGuard@location) < 31
-                colors = Val(xmlGuard@colors)
+            if Val(xmlGrdAt["location"]) > 0 and Val(xmlGrdAt["location"]) < 31
+                colors = Val(xmlGrdAt["colors"])
                 if colors < 1 or colors > 7
                     colors = 1
                 end if
-                direction = Val(xmlGuard@direction)
+                direction = Val(xmlGrdAt["direction"])
                 if direction = 2
                     direction = 0
                 end if
                 gd = { room: id,
-                       location: Val(xmlGuard@location),
-                       skill: Val(xmlGuard@skill),
+                       location: Val(xmlGrdAt["location"]),
+                       skill: Val(xmlGrdAt["skill"]),
                        colors: colors,
                        type: DefaultEnemies[levelId],
                        direction: direction }
@@ -148,16 +153,22 @@ Function build_custom(levelId as integer, mod as object) as object
     'Add events
     events = xml.GetNamedElements("events").GetChildElements()
     for each event in events
-        this.events.Push({number: Val(event@number), room: Val(event@room), location: Val(event@location), next: Val(event@next)})
+        evtAttr = event.GetAttributes()
+        this.events.Push({ number: Val(evtAttr["number"]),
+                           room: Val(evtAttr["room"]), 
+                           location: Val(evtAttr["location"]),
+                           next: Val(evtAttr["next"])})
     next
     'Create rooms layout
     layoutOffset = {tx: 0, ty: 0, bx: 0, by: 0}
-    RoomsLayout(this.rooms, Val(prince@room), layoutOffset)
+    RoomsLayout(this.rooms, Val(prattr["room"]), layoutOffset)
     this.width = layoutOffset.bx - layoutOffset.tx + 1
 	this.height = layoutOffset.by - layoutOffset.ty + 1
     print "layout dimensions: "; this.width; " by "; this.height
-	dim layout[this.height, this.width]
+	'dim layout[this.height, this.width]
+    layout = []
     for r = 1 to 24
+        layout.push([0])
         room = this.rooms[r]
         if room <> invalid and room.layout
             room.x = room.x + Abs(layoutOffset.tx)

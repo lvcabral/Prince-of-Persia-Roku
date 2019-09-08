@@ -159,14 +159,20 @@ Function PlayGame() as boolean
                     m.compositor.AnimationTick(ticks)
                     m.compositor.DrawAll()
                     if m.flip
-                        m.mainScreen.DrawObject(canvasX, canvasY, FlipVertically(m.gameCanvas))
-                    end if
-                    DrawStatusBar(m.gameScreen, m.gameWidth, m.gameHeight)
-                    if type(m.gameScreen) = "roBitmap"
                         if m.gameScale <> 1.0
-                            m.mainScreen.drawscaledobject(m.gameXOff, m.gameYOff, m.gameScale, m.gameScale, m.gameScreen)
+                            m.mainScreen.drawscaledobject(m.gameXOff, m.gameYOff, m.gameScale, m.gameScale, FlipVertically(m.gameCanvas))
                         else
-                            m.mainScreen.drawobject(m.gameXOff, m.gameYOff, m.gameScreen)
+                            m.mainScreen.DrawObject(canvasX, canvasY, FlipVertically(m.gameCanvas))
+                        end if
+                        DrawStatusBar(m.gameScreen, m.gameWidth, m.gameHeight)
+                    else 
+                        DrawStatusBar(m.gameScreen, m.gameWidth, m.gameHeight)
+                        if type(m.gameScreen) = "roBitmap"
+                            if m.gameScale <> 1.0
+                                m.mainScreen.drawscaledobject(m.gameXOff, m.gameYOff, m.gameScale, m.gameScale, m.gameScreen)
+                            else
+                                m.mainScreen.drawobject(m.gameXOff, m.gameYOff, m.gameScreen)
+                            end if
                         end if
                     end if
                     m.mainScreen.SwapBuffers()

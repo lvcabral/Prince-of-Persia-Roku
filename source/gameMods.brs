@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: July 2016
-' **  Updated: July 2019
+' **  Updated: September 2019
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -13,6 +13,8 @@
 ' ********************************************************************************************************
 
 Function LoadMods() as object
+    Sleep(500)
+    TextBox(m.mainScreen, 620, 50, "Loading...")
     'Load internal Mods
     mods = ParseJson(ReadAsciiFile("pkg:/mods/mods.json"))
     'Uncomment and edit the line below to add the URL if you are hosting remote mods
@@ -26,6 +28,8 @@ Function LoadMods() as object
         else
             print "Invalid mods JSON file!"
         end if
+    else
+        Sleep(1000)
     end if
     return mods
 End Function

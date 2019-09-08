@@ -348,14 +348,17 @@ End Function
 
 Sub CrossFade(screen as object, x as integer, y as integer, objectfadeout as object, objectfadein as object, speed = 1 as integer)
     screen.SetAlphaEnable(true)
-    for i = 0 to 255 step speed
-        hexcolor = &hFFFFFFFF - i
-        hexcolor2  = &hFFFFFF00 + i
-        screen.Clear(0)
-        screen.DrawObject(x, y, objectfadeout, hexcolor)
-        screen.DrawObject(x, y, objectfadein, hexcolor2)
-        screen.SwapBuffers()
-    end for
+    ' Disabled Crossfade until emulator implements rgba parameter in DrawObject
+    ' for i = 0 to 255 step speed
+    '     hexcolor = &hFFFFFFFF - i
+    '     hexcolor2  = &hFFFFFF00 + i
+    '     screen.Clear(0)
+    '     screen.DrawObject(x, y, objectfadeout, hexcolor)
+    '     screen.DrawObject(x, y, objectfadein, hexcolor2)
+    '     screen.SwapBuffers()
+    ' end for
+    screen.DrawObject(x, y, objectfadein)
+    screen.SwapBuffers()
 End Sub
 
 Function GetScale(screen as object, width as integer, height as integer) as float

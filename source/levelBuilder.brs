@@ -311,10 +311,12 @@ Function WallMarks(seed as integer, i as integer) as string
 End Function
 
 Function GenerateWallPattern(room as integer) as object
+    ' Accessing global AA from GetGlobalAA() to workaround emulator limitation
+    g = GetGlobalAA()
     'Dim wallPattern[3, 4, 11]
     wallPattern = [[],[],[]]
-    m.prandom.seed = room
-    m.prandom.get(1)
+    g.prandom.seed = room
+    g.prandom.get(1)
     for row = 0 to 2
         for subrow = 0 to 3
             wallPattern[row].push([])

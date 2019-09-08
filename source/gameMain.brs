@@ -53,8 +53,6 @@ Sub Main()
     end if
     m.mainScreen.SetMessagePort(m.port)
     'Load Mods
-    Sleep(500)
-    TextBox(m.mainScreen, 620, 50, "Loading...")
     m.mods = LoadMods()
     'Initialize Settings
     m.settings = LoadSettings()
@@ -443,15 +441,15 @@ End Sub
 
 Function GetTheme() as object
     theme = {
-                BackgroundColor: "#000000FF",
-                OverhangSliceSD: "pkg:/images/overhang_sd.jpg",
-                OverhangSliceHD: "pkg:/images/overhang_hd.jpg",
-                ListScreenHeaderText: "#FFFFFFFF",
-                ListScreenDescriptionText: "#FFFFFFFF",
-                ListItemHighlightSD: "pkg:/images/item_highlight_sd.png",
-                ListItemHighlightHD: "pkg:/images/item_highlight_hd.png",
-                ListItemText: "#C0C0C0FF",
-                ListItemHighlightText: "#FF0000FF"
-            }
+        BackgroundColor: "#000000FF",
+        OverhangSliceSD: "pkg:/images/overhang_sd.jpg",
+        OverhangSliceHD: "pkg:/images/overhang_hd.jpg",
+        ListScreenHeaderText: "#FFFFFFFF",
+        ListScreenDescriptionText: "#FFFFFFFF",
+        ListItemHighlightSD: "pkg:/images/item_highlight_sd.png",
+        ListItemHighlightHD: "pkg:/images/item_highlight_hd.png",
+        ListItemText: "#C0C0C0FF",
+        ListItemHighlightText: "#FF0000FF"
+    }
     return theme
 End Function

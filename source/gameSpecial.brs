@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: June 2016
-' **  Updated: August 2016
+' **  Updated: September 2019
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -355,6 +355,7 @@ Function CheckSpecialEvents() as integer
                 if tile.backSprite <> invalid and tile.element = m.const.TILE_LOOSE_BOARD and not tile.fall
                     tile.shake(true)
                     exit for
+                    print "line to avoid emulator interpret exit for as return"
                 end if
             next
         else if m.kid.room = 1 and m.guards.Count() > 0

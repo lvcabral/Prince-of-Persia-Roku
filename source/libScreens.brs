@@ -124,7 +124,7 @@ End Function
 Function CenterImage(url, width as integer, height as integer) as string
     if url = invalid or url = "" then return ""
     por = CreateObject("roBitmap", url)
-    if por.GetWidth() <> width or por.GetHeight() <> height
+    if por <> invalid and (por.GetWidth() <> width or por.GetHeight() <> height)
         bmp = CreateObject("roBitmap",{width:width, height:height, alphaenable:true})
         pst = ScaleToSize(por, width, height)
         if pst <> invalid

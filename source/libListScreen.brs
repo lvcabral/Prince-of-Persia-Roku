@@ -4,7 +4,7 @@
 ' **
 ' **  libListScreen.brs - Library to implement generic List Screen
 ' **  Created: June 2018
-' **  Updated: July 2019
+' **  Updated: September 2019
 ' **
 ' **  Copyright (C) Marcelo Lv Cabral < https://lvcabral.com >
 ' ********************************************************************************************************
@@ -48,7 +48,6 @@ Function CreateListScreen(ignoreBackKey = false as boolean) as object
 End Function
 
 Sub show_list_screen()
-    print "Show List"
     txtArray = []
     imgArray = []
     txtArray.Append(m.breadCrumb)
