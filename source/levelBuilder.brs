@@ -325,7 +325,7 @@ Function GenerateWallPattern(room as integer) as object
             for col = 0 to 10
                 wallPattern[row][subrow].push(0)
                 while true
-                    color = colorBase + m.prandom.get(3)
+                    color = colorBase + g.prandom.get(3)
                     if color <> prevColor
                         exit while
                     end if
