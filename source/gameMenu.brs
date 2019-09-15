@@ -25,7 +25,7 @@ Function StartMenu() as integer
     selected = 0
     while true
         if button <> selected
-            screen.Clear(0)
+            screen.Clear(m.colors.black)
             screen.DrawObject(centerX, centerY, backImage)
             faceColors = [ m.colors.white, m.colors.white, m.colors.white, m.colors.white ]
             faceColors[selected] = &hFF0000FF
@@ -80,7 +80,7 @@ Sub SettingsMenu(screen as object)
     backImage = ScaleBitmap(CreateObject("roBitmap", "pkg:/images/settings_menu.jpg"),scale)
     while true
         if button <> selected
-            screen.Clear(0)
+            screen.Clear(m.colors.black)
             screen.DrawObject(centerX, centerY, backImage)
             faceColors = [ m.colors.white, m.colors.white, m.colors.white, m.colors.white, m.colors.white ]
             faceColors[selected] = &hFF0000FF

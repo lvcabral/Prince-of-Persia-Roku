@@ -1,8 +1,8 @@
 title=Prince of Persia
 subtitle=Roku remake of the Classic 8 bit Game
 major_version=0
-minor_version=15
-build_version=3700
+minor_version=16
+build_version=3730
 mm_icon_focus_hd=pkg:/images/icon_focus_hd.png
 mm_icon_focus_sd=pkg:/images/icon_focus_hd.png
 screensaver_private=1

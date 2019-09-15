@@ -1,7 +1,11 @@
 # Prince of Persia Changelog
 
+### v0.16 - 15-Sep-2019 - Emulator Support
+- Change: Restored crossfade effect on menu and cut scenes
+- Fix: Crash on Palace strings (emulator only) #96
+
 ### v0.15 - 07-Sep-2019 - Emulator Support
-- Change: Performance improvements of the map painting performace #96
+- Change: Performance improvements of the map painting #96
 - Change: Small changes to support the 2D API emulator that allows to run the game on Chrome browser #96
 
 ### v0.14 - 06-Jul-2019 - Removed Deprecated SDK v1 Objects
