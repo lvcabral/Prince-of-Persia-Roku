@@ -147,8 +147,8 @@ Function floor_stop_fall(floor as object) as object
 	if debris.element = m.const.TILE_FLOOR or debris.element = m.const.TILE_SPIKES
 		debris.element = m.const.TILE_DEBRIS
 	else if debris.element = m.const.TILE_POTION
-		debris.back = debris.key + "_" + itostr(m.const.TILE_DEBRIS)
-		debris.front = debris.key + "_" + itostr(m.const.TILE_DEBRIS) + "_fg"
+		debris.back = debris.key + "_" + m.const.TILE_DEBRIS.toStr()
+		debris.front = debris.key + "_" + m.const.TILE_DEBRIS.toStr() + "_fg"
 		debris.hasObject = false
 	    debris.redraw = true
 		return invalid
@@ -163,17 +163,17 @@ Function floor_stop_fall(floor as object) as object
 	else
 		return invalid
 	end if
-	debris.back = debris.key + "_" + itostr(debris.element)
-	debris.front = debris.key + "_" + itostr(debris.element) + "_fg"
+	debris.back = debris.key + "_" + debris.element.toStr()
+	debris.front = debris.key + "_" + debris.element.toStr() + "_fg"
 	return debris
 End Function
 
 Sub remove_object(x as integer, y as integer, room as integer)
     tile = m.getTileAt(x,y,room)
 	if tile.element <> m.const.TILE_POTION
-    	tile.back  = tile.key + "_" + itostr(m.const.TILE_FLOOR)
+    	tile.back  = tile.key + "_" + m.const.TILE_FLOOR.toStr()
 	end if
-    tile.front = tile.key + "_" + itostr(m.const.TILE_FLOOR) + "_fg"
+    tile.front = tile.key + "_" + m.const.TILE_FLOOR.toStr() + "_fg"
     tile.hasObject = false
     tile.redraw = true
 End Sub

@@ -23,7 +23,7 @@ Function CreateCutscene(level as integer, scale as float) as dynamic
 	this.level = level
 	this.scale = scale
 	print "Loading cut scene:"; this.level
-    sceneJson = ParseJson(ReadAsciiFile("pkg:/assets/scenes/scene" + itostr(this.level) + ".json"))
+    sceneJson = ParseJson(ReadAsciiFile("pkg:/assets/scenes/scene" + this.level.toStr() + ".json"))
 	if sceneJson <> invalid
 		this.program = sceneJson.program
 	else

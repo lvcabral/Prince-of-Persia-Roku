@@ -40,10 +40,10 @@ Sub update_slicer()
             m.stage = 0
             m.active = false
         else if m.stage <= 5
-            m.child.back.frameName = m.key + "_slicer_" + itostr(m.stage)
-            m.child.front.frameName = m.key + "_slicer_" + itostr(m.stage) + "_fg"
+            m.child.back.frameName = m.key + "_slicer_" + m.stage.toStr()
+            m.child.front.frameName = m.key + "_slicer_" + m.stage.toStr() + "_fg"
             if m.blood.visible
-                m.blood.frameName = "slicer_blood_" + itostr(m.stage)
+                m.blood.frameName = "slicer_blood_" + m.stage.toStr()
             end if
             if m.stage = 3
                 m.state = m.STATE_SLICE

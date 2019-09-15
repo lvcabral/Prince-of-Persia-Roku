@@ -35,7 +35,7 @@ Function CreateGuard(level as object, room as integer, position as integer, face
     'sprites and animations
     this.scale = m.scale
     if name = "guard" and colors > 0
-        this.charImage = name + itostr(colors)
+        this.charImage = name + colors.toStr()
     else
         this.charImage = name
     end if

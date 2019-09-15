@@ -108,7 +108,7 @@ End Sub
 
 Sub DebugInfo(x as integer, y as integer)
     if x <> m.saveX or y <> m.saveY or m.kid.frameName <> m.saveFrameName
-        strDebug = str(x)+","+str(y)+" "+m.kid.action()+" "+m.kid.frameName+" R:"+itostr(m.kid.room)+" T:"+ itostr(m.kid.blockX) + "," + itostr(m.kid.blockY)
+        strDebug = str(x)+","+str(y)+" "+m.kid.action()+" "+m.kid.frameName+" R:"+m.kid.room.toStr()+" T:"+ m.kid.blockX.toStr() + "," + m.kid.blockY.toStr()
         'print strDebug
         m.status.Push({text:strDebug, duration: 0, alert: false})
         m.saveX = x
@@ -120,7 +120,7 @@ End Sub
 Sub DebugGuard(x as integer, y as integer, guard as object)
     if x <> m.guardX or y <> m.guardY or guard.frameName <> m.guardFrameName
         if guard.room = 22
-            strDebug = "guard: "+str(x)+","+str(y)+" "+guard.action()+" "+guard.frameName+" R:"+itostr(guard.room)+" T:"+ itostr(guard.blockX) + "," + itostr(guard.blockY)
+            strDebug = "guard: "+str(x)+","+str(y)+" "+guard.action()+" "+guard.frameName+" R:"+guard.room.toStr()+" T:"+ guard.blockX.toStr() + "," + guard.blockY.toStr()
             'print strDebug
             m.guardX = x
             m.guardY = y
@@ -190,7 +190,7 @@ Function write_text(screen as object, text as string, x as integer, y as integer
             ci = 32
         end if
         'write the letter
-        letter = m.Lookup("chr" + itostr(ci))
+        letter = m.Lookup("chr" + ci.toStr())
         if letter <> invalid
             yl = y + (yOff - letter.image.GetHeight() * scale)
             screen.drawscaledobject(x, yl + letter.yOffset * scale, scale, scale, letter.image)

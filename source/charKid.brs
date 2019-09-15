@@ -787,7 +787,7 @@ Sub walk_kid()
         px = 0
     end if
     if px > 0
-        m.action("step" + itostr(px))
+        m.action("step" + px.toStr())
     end if
 End Sub
 

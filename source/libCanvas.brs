@@ -56,12 +56,12 @@ Function get_canvas_rect() as object
 End Function
 
 Sub set_layer(zOrder as integer, layer as object)
-    m.layers.AddReplace(itostr(zOrder), layer)
+    m.layers.AddReplace(zOrder.toStr(), layer)
 End Sub
 
 Sub clear_layer(zOrder as integer)
-    if m.layers.DoesExist(itostr(zOrder))
-        m.layers.Delete(itostr(zOrder))
+    if m.layers.DoesExist(zOrder.toStr())
+        m.layers.Delete(zOrder.toStr())
     end if
 End Sub
 

@@ -355,14 +355,14 @@ Function CheckGameTimer() as boolean
     finishGame = false
     if m.finalTime = 0 then m.timeLeft = m.startTime - m.timer.TotalSeconds()
     if m.kid.alive and m.timeLeft <> m.timeShown and m.timeLeft <= 60
-        m.status.Push({ text: itostr(m.timeLeft) + " SECONDS LEFT", duration: 0, alert: false})
+        m.status.Push({ text: m.timeLeft.toStr() + " SECONDS LEFT", duration: 0, alert: false})
         if m.timeLeft <= 0
             PlayScene(m.gameScreen, 16, false)
             return true
         end if
         m.timeShown = m.timeLeft
     else if m.kid.alive and m.timeLeft <> m.timeShown and (m.timeLeft mod 300 = 0 or m.showTime)
-        m.status.Push({ text: itostr(CInt(m.timeLeft / 60)) + " MINUTES LEFT", duration: 2, alert: false})
+        m.status.Push({ text: CInt(m.timeLeft / 60).toStr() + " MINUTES LEFT", duration: 2, alert: false})
         m.timeShown = m.timeLeft
         m.showTime = false
     else if not m.kid.alive and not m.gameOver and m.sounds.mp3.cycles = 0
@@ -444,7 +444,7 @@ Sub TROBsUpdate()
                 end if
                 trob.sprite.back.setRegion(m.regions.tiles.Lookup(trob.tile.back))
             else if trob.tile.element = m.const.TILE_POTION
-                if trob.tile.front = trob.tile.key + "_" + itostr(m.const.TILE_FLOOR) + "_fg" or trob.tile.front = trob.tile.key + "_" + itostr(m.const.TILE_DEBRIS) + "_fg"
+                if trob.tile.front = trob.tile.key + "_" + m.const.TILE_FLOOR.toStr() + "_fg" or trob.tile.front = trob.tile.key + "_" + m.const.TILE_DEBRIS.toStr() + "_fg"
                     trob.sprite.front.setRegion(m.regions.tiles.Lookup(trob.tile.front))
                     trob.sprite.back.setRegion(m.regions.tiles.Lookup(trob.tile.back))
                     if trob.sprite.childFront <> invalid
@@ -750,11 +750,11 @@ Sub DrawTile(tile as object, xOffset as integer, yOffset as integer, maxWidth as
                     end if
                     'Tile Dividers
                     if wall <> "SWS"
-                        divName = "dungeon_wall_divider_" + itostr(r[0] + 1)
+                        divName = "dungeon_wall_divider_" + (r[0] + 1).toStr()
                         bms.DrawObject((8 + r[1]) * m.scale, 37 * m.scale, m.regions.tiles.Lookup(divName))
                     end if
                     if Left(wall, 2) = "WW"
-                        divName = "dungeon_wall_divider_" + itostr(r[2] + 1)
+                        divName = "dungeon_wall_divider_" + (r[2] + 1).toStr()
                         bms.DrawObject(r[3] * m.scale, 58 * m.scale, m.regions.tiles.Lookup(divName))
                     end if
                     'Wall Marks

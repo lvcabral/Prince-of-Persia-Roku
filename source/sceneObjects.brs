@@ -75,7 +75,7 @@ Sub update_star()
             m.state = m.state + 1
         end if
     end if
-    m.frameName = "star" + itostr(m.state)
+    m.frameName = "star" + m.state.toStr()
 End Sub
 
 '------ Scene Torch Object

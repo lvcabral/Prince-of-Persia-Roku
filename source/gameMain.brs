@@ -245,7 +245,7 @@ Sub ResetGame()
     next
     g.status.Clear()
     If g.currentLevel < g.maxLevels - 1
-        g.status.Push({ text: "LEVEL " + itostr(m.currentLevel), duration: 2, alert: false})
+        g.status.Push({ text: "LEVEL " + m.currentLevel.toStr(), duration: 2, alert: false})
         g.showTime = true
     end if
     StopAudio()
@@ -393,7 +393,7 @@ Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
     for i = 0 to guards.Count() - 1
         charArray = []
         if guards[i].type = "guard"
-            png = guards[i].type + itostr(guards[i].colors)
+            png = guards[i].type + guards[i].colors.toStr()
         else
             png = guards[i].type
         end if

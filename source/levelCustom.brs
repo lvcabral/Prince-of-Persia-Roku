@@ -22,7 +22,7 @@ Function build_custom(levelId as integer, modObj as object) as object
     else if levelId = 14
         xmlFile = "princess.xml"
     else
-        xmlFile = "level" + itostr(levelId) + ".xml"
+        xmlFile = "level" + levelId.toStr() + ".xml"
     end if
     modPath = modObj.url + modObj.path
     if Left(modPath, 3) = "pkg" then modPath = modPath + "levels/"

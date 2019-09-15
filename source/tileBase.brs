@@ -30,8 +30,8 @@ Function CreateTile(element as integer, modifier as integer, levelType as intege
 	tile.width = tile.const.BLOCK_WIDTH
 	tile.height = tile.const.BLOCK_HEIGHT
     tile.cropY = 0
-    tile.back  = tile.key + "_" + itostr(element)
-    tile.front = tile.key + "_" + itostr(element) + "_fg"
+    tile.back  = tile.key + "_" + element.toStr()
+    tile.front = tile.key + "_" + element.toStr() + "_fg"
     tile.child = {back: {x:0, y:0, visible: true}, front:{x:0, y:0, visible: true}}
     tile.isMasked = false
     tile.redraw = false

@@ -42,13 +42,13 @@ Sub update_loose()
         else if m.stage >= m.frames.count()
             m.stage++
 		else if m.stage = 3 and not m.fall
-			m.back = m.key + "_" + itostr(m.const.TILE_LOOSE_BOARD)
+			m.back = m.key + "_" + m.const.TILE_LOOSE_BOARD.toStr()
 			m.state = m.STATE_INACTIVE
 		else
 			m.back = m.key + m.frames[m.stage]
 			m.stage++
 			if m.stage = 1 or m.stage = 3 or m.stage = 7
-			    PlaySound("loose-floor-"+itostr(rnd(3)))
+			    PlaySound("loose-floor-" + rnd(3).toStr())
 			end if
 		end if
 		m.redraw = true

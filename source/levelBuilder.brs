@@ -39,9 +39,9 @@ End Function
 Function build_level(levelId as integer) as object
 	'Load json
     path = "pkg:/assets/maps/"
-    json = ParseJson(ReadAsciiFile(path + "level" + itostr(levelId) + ".json"))
+    json = ParseJson(ReadAsciiFile(path + "level" + levelId.toStr() + ".json"))
     if json = invalid
-       print "invalid level json: "; path + "level" + itostr(levelId) + ".json"
+       print "invalid level json: "; path + "level" + levelId.toStr() + ".json"
 	   return {}
     end if
 	'Create new level object
@@ -174,12 +174,12 @@ Function build_tile(x as integer, y as integer, id as integer)
         else
             wallType = wallType + "S"
         end if
-        tile.front = wallType + "_" + itostr(tileSeed)
+        tile.front = wallType + "_" + tileSeed.toStr()
         if wallType.mid(2,1) = "S"
-            tile.back = tile.key + "_wall_" + itostr(t.modifier)
+            tile.back = tile.key + "_wall_" + t.modifier.toStr()
         end if
     else if t.element = m.const.TILE_SPACE or t.element = m.const.TILE_FLOOR
-        tile.child.back.frameName = tile.key + "_" + itostr(t.element) + "_" + itostr(t.modifier)
+        tile.child.back.frameName = tile.key + "_" + t.element.toStr() + "_" + t.modifier.toStr()
     else if t.element = m.const.TILE_GATE
         tile = CreateGate(tile)
     else if t.element = m.const.TILE_STUCK_BUTTON
@@ -243,15 +243,15 @@ Function build_tile(x as integer, y as integer, id as integer)
 		tile.hasObject = true
     else if t.element = m.const.TILE_TAPESTRY
         if m.type = m.const.TYPE_PALACE and t.modifier > 0
-            tile.back = tile.key + "_" + itostr(t.element) + "_" + itostr(t.modifier)
+            tile.back = tile.key + "_" + t.element.toStr() + "_" + t.modifier.toStr()
             tile.front = tile.back + "_fg"
         end if
     else if t.element = m.const.TILE_TAPESTRY_TOP
         if m.type = m.const.TYPE_PALACE and t.modifier > 0
-            tile.back = tile.key + "_" + itostr(t.element) + "_" + itostr(t.modifier)
+            tile.back = tile.key + "_" + t.element.toStr() + "_" + t.modifier.toStr()
             tile.front = tile.back + "_fg"
             if m.getTileAt(x - 1, y, id).element = m.const.TILE_LATTICE_SUPPORT
-                tile.child.back.frameName = tile.key + "_" + itostr(m.const.TILE_SMALL_LATTICE) + "_fg"
+                tile.child.back.frameName = tile.key + "_" + m.const.TILE_SMALL_LATTICE.toStr() + "_fg"
             end if
         end if
     else if t.element = m.const.TILE_BALCONY_RIGHT
@@ -297,15 +297,15 @@ End Function
 Function WallMarks(seed as integer, i as integer) as string
     r = m.prandom.seq(seed, i, 1, 2)
     if i = 0
-        f = "W_" + itostr(r)
+        f = "W_" + r.toStr()
     else if i = 1
-        f = "W_" + itostr(r + 3)
+        f = "W_" + (r + 3).toStr()
     else if i = 2
-        f = "W_" + itostr(r + 6)
+        f = "W_" + (r + 6).toStr()
     else if i = 3
-        f = "W_" + itostr(r + 9)
+        f = "W_" + (r + 9).toStr()
     else if i = 4
-        f = "W_" + itostr(r + 12)
+        f = "W_" + (r + 12).toStr()
     end if
     return f
 End Function

@@ -104,7 +104,7 @@ Function AddToCache(fileName as string, bmp as object, update = false as boolean
     tmpFile = g.cache.Lookup(fileName)
     if tmpFile = invalid
         g.cacheId++
-        tmpFile = "tmp:/cached" + itostr(g.cacheId) + ".png"
+        tmpFile = "tmp:/cached" + g.cacheId.toStr() + ".png"
         g.cache.AddReplace(fileName,tmpFile)
     end if
     if update or not g.files.Exists(tmpFile)

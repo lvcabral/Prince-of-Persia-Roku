@@ -30,8 +30,8 @@ Function CreateSpikes(tile as object) as object
     else if tile.modifier > 6
 		tile.modifier = 9 - tile.modifier
 	end if
-    tile.child.back.frameName = tile.key + "_" + itostr(tile.element) + "_" + itostr(tile.modifier)
-	tile.child.front.frameName = tile.key + "_" + itostr(tile.element) + "_" + itostr(tile.modifier) + "_fg"
+    tile.child.back.frameName = tile.key + "_" + tile.element.toStr() + "_" + tile.modifier.toStr()
+	tile.child.front.frameName = tile.key + "_" + tile.element.toStr() + "_" + tile.modifier.toStr() + "_fg"
     'Methods
 	tile.update = update_spikes
 	tile.raise = raise_spikes
@@ -44,8 +44,8 @@ Sub update_spikes()
 	end if
 	if m.state = m.STATE_RAISING
 		m.stage++
-		m.child.back.frameName = m.key + "_" + itostr(m.const.TILE_SPIKES) + "_" + itostr(m.stage)
-		m.child.front.frameName = m.key + "_" + itostr(m.const.TILE_SPIKES) + "_" + itostr(m.stage) + "_fg"
+		m.child.back.frameName = m.key + "_" + m.const.TILE_SPIKES.toStr() + "_" + m.stage.toStr()
+		m.child.front.frameName = m.key + "_" + m.const.TILE_SPIKES.toStr() + "_" + m.stage.toStr() + "_fg"
 		if m.stage = 5
 			m.state = m.STATE_FULL_OUT
 			m.stage = 0
@@ -63,8 +63,8 @@ Sub update_spikes()
 		if m.stage = 3
 			m.stage--
 		end if
-		m.child.back.frameName = m.key + "_" + itostr(m.const.TILE_SPIKES) + "_" + itostr(m.stage)
-		m.child.front.frameName = m.key + "_" + itostr(m.const.TILE_SPIKES) + "_" + itostr(m.stage) + "_fg"
+		m.child.back.frameName = m.key + "_" + m.const.TILE_SPIKES.toStr() + "_" + m.stage.toStr()
+		m.child.front.frameName = m.key + "_" + m.const.TILE_SPIKES.toStr() + "_" + m.stage.toStr() + "_fg"
 		if m.stage = 0
 			m.state = m.STATE_INACTIVE
 		end if

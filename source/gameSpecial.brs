@@ -67,8 +67,8 @@ Function CheckSpecialEvents() as integer
                     tile.front = tile.key + "_0_fg"
                     debris = m.kid.level.getTileAt(4, 2, 22)
                     debris.element = m.const.TILE_DEBRIS
-                    debris.back  = debris.key + "_" + itostr(debris.element)
-                    debris.front = debris.key + "_" + itostr(debris.element) + "_fg"
+                    debris.back  = debris.key + "_" + debris.element.toStr()
+                    debris.front = debris.key + "_" + debris.element.toStr() + "_fg"
                     m.redraw = true
                 end if
             end if
@@ -319,7 +319,7 @@ Function CheckSpecialEvents() as integer
                     PlaySound("success")
                 end if
                 if m.kid.cycles mod 2 = 0
-                    swRegion = m.regions.guards.shadow[m.kid.face].Lookup("shadow-" + itostr(m.kid.frame))
+                    swRegion = m.regions.guards.shadow[m.kid.face].Lookup("shadow-" + m.kid.frame.toStr())
                     if swRegion <> invalid
                         m.kid.sprite.SetRegion(swRegion)
                     end if

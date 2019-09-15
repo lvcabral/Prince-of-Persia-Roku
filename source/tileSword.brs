@@ -26,7 +26,7 @@ End Function
 Sub update_sword()
     if m.hasObject
         if m.stage = -1
-            m.back = m.key + "_" + itostr(m.element)
+            m.back = m.key + "_" + m.element.toStr()
             m.tick = rnd(128) + 39
     		m.redraw = true
         end if

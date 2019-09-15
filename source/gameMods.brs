@@ -42,7 +42,7 @@ Sub DownloadMod(webMod as object)
     if webMod.levels
         TextBox(m.mainScreen, 620, 50, "Loading " + webMod.name + " levels...")
         for l = 1 to 11
-            file = "level" + itostr(l) + ".xml"
+            file = "level" + l.toStr() + ".xml"
             CacheFile(modUrl + "levels/" + file, webMod.path + file)
         next
         CacheFile(modUrl + "levels/level12a.xml", webMod.path + "level12a.xml")
@@ -70,7 +70,7 @@ Sub DownloadMod(webMod as object)
             if file = "guards"
                 CacheFile(modUrl + "sprites/guard.json", webMod.path + "guard.json")
                 for g = 1 to 7
-                    guard = "guard" + itostr(g)
+                    guard = "guard" + g.toStr()
                     CacheFile(modUrl + "sprites/" + guard + ".png", webMod.path + guard + ".png")
                 next
             else
@@ -225,7 +225,7 @@ Sub ModsAndCheatsScreen()
                 end if
                 listItems[listIndex].Title = " Fight Mode: " + this.fightModes[this.fightIndex]
                 listItems[listIndex].ShortDescriptionLine1 = this.fightHelp[this.fightIndex]
-                listItems[listIndex].HDPosterUrl = "pkg:/images/fight_" + itostr(this.fightIndex) + ".jpg"
+                listItems[listIndex].HDPosterUrl = "pkg:/images/fight_" + this.fightIndex.toStr() + ".jpg"
                 listItems[listIndex].SDPosterUrl = listItems[listIndex].HDPosterUrl
                 this.screen.SetItem(listIndex, listItems[listIndex])
                 m.settings.fight = this.fightIndex
@@ -243,7 +243,7 @@ Sub ModsAndCheatsScreen()
                 end if
                 listItems[listIndex].Title =" REW & FF keys: " + this.rewFFModes[this.rewFFIndex]
                 listItems[listIndex].ShortDescriptionLine1 = this.rewFFHelp[this.rewFFIndex]
-                listItems[listIndex].HDPosterUrl = "pkg:/images/rewff_" + itostr(this.rewFFIndex) + ".jpg"
+                listItems[listIndex].HDPosterUrl = "pkg:/images/rewff_" + this.rewFFIndex.toStr() + ".jpg"
                 listItems[listIndex].SDPosterUrl = listItems[listIndex].HDPosterUrl
                 this.screen.SetItem(listIndex, listItems[listIndex])
                 m.settings.rewFF = this.rewFFIndex
@@ -261,7 +261,7 @@ Sub ModsAndCheatsScreen()
                 end if
                 listItems[listIndex].Title = " OK Key: " + this.okModes[this.okIndex]
                 listItems[listIndex].ShortDescriptionLine1 = this.okHelp[this.okIndex]
-                listItems[listIndex].HDPosterUrl = "pkg:/images/okmode_" + itostr(this.okIndex) + ".jpg"
+                listItems[listIndex].HDPosterUrl = "pkg:/images/okmode_" + this.okIndex.toStr() + ".jpg"
                 listItems[listIndex].SDPosterUrl = listItems[listIndex].HDPosterUrl
                 this.screen.SetItem(listIndex, listItems[listIndex])
                 m.settings.okMode = this.okIndex
@@ -318,8 +318,8 @@ Function GetMenuItems(menu as object)
                 Title: " Fight Mode: " + menu.fightModes[menu.fightIndex]
                 HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
                 SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
-                HDPosterUrl: "pkg:/images/fight_" + itostr(menu.fightIndex) + ".jpg"
-                SDPosterUrl: "pkg:/images/fight_" + itostr(menu.fightIndex) + ".jpg"
+                HDPosterUrl: "pkg:/images/fight_" + menu.fightIndex.toStr() + ".jpg"
+                SDPosterUrl: "pkg:/images/fight_" + menu.fightIndex.toStr() + ".jpg"
                 ShortDescriptionLine1: menu.fightHelp[menu.fightIndex]
                 ShortDescriptionLine2: "Use Left and Right to select a Fight Mode"
                 })
@@ -327,8 +327,8 @@ Function GetMenuItems(menu as object)
                 Title: " REW & FF Keys: " + menu.rewFFModes[menu.rewFFIndex]
                 HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
                 SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
-                HDPosterUrl: "pkg:/images/rewff_" + itostr(menu.rewFFIndex) + ".jpg"
-                SDPosterUrl: "pkg:/images/rewff_" + itostr(menu.rewFFIndex) + ".jpg"
+                HDPosterUrl: "pkg:/images/rewff_" + menu.rewFFIndex.toStr() + ".jpg"
+                SDPosterUrl: "pkg:/images/rewff_" + menu.rewFFIndex.toStr() + ".jpg"
                 ShortDescriptionLine1: menu.rewFFHelp[menu.rewFFIndex]
                 ShortDescriptionLine2: "Use Left and Right to set cheat keys mode"
                 })
@@ -336,8 +336,8 @@ Function GetMenuItems(menu as object)
                 Title: " OK Key: " + menu.okModes[menu.okIndex]
                 HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
                 SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
-                HDPosterUrl: "pkg:/images/okmode_" + itostr(menu.okIndex) + ".jpg",
-                SDPosterUrl: "pkg:/images/okmode_" + itostr(menu.okIndex) + ".jpg",
+                HDPosterUrl: "pkg:/images/okmode_" + menu.okIndex.toStr() + ".jpg",
+                SDPosterUrl: "pkg:/images/okmode_" + menu.okIndex.toStr() + ".jpg",
                 ShortDescriptionLine1: menu.okHelp[menu.okIndex]
                 ShortDescriptionLine2: "Use Left and Right to set OK key mode"
                 })
@@ -374,5 +374,5 @@ Function ModDescription(modAA as object) as string
 End Function
 
 Function SavedGameTitle(game as object) as string
-    return "Level " + itostr(game.level) + " at "  + itostr(CInt(game.time / 60)) + "min"
+    return "Level " + game.level.toStr() + " at "  + CInt(game.time / 60).toStr() + "min"
 End Function

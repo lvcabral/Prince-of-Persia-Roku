@@ -33,8 +33,8 @@ Function update_button()
     if m.active
         if m.stage = m.stageMax
             if not m.stuck
-                m.front = m.key + "_" + itostr(m.element) + "_fg"
-                m.back = m.key + "_" + itostr(m.element)
+                m.front = m.key + "_" + m.element.toStr() + "_fg"
+                m.back = m.key + "_" + m.element.toStr()
                 m.active = false
     			m.redraw = true
             end if

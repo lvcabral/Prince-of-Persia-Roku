@@ -209,7 +209,7 @@ End Sub
 
 Sub update_position()
     if m.room < 0 and m.sword <> invalid then return
-    m.frameName = m.charName + "-" + itostr(m.frame)
+    m.frameName = m.charName + "-" + m.frame.toStr()
     m.updateBlockXY()
     tempx = 0.0
     if m.faceL()
@@ -325,7 +325,7 @@ Sub check_floor()
                 if m.leapOfFaith
                     'show tiles
                     tile.element = m.const.TILE_FLOOR
-                    tile.back = tile.key + "_" + itostr(tile.element)
+                    tile.back = tile.key + "_" + tile.element.toStr()
                     tile.front = tile.back + "_fg"
                     tile.redraw = true
                     return
@@ -729,7 +729,7 @@ End Sub
 
 Sub update_sword_position()
     if m.charSword
-        m.sword.frameName = "sword" + itostr(m.swordFrame)
+        m.sword.frameName = "sword" + m.swordFrame.toStr()
         m.sword.x = m.swordDx
         m.sword.y = m.swordDy
         m.sword.z = m.swordDz

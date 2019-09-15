@@ -264,14 +264,14 @@ Function GenerateFrameNames(prefix as string, start as integer, finish as intege
         frame = rnd(length)-1
         for f = 1 to length
             for r = 1 to repeatFrame
-                frameNames.Push(prefix + itostr(frame+start) + suffix)
+                frameNames.Push(prefix + (frame+start).toStr() + suffix)
             next
             frame = (frame + 1) mod length
         next
     else
         for f = start to finish
             for r = 1 to repeatFrame
-                frameNames.Push(prefix + itostr(f) + suffix)
+                frameNames.Push(prefix + f.toStr() + suffix)
             next
         next
     end if
@@ -348,17 +348,14 @@ End Function
 
 Sub CrossFade(screen as object, x as integer, y as integer, objectfadeout as object, objectfadein as object, speed = 1 as integer)
     screen.SetAlphaEnable(true)
-    ' Disabled Crossfade until emulator implements rgba parameter in DrawObject
-    ' for i = 0 to 255 step speed
-    '     hexcolor = &hFFFFFFFF - i
-    '     hexcolor2  = &hFFFFFF00 + i
-    '     screen.Clear(0)
-    '     screen.DrawObject(x, y, objectfadeout, hexcolor)
-    '     screen.DrawObject(x, y, objectfadein, hexcolor2)
-    '     screen.SwapBuffers()
-    ' end for
-    screen.DrawObject(x, y, objectfadein)
-    screen.SwapBuffers()
+    for i = 0 to 255 step speed
+        hexcolor = &hFFFFFFFF - i
+        hexcolor2  = &hFFFFFF00 + i
+        screen.Clear(0)
+        screen.DrawObject(x, y, objectfadeout, hexcolor)
+        screen.DrawObject(x, y, objectfadein, hexcolor2)
+        screen.SwapBuffers()
+    end for
 End Sub
 
 Function GetScale(screen as object, width as integer, height as integer) as float
@@ -400,17 +397,6 @@ End Function
 
 Function ConvertBlockYtoY( blockY )
     return ( blockY + 1 ) * m.const.BLOCK_HEIGHT - 10
-End Function
-
-Function itostr(i As Integer) As String
-    str = Stri(i)
-    return strTrim(str)
-End Function
-
-Function strTrim(str As String) As String
-    st = CreateObject("roString")
-    st.SetString(str)
-    return st.Trim()
 End Function
 
 Function BoolToInt(value as Boolean) as Integer
@@ -498,20 +484,20 @@ Function FormatTime(seconds as integer) as string
     hasHours = false
     ' Special Check For Zero
     if seconds < 60
-        return "0:" + ZeroPad(itostr(seconds))
+        return "0:" + ZeroPad(seconds.toStr())
     end if
     ' Hours
     if seconds >= 3600
-        textTime = textTime + itostr(seconds / 3600) + ":"
+        textTime = textTime + (seconds / 3600).toStr() + ":"
         hasHours = true
         seconds = seconds Mod 3600
     end if
     ' Minutes
     if seconds >= 60
         if hasHours
-            textTime = textTime + ZeroPad(itostr(seconds / 60)) + ":"
+            textTime = textTime + ZeroPad((seconds / 60).toStr()) + ":"
         else
-            textTime = textTime + itostr(seconds / 60) + ":"
+            textTime = textTime + (seconds / 60).toStr() + ":"
         end if
         seconds = seconds Mod 60
     else
@@ -520,7 +506,7 @@ Function FormatTime(seconds as integer) as string
         end if
     end if
     ' Seconds
-    textTime = textTime + ZeroPad(itostr(seconds))
+    textTime = textTime + ZeroPad(seconds.toStr())
     return textTime
 End Function
 
