@@ -18,6 +18,7 @@ Function LoadSounds(enable as boolean) as object
                 wav: {clip:"", priority:0, cycles:0},
                 metadata : ParseJson(ReadAsciiFile("pkg:/assets/sounds/sounds.json")),
                 navSingle : CreateObject("roAudioResource", "navsingle"),
+                roll : CreateObject("roAudioResource", "navmulti"),
                 deadend : CreateObject("roAudioResource", "deadend"),
                 select : CreateObject("roAudioResource", "select")
              }

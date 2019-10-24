@@ -371,12 +371,12 @@ End Function
 
 Function IsHD()
     di = CreateObject("roDeviceInfo")
-    return (di.GetUIResolution().name <> "sd")
+    return (di.GetUIResolution().height >= 720)
 End Function
 
 Function IsfHD()
     di = CreateObject("roDeviceInfo")
-    return(di.GetUIResolution() = "fhd")
+    return(di.GetUIResolution().name.lcase() = "fhd")
 End Function
 
 Function ConvertX(x)
@@ -488,16 +488,16 @@ Function FormatTime(seconds as integer) as string
     end if
     ' Hours
     if seconds >= 3600
-        textTime = textTime + (seconds / 3600).toStr() + ":"
+        textTime = textTime + int(seconds / 3600).toStr() + ":"
         hasHours = true
         seconds = seconds Mod 3600
     end if
     ' Minutes
     if seconds >= 60
         if hasHours
-            textTime = textTime + ZeroPad((seconds / 60).toStr()) + ":"
+            textTime = textTime + ZeroPad(int(seconds / 60).toStr()) + ":"
         else
-            textTime = textTime + (seconds / 60).toStr() + ":"
+            textTime = textTime + int(seconds / 60).toStr() + ":"
         end if
         seconds = seconds Mod 60
     else
@@ -592,31 +592,44 @@ Function seq_prandom(seed as integer, n as integer, p as integer, max as integer
     return r1
 End Function
 
-'------- Roku Screens Functions ----
-Sub MessageDialog(title, text, port = invalid) As Integer
-    if port = invalid then port = CreateObject("roMessagePort")
-    d = CreateObject("roMessageDialog")
-    d.SetTitle(title)
-    d.SetText(text)
-    d.SetMessagePort(port)
-    d.AddButton(1, "Okay")
-    d.Show()
+Function MessageDialog(port, title, text, buttons = ["OK"], default = 0, overlay = false) As Integer
+    if port = invalid
+        if m.port = invalid
+            port = CreateObject("roMessagePort")
+        else
+            port = m.port
+        end if
+    end if
+    s = CreateMessageDialog()
+    s.SetTitle(title)
+    s.SetText(text)
+    s.SetMessagePort(port)
+    s.EnableOverlay(overlay)
+    for b = 0 to buttons.Count()-1
+        s.AddButton(b, buttons[b])
+    next
+    s.SetFocusedMenuItem(default)
+    s.Show()
+    result = 99 'nothing pressed
     while true
-        msg = wait(0, port)
-        if msg.isScreenClosed()
-            exit while
-        else if msg.isButtonPressed()
+        msg = s.wait(port)
+        if msg.isButtonPressed()
             result = msg.GetIndex()
+            exit while
+        else if msg.isScreenClosed()
             exit while
         end if
     end while
-End Sub
+    return result
+End Function
 
 Function KeyboardScreen(title = "", prompt = "", text = "", button1 = "Okay", button2= "Cancel", secure = false, port = invalid) as string
+    m.mainScreen = CreateObject("roScreen", true, 1280, 720)
+    m.mainScreen.SetMessagePort(m.port)
+    m.mainScreen.SetAlphaEnable(true)
     if port = invalid then port = CreateObject("roMessagePort")
     result = ""
-    port = CreateObject("roMessagePort")
-    screen = CreateObject("roKeyboardScreen")
+    screen = CreateKeyBoardScreen()
     screen.SetMessagePort(port)
     screen.SetTitle(title)
     screen.SetDisplayText(prompt)
@@ -626,22 +639,27 @@ Function KeyboardScreen(title = "", prompt = "", text = "", button1 = "Okay", bu
     screen.SetSecureText(secure)
     screen.Show()
     while true
-        msg = wait(0, port)
-        if type(msg) = "roKeyboardScreenEvent"
-            if msg.isScreenClosed()
+        msg = screen.wait(port)
+        if msg.isScreenClosed()
+            exit while
+        else if msg.isButtonPressed()
+            if msg.GetIndex() = 1 and screen.GetText().Trim() <> "" 'Ok
+                result = screen.GetText()
                 exit while
-            else if msg.isButtonPressed()
-                if msg.GetIndex() = 1 and screen.GetText().Trim() <> "" 'Ok
-                    result = screen.GetText()
-                    exit while
-                else if msg.GetIndex() = 2 'Cancel
-                    result = ""
-                    exit while
-                end if
+            else if msg.GetIndex() = 2 'Cancel
+                result = ""
+                exit while
             end if
         end if
     end while
     screen.Close()
+    if isHD()
+        m.mainScreen = CreateObject("roScreen", true, 854, 480)
+    else
+        m.mainScreen = CreateObject("roScreen", true, 640, 480)
+    end if
+    m.mainScreen.SetMessagePort(m.port)
+    m.mainScreen.SetAlphaEnable(true)
     return result
 End function
 

@@ -37,6 +37,9 @@ Function CreateCanvas() as object
         m.fonts.AddReplace("big", m.fonts.reg.GetDefaultFont(40 * this.scale, false, false))
         m.fonts.AddReplace("huge", m.fonts.reg.GetDefaultFont(46 * this.scale, false, false))       
     end if
+    ' Initialize Cache
+    InitCache()
+
     this.stackId = m.stack.Count()
     m.stack.Push(this)
     return this
