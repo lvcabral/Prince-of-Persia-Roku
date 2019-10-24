@@ -12,6 +12,7 @@ With the high resolution of the current Full HD TV's I had the idea to implement
 There are two selectable options of sprites, the classic MS-DOS (1990) and Macintosh (1992) versions, all levels and cut scenes are already implemented. In addition to that, it also supports Mods with custom levels, graphics and sounds. Some examples, converted from the [Community DOS Mods](http://www.popot.org/custom_levels.php), are available in the source code.
 
 If you have a Roku or Roku TV you can install the preview channel using this link: https://my.roku.com/add/PoPPreview
+You can also play this version online with a **Roku emulator** I also developed, check it at: https://lvcabral.com/brs
 
 Recommended devices:
 Roku Ultra, Roku Premiere(+), Roku 4, Roku 3, Roku 2 HD (3000X), Roku 2 XD (3050X), Roku 2 XS (3100X), new Roku Streaming Sticks (3800X, 3810X), new Roku Express (3900X, 3910X) and the 4K Roku TV's (6000X, 7000X, 8000X).
@@ -27,7 +28,7 @@ You should also take a look at my other retro-game remake projects [Lode Runner 
 Disclaimer: This source code shall not be used commercially or sold in any form, the objective of this project is educational.
 Any usage/publication of this code shall be explicitly authorized by the author.
 
-Copyright (C) 2016 Marcelo Lv Cabral<br/>
+Copyright (C) 2016-2019 Marcelo Lv Cabral<br/>
 http://lvcabral.com <br/>
 
 Twitter: [@lvcabral](https://twitter.com/lvcabral)
