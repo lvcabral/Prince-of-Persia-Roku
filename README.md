@@ -16,7 +16,7 @@ There are two selectable options of sprites, the classic MS-DOS (1990) and Macin
 
 * You can play the game (on a Chrome based browser) with the **Roku emulator** I also developed, check it at: https://lvcabral.com/brs
 * If you have a Roku or Roku TV you can install the preview channel in your account using this link: https://my.roku.com/add/PoPPreview
-* You can also _side load_ the game on you Roku, downloading the [latest release zip](https://github.com/lvcabral/Prince-of-Persia-Roku/releases) using the developer mode ([click to see how](https://developer.roku.com/docs/developer-program/getting-started/developer-setup.md)) on your device.
+* You can also _side load_ the game on you Roku, downloading the [latest release zip](https://github.com/lvcabral/Prince-of-Persia-Roku/releases) using the developer mode ([click here to see how](https://developer.roku.com/docs/developer-program/getting-started/developer-setup.md)).
 
 ### Recommended devices
 
