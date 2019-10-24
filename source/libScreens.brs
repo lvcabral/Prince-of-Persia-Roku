@@ -4,7 +4,7 @@
 ' **
 ' **  libCanvas.brs - Library with generic methods for Screen objects
 ' **  Created: June 2018
-' **  Updated: September 2019
+' **  Updated: October 2019
 ' **
 ' **  Copyright (C) Marcelo Lv Cabral < https://lvcabral.com >
 ' ********************************************************************************************************
@@ -36,13 +36,21 @@ Sub set_breadcrumb_text(leftText as string, rightText as string)
     m.breadCrumb = []
     m.breadCrumb.Push({ Text: leftText
                         TextAttrs: {color: m.theme.BreadcrumbTextLeft, font: font, HAlign: "Left"}
-                        TargetRect: {x:xl, y:72, w:wl, h:24}})
+                        TargetRect: {x:xl, y:72, w:wl, h:30}})
     m.breadCrumb.Push({ Text: "•"
                         TextAttrs: {color: m.theme.BreadcrumbDelimiter, font: font, HAlign: "Left"}
-                        TargetRect: {x:xb, y:72, w:20, h:24}})
+                        TargetRect: {x:xb, y:72, w:20, h:30}})
     m.breadCrumb.Push({ Text: rightText
                         TextAttrs: {color: m.theme.BreadcrumbTextRight, font: font, HAlign: "Left"}
-                        TargetRect: {x:xr, y:72, w:wr, h:24}})   
+                        TargetRect: {x:xr, y:72, w:wr, h:30}})   
+End Sub
+
+Sub set_title(title as string)
+    m.title = title   
+End Sub
+
+Sub set_text(text as string)
+    m.text = text
 End Sub
 
 Sub set_focused_item(index as integer)
@@ -50,9 +58,17 @@ Sub set_focused_item(index as integer)
     if m.visible then m.Show()
 End Sub
 
+Function get_text() as string
+    return m.text
+End Function
+
 Function get_content_list() as object
     return m.content
 End Function
+
+Sub add_button(id as integer, text as string)
+    m.buttons.Push({id: id, text: text})
+End Sub
 
 '------ 
 ' Generic Functions
@@ -117,7 +133,7 @@ End Function
 Function CachedFile(fileName as string) as string
     g = GetGlobalAA()
     tmpFile = g.cache.Lookup(fileName)
-    if tmpFile = invalid then tmpFile = fileName
+    if tmpFile = invalid then tmpFile = ""
     return tmpFile
 End Function
 

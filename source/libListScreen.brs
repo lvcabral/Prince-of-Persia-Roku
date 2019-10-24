@@ -4,7 +4,7 @@
 ' **
 ' **  libListScreen.brs - Library to implement generic List Screen
 ' **  Created: June 2018
-' **  Updated: September 2019
+' **  Updated: October 2019
 ' **
 ' **  Copyright (C) Marcelo Lv Cabral < https://lvcabral.com >
 ' ********************************************************************************************************
@@ -33,13 +33,11 @@ Function CreateListScreen(ignoreBackKey = false as boolean) as object
     this.SetHeader = set_list_header
     this.SetContent = set_list_content
     this.SetItem = set_content_item
-    this.SetFocusedListItem = set_focused_item
+    this.SetFocusedListItem = set_focused_list_item
+    ' this.SetTitle ' Not Implemented
     this.Show = show_list_screen
     this.Wait = wait_list_screen
     this.Close = close_screen
-
-    ' Initialize Cache
-    InitCache()
 
     ' Initialize Canvas
     this.canvas.SetLayer(0, GetOverhang())
@@ -48,6 +46,7 @@ Function CreateListScreen(ignoreBackKey = false as boolean) as object
 End Function
 
 Sub show_list_screen()
+    print "Show List:"; m.headerText
     txtArray = []
     imgArray = []
     txtArray.Append(m.breadCrumb)
@@ -55,7 +54,10 @@ Sub show_list_screen()
                 Text: m.headerText
                 TextAttrs: {color: m.theme.ListScreenHeaderText, font: "Large", HAlign: "Left"}
                 TargetRect: {x:170, y:156, w:524, h:32}})
-    if m.content.Count() > 0           
+    if m.content.Count() > 0
+        if m.focus >= m.content.Count()
+            m.focus = 0
+        end if
         imgArray.Push({
                     url: m.content[m.focus].HDPosterUrl 'CachedFile(m.content[m.focus].HDPosterUrl + "250x250")
                     TargetRect: {x: 782, y: 200}})
@@ -73,6 +75,14 @@ Sub show_list_screen()
                         url: "pkg:/images/arrow-up.png"
                         TargetRect: {x: 380, y: menuPos.y-40}})
         end if
+        if m.first < 0 or m.last >= m.content.Count()
+            m.first = 0
+            if m.content.Count() > 9
+                m.last = 7
+            else
+                m.last = m.content.Count() - 1
+            end if
+        end if
         for i = m.first to m.last
             if i = m.focus
                 if m.theme.ListItemHighlightHD <> invalid and m.theme.ListItemHighlightHD <> ""
@@ -86,13 +96,20 @@ Sub show_list_screen()
             else
                 textColor = m.theme.ListItemText
             end if
-            txtArray.Push({
-                        Text: m.content[i].Title
-                        TextAttrs: {color: textColor, font: "Medium", HAlign: "Left"}
-                        TargetRect: {x:menuPos.x, y:menuPos.y, w:420, h:30}})
-            imgArray.Push({
-                        url: m.content[i].HDSmallIconUrl
-                        TargetRect: {x: 654, y: menuPos.y}})
+            if m.content[i].HDSmallIconUrl <> invalid
+                txtArray.Push({
+                            Text: m.content[i].Title
+                            TextAttrs: {color: textColor, font: "Medium", HAlign: "Left", elipsis: true}
+                            TargetRect: {x:menuPos.x, y:menuPos.y, w:420, h:30}})
+                imgArray.Push({
+                            url: m.content[i].HDSmallIconUrl
+                            TargetRect: {x: 654, y: menuPos.y}})
+            else
+                txtArray.Push({
+                            Text: m.content[i].Title
+                            TextAttrs: {color: textColor, font: "Medium", HAlign: "Left", elipsis: true}
+                            TargetRect: {x:menuPos.x, y:menuPos.y, w:470, h:30}})
+            end if
             menuPos.y = menuPos.y + 54
         next
         if m.last < m.content.Count() - 1
@@ -107,7 +124,7 @@ Sub show_list_screen()
     m.visible = true
 End Sub
 
-Sub set_list_content(list as object)
+Sub set_list_content(list as object, refresh = true as boolean)
     m.content = list
     for i = 0 to m.content.Count() - 1
         m.content[i].HDPosterUrl = CenterImage(m.content[i].HDPosterUrl, 300, 300)
@@ -119,13 +136,28 @@ Sub set_list_content(list as object)
     else
         m.last = m.content.Count() - 1
     end if
-    if m.visible then m.Show()
+    if m.visible and refresh then m.Show()
 End Sub
 
 Sub set_content_item(index as integer, item as object, refresh = true as boolean)
     item.HDPosterUrl = CenterImage(item.HDPosterUrl, 300, 300)
     m.content[index] = item
     if m.visible and refresh then m.Show()
+End Sub
+
+Sub set_focused_list_item(index as integer)
+    m.focus = index
+    if m.content.Count() < 8
+        m.first = 0
+        m.last = m.content.Count() - 1
+    else if index + 8 < m.content.Count()
+        m.first = index
+        m.last = index + 7
+    else if index - m.content.Count() < 8
+        m.first = m.content.Count() - 8
+        m.last = m.content.Count() - 1        
+    end if
+    if m.visible then m.Show()
 End Sub
 
 Function wait_list_screen(port) as object

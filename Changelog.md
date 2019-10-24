@@ -1,5 +1,10 @@
 # Prince of Persia Changelog
 
+### v0.17 - 24-Oct-2019 - SD Mode Support
+- Add: Support for SD Mode
+- Change: Removed remaining SDK1 objects (MessageBox and Keyboard)
+- Several small fixes 
+
 ### v0.16 - 15-Sep-2019 - Emulator Support
 - Change: Restored crossfade effect on menu and cut scenes
 - Fix: Crash on Palace strings (emulator only) #96

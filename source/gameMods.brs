@@ -119,12 +119,14 @@ Function GetModImage(modId as dynamic) as string
 End Function
 
 Sub ModsAndCheatsScreen()
+    m.mainScreen = CreateObject("roScreen", true, 1280, 720)
+    m.mainScreen.SetMessagePort(m.port)
     this = {
             screen: CreateListScreen()
             port: m.port
            }
     this.screen.SetMessagePort(this.port)
-    this.screen.SetHeader("Mods and Cheats")
+    this.screen.SetHeader("Mods an  d Cheats")
     this.modArray = [{name: "(none)", author:"", levels: false, sprites: false, sounds: false}]
     this.modIndex = 0
     for each modId in m.mods.Keys()
@@ -300,7 +302,6 @@ Sub ModsAndCheatsScreen()
             end if
         end if
     end while
-    return
 End Sub
 
 Function GetMenuItems(menu as object)

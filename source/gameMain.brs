@@ -31,24 +31,28 @@ Sub Main()
     m.files = CreateObject("roFileSystem")
     m.fonts = {reg:CreateObject("roFontRegistry")}
     m.fonts.reg.Register("pkg:/assets/fonts/PoP.ttf")
+    m.fonts.reg.Register("pkg:/assets/fonts/Gotham-Medium.otf")
+    m.fonts.KeysFont = m.fonts.reg.getFont("Gotham Medium", 30, false, false)
     m.bitmapFont = LoadBitmapFont()
     m.prandom = CreatePseudoRandom()
     m.manifest = GetManifestArray()
     m.status = []
     'Check Roku model for performance alert
     if not IsOpenGL()
-        m.mainScreen = CreateObject("roScreen")
-        m.mainScreen.SetMessagePort(m.port)
-        MessageDialog("Prince of Persia", "Warning: Your Roku device doesn't support accelerated graphics, this game will not perform well.")
+        m.mainScreen = CreateObject("roScreen", true, 1280, 720)
+        canvas = CreateCanvas()
+        MessageDialog(m.port, "Prince of Persia", "Warning: Your Roku device doesn't support accelerated" + chr(10) + "graphics, this game will not perform well.")
     else if IsRokuStick()
-        m.mainScreen = CreateObject("roScreen")
-        m.mainScreen.SetMessagePort(m.port)
-        MessageDialog("Prince of Persia", "Warning: Your Roku Stick device has limited memory, this game only works properly on the 4 rooms mode.")
+        m.mainScreen = CreateObject("roScreen", true, 1280, 720)
+        canvas = CreateCanvas()
+        MessageDialog(m.port, "Prince of Persia", "Warning: Your Roku Stick device has limited memory," + chr(10) + "this game only works properly on the 4 rooms mode.")
     end if
     'Initialize Screen
     if isHD()
+        print "HD Mode"
         m.mainScreen = CreateObject("roScreen", true, 854, 480)
     else
+        print "SD Mode"
         m.mainScreen = CreateObject("roScreen", true, 640, 480)
     end if
     m.mainScreen.SetMessagePort(m.port)
