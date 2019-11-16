@@ -48,14 +48,7 @@ Sub Main()
         MessageDialog(m.port, "Prince of Persia", "Warning: Your Roku Stick device has limited memory," + chr(10) + "this game only works properly on the 4 rooms mode.")
     end if
     'Initialize Screen
-    if isHD()
-        print "HD Mode"
-        m.mainScreen = CreateObject("roScreen", true, 854, 480)
-    else
-        print "SD Mode"
-        m.mainScreen = CreateObject("roScreen", true, 640, 480)
-    end if
-    m.mainScreen.SetMessagePort(m.port)
+    ResetMainScreen()
     'Load Mods
     m.mods = LoadMods()
     'Initialize Settings
@@ -167,12 +160,7 @@ Sub Main()
                 PlayGame()
             end if
         end if
-        if isHD()
-            m.mainScreen = CreateObject("roScreen", true, 854, 480)
-        else
-            m.mainScreen = CreateObject("roScreen", true, 640, 480)
-        end if
-        m.mainScreen.SetMessagePort(m.port)
+        ResetMainScreen()
     end while
 End Sub
 
@@ -310,8 +298,8 @@ Sub SetupGameScreen()
 			m.mainWidth = 854
 			m.mainHeight = 626
 		else
-			m.mainWidth = 640
-			m.mainHeight = 480
+			m.mainWidth = 720
+			m.mainHeight = 540
 		end if
 	end if
     ResetScreen(m.mainWidth, m.mainHeight, m.gameWidth, m.gameHeight)

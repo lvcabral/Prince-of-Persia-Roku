@@ -130,13 +130,7 @@ sub SettingsMenu()
                     end if
                 else if selected = 2
                     ModsAndCheatsScreen()
-                    if isHD()
-                        m.mainScreen = CreateObject("roScreen", true, 854, 480)
-                    else
-                        m.mainScreen = CreateObject("roScreen", true, 640, 480)
-                    end if
-                    m.mainScreen.SetMessagePort(m.port)
-                    m.mainScreen.SetAlphaEnable(true)
+                    ResetMainScreen()
                 else if selected = 3
                     HighscoresScreen()
                 else if selected = 4
