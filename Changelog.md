@@ -1,15 +1,23 @@
 # Prince of Persia Changelog
 
+### v0.18 - 11-Nov-2019 - Fixes for Mods and SD Mode
+
+- Fix: Crash when loading Mods with custom levels #98
+- Fix: SD Mode was cutting the screens in small TVs #99
+
 ### v0.17 - 24-Oct-2019 - SD Mode Support
+
 - Add: Support for SD Mode
 - Change: Removed remaining SDK1 objects (MessageBox and Keyboard)
 - Several small fixes 
 
 ### v0.16 - 15-Sep-2019 - Emulator Support
+
 - Change: Restored crossfade effect on menu and cut scenes
 - Fix: Crash on Palace strings (emulator only) #96
 
 ### v0.15 - 07-Sep-2019 - Emulator Support
+
 - Change: Performance improvements of the map painting #96
 - Change: Small changes to support the 2D API emulator that allows to run the game on Chrome browser #96
 
