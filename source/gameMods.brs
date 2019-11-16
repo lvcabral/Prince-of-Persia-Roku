@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: July 2016
-' **  Updated: September 2019
+' **  Updated: November 2019
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -126,7 +126,7 @@ Sub ModsAndCheatsScreen()
             port: m.port
            }
     this.screen.SetMessagePort(this.port)
-    this.screen.SetHeader("Mods an  d Cheats")
+    this.screen.SetHeader("Mods and Cheats")
     this.modArray = [{name: "(none)", author:"", levels: false, sprites: false, sounds: false}]
     this.modIndex = 0
     for each modId in m.mods.Keys()

@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: July 2019
+' **  Updated: November 2019
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -231,7 +231,7 @@ Function key_s() as boolean
     return m.cursors.shift
 End Function
 
-Function LoadBitmapRegions(scale as float, path as string, jsonFile as string, pngFile = "" as string, flip = false as boolean, simpleScale = false as boolean) as object
+Function LoadBitmapRegions(scale as float, path as string, jsonFile as string, pngFile = "" as string, flip = false as boolean, simpleScale = false as boolean)
     if pngFile = ""
         pngFile = jsonFile
     end if
@@ -257,7 +257,7 @@ Function LoadBitmapRegions(scale as float, path as string, jsonFile as string, p
     return regions
 End Function
 
-Function GenerateFrameNames(prefix as string, start as integer, finish as integer, suffix = "" as string, shuffle = false as boolean, repeatFrame = 1 as integer) as object
+Function GenerateFrameNames(prefix as string, start as integer, finish as integer, suffix = "" as string, shuffle = false as boolean, repeatFrame = 1 as integer)
     frameNames = []
     if shuffle
         length = finish-start+1
@@ -278,13 +278,14 @@ Function GenerateFrameNames(prefix as string, start as integer, finish as intege
     return frameNames
 End Function
 
-Function GetPaintedBitmap(color as integer, width as integer, height as integer, alpha as boolean) as object
+Function GetPaintedBitmap(color as integer, width as integer, height as integer, alpha as boolean)
     bitmap = CreateObject("roBitmap", {width:width, height:height, alphaenable:alpha})
     bitmap.clear(color)
     return bitmap
 End Function
 
-Function ScaleBitmap(bitmap as object, scale as float, simpleMode = false as boolean) as object
+Function ScaleBitmap(bitmap as object, scale as float, simpleMode = false as boolean)
+    if bitmap = invalid then return bitmap
     if scale = 1.0
         scaled = bitmap
     else if scale = int(scale) or simpleMode
@@ -299,7 +300,7 @@ Function ScaleBitmap(bitmap as object, scale as float, simpleMode = false as boo
     return scaled
 End Function
 
-Function ScaleToSize(bitmap as object, width as integer, height as integer, ratio = true as boolean) as object
+Function ScaleToSize(bitmap as object, width as integer, height as integer, ratio = true as boolean)
     if bitmap = invalid then return bitmap
     if ratio and bitmap.GetWidth() <= width and bitmap.GetHeight() <= height
         scaled = bitmap

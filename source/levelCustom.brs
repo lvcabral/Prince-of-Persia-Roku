@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: July 2016
-' **  Updated: September 2019
+' **  Updated: November 2019
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -53,8 +53,8 @@ Function build_custom(levelId as integer, modObj as object) as object
         xmlGuard = xmlRoom.GetNamedElements("guard").Simplify()
         xmlGrdAt = xmlGuard.GetAttributes()
         xmlLinks = xmlRoom.GetNamedElements("links").Simplify()
-        xmlLnkAt = xmlLinks.GetAttributes()        
-        id = Val(xmlRomAt[number])
+        xmlLnkAt = xmlLinks.GetAttributes()
+        id = Val(xmlRomAt["number"])
         rmlnk = {hideUp: false, hideLeft: false, leftZ: 5}
         if xmlLnkAt["left"] > "0"
             rmlnk.left = Val(xmlLnkAt["left"])
@@ -81,6 +81,7 @@ Function build_custom(levelId as integer, modObj as object) as object
             this.rooms[id].links = rmlnk
             'Add tiles
             for each xmlTile in xmlTiles
+                xmlTilAt = xmlTile.GetAttributes()
                 tl = {element: Val(xmlTilAt["element"]) and &h1F, modifier: Val(xmlTilAt["modifier"])}
                 if tl.element = m.const.TILE_WALL
                     if tl.modifier > 1
@@ -167,8 +168,13 @@ Function build_custom(levelId as integer, modObj as object) as object
     print "layout dimensions: "; this.width; " by "; this.height
 	'dim layout[this.height, this.width]
     layout = []
+    for h = 0 to this.height
+        layout.push([])
+        for w = 0 to this.width
+            layout[h].push(invalid)
+        next
+    next
     for r = 1 to 24
-        layout.push([0])
         room = this.rooms[r]
         if room <> invalid and room.layout
             room.x = room.x + Abs(layoutOffset.tx)
