@@ -41,11 +41,7 @@ Sub Main()
     if not IsOpenGL()
         m.mainScreen = CreateObject("roScreen", true, 1280, 720)
         canvas = CreateCanvas()
-        MessageDialog(m.port, "Prince of Persia", "Warning: Your Roku device doesn't support accelerated" + chr(10) + "graphics, this game will not perform well.")
-    else if IsRokuStick()
-        m.mainScreen = CreateObject("roScreen", true, 1280, 720)
-        canvas = CreateCanvas()
-        MessageDialog(m.port, "Prince of Persia", "Warning: Your Roku Stick device has limited memory," + chr(10) + "this game only works properly on the 4 rooms mode.")
+        MessageDialog(m.port, "Prince of Persia", "Warning: Your Roku device doesn't support accelerated" + chr(10) + "graphics, this game may not perform well.")
     end if
     'Initialize Screen
     ResetMainScreen()
