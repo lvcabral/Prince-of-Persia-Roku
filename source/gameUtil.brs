@@ -245,7 +245,7 @@ Function LoadBitmapRegions(scale as float, path as string, jsonFile as string, p
             bitmap = ScaleBitmap(FlipHorizontally(CreateObject("roBitmap", path + pngFile + ".png")), scale, simpleScale)
         end if
         for each name in json.frames
-            frame = json.frames.Lookup(name).frame
+            frame = json.frames[name].frame
             if not flip
                 regions.AddReplace(name, CreateObject("roRegion", bitmap, int(frame.x * scale), int(frame.y * scale), int(frame.w * scale), int(frame.h * scale)))
             else

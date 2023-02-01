@@ -63,7 +63,7 @@ Sub set_layer(zOrder as integer, layer as object)
 End Sub
 
 Sub clear_layer(zOrder as integer)
-    if m.layers.DoesExist(zOrder.toStr())
+    if m.layers[zOrder.toStr()] <> invalid
         m.layers.Delete(zOrder.toStr())
     end if
 End Sub
@@ -100,9 +100,9 @@ Sub paint_component(component as object)
     if rect = invalid
         rect = m.GetCanvasRect()
     end if
-    if component.DoesExist("Text")
+    if component.Text <> invalid
         if type(component.TextAttrs.font) = "roString" or type(component.TextAttrs.font) = "String"
-            font = m.fonts.Lookup(component.TextAttrs.font)
+            font = m.fonts[component.TextAttrs.font]
             if font = invalid 
                 font = m.fonts.medium
             end if
@@ -118,7 +118,7 @@ Sub paint_component(component as object)
             lines = component.text.split(chr(10))
             for each line in lines
                 tw = font.GetOneLineWidth(line, rect.w * m.scale)
-                if component.TextAttrs.DoesExist("HAlign")
+                if component.TextAttrs.HAlign <> invalid
                     if LCase(component.TextAttrs.HAlign) = "center"
                         x += CInt((rect.w * m.scale - tw)/2)
                     else if LCase(component.TextAttrs.HAlign) = "right"
@@ -136,7 +136,7 @@ Sub paint_component(component as object)
                 y += th
             next
         end if
-    else if component.DoesExist("url")
+    else if component.url <> invalid
         x = rect.x * m.scale
         y = rect.y * m.scale
         bitmap = CreateObject("roBitmap",component.url)
@@ -146,7 +146,7 @@ Sub paint_component(component as object)
             print "invalid bitmap:"; component.url
         end if
         m.screen.DrawObject(x, y, bitmap)
-    else if component.DoesExist("TargetRect")
+    else if component.TargetRect <> invalid
         x = rect.x * m.scale
         y = rect.y * m.scale
         w = rect.w * m.scale

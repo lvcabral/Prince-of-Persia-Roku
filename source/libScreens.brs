@@ -117,7 +117,7 @@ End Sub
 
 Function AddToCache(fileName as string, bmp as object, update = false as boolean) as string
     g = GetGlobalAA()
-    tmpFile = g.cache.Lookup(fileName)
+    tmpFile = g.cache[fileName]
     if tmpFile = invalid
         g.cacheId++
         tmpFile = "tmp:/cached" + g.cacheId.toStr() + ".png"
@@ -132,7 +132,7 @@ End Function
 
 Function CachedFile(fileName as string) as string
     g = GetGlobalAA()
-    tmpFile = g.cache.Lookup(fileName)
+    tmpFile = g.cache[fileName]
     if tmpFile = invalid then tmpFile = ""
     return tmpFile
 End Function

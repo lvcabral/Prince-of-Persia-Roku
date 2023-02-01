@@ -23,7 +23,7 @@ Function LoadSounds(enable as boolean) as object
                 select : CreateObject("roAudioResource", "select")
              }
     for each name in sounds.metadata.clips
-        clip = sounds.metadata.clips.Lookup(name)
+        clip = sounds.metadata.clips[name]
         if clip.type = "wav"
             sounds.AddReplace(name,CreateObject("roAudioResource", "pkg:/assets/sounds/" + name + ".wav"))
         end if
@@ -39,7 +39,7 @@ Sub LoadModSounds()
             modPath = modPath + "sounds/"
         end if
         for each name in m.sounds.metadata.clips
-            clip = m.sounds.metadata.clips.Lookup(name)
+            clip = m.sounds.metadata.clips[name]
             wav = modPath + name + ".wav"
             if clip.type = "wav" and m.files.Exists(wav)
                 m.sounds.AddReplace(name, CreateObject("roAudioResource", wav))
@@ -51,7 +51,7 @@ Sub LoadModSounds()
     else if m.sounds.modId <> invalid
         m.sounds.modId = invalid
         for each name in m.sounds.metadata.clips
-            clip = m.sounds.metadata.clips.Lookup(name)
+            clip = m.sounds.metadata.clips[name]
             if clip.type = "wav"
                 m.sounds.AddReplace(name, CreateObject("roAudioResource", "pkg:/assets/sounds/" + name + ".wav"))
             end if
@@ -76,7 +76,7 @@ End Sub
 
 Sub PlaySound(clip as string, overlap = false as boolean, volume = 50 as integer)
     g = GetGlobalAA()
-    meta = g.sounds.metadata.clips.Lookup(clip)
+    meta = g.sounds.metadata.clips[clip]
     if meta.type = "mp3"
         PlaySoundMp3(clip, overlap)
     else
@@ -88,7 +88,7 @@ Sub PlaySoundMp3(clip as string, overlap as boolean)
     g = GetGlobalAA()
     if not g.sounds.enabled then return
     ctrl = g.sounds.mp3
-    meta = g.sounds.metadata.clips.Lookup(clip)
+    meta = g.sounds.metadata.clips[clip]
     if meta = invalid then return
     if ctrl.cycles = 0 or meta.priority > ctrl.priority or (ctrl.clip = clip and overlap)
         ' print "play sound mp3: "; clip
@@ -105,13 +105,13 @@ Sub PlaySoundWav(clip as  string, overlap = false as boolean, volume = 50 as int
     g = GetGlobalAA()
     if not g.sounds.enabled then return
     ctrl = g.sounds.wav
-    meta = g.sounds.metadata.clips.Lookup(clip)
+    meta = g.sounds.metadata.clips[clip]
     if meta <> invalid and (meta.priority >= ctrl.priority or ctrl.cycles = 0)
         ' print "play sound wav: "; clip
         ctrl.clip = clip
         ctrl.priority = meta.priority
         ctrl.cycles = cint(meta.duration / g.speed)
-        sound = g.sounds.Lookup(clip)
+        sound = g.sounds[clip]
         if overlap or not sound.IsPlaying()
             sound.Trigger(volume)
         end if

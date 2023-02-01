@@ -157,7 +157,7 @@ End Function
 Sub process_command_actor()
     command = true
     while (command)
-        actionArray = m.animations.sequence.Lookup(m.charAction)
+        actionArray = m.animations.sequence[m.charAction]
         if actionArray = invalid then exit while
         data = actionArray[m.seqPointer]
         if data.cmd = m.const.CMD_ACT

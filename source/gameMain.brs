@@ -54,7 +54,7 @@ Sub Main()
         m.settings.controlMode = m.const.CONTROL_VERTICAL
         m.settings.spriteMode = m.const.SPRITES_DOS
     else if m.settings.modId <> invalid
-        if m.mods.DoesExist(m.settings.modId)
+        if m.mods[m.settings.modId] <> invalid
             if m.mods[m.settings.modId].sprites
                 m.settings.spriteMode = Val(m.settings.modId)
             end if
@@ -225,8 +225,7 @@ Sub ResetGame()
         next
         g.guards.Clear()
     end if
-    for i = 0 to g.tileSet.level.guards.Count() - 1
-        ginfo = g.tileSet.level.guards[i]
+    for each ginfo in g.tileSet.level.guards
         if g.tileSet.level.rooms[ginfo.room] <> invalid
             g.guards.Push(CreateGuard(g.tileSet.level, ginfo.room, ginfo.location - 1, ginfo.direction, ginfo.skill, ginfo.type, ginfo.colors, ginfo.active, ginfo.visible))
         end if
@@ -378,19 +377,19 @@ Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
         next
     end if
     g.regions.guards = {}
-    for i = 0 to guards.Count() - 1
+    for each guard in guards
         charArray = []
-        if guards[i].type = "guard"
-            png = guards[i].type + guards[i].colors.toStr()
+        if guard.type = "guard"
+            png = guard.type + guard.colors.toStr()
         else
-            png = guards[i].type
+            png = guard.type
         end if
         fullPath = path + "guards/"
-        fullName = guards[i].type + suffix
+        fullName = guard.type + suffix
         fullImage = png + suffix
         if useModSprite and g.files.Exists(modPath + png + ".png")
             fullPath = modPath
-            fullName = guards[i].type
+            fullName = guard.type
             fullImage = png
         end if
         charArray.Push(LoadBitmapRegions(scale, fullPath, fullName, fullImage, false))

@@ -146,7 +146,7 @@ Sub build_rooms()
         if m.level.rooms[rr] <> invalid
             for tt = 0 to 29
                 tile = m.level.rooms[rr].tiles[tt]
-                if not tile.DoesExist("isSpace")
+                if tile.isSpace = invalid
                     tile = m.buildTile( tt mod 10, int(tt / 10), rr )
                     m.level.addTile(tt mod 10, int(tt / 10), rr, tile)
                 end if

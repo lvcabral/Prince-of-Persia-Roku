@@ -17,8 +17,7 @@ Function LoadMods() as object
     TextBox(m.mainScreen, 620, 50, "Loading...")
     'Load internal Mods
     mods = ParseJson(ReadAsciiFile("pkg:/mods/mods.json"))
-    'Uncomment and edit the line below to add the URL if you are hosting remote mods
-    'm.webMods = "http://YOURDOMAIN/MODSFOLDER/"
+    m.webMods = "https://lvcabral.com/pop/mods/"
     'Load remote Mods (if available)
     if m.webMods <> invalid and CacheFile(m.webMods + "mods.json", "mods.json") <> ""
         modsWeb = ParseJson(ReadAsciiFile("tmp:/mods.json"))

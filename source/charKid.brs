@@ -308,7 +308,7 @@ End Sub
 Sub process_command_kid()
     command = true
     while (command)
-        actionArray = m.animations.sequence.Lookup(m.charAction)
+        actionArray = m.animations.sequence[m.charAction]
         if actionArray = invalid then exit while
         data = actionArray[m.seqPointer]
         if data.cmd = m.const.CMD_ACT
@@ -450,7 +450,7 @@ End Sub
 
 Function get_kid_bounds() as object
     g = GetGlobalAA()
-    f = g.regions.kid[m.face].Lookup(m.frameName)
+    f = g.regions.kid[m.face][m.frameName]
 	fWidth  = f.getWidth() / m.scale
 	fHeight = f.getHeight() / m.scale
 	if m.faceL()

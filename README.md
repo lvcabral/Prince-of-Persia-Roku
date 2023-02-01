@@ -40,6 +40,6 @@ Disclaimer: This source code shall not be used commercially or sold in any form,
 Any usage/publication of this code shall be explicitly authorized by the author.
 
 Copyright (C) 2016-2019 Marcelo Lv Cabral<br/>
-http://lvcabral.com <br/>
+https://lvcabral.com <br/>
 
 Twitter: [@lvcabral](https://twitter.com/lvcabral)

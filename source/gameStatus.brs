@@ -14,8 +14,8 @@
 
 Sub DrawStatusBar(screen as object, width as integer, height as integer)
     screen.DrawRect(0, height-(8* m.scale),width, (8* m.scale), m.colors.black)
-    lifeFull = m.regions.general.Lookup("kid-live")
-    lifeEmpty = m.regions.general.Lookup("kid-emptylive")
+    lifeFull = m.regions.general["kid-live"]
+    lifeEmpty = m.regions.general["kid-emptylive"]
     if m.settings.spriteMode = m.const.SPRITES_MAC
         lifePos = 8 * m.scale
     else
@@ -43,13 +43,13 @@ Sub DrawStatusBar(screen as object, width as integer, height as integer)
         if enemy.swordDrawn or (enemy.sprite.GetX() > 0 and enemy.sprite.GetX() < m.gameScreen.GetWidth())
             if enemy.health = 1
                 if m.blink[1]
-                    guardLife = m.regions.general.Lookup(enemy.charImage + "-live")
+                    guardLife = m.regions.general[enemy.charImage + "-live"]
                     screen.drawobject(width - guardLife.GetWidth(), height - lifePos, guardLife)
                 end if
                 m.blink[1] = not m.blink[1]
             else
                 for h = 1 to enemy.health
-                    guardLife = m.regions.general.Lookup(enemy.charImage + "-live")
+                    guardLife = m.regions.general[enemy.charImage + "-live"]
                     screen.drawobject(width - guardLife.GetWidth() * h, height - lifePos, guardLife)
                 next
             end if
@@ -190,7 +190,7 @@ Function write_text(screen as object, text as string, x as integer, y as integer
             ci = 32
         end if
         'write the letter
-        letter = m.Lookup("chr" + ci.toStr())
+        letter = m["chr" + ci.toStr()]
         if letter <> invalid
             yl = y + (yOff - letter.image.GetHeight() * scale)
             screen.drawscaledobject(x, yl + letter.yOffset * scale, scale, scale, letter.image)
