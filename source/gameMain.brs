@@ -36,6 +36,7 @@ Sub Main()
     m.bitmapFont = LoadBitmapFont()
     m.prandom = CreatePseudoRandom()
     m.manifest = GetManifestArray()
+    m.inSimulator = InSimulator()
     m.status = []
     'Check Roku model for performance alert
     if not IsOpenGL()
@@ -64,9 +65,9 @@ Sub Main()
         end if
     end if
     if m.settings.fight = invalid then m.settings.fight = m.const.FIGHT_ATTACK
-    if m.settings.rewFF = invalid then m.settings.rewFF = m.const.REWFF_NONE
+    if m.settings.cheatMode = invalid then m.settings.cheatMode = m.const.CHEAT_NONE
     if m.settings.saveGame = invalid then m.settings.saveGame = true
-    if m.settings.okMode = invalid then m.settings.okMode = m.const.OKMODE_TIME
+    if m.settings.infoMode = invalid then m.settings.infoMode = m.const.INFO_TIME
     'Game/Debug switches
     m.debugMode = false ' flag to enable/disable debug code
     m.dark = false 'flag for debugging without map tiles paint

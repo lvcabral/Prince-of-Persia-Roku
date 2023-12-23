@@ -83,7 +83,11 @@ sub SettingsMenu()
             m.mainScreen.DrawObject(centerX, centerY, backImage)
             faceColors = [m.colors.white, m.colors.white, m.colors.white, m.colors.white, m.colors.white]
             faceColors[selected] = &hFF0000FF
-            m.mainScreen.DrawText("Control Mode", centerX + 93, centerY + 108, faceColors[0], menuFont)
+            if m.inSimulator
+                m.mainScreen.DrawText("Game Control", centerX + 93, centerY + 108, faceColors[0], menuFont)
+            else
+                m.mainScreen.DrawText("Control Mode", centerX + 93, centerY + 108, faceColors[0], menuFont)
+            end if
             m.mainScreen.DrawText("Graphics Mode", centerX + 93, centerY + 161, faceColors[1], menuFont)
             m.mainScreen.DrawText("Mods & Cheats", centerX + 93, centerY + 213, faceColors[2], menuFont)
             m.mainScreen.DrawText("High Scores", centerX + 93, centerY + 265, faceColors[3], menuFont)
@@ -116,10 +120,14 @@ sub SettingsMenu()
             else if key = m.code.BUTTON_SELECT_PRESSED
                 m.sounds.select.Trigger(50)
                 if selected = 0
-                    option = OptionsMenu([{ text: "Vertical Control", image: "control_vertical" }, { text: "Horizontal Control", image: "control_horizontal" }], m.settings.controlMode)
-                    if option >= 0 and option <> m.settings.controlMode
-                        m.settings.controlMode = option
-                        SaveSettings(m.settings)
+                    if m.inSimulator
+                        ImageScreen("game_control.jpg")
+                    else
+                        option = OptionsMenu([{ text: "Vertical Control", image: "control_vertical" }, { text: "Horizontal Control", image: "control_horizontal" }], m.settings.controlMode)
+                        if option >= 0 and option <> m.settings.controlMode
+                            m.settings.controlMode = option
+                            SaveSettings(m.settings)
+                        end if
                     end if
                 else if selected = 1
                     option = OptionsMenu([{ text: "IBM-PC MS-DOS", image: "graphics_dos" }, { text: "Macintosh Classic", image: "graphics_mac" }], m.settings.spriteMode)
@@ -134,7 +142,7 @@ sub SettingsMenu()
                 else if selected = 3
                     HighscoresScreen()
                 else if selected = 4
-                    CreditsScreen()
+                    ImageScreen("game_credits.jpg")
                 end if
                 button = -1
             end if
@@ -237,12 +245,12 @@ sub HighScoresScreen()
     end while
 end sub
 
-sub CreditsScreen()
+sub ImageScreen(imageFile)
     scale = Int(GetScale(m.mainScreen, 640, 432))
     centerX = Cint((m.mainScreen.GetWidth() - (640 * scale)) / 2)
     centerY = Cint((m.mainScreen.GetHeight() - (432 * scale)) / 2)
     m.mainScreen.Clear(0)
-    m.mainScreen.DrawObject(centerX, centerY, ScaleBitmap(CreateObject("roBitmap", "pkg:/images/game_credits.jpg"), scale))
+    m.mainScreen.DrawObject(centerX, centerY, ScaleBitmap(CreateObject("roBitmap", "pkg:/images/"+ imageFile), scale))
     m.mainScreen.SwapBuffers()
     while true
         key = wait(0, m.port)
@@ -261,7 +269,6 @@ function MessageBox(screen as object, width as integer, height as integer, text 
     yt = topY + height / 2 - 25
     button = -1
     selected = m.const.BUTTON_YES
-    m.mainScreen.SwapBuffers()
     while true
         if button <> selected
             screen.DrawRect(leftX, topY, width, height, m.colors.black)

@@ -136,12 +136,12 @@ Sub ModsAndCheatsScreen()
     this.fightModes = ["Attack", "Alert", "Frozen"]
     this.fightHelp  = ["Enemies will attack you!", "Enemies will be alert and follow you", "Enemies will be static"]
     this.fightIndex = m.settings.fight
-    this.rewFFModes = ["Change Level", "Change Health", "Change Time", "(disabled)"]
-    this.rewFFHelp  = ["Advance or return game levels", "Increase or decrease Prince health", "Add or subtract 1 minute", "Cheat Keys disabled"]
-    this.rewFFIndex = m.settings.rewFF
-    this.okModes    = ["Show Remaining Time", "Enable Debug Mode"]
-    this.okHelp     = ["Show game remaining time", "Turn on/off Debug mode"]
-    this.okIndex    = m.settings.okMode
+    this.cheatModes = ["Change Level", "Change Health", "Change Time", "(disabled)"]
+    this.cheatHelp  = ["Advance or return game levels", "Increase or decrease Prince health", "Add or subtract 1 minute", "Cheat Keys disabled"]
+    this.cheatIndex = m.settings.cheatMode
+    this.infoModes    = ["Show Remaining Time", "Enable Debug Mode"]
+    this.infoHelp     = ["Show game remaining time", "Turn on/off Debug mode"]
+    this.infoIndex    = m.settings.infoMode
     if m.settings.modId <> invalid
         this.modName = m.mods[m.settings.modId].name
     else
@@ -230,42 +230,42 @@ Sub ModsAndCheatsScreen()
                 listItems[listIndex].SDPosterUrl = listItems[listIndex].HDPosterUrl
                 this.screen.SetItem(listIndex, listItems[listIndex])
                 m.settings.fight = this.fightIndex
-            else if listIndex = 2 'Rew and FF
+            else if listIndex = 2 'Cheat Mode
                 if remoteKey = m.code.BUTTON_LEFT_PRESSED
-                    this.rewFFIndex--
-                    if this.rewFFIndex < 0
-                        this.rewFFIndex = this.rewFFModes.Count() - 1
+                    this.cheatIndex--
+                    if this.cheatIndex < 0
+                        this.cheatIndex = this.cheatModes.Count() - 1
                     end if
                 else if remoteKey = m.code.BUTTON_RIGHT_PRESSED
-                    this.rewFFIndex++
-                    if this.rewFFIndex = this.rewFFModes.Count()
-                        this.rewFFIndex = 0
+                    this.cheatIndex++
+                    if this.cheatIndex = this.cheatModes.Count()
+                        this.cheatIndex = 0
                     end if
                 end if
-                listItems[listIndex].Title =" REW & FF keys: " + this.rewFFModes[this.rewFFIndex]
-                listItems[listIndex].ShortDescriptionLine1 = this.rewFFHelp[this.rewFFIndex]
-                listItems[listIndex].HDPosterUrl = "pkg:/images/rewff_" + this.rewFFIndex.toStr() + ".jpg"
+                listItems[listIndex].Title =" Cheat Keys: " + this.cheatModes[this.cheatIndex]
+                listItems[listIndex].ShortDescriptionLine1 = this.cheatHelp[this.cheatIndex]
+                listItems[listIndex].HDPosterUrl = "pkg:/images/cheat_" + this.cheatIndex.toStr() + ".jpg"
                 listItems[listIndex].SDPosterUrl = listItems[listIndex].HDPosterUrl
                 this.screen.SetItem(listIndex, listItems[listIndex])
-                m.settings.rewFF = this.rewFFIndex
-            else if listIndex = 3 'OK Key Mode
+                m.settings.cheatMode = this.cheatIndex
+            else if listIndex = 3 'Info Key Mode
                 if remoteKey = m.code.BUTTON_LEFT_PRESSED
-                    this.okIndex--
-                    if this.okIndex < 0
-                        this.okIndex = this.okModes.Count() - 1
+                    this.infoIndex--
+                    if this.infoIndex < 0
+                        this.infoIndex = this.infoModes.Count() - 1
                     end if
                 else if remoteKey = m.code.BUTTON_RIGHT_PRESSED
-                    this.okIndex++
-                    if this.okIndex = this.okModes.Count()
-                        this.okIndex = 0
+                    this.infoIndex++
+                    if this.infoIndex = this.infoModes.Count()
+                        this.infoIndex = 0
                     end if
                 end if
-                listItems[listIndex].Title = " OK Key: " + this.okModes[this.okIndex]
-                listItems[listIndex].ShortDescriptionLine1 = this.okHelp[this.okIndex]
-                listItems[listIndex].HDPosterUrl = "pkg:/images/okmode_" + this.okIndex.toStr() + ".jpg"
+                listItems[listIndex].Title = " Info Key: " + this.infoModes[this.infoIndex]
+                listItems[listIndex].ShortDescriptionLine1 = this.infoHelp[this.infoIndex]
+                listItems[listIndex].HDPosterUrl = "pkg:/images/infokey_" + this.infoIndex.toStr() + ".jpg"
                 listItems[listIndex].SDPosterUrl = listItems[listIndex].HDPosterUrl
                 this.screen.SetItem(listIndex, listItems[listIndex])
-                m.settings.okMode = this.okIndex
+                m.settings.infoMode = this.infoIndex
             else if listIndex = 4 'Save Game
                 if remoteKey = m.code.BUTTON_LEFT_PRESSED or remoteKey = m.code.BUTTON_RIGHT_PRESSED
                     this.saveMode = not this.saveMode
@@ -324,22 +324,22 @@ Function GetMenuItems(menu as object)
                 ShortDescriptionLine2: "Use Left and Right to select a Fight Mode"
                 })
     listItems.Push({
-                Title: " REW & FF Keys: " + menu.rewFFModes[menu.rewFFIndex]
+                Title: " Cheat Keys: " + menu.cheatModes[menu.cheatIndex]
                 HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
                 SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
-                HDPosterUrl: "pkg:/images/rewff_" + menu.rewFFIndex.toStr() + ".jpg"
-                SDPosterUrl: "pkg:/images/rewff_" + menu.rewFFIndex.toStr() + ".jpg"
-                ShortDescriptionLine1: menu.rewFFHelp[menu.rewFFIndex]
+                HDPosterUrl: "pkg:/images/cheat_" + menu.cheatIndex.toStr() + ".jpg"
+                SDPosterUrl: "pkg:/images/cheat_" + menu.cheatIndex.toStr() + ".jpg"
+                ShortDescriptionLine1: menu.cheatHelp[menu.cheatIndex]
                 ShortDescriptionLine2: "Use Left and Right to set cheat keys mode"
                 })
     listItems.Push({
-                Title: " OK Key: " + menu.okModes[menu.okIndex]
+                Title: " Info Key: " + menu.infoModes[menu.infoIndex]
                 HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
                 SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
-                HDPosterUrl: "pkg:/images/okmode_" + menu.okIndex.toStr() + ".jpg",
-                SDPosterUrl: "pkg:/images/okmode_" + menu.okIndex.toStr() + ".jpg",
-                ShortDescriptionLine1: menu.okHelp[menu.okIndex]
-                ShortDescriptionLine2: "Use Left and Right to set OK key mode"
+                HDPosterUrl: "pkg:/images/infokey_" + menu.infoIndex.toStr() + ".jpg",
+                SDPosterUrl: "pkg:/images/inforkey_" + menu.infoIndex.toStr() + ".jpg",
+                ShortDescriptionLine1: menu.infoHelp[menu.infoIndex]
+                ShortDescriptionLine2: "Use Left and Right to set info key mode"
                 })
     listItems.Push({
                 Title: " Saved Game: " + menu.saveTitle

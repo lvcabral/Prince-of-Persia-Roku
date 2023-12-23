@@ -108,13 +108,13 @@ Function GetConstants() as object
     const.FIGHT_ALERT  = 1
     const.FIGHT_FROZEN = 2
 
-    const.REWFF_LEVEL  = 0
-    const.REWFF_HEALTH = 1
-    const.REWFF_TIME   = 2
-    const.REWFF_NONE   = 3
+    const.CHEAT_LEVEL  = 0
+    const.CHEAT_HEALTH = 1
+    const.CHEAT_TIME   = 2
+    const.CHEAT_NONE   = 3
 
-    const.OKMODE_TIME  = 0
-    const.OKMODE_DEBUG = 1
+    const.INFO_TIME  = 0
+    const.INFO_DEBUG = 1
 
     const.DO_MOVE = 0
     const.DO_STRIKE = 1
@@ -143,7 +143,9 @@ Function GetCursors(controlMode as integer) as object
             right: false
             shift: false
            }
-    if controlMode = m.const.CONTROL_VERTICAL
+    if m.inSimulator
+        this.update = update_cursor_simulator
+    else if controlMode = m.const.CONTROL_VERTICAL
         this.update = update_cursor_vertical
     else
         this.update = update_cursor_horizontal
@@ -210,6 +212,64 @@ Sub update_cursor_horizontal(id as integer, shiftToggle as boolean)
         end if
     end if
 End Sub
+
+Sub update_cursor_simulator(id as integer, shiftToggle as boolean)
+    if id = m.code.BUTTON_UP_PRESSED or id = m.code.BUTTON_SELECT_PRESSED
+        m.up = true
+    else if id = m.code.BUTTON_DOWN_PRESSED
+        m.down = true
+    else if id = m.code.BUTTON_LEFT_PRESSED
+        m.left = true
+    else if id = m.code.BUTTON_RIGHT_PRESSED
+        m.right = true
+    else if id = m.code.BUTTON_REWIND_PRESSED or id = m.code.BUTTON_PLAY_PRESSED
+        if shiftToggle
+            m.shift = true
+        else
+            m.shift = not m.shift
+        end if
+    else if id = m.code.BUTTON_UP_RELEASED or id = m.code.BUTTON_SELECT_RELEASED
+        m.up = false
+    else if id = m.code.BUTTON_DOWN_RELEASED
+        m.down = false
+    else if id = m.code.BUTTON_LEFT_RELEASED
+        m.left = false
+    else if id = m.code.BUTTON_RIGHT_RELEASED
+        m.right = false
+    else if id = m.code.BUTTON_REWIND_RELEASED or id = m.code.BUTTON_PLAY_RELEASED
+        if shiftToggle
+            m.shift = false
+        end if
+    end if
+End Sub
+
+Function CommandRestart(id)
+    if m.inSimulator
+        return id = m.code.BUTTON_INSTANT_REPLAY_PRESSED
+    end if
+    return id = m.code.BUTTON_INSTANT_REPLAY_PRESSED or id = m.code.BUTTON_PLAY_PRESSED
+End Function
+
+Function CommandCheatNext(id)
+    if m.inSimulator
+        return id = m.code.BUTTON_B_PRESSED
+    end if
+    return id = m.code.BUTTON_FAST_FORWARD_PRESSED
+End Function
+
+Function CommandCheatPrev(id)
+    if m.inSimulator
+        return id = m.code.BUTTON_A_PRESSED
+    end if
+    return id = m.code.BUTTON_REWIND_PRESSED
+End Function
+
+Function CommandSpaceBar(id)
+    if m.inSimulator
+        return id = m.code.BUTTON_FAST_FORWARD_PRESSED or id = m.code.BUTTON_INFO_PRESSED
+    end if
+    return id = m.code.BUTTON_SELECT_PRESSED
+End Function
 
 Function key_u() as boolean
     return m.cursors.up
@@ -428,11 +488,11 @@ Function IsOpenGL() as Boolean
     return (lcase(gp)="opengl")
 End Function
 
-Function IsRokuStick() as Boolean
+Function InSimulator() as Boolean
     di = CreateObject("roDeviceInfo")
-    model = di.GetModel()
-    return (model = "3600X")
+    return di.hasFeature("simulation_engine")
 End Function
+
 
 'Nullable Boolean
 Function NBool(value as dynamic, default = false as boolean) as boolean
@@ -555,6 +615,9 @@ Function CacheFile(url as string, file as string, overwrite = false as boolean) 
     tmpFile = "tmp:/" + file
     if overwrite or not m.files.Exists(tmpFile)
         http = CreateObject("roUrlTransfer")
+        http.SetCertificatesFile("common:/certs/ca-bundle.crt")
+        http.AddHeader("Content-Type", "application/json")
+        http.EnableEncodings(true)
         http.SetUrl(url)
         ret = http.GetToFile(tmpFile)
         if ret = 200

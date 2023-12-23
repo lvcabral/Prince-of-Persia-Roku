@@ -44,7 +44,7 @@ Function PlayGame() as boolean
             if id = m.code.BUTTON_BACK_PRESSED
                 m.audioPlayer.stop()
                 if m.kid.alive and m.kid.level.number > 2 and m.settings.saveGame
-                    saveOpt = MessageBox(m.gameScreen, 230, 100, "Save Game?")
+                    saveOpt = MessageBox(m.mainScreen, 230, 100, "Save Game?")
                     if saveOpt = m.const.BUTTON_YES
                         if m.savedGame = invalid
                             m.savedGame = {}
@@ -58,7 +58,10 @@ Function PlayGame() as boolean
                         SaveGame(m.savedGame)
                     end if
                 else
-                    saveOpt = m.const.BUTTON_NO
+                    saveOpt = MessageBox(m.mainScreen, 230, 100, "Exit Game?", 2)
+                    if saveOpt = m.const.BUTTON_NO
+                        saveOpt = m.const.BUTTON_CANCEL
+                    end if
                 end if
                 if saveOpt <> m.const.BUTTON_CANCEL
                     DestroyChars()
@@ -71,40 +74,40 @@ Function PlayGame() as boolean
                 m.status.Clear()
                 m.checkPoint = m.kid.checkPoint
                 ResetGame()
-            else if id = m.code.BUTTON_INSTANT_REPLAY_PRESSED or id = m.code.BUTTON_PLAY_PRESSED
-                if not m.debugMode or id = m.code.BUTTON_PLAY_PRESSED
+            else if CommandRestart(id)
+                if not m.debugMode or id = m.code.BUTTON_PLAY_PRESSED 'TODO: Remove key reference
                     m.checkPoint = m.kid.checkPoint
                     ResetGame()
                 else
                     m.dark = not m.dark
                     m.redraw = true
                 end if
-            else if id = m.code.BUTTON_FAST_FORWARD_PRESSED
-                if m.settings.rewFF = m.const.REWFF_LEVEL
+            else if CommandCheatNext(id)
+                if m.settings.cheatMode = m.const.CHEAT_LEVEL
                     NextLevel()
                     m.usedCheat = true
-                else if m.settings.rewFF = m.const.REWFF_HEALTH
+                else if m.settings.cheatMode = m.const.CHEAT_HEALTH
                     if m.kid.maxHealth < m.const.LIMIT_HEALTH and m.kid.alive
                         m.kid.maxHealth++
                         m.kid.health = m.kid.maxHealth
                         PlaySound("big-life-potion", true)
                     end if
                     m.usedCheat = true
-                else if m.settings.rewFF = m.const.REWFF_TIME
+                else if m.settings.cheatMode = m.const.CHEAT_TIME
                     m.startTime += 60
                     m.status.Clear()
                     m.showTime = true
                     m.usedCheat = true
                 end if
-            else if id = m.code.BUTTON_REWIND_PRESSED
-                if m.settings.rewFF = m.const.REWFF_LEVEL
+            else if CommandCheatPrev(id)
+                if m.settings.cheatMode = m.const.CHEAT_LEVEL
                     PreviousLevel()
-                else if m.settings.rewFF = m.const.REWFF_HEALTH
+                else if m.settings.cheatMode = m.const.CHEAT_HEALTH
                     if m.kid.alive
                         m.kid.injured(true)
                         PlaySound("harm", true)
                     end if
-                else if m.settings.rewFF = m.const.REWFF_TIME
+                else if m.settings.cheatMode = m.const.CHEAT_TIME
                     if m.timeLeft > 60
                         m.startTime -= 60
                         m.status.Clear()
@@ -112,8 +115,8 @@ Function PlayGame() as boolean
                     end if
                 end if
                 m.usedCheat = true
-            else if id = m.code.BUTTON_SELECT_PRESSED
-                if m.debugMode or m.settings.okMode = m.const.OKMODE_TIME
+            else if CommandSpaceBar(id)
+                if m.debugMode or m.settings.infoMode = m.const.INFO_TIME
                     m.debugMode = false
                     m.dark = false
                     m.status.Clear()
