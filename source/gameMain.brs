@@ -38,12 +38,6 @@ Sub Main()
     m.manifest = GetManifestArray()
     m.inSimulator = InSimulator()
     m.status = []
-    'Check Roku model for performance alert
-    if not IsOpenGL()
-        m.mainScreen = CreateObject("roScreen", true, 1280, 720)
-        canvas = CreateCanvas()
-        MessageDialog(m.port, "Prince of Persia", "Warning: Your Roku device doesn't support accelerated" + chr(10) + "graphics, this game may not perform well.")
-    end if
     'Initialize Screen
     ResetMainScreen()
     'Load Mods
@@ -263,11 +257,11 @@ Sub SetupGameScreen()
             end if
         end if
 		if maxResolution
-			m.mainWidth = 1280
-			m.mainHeight = 720
+			m.mainWidth = 1124
+			m.mainHeight = 632
 		else
-			m.mainWidth = 854
-			m.mainHeight = 480
+			m.mainWidth = 768
+			m.mainHeight = 432
 		end if
 	else
 		if m.cameras = 3 '2x3

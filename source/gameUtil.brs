@@ -723,7 +723,7 @@ End Function
 
 Sub ResetMainScreen()
     if isHD()
-        m.mainScreen = CreateObject("roScreen", true, 854, 480)
+        m.mainScreen = CreateObject("roScreen", true, 768, 432)
     else
         m.mainScreen = CreateObject("roScreen", true, 720, 540)
     end if
