@@ -4,7 +4,7 @@
 ' **
 ' **  libCanvas.brs - Library to implement generic Canvas object
 ' **  Created: June 2018
-' **  Updated: September 2019
+' **  Updated: February 2023
 ' **
 ' **  Copyright (C) Marcelo Lv Cabral < https://lvcabral.com >
 ' ********************************************************************************************************

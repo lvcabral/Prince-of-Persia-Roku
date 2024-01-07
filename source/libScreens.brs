@@ -4,7 +4,7 @@
 ' **
 ' **  libCanvas.brs - Library with generic methods for Screen objects
 ' **  Created: June 2018
-' **  Updated: October 2019
+' **  Updated: February 2023
 ' **
 ' **  Copyright (C) Marcelo Lv Cabral < https://lvcabral.com >
 ' ********************************************************************************************************
