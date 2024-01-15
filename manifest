@@ -12,3 +12,4 @@ splash_screen_hd=pkg:/images/splash.png
 splash_color=#000000
 splash_min_time=100
 game=1
+multi_key_events=1

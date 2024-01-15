@@ -323,8 +323,6 @@ Sub ClearScreenBuffers()
     m.mainScreen.Clear(0)
     m.mainScreen.SwapBuffers()
     m.mainScreen.Clear(0)
-    m.mainScreen.SwapBuffers()
-    m.mainScreen.Clear(0)
 End Sub
 
 Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float, guards = [] as object)

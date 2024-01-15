@@ -473,7 +473,7 @@ Function GetManifestArray() as Object
     lines = manifest.Split(chr(10))
     aa = {}
     for each line in lines
-        if line <> ""
+        if line.trim() <> ""
             entry = line.Split("=")
             aa.AddReplace(entry[0],entry[1].Trim())
         end if
@@ -492,7 +492,6 @@ Function InSimulator() as Boolean
     di = CreateObject("roDeviceInfo")
     return di.hasFeature("simulation_engine")
 End Function
-
 
 'Nullable Boolean
 Function NBool(value as dynamic, default = false as boolean) as boolean
