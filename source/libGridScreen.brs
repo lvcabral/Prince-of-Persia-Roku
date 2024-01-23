@@ -29,7 +29,6 @@ Function CreateGridScreen(ignoreBackKey = false as boolean) as object
     this.rows = 4
     this.x = 60
     this.y = 180
-    this.shadeY = 660
     this.xOff = 20
     this.yOff = 12
     this.focusOffset = 10
@@ -95,13 +94,13 @@ Sub show_grid_screen()
         if rows = m.rows
             imgArray.Push({
                 url: "pkg:/images/shade.png"
-                TargetRect: {x: m.x, y: m.shadeY}})
+                TargetRect: {x: m.x, y: menuPos.y}})
         end if
     else if m.message <> ""
         txtArray.Push({
                     Text: m.message
                     TextAttrs: {color: m.theme.ListScreenDescriptionText, font: "Medium", HAlign: "Center"}
-                    TargetRect: {x:m.x, y:424, w:1184, h:60}})
+                    TargetRect: {x:m.x, y:(m.canvas.screen.getHeight()-m.y)/2 + m.y, w:m.canvas.screen.getWidth()-m.x*2, h:60}})
     end if
     m.canvas.SetLayer(1, imgArray)
     m.canvas.SetLayer(2, txtArray)

@@ -103,8 +103,8 @@ function StartMenu() as integer
                         else
                             m.settings.spriteMode = m.const.SPRITES_DOS
                         end if
+                        return m.settings.zoomMode
                     end if
-                    return m.settings.zoomMode
                 else if selected = 3
                     if m.inSimulator
                         ImageScreen("game_control.jpg")
@@ -169,6 +169,7 @@ function ShowModsMenu(port = invalid) as string
         if msg = invalid
             screen.show()
         else if msg.isScreenClosed()
+            selected = ""
             exit while
         else if msg.isListItemFocused()
             idx = msg.GetIndex()
@@ -243,12 +244,13 @@ sub HighScoresScreen()
     centerY = Cint((m.mainScreen.GetHeight() - (m.menuDim.h * scale)) / 2)
     backImage = ScaleBitmap(CreateObject("roBitmap", "pkg:/images/highscores_back.jpg"), scale)
 
-    if m.highScores = invalid or m.highScores.count() = 0
-        m.highScores = [
-            { name: "Marcelo Cabral", time: 3000 },
-            { name: "Jordan Mechner", time: 1000 }
-        ]
-    end if
+    ' Enable code below to test High Scores list
+    ' if m.highScores = invalid or m.highScores.count() = 0
+    '     m.highScores = [
+    '         { name: "Marcelo Cabral", time: 3000 },
+    '         { name: "Jordan Mechner", time: 1000 }
+    '     ]
+    ' end if
 
     while true
         m.mainScreen.Clear(0)
@@ -360,14 +362,14 @@ function MessageBox(screen as object, width as integer, height as integer, text 
     end while
 end function
 
-sub TextBox(screen as object, width as integer, height as integer, text as string, border = false as boolean)
+sub TextBox(screen as object, width as integer, height as integer, text as string, border = false, scale = 2.0)
     leftX = Cint((screen.GetWidth() - width) / 2)
     topY = Cint((screen.GetHeight() - height) / 2)
     xt = leftX + int(width / 2) - (Len(text) * 13) / 2
     yt = topY + height / 2 - 15
     m.mainScreen.SwapBuffers()
     screen.DrawRect(leftX, topY, width, height, m.colors.black)
-    m.bitmapFont.write(screen, text, xt, yt, 3.0)
+    m.bitmapFont.write(screen, text, xt, yt, scale)
     if border then DrawBorder(screen, width, height, m.colors.white, 0)
     m.mainScreen.SwapBuffers()
 end sub
