@@ -223,11 +223,7 @@ Sub update_cursor_simulator(id as integer, shiftToggle as boolean)
     else if id = m.code.BUTTON_RIGHT_PRESSED
         m.right = true
     else if id = m.code.BUTTON_REWIND_PRESSED or id = m.code.BUTTON_PLAY_PRESSED
-        if shiftToggle
-            m.shift = true
-        else
-            m.shift = not m.shift
-        end if
+        m.shift = true
     else if id = m.code.BUTTON_UP_RELEASED or id = m.code.BUTTON_SELECT_RELEASED
         m.up = false
     else if id = m.code.BUTTON_DOWN_RELEASED
@@ -237,9 +233,7 @@ Sub update_cursor_simulator(id as integer, shiftToggle as boolean)
     else if id = m.code.BUTTON_RIGHT_RELEASED
         m.right = false
     else if id = m.code.BUTTON_REWIND_RELEASED or id = m.code.BUTTON_PLAY_RELEASED
-        if shiftToggle
-            m.shift = false
-        end if
+        m.shift = false
     end if
 End Sub
 
