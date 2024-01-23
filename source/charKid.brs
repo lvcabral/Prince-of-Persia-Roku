@@ -2,7 +2,7 @@
 ' ********************************************************************************************************
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **  Created: February 2016
-' **  Updated: February 2023
+' **  Updated: January 2024
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -11,17 +11,17 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
 
-Function CreateKid(level as object, startRoom as integer, startTile as integer, startFace as integer, startHealth as integer) as object
+function CreateKid(level as object, startRoom as integer, startTile as integer, startFace as integer, startHealth as integer) as object
     this = {}
-	'constants
+    'constants
     this.const = m.const
     this.colors = m.colors
-	'controller
-	this.cursors = GetCursors(m.settings.controlMode)
+    'controller
+    this.cursors = GetCursors(m.settings.controlMode)
     'sprites and animations
     this.scale = m.scale
     this.spriteMode = m.settings.spriteMode
-    this.splash = {frameName: "kid-splash", visible: false}
+    this.splash = { frameName: "kid-splash", visible: false }
     this.animations = ParseJson(ReadAsciiFile("pkg:/assets/anims/kid.json"))
     'properties
 
@@ -89,13 +89,13 @@ Function CreateKid(level as object, startRoom as integer, startTile as integer, 
     this.KeyS = key_s
     this.startLevel(level, startRoom, startTile, startFace, startHealth)
     return this
-End Function
+end function
 
-Sub start_level(level as object, startRoom as integer, startTile as integer, startFace as integer, startHealth as integer)
+sub start_level(level as object, startRoom as integer, startTile as integer, startFace as integer, startHealth as integer)
     'inherit generic actor properties and methods
     ImplementActor(m, startRoom, startTile, startFace, m.charName)
     'Save check point
-    m.checkPoint = {room: startRoom, tile: startTile, face: startFace}
+    m.checkPoint = { room: startRoom, tile: startTile, face: startFace }
     'reset internal properties
     m.level = level
     m.frame = 15
@@ -107,7 +107,7 @@ Sub start_level(level as object, startRoom as integer, startTile as integer, sta
     m.flee = false
     m.droppedOut = false
     m.cursors.shift = false
-    m.effect = {color: m.colors.black, cycles: 0}
+    m.effect = { color: m.colors.black, cycles: 0 }
     m.cycles = 0
     m.maxHealth = startHealth
     m.health = m.maxHealth
@@ -123,9 +123,9 @@ Sub start_level(level as object, startRoom as integer, startTile as integer, sta
             m.action("startrun")
         end if
     end if
-End Sub
+end sub
 
-Function update_kid()
+function update_kid()
     m.updateBehaviour()
     m.processCommand()
     m.updateAcceleration()
@@ -140,77 +140,77 @@ Function update_kid()
     m.updatePosition()
     m.updateSwordPosition()
     m.maskAndCrop()
-End Function
+end function
 
-Sub update_behaviour_kid()
+sub update_behaviour_kid()
     if not m.alive
         m.splash.visible = false
         return
     end if
     if (not m.keyL() and m.faceL()) or (not m.keyR() and m.faceR())
-		m.allowCrawl = true
-		m.allowAdvance = true
-	end if
+        m.allowCrawl = true
+        m.allowAdvance = true
+    end if
     if (not m.keyL() and m.faceR()) or (not m.keyR() and m.faceL())
-		m.allowRetreat = true
-	end if
+        m.allowRetreat = true
+    end if
     if not m.keyU()
-		m.allowBlock = true
-	end if
+        m.allowBlock = true
+    end if
     if not m.keyS()
-		m.allowStrike = true
-	end if
+        m.allowStrike = true
+    end if
 
-	if m.charAction = "stand"
-		if not m.flee and m.opponent <> invalid
+    if m.charAction = "stand"
+        if not m.flee and m.opponent <> invalid
             m.tryEngarde()
-		else if m.flee and m.keyS() and m.opponent <> invalid
+        else if m.flee and m.keyS() and m.opponent <> invalid
             m.tryEngarde()
         end if
-		if (m.keyL() and m.faceR()) or (m.keyR() and m.faceL())
-			m.turn()
-		else if (m.keyL() and m.keyU() and m.faceL()) or (m.keyR() and m.keyU() and m.faceR())
-			m.action("standjump")
-		else if (m.keyL() and m.keyS() and m.faceL()) or (m.keyR() and m.keyS() and m.faceR())
-			m.walk()
-		else if (m.keyL() and m.faceL()) or (m.keyR() and m.faceR())
-			if m.nearBarrier()
-				m.walk()
-			else
-				m.action("startrun")
-			end if
-		else if m.keyU()
-			m.jump()
-		else if m.keyD()
-			m.stoop()
-		else if m.keyS()
-			m.tryPickup()
-		end if
-	else if m.charAction = "startrun"
-		if m.keyU()
+        if (m.keyL() and m.faceR()) or (m.keyR() and m.faceL())
+            m.turn()
+        else if (m.keyL() and m.keyU() and m.faceL()) or (m.keyR() and m.keyU() and m.faceR())
+            m.action("standjump")
+        else if (m.keyL() and m.keyS() and m.faceL()) or (m.keyR() and m.keyS() and m.faceR())
+            m.walk()
+        else if (m.keyL() and m.faceL()) or (m.keyR() and m.faceR())
+            if m.nearBarrier()
+                m.walk()
+            else
+                m.action("startrun")
+            end if
+        else if m.keyU()
+            m.jump()
+        else if m.keyD()
+            m.stoop()
+        else if m.keyS()
+            m.tryPickup()
+        end if
+    else if m.charAction = "startrun"
+        if m.keyU()
             m.action("standjump")
         end if
-	else if m.charAction = "running"
-		if (m.keyL() and m.faceR()) or (m.keyR() and m.faceL())
-			m.action("runturn")
-		else if m.keyU()
-			m.action("runjump")
-		else if m.keyD()
-			m.action("rdiveroll")
-			m.allowCrawl = false
+    else if m.charAction = "running"
+        if (m.keyL() and m.faceR()) or (m.keyR() and m.faceL())
+            m.action("runturn")
+        else if m.keyU()
+            m.action("runjump")
+        else if m.keyD()
+            m.action("rdiveroll")
+            m.allowCrawl = false
         else if (not m.keyL() and m.faceL()) or (not m.keyR() and m.faceR())
             if m.frameID(7) or m.frameID(11)
                 m.action("runstop")
             end if
-		end if
-	else if m.charAction = "turn"
-		if ((m.keyL() and m.faceL()) or (m.keyR() and m.faceR())) and m.frameID(48)
-			if m.nearBarrier()
-				m.walk()
-			else if not m.KeyS()
-				m.action("turnrun")
-			end if
-		end if
+        end if
+    else if m.charAction = "turn"
+        if ((m.keyL() and m.faceL()) or (m.keyR() and m.faceR())) and m.frameID(48)
+            if m.nearBarrier()
+                m.walk()
+            else if not m.KeyS()
+                m.action("turnrun")
+            end if
+        end if
     else if m.charAction = "medland"
         if not m.keyD() and m.frameID(109)
             'Special Case: First room of level 1 on startup
@@ -219,54 +219,54 @@ Sub update_behaviour_kid()
             end if
             m.startup = false
         end if
-	else if m.charAction = "stoop"
-		if m.pickupSword and m.frameID(109)
-			m.getSword()
-		else if m.pickupPotion and m.frameID(109)
-			m.drinkPotion()
-		else if not m.keyD() and m.frameID(109)
-			m.action("standup")
-			m.allowCrawl = true
-		else if ((m.keyL() and m.faceL()) or (m.keyR() and m.faceR())) and m.allowCrawl
-			m.action("crawl")
-			m.allowCrawl = false
-		end if
-	else if m.charAction = "hang" or m.charAction = "hangstraight"
+    else if m.charAction = "stoop"
+        if m.pickupSword and m.frameID(109)
+            m.getSword()
+        else if m.pickupPotion and m.frameID(109)
+            m.drinkPotion()
+        else if not m.keyD() and m.frameID(109)
+            m.action("standup")
+            m.allowCrawl = true
+        else if ((m.keyL() and m.faceL()) or (m.keyR() and m.faceR())) and m.allowCrawl
+            m.action("crawl")
+            m.allowCrawl = false
+        end if
+    else if m.charAction = "hang" or m.charAction = "hangstraight"
         tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
-        tileT = m.level.getTileAt(m.blockX, m.blockY-1, m.room)
-	    if m.charAction = "hang"
-    		if tile.element = m.const.TILE_WALL or tile.element = m.const.TILE_TAPESTRY or tile.element = m.const.TILE_TAPESTRY_TOP
-    			m.action("hangstraight")
-    		end if
+        tileT = m.level.getTileAt(m.blockX, m.blockY - 1, m.room)
+        if m.charAction = "hang"
+            if tile.element = m.const.TILE_WALL or tile.element = m.const.TILE_TAPESTRY or tile.element = m.const.TILE_TAPESTRY_TOP
+                m.action("hangstraight")
+            end if
         end if
         if tileT.element = m.const.TILE_SPACE
             m.startFall()
         end if
         if tileT.element = m.const.TILE_RAISE_BUTTON or tileT.element = m.const.TILE_DROP_BUTTON
             tileT.push()
-        else if  tileT.element = m.const.TILE_LOOSE_BOARD
+        else if tileT.element = m.const.TILE_LOOSE_BOARD
             tileT.shake(true)
         end if
-		if m.keyU()
-			m.climbup()
-		else if not m.keyS()
-			m.startFall()
-		end if
+        if m.keyU()
+            m.climbup()
+        else if not m.keyS()
+            m.startFall()
+        end if
     else if m.charAction = "climbup" or m.charAction = "climbdown"
         tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
-        tileT = m.level.getTileAt(m.blockX, m.blockY-1, m.room)
+        tileT = m.level.getTileAt(m.blockX, m.blockY - 1, m.room)
         if tile.element = m.const.TILE_RAISE_BUTTON or tile.element = m.const.TILE_DROP_BUTTON
             tile.push()
         else if tileT.element = m.const.TILE_RAISE_BUTTON or tileT.element = m.const.TILE_DROP_BUTTON
-            if m.frameID(137,141)
+            if m.frameID(137, 141)
                 tileT.push()
             end if
         end if
-        if tile.element = m.const.TILE_SPACE and m.frameID(142,146)
+        if tile.element = m.const.TILE_SPACE and m.frameID(142, 146)
             m.startFall()
         end if
-	else if m.charAction = "freefall" or m.charAction = "bumpfall"
-		if m.keyS()
+    else if m.charAction = "freefall" or m.charAction = "bumpfall"
+        if m.keyS()
             m.tryGrabEdge()
         end if
     else if m.charAction = "drinkpotion"
@@ -277,35 +277,35 @@ Sub update_behaviour_kid()
         if m.frameID(51)
             PlaySound("bump")
         end if
-	else if m.charAction = "engarde"
-		if ((m.keyL() and m.faceL()) or (m.keyR() and m.faceR())) and m.allowAdvance
-			m.advance()
-		else if ((m.keyL() and m.faceR()) or (m.keyR() and m.faceL())) and m.allowRetreat
-			m.retreat()
-		else if m.keyU() and m.allowBlock
-			m.block()
-		else if m.keyS() and m.allowStrike
-			m.strike()
-		else if m.keyD()
-			m.fastSheathe()
-		end if
-	else if m.charAction = "advance" or m.charAction = "blockedstrike"
-		if m.keyU() and m.allowBlock
-			m.block()
-		end if
-	else if m.charAction = "retreat" or m.charAction = "strike" or m.charAction = "block"
-		if m.keyS() and m.allowStrike
-			m.strike()
-		end if
+    else if m.charAction = "engarde"
+        if ((m.keyL() and m.faceL()) or (m.keyR() and m.faceR())) and m.allowAdvance
+            m.advance()
+        else if ((m.keyL() and m.faceR()) or (m.keyR() and m.faceL())) and m.allowRetreat
+            m.retreat()
+        else if m.keyU() and m.allowBlock
+            m.block()
+        else if m.keyS() and m.allowStrike
+            m.strike()
+        else if m.keyD()
+            m.fastSheathe()
+        end if
+    else if m.charAction = "advance" or m.charAction = "blockedstrike"
+        if m.keyU() and m.allowBlock
+            m.block()
+        end if
+    else if m.charAction = "retreat" or m.charAction = "strike" or m.charAction = "block"
+        if m.keyS() and m.allowStrike
+            m.strike()
+        end if
     else if m.charAction = "resheathe" and m.frameID(52)
         m.cursors.shift = false
     end if
     if m.charAction <> "stabbed" and m.charAction <> "stabkill"
         m.splash.visible = false
     end if
-End Sub
+end sub
 
-Sub process_command_kid()
+sub process_command_kid()
     command = true
     while (command)
         actionArray = m.animations.sequence[m.charAction]
@@ -367,7 +367,7 @@ Sub process_command_kid()
                 m.seqPointer = 0
             end if
         else if data.cmd = m.const.CMD_EFFECT
-            tile = m.level.getTileAt(m.blockX, m.blockY,m.room)
+            tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
             if m.charAction = "drinkpotion"
                 if m.potion = m.const.POTION_HEALTH
                     if m.health < m.maxHealth
@@ -405,18 +405,18 @@ Sub process_command_kid()
                     end if
                 end if
                 m.potion = 0
-            else if  m.charAction = "pickupsword"
+            else if m.charAction = "pickupsword"
                 m.effect.color = m.colors.yellow
                 m.effect.cycles = 3
             end if
         else if data.cmd = m.const.CMD_JARU
-			m.level.shakeFloor(m.blockY - 1,m.room)
-			tile = m.level.getTileAt(m.blockX, m.blockY - 1,m.room)
-			if tile.element = m.const.TILE_LOOSE_BOARD
-				tile.shake(true)
-			end if
+            m.level.shakeFloor(m.blockY - 1, m.room)
+            tile = m.level.getTileAt(m.blockX, m.blockY - 1, m.room)
+            if tile.element = m.const.TILE_LOOSE_BOARD
+                tile.shake(true)
+            end if
         else if data.cmd = m.const.CMD_JARD
-			m.level.shakeFloor(m.blockY,m.room)
+            m.level.shakeFloor(m.blockY, m.room)
         else if data.cmd = m.const.CMD_FRAME
             m.frame = data.p1
             m.updateFrame()
@@ -435,40 +435,40 @@ Sub process_command_kid()
                 exit while
             end if
         else if data.cmd = m.const.CMD_DIE
-			if m.swordDrawn
+            if m.swordDrawn
                 PlaySound("fight-death")
             else
-			    PlaySound("death")
+                PlaySound("death")
             end if
             m.health = 0
             m.alive = false
-			m.swordDrawn = false
+            m.swordDrawn = false
         end if
         m.seqPointer++
     end while
-End Sub
+end sub
 
-Function get_kid_bounds() as object
+function get_kid_bounds() as object
     g = GetGlobalAA()
     f = g.regions.kid[m.face][m.frameName]
-	fWidth  = f.getWidth() / m.scale
-	fHeight = f.getHeight() / m.scale
-	if m.faceL()
-		x = (g.xOff/m.scale) + m.x - m.charFdx
-	else
-		x = (g.xOff/m.scale) + m.x + m.charFdx
-	end if
-    y = (g.yOff/m.scale) + m.y + m.charFdy - fHeight
+    fWidth = f.getWidth() / m.scale
+    fHeight = f.getHeight() / m.scale
+    if m.faceL()
+        x = (g.xOff / m.scale) + m.x - m.charFdx
+    else
+        x = (g.xOff / m.scale) + m.x + m.charFdx
+    end if
+    y = (g.yOff / m.scale) + m.y + m.charFdy - fHeight
     if m.faceR() then x -= fWidth
     if (m.charFood and m.faceL()) or (not m.charFood and m.faceR()) then x++
-    return {x: x, y: y, width: fWidth, height: fHeight}
-End Function
+    return { x: x, y: y, width: fWidth, height: fHeight }
+end function
 
-Sub mask_and_crop()
+sub mask_and_crop()
     ' mask climbing
     if m.faceR() and m.frame > 134 and m.frame < 145 then m.frameName = m.frameName + "r"
     ' mask hanging
-    if m.faceR() and m.charAction.mid(0,4) = "hang"
+    if m.faceR() and m.charAction.mid(0, 4) = "hang"
         m.level.maskTile(m.blockX, m.blockY - 1, m.room)
     else if m.faceR() and m.charAction = "jumphanglong" and m.frameID(79)
         m.level.maskTile(m.blockX, m.blockY - 1, m.room)
@@ -494,14 +494,14 @@ Sub mask_and_crop()
         m.inJumpUP = false
         m.cropY = 0
     end if
-End Sub
+end sub
 
-Sub check_barrier()
-    if m.charAction= "hardland" or m.charAction = "impale" or m.charAction = "dropdead" or m.charAction = "jumphanglong"
+sub check_barrier()
+    if m.charAction = "hardland" or m.charAction = "impale" or m.charAction = "dropdead" or m.charAction = "jumphanglong"
         return
     else if m.charAction = "climbup" or m.charAction = "climbdown" or m.charAction = "climbfail" or m.charAction = "turn"
         return
-    else if m.charAction.mid(0,4) = "step" or m.charAction.mid(0,4) = "hang" or m.charAction = "stoop" or m.charAction = "drinkpotion"
+    else if m.charAction.mid(0, 4) = "step" or m.charAction.mid(0, 4) = "hang" or m.charAction = "stoop" or m.charAction = "drinkpotion"
         return
     else if not m.alive or m.room < 0
         return
@@ -520,7 +520,7 @@ Sub check_barrier()
         else
             m.charX = ConvertBlockXtoX(m.blockX)
         end if
-        print "bump: freefall"
+        'print "bump: freefall"
         m.bump()
         return
     end if
@@ -531,7 +531,7 @@ Sub check_barrier()
         if tile.intersects(m.getCharBounds())
             m.charX = ConvertBlockXtoX(m.blockX) + 3
             m.updateBlockXY()
-            print "bump: intersects right "; m.charAction
+            'print "bump: intersects right "; m.charAction
             m.bump()
         end if
     else
@@ -592,9 +592,9 @@ Sub check_barrier()
             end if
         end if
     end if
-End Sub
+end sub
 
-Sub check_room_change_kid()
+sub check_room_change_kid()
     if m.charY > 189
         m.charY -= 189
         if m.gameHeight > 200
@@ -616,9 +616,9 @@ Sub check_room_change_kid()
         PlaySound("death")
         m.alive = false
     end if
-End Sub
+end sub
 
-Sub check_impale()
+sub check_impale()
     if not m.alive or m.room < 0 then return
     tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
     if tile.element = m.const.TILE_SPIKES
@@ -634,14 +634,14 @@ Sub check_impale()
             PlaySound("spiked")
         end if
     end if
-End Sub
+end sub
 
-Sub try_pickup()
+sub try_pickup()
     tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
     if m.faceL()
-        tileF = m.level.getTileAt(m.blockX - 1 , m.blockY, m.room)
+        tileF = m.level.getTileAt(m.blockX - 1, m.blockY, m.room)
     else
-        tileF = m.level.getTileAt(m.blockX + 1 , m.blockY, m.room)
+        tileF = m.level.getTileAt(m.blockX + 1, m.blockY, m.room)
     end if
     m.pickupSword = (tile.element = m.const.TILE_SWORD and tile.hasObject) or (tileF.element = m.const.TILE_SWORD and tileF.hasObject)
     m.pickupPotion = (tile.element = m.const.TILE_POTION and tile.hasObject) or (tileF.element = m.const.TILE_POTION and tileF.hasObject)
@@ -662,9 +662,9 @@ Sub try_pickup()
         m.allowCrawl = false
         m.cursors.shift = false
     end if
-End Sub
+end sub
 
-Sub drink_potion()
+sub drink_potion()
     tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
     if tile.element = m.const.TILE_POTION and tile.hasObject
         x = m.blockX
@@ -674,7 +674,7 @@ Sub drink_potion()
         else
             x = m.blockX + 1
         end if
-        tile = m.level.getTileAt(x , m.blockY, m.room)
+        tile = m.level.getTileAt(x, m.blockY, m.room)
     end if
     if tile.element = m.const.TILE_POTION and tile.hasObject
         m.action("drinkpotion")
@@ -685,9 +685,9 @@ Sub drink_potion()
     else if m.action() = "stoop"
         m.action("standup")
     end if
-End Sub
+end sub
 
-Sub get_sword()
+sub get_sword()
     tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
     if tile.element = m.const.TILE_SWORD and tile.hasObject
         x = m.blockX
@@ -697,7 +697,7 @@ Sub get_sword()
         else
             x = m.blockX + 1
         end if
-        tile = m.level.getTileAt(x , m.blockY, m.room)
+        tile = m.level.getTileAt(x, m.blockY, m.room)
     end if
     if tile.element = m.const.TILE_SWORD and tile.hasObject
         m.action("pickupsword")
@@ -709,9 +709,9 @@ Sub get_sword()
     else if m.action() = "stoop"
         m.action("standup")
     end if
-End Sub
+end sub
 
-Sub turn_kid()
+sub turn_kid()
     if m.haveSword and m.canSeeOpponent() and m.canReach and m.opponentDistance() <= 0
         m.action("turndraw")
         m.swordDrawn = true
@@ -719,44 +719,44 @@ Sub turn_kid()
     else
         m.action("turn")
     end if
-End Sub
+end sub
 
-Sub walk_kid()
+sub walk_kid()
     px = 11
     tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
-	if m.faceL()
-		tileF = m.level.getTileAt(m.blockX - 1, m.blockY, m.room)
-	else
-		tileF = m.level.getTileAt(m.blockX + 1, m.blockY, m.room)
-	end if
+    if m.faceL()
+        tileF = m.level.getTileAt(m.blockX - 1, m.blockY, m.room)
+    else
+        tileF = m.level.getTileAt(m.blockX + 1, m.blockY, m.room)
+    end if
     if m.nearBarrier() or (tileF.element = m.const.TILE_SPACE) or (tileF.element = m.const.TILE_LOOSE_BOARD)
         px = m.distanceToEdge()
-        print "dtoedge"; px
+        'print "dtoedge"; px
         if tile.element = m.const.TILE_GATE and not tile.canCross(m.getCharBounds().height) and m.faceR()
             px -= 6
             if px <= 0
-        		m.action("bump")
-        		return
-        	end if
+                m.action("bump")
+                return
+            end if
         else if tile.element = m.const.TILE_TAPESTRY and m.faceR()
             px -= 6
             if px <= 0
-        		m.action("bump")
-        		return
-        	end if
+                m.action("bump")
+                return
+            end if
         else if tile.element = m.const.TILE_MIRROR and m.faceL()
             px -= 7
             if px <= 0
-        		m.action("bump")
-        		return
-        	end if
+                m.action("bump")
+                return
+            end if
         else
             if tileF.isBarrier()
                 px -= 2
                 if px <= 0
-					m.action("bump")
-					return
-				end if
+                    m.action("bump")
+                    return
+                end if
             else
                 if px = 0 and (tileF.element = m.const.TILE_LOOSE_BOARD or tileF.element = m.const.TILE_SPACE)
                     if m.charRepeat
@@ -789,10 +789,10 @@ Sub walk_kid()
     if px > 0
         m.action("step" + px.toStr())
     end if
-End Sub
+end sub
 
-Sub jump_kid()
-	if m.faceL() then offset = -1 else offset = 1
+sub jump_kid()
+    if m.faceL() then offset = -1 else offset = 1
     tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
     tileF = m.level.getTileAt(m.blockX + offset, m.blockY, m.room)
     tileT = m.level.getTileAt(m.blockX, m.blockY - 1, m.room)
@@ -801,12 +801,12 @@ Sub jump_kid()
     tileR = m.level.getTileAt(m.blockX - offset, m.blockY, m.room)
     if tile.isExitDoor()
         if tile.element = m.const.TILE_EXIT_LEFT
-            tile = m.level.getTileAt(m.blockX + 1, m.blockY,m.room)
+            tile = m.level.getTileAt(m.blockX + 1, m.blockY, m.room)
         end if
         if tile.isOpen()
-			m.climbstairs()
-			return
-		end if
+            m.climbstairs()
+            return
+        end if
     end if
     if tileT.isSpace() and tileTF.isWalkable()
         m.jumphanglong()
@@ -818,65 +818,65 @@ Sub jump_kid()
             m.blockX--
             m.jumphanglong()
         else
-			m.jumpup()
-		end if
+            m.jumpup()
+        end if
     else if tileT.isWalkable() and tileTR.isSpace()
         if (m.faceL() and ((ConvertBlockXtoX(m.blockX + 1) - m.charX) < 11)) or (m.faceR() and ((m.charX - ConvertBlockXtoX(m.blockX)) < 9))
             m.jumpbackhang()
-		else
-			m.jumpup()
+        else
+            m.jumpup()
         end if
     else if tileT.isSpace()
         m.highjump()
-	else
-		m.jumpup()
+    else
+        m.jumpup()
     end if
-End Sub
+end sub
 
-Sub jumpup_kid()
+sub jumpup_kid()
     m.action("jumpup")
     m.inJumpUP = true
-End Sub
+end sub
 
-Sub highjump_kid()
+sub highjump_kid()
     if m.isWeightless
         m.action("superhighjump")
     else
         m.action("highjump")
     end if
-End Sub
+end sub
 
-Sub jumphanglong_kid()
+sub jumphanglong_kid()
     if m.faceL()
         m.charX = ConvertBlockXtoX(m.blockX) + 1
     else
         m.charX = ConvertBlockXtoX(m.blockX) + 12
     end if
     m.action("jumphanglong")
-    if (m.faceR())
-        print "mask jumphangalong"
-    end if
-End Sub
+    ' if (m.faceR())
+    '     print "mask jumphangalong"
+    ' end if
+end sub
 
-Sub jumpbackhang_kid()
+sub jumpbackhang_kid()
     if m.faceL()
         m.charX = ConvertBlockXtoX(m.blockX) + 7
     else
         m.charX = ConvertBlockXtoX(m.blockX) + 6
     end if
     m.action("jumpbackhang")
-End Sub
+end sub
 
-Sub climb_stairs()
+sub climb_stairs()
     if m.opponent <> invalid
         m.opponent.active = false
         m.opponent = invalid
     end if
-    tile = m.level.getTileAt(m.blockX, m.blockY,m.room)
+    tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
     if tile.element = m.const.TILE_EXIT_RIGHT
         m.blockX--
     else
-        tile = m.level.getTileAt(m.blockX + 1, m.blockY,m.room)
+        tile = m.level.getTileAt(m.blockX + 1, m.blockY, m.room)
     end if
     if m.faceR()
         m.face = m.const.FACE_LEFT
@@ -884,31 +884,31 @@ Sub climb_stairs()
     m.charX = ConvertBlockXtoX(m.blockX) + 3
     tile.mask()
     m.action("climbstairs")
-End Sub
+end sub
 
-Sub stoop_kid()
-	if m.faceL()
-		tileR = m.level.getTileAt(m.blockX + 1, m.blockY, m.room)
-	else
-		tileR = m.level.getTileAt(m.blockX - 1, m.blockY, m.room)
-	end if
+sub stoop_kid()
+    if m.faceL()
+        tileR = m.level.getTileAt(m.blockX + 1, m.blockY, m.room)
+    else
+        tileR = m.level.getTileAt(m.blockX - 1, m.blockY, m.room)
+    end if
     if tileR.element = m.const.TILE_SPACE
         if m.faceL()
             if (m.charX - ConvertBlockXtoX(m.blockX)) > 4
-				m.climbdown()
-				return
-			end if
+                m.climbdown()
+                return
+            end if
         else
             if (m.charX - ConvertBlockXtoX(m.blockX)) < 9
-				m.climbdown()
-				return
-			end if
+                m.climbdown()
+                return
+            end if
         end if
     end if
     m.action("stoop")
-End Sub
+end sub
 
-Sub climb_up()
+sub climb_up()
     tileT = m.level.getTileAt(m.blockX, m.blockY - 1, m.room)
     if m.faceL() and tileT.element = m.const.TILE_GATE and not tileT.canCross(10)
         m.action("climbfail")
@@ -917,13 +917,13 @@ Sub climb_up()
     else
         m.action("climbup")
         if m.faceR()
-            print "unmask climbup"
+            'print "unmask climbup"
             m.level.unMaskTiles()
         end if
     end if
-End Sub
+end sub
 
-Sub climb_down()
+sub climb_down()
     tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
     if m.faceL() and (tile.element = m.const.TILE_GATE) and not tile.canCross(10)
         m.charX = ConvertBlockXtoX(m.blockX) + 3
@@ -935,9 +935,9 @@ Sub climb_down()
         end if
         m.action("climbdown")
     end if
-End Sub
+end sub
 
-Sub land_kid(tile as object)
+sub land_kid(tile as object)
     m.charY = ConvertBlockYtoY(m.blockY)
     m.charXVel = 0
     m.charYVel = 0
@@ -969,9 +969,9 @@ Sub land_kid(tile as object)
         m.effect.color = m.colors.red
         m.effect.cycles = 1
     end if
-End Sub
+end sub
 
-Sub bump_kid()
+sub bump_kid()
     if not m.alive or m.room < 0 then return
     tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
     if tile.isSpace()
@@ -986,7 +986,7 @@ Sub bump_kid()
         if y >= 25
             m.bumpFall()
         else
-            if m.frameID(24,25) or m.frameID(40,42) or m.frameID(102,106)
+            if m.frameID(24, 25) or m.frameID(40, 42) or m.frameID(102, 106)
                 if m.faceL()
                     m.charX += 5
                 else
@@ -994,17 +994,17 @@ Sub bump_kid()
                 end if
                 m.land(tile)
             else
-				'print "bumping..."
+                'print "bumping..."
                 m.action("bump")
                 m.processCommand()
             end if
         end if
     end if
-End Sub
+end sub
 
-Sub start_fall_kid()
+sub start_fall_kid()
     m.fallingBlocks = 0
-    if m.charAction.mid(0,4) = "hang"
+    if m.charAction.mid(0, 4) = "hang"
         blockX = m.blockX
         if m.charAction = "hangstraight"
             if m.faceL()
@@ -1013,7 +1013,7 @@ Sub start_fall_kid()
                 blockX--
             end if
         end if
-        tile = m.level.getTileAt(blockX,m.blockY,m.room)
+        tile = m.level.getTileAt(blockX, m.blockY, m.room)
         if not tile.isSpace()
             tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
             if tile.element = m.const.TILE_WALL
@@ -1041,15 +1041,15 @@ Sub start_fall_kid()
             m.droppedOut = true
         end if
         if m.faceL()
-            m.level.maskTile(m.blockX + 1,m.blockY,m.room)
+            m.level.maskTile(m.blockX + 1, m.blockY, m.room)
         end if
         m.action(act)
         m.processCommand()
     end if
-End Sub
+end sub
 
-Sub try_grab_edge()
-	if m.faceL() then offset = -1 else offset = 1
+sub try_grab_edge()
+    if m.faceL() then offset = -1 else offset = 1
     tileT = m.level.getTileAt(m.blockX, m.blockY - 1, m.room)
     tileTF = m.level.getTileAt(m.blockX + offset, m.blockY - 1, m.room)
     tileTR = m.level.getTileAt(m.blockX - offset, m.blockY - 1, m.room)
@@ -1058,9 +1058,9 @@ Sub try_grab_edge()
     else if tileT.isWalkable() and tileTR.element = m.const.TILE_SPACE
         m.grab(m.blockX - offset)
     end if
-End sub
+end sub
 
-Sub grab_kid(x as integer)
+sub grab_kid(x as integer)
     if m.faceL()
         m.charX = ConvertBlockXtoX(x) - 2
     else
@@ -1073,25 +1073,25 @@ Sub grab_kid(x as integer)
     m.updateBlockXY()
     m.action("hang")
     m.processCommand()
-End Sub
+end sub
 
-Function near_barrier() as boolean
+function near_barrier() as boolean
     tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
-	if m.faceL()
-		tileF = m.level.getTileAt(m.blockX - 1, m.blockY, m.room)
-	else
-		tileF = m.level.getTileAt(m.blockX + 1, m.blockY, m.room)
-	end if
-	height = m.getCharBounds().height
+    if m.faceL()
+        tileF = m.level.getTileAt(m.blockX - 1, m.blockY, m.room)
+    else
+        tileF = m.level.getTileAt(m.blockX + 1, m.blockY, m.room)
+    end if
+    height = m.getCharBounds().height
     return (tileF.element = m.const.TILE_WALL) or ((tileF.element = m.const.TILE_GATE) and m.faceL() and not tileF.canCross(height)) or ((tile.element = m.const.TILE_GATE) and m.faceR() and not tile.canCross(height)) or ((tile.element = m.const.TILE_TAPESTRY) and m.faceR()) or ((tileF.element = m.const.TILE_TAPESTRY) and m.faceL()) or ((tileF.element = m.const.TILE_TAPESTRY_TOP) and m.faceL())
-End Function
+end function
 
-Sub injured_kid(singleDamage = false as boolean)
+sub injured_kid(singleDamage = false as boolean)
     if (m.health = 0) return
     m.charY = ConvertBlockYtoY(m.blockY)
     if m.charName <> "skeleton"
         if m.swordDrawn or singleDamage
-            damage =  1
+            damage = 1
         else
             damage = m.health
         end if
@@ -1105,16 +1105,16 @@ Sub injured_kid(singleDamage = false as boolean)
     m.effect.color = m.colors.red
     m.effect.cycles = 1
     m.splash.visible = true
-End Sub
+end sub
 
-Sub fast_sheathe()
+sub fast_sheathe()
     m.flee = true
     m.action("fastsheathe")
     m.swordDrawn = false
     if m.opponent <> invalid then m.opponent.refracTimer = 9
-End Sub
+end sub
 
-Sub block_kid()
+sub block_kid()
     if m.frameID(158) or m.frameID(165)
         if m.opponent <> invalid and m.opponent.frameID(18)
             return
@@ -1130,16 +1130,16 @@ Sub block_kid()
         m.action("striketoblock")
     end if
     m.allowBlock = false
-End Sub
+end sub
 
-Sub try_engarde()
+sub try_engarde()
     if m.haveSword and m.opponent.alive and m.canSeeOpponent() and m.canReach and m.opponentDistance() < 90
         m.engarde()
         m.flee = false
     end if
-End Sub
+end sub
 
-Function can_do_kid(doAction as integer) as boolean
+function can_do_kid(doAction as integer) as boolean
     if doAction = m.const.DO_MOVE
         frames = [8, 20, 21]
     else if doAction = m.const.DO_STRIKE
@@ -1159,4 +1159,4 @@ Function can_do_kid(doAction as integer) as boolean
         end if
     next
     return false
-End Function
+end function

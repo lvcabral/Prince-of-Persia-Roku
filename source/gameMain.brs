@@ -13,12 +13,22 @@
 ' ********************************************************************************************************
 Library "v30/bslDefender.brs"
 
-Sub Main()
+sub Main(params)
     'Constants
     m.code = bslUniversalControlEventCodes()
     m.const = GetConstants()
-    m.colors = { red: &hAA0000FF, green:&h00AA00FF, yellow: &hFFFF55FF, black: &hFF, white: &hFFFFFFFF, gray: &h404040FF, navy: &h080030FF, darkred: &h810000FF }
+    m.colors = {
+        red: &hAA0000FF,
+        green: &h00AA00FF,
+        yellow: &hFFFF55FF,
+        black: &hFF,
+        white: &hFFFFFFFF,
+        gray: &h404040FF,
+        navy: &h080030FF,
+        darkred: &h810000FF
+    }
     m.maxLevels = 14
+    m.pd = (params.source <> "homescreen")
     'Util objects
     m.theme = GetTheme()
     m.port = CreateObject("roMessagePort")
@@ -29,7 +39,7 @@ Sub Main()
     m.audioPlayer.SetMessagePort(m.audioPort)
     m.sounds = LoadSounds(true)
     m.files = CreateObject("roFileSystem")
-    m.fonts = {reg:CreateObject("roFontRegistry")}
+    m.fonts = { reg: CreateObject("roFontRegistry") }
     m.fonts.reg.Register("pkg:/assets/fonts/PoP.ttf")
     m.fonts.reg.Register("pkg:/assets/fonts/Gotham-Medium.otf")
     m.fonts.KeysFont = m.fonts.reg.getFont("Gotham Medium", 30, false, false)
@@ -39,7 +49,7 @@ Sub Main()
     m.inSimulator = InSimulator()
     m.status = []
     'Initialize Screen
-    ResetMainScreen()
+    ResetMainScreen(true)
     'Load Mods
     m.mods = LoadMods()
     'Initialize Settings
@@ -82,11 +92,13 @@ Sub Main()
         m.audioPlayer.Stop()
     end if
     'Main Menu Loop
+    ResetMainScreen()
     while true
         print "Starting menu..."
         m.cameras = StartMenu()
         if m.cameras > 0
             'Configure screen/game areas based on the configuration
+            ClearScreenBuffers()
             SetupGameScreen()
             'Restore saved game
             m.currentLevel = 1
@@ -155,9 +167,9 @@ Sub Main()
         end if
         ResetMainScreen()
     end while
-End Sub
+end sub
 
-Sub NextLevel()
+sub NextLevel()
     g = GetGlobalAA()
     if g.currentLevel = g.maxLevels then return
     g.currentLevel++
@@ -166,18 +178,18 @@ Sub NextLevel()
     g.checkPoint = invalid
     PlayScene(g.gameScreen, g.currentLevel)
     ResetGame()
-End Sub
+end sub
 
-Sub PreviousLevel()
+sub PreviousLevel()
     g = GetGlobalAA()
     if g.currentLevel = 1 or g.currentLevel = g.maxLevels then return
     g.currentLevel--
     g.startHealth = g.kid.maxHealth
     g.checkPoint = invalid
     ResetGame()
-End Sub
+end sub
 
-Sub ResetGame()
+sub ResetGame()
     g = GetGlobalAA()
     if g.currentLevel = g.maxLevels and g.cameras > 1
         'Force final level always to be shown in Classic 1 room mode
@@ -216,7 +228,7 @@ Sub ResetGame()
     if g.guards = invalid then g.guards = []
     if g.guards.Count() > 0
         for each guard in g.guards
-            if guard.sprite <> invalid then  guard.sprite.Remove()
+            if guard.sprite <> invalid then guard.sprite.Remove()
             if guard.sword.sprite <> invalid then guard.sword.sprite.remove()
             if guard.splash.sprite <> invalid then guard.splash.sprite.remove()
         next
@@ -228,27 +240,27 @@ Sub ResetGame()
         end if
     next
     g.status.Clear()
-    If g.currentLevel < g.maxLevels - 1
-        g.status.Push({ text: "LEVEL " + m.currentLevel.toStr(), duration: 2, alert: false})
+    if g.currentLevel < g.maxLevels - 1
+        g.status.Push({ text: "LEVEL " + m.currentLevel.toStr(), duration: 2, alert: false })
         g.showTime = true
     end if
     StopAudio()
-End Sub
+end sub
 
-Sub SetupGameScreen()
-	m.scale = 1.0
-	if IsHD()
-		if m.cameras = 3 '3x3
-			maxResolution = true
-			m.gameWidth = 960
-			m.gameHeight = 600
-		else if m.cameras = 2 '2x2
-			maxResolution = false
-			m.gameWidth = 640
-			m.gameHeight = 400
-		else 'classic 1x1 scale 2
-			m.cameras = 1
-			maxResolution = false
+sub SetupGameScreen()
+    m.scale = 1.0
+    if IsHD()
+        if m.cameras = 3 '3x3
+            maxResolution = true
+            m.gameWidth = 960
+            m.gameHeight = 600
+        else if m.cameras = 2 '2x2
+            maxResolution = false
+            m.gameWidth = 640
+            m.gameHeight = 400
+        else 'classic 1x1 scale 2
+            m.cameras = 1
+            maxResolution = false
             if m.settings.spriteMode = m.const.SPRITES_MAC
                 m.gameWidth = 640
                 m.gameHeight = 400
@@ -258,25 +270,25 @@ Sub SetupGameScreen()
                 m.gameHeight = 200
             end if
         end if
-		if maxResolution
-			m.mainWidth = 1124
-			m.mainHeight = 632
-		else
-			m.mainWidth = 768
-			m.mainHeight = 432
-		end if
-	else
-		if m.cameras = 3 '2x3
-			maxResolution = true
-			m.gameWidth = 640
-			m.gameHeight = 600
-		else if m.cameras = 2 '2x2
-			maxResolution = false
-			m.gameWidth = 640
-			m.gameHeight = 400
-		else 'classic 1x1 scale 2
-			m.cameras = 1
-			maxResolution = false
+        if maxResolution
+            m.mainWidth = 1124
+            m.mainHeight = 632
+        else
+            m.mainWidth = 768
+            m.mainHeight = 432
+        end if
+    else
+        if m.cameras = 3 '2x3
+            maxResolution = true
+            m.gameWidth = 640
+            m.gameHeight = 600
+        else if m.cameras = 2 '2x2
+            maxResolution = false
+            m.gameWidth = 640
+            m.gameHeight = 400
+        else 'classic 1x1 scale 2
+            m.cameras = 1
+            maxResolution = false
             if m.settings.spriteMode = m.const.SPRITES_MAC
                 m.gameWidth = 640
                 m.gameHeight = 400
@@ -285,51 +297,51 @@ Sub SetupGameScreen()
                 m.gameWidth = 320
                 m.gameHeight = 200
             end if
-		end if
-		if maxResolution
-			m.mainWidth = 854
-			m.mainHeight = 626
-		else
-			m.mainWidth = 720
-			m.mainHeight = 540
-		end if
-	end if
+        end if
+        if maxResolution
+            m.mainWidth = 854
+            m.mainHeight = 626
+        else
+            m.mainWidth = 720
+            m.mainHeight = 540
+        end if
+    end if
     ResetScreen(m.mainWidth, m.mainHeight, m.gameWidth, m.gameHeight)
-End Sub
+end sub
 
-Sub ResetScreen(mainWidth as integer, mainHeight as integer, gameWidth as integer, gameHeight as integer)
+sub ResetScreen(mainWidth as integer, mainHeight as integer, gameWidth as integer, gameHeight as integer)
     g = GetGlobalAA()
     g.mainScreen = CreateObject("roScreen", true, mainWidth, mainHeight)
     g.mainScreen.SetMessagePort(g.port)
     if mainWidth <> gameWidth or mainHeight <> gameHeight
         if m.gameWidth = 320
-            g.gameXOff = Cint((g.mainWidth-g.gameWidth*2)/2)
-            g.gameYOff = Cint((g.mainHeight-g.gameHeight*2)/2)
+            g.gameXOff = Cint((g.mainWidth - g.gameWidth * 2) / 2)
+            g.gameYOff = Cint((g.mainHeight - g.gameHeight * 2) / 2)
             g.gameScale = 2.0
         else
-            g.gameXOff = Cint((g.mainWidth-g.gameWidth)/2)
-            g.gameYOff = Cint((g.mainHeight-g.gameHeight)/2)
+            g.gameXOff = Cint((g.mainWidth - g.gameWidth) / 2)
+            g.gameYOff = Cint((g.mainHeight - g.gameHeight) / 2)
             g.gameScale = 1.0
         end if
-        g.gameScreen = CreateObject("roBitmap", {width:g.gameWidth, height:g.gameHeight, alphaenable:true})
+        g.gameScreen = CreateObject("roBitmap", { width: g.gameWidth, height: g.gameHeight, alphaenable: true })
     else
         g.gameScreen = g.mainScreen
     end if
     g.gameScreen.SetAlphaEnable(true)
     g.compositor = CreateObject("roCompositor")
     g.compositor.SetDrawTo(g.gameScreen, g.colors.black)
-    g.gameCanvas = CreateObject("roBitmap",{width:gameWidth, height:gameHeight, alphaenable:true})
-End Sub
+    g.gameCanvas = CreateObject("roBitmap", { width: gameWidth, height: gameHeight, alphaenable: true })
+end sub
 
-Sub ClearScreenBuffers()
+sub ClearScreenBuffers()
     m.mainScreen.Clear(0)
     m.mainScreen.SwapBuffers()
     m.mainScreen.Clear(0)
-End Sub
+end sub
 
-Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float, guards = [] as object)
+sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float, guards = [] as object)
     g = GetGlobalAA()
-    if g.regions = invalid then g.regions = {spriteMode: spriteMode, levelType: levelType, scale: scale}
+    if g.regions = invalid then g.regions = { spriteMode: spriteMode, levelType: levelType, scale: scale }
     path = "pkg:/assets/sprites/"
     if spriteMode = g.const.SPRITES_MAC
         suffix = "-mac"
@@ -419,9 +431,9 @@ Sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
     g.regions.levelType = levelType
     g.regions.levelColor = levelColor
     g.regions.scale = scale
-End Sub
+end sub
 
-Function GetTheme() as object
+function GetTheme() as object
     theme = {
         BackgroundColor: "#000000FF",
         OverhangSliceSD: "pkg:/images/overhang_sd.jpg",
@@ -434,4 +446,4 @@ Function GetTheme() as object
         ListItemHighlightText: "#FF0000FF"
     }
     return theme
-End Function
+end function

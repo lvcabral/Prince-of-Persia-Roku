@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: February 2023
+' **  Updated: January 2024
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -12,20 +12,20 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
 
-Function LoadTiles(levelId as integer) as object
+function LoadTiles(levelId as integer) as object
     tileSet = {}
     'Settings
     tileSet.spriteMode = m.settings.spriteMode
-	'Constants
-	tileSet.const = m.const
+    'Constants
+    tileSet.const = m.const
     tileSet.wallColor = [&hD8A858FF, &hE0A45CFF, &hE0A860FF, &hD8A054FF, &hE0A45CFF, &hD8A458FF, &hE0A858FF, &hD8A860FF]
     'Methods
-	tileSet.buildLevel  = build_level
+    tileSet.buildLevel = build_level
     tileSet.buildCustom = build_custom
-    tileSet.buildRooms  = build_rooms
-	tileSet.buildTile   = build_tile
-	tileSet.getRoomId   = get_room_id
-	tileSet.getTileAt   = get_tile_at
+    tileSet.buildRooms = build_rooms
+    tileSet.buildTile = build_tile
+    tileSet.getRoomId = get_room_id
+    tileSet.getTileAt = get_tile_at
     'Read maps
     if m.settings.modId <> invalid and m.mods[m.settings.modId].levels
         tileSet.level = tileset.buildCustom(levelId, m.mods[m.settings.modId])
@@ -34,62 +34,62 @@ Function LoadTiles(levelId as integer) as object
     end if
     tileSet.buildRooms()
     return tileSet
-End Function
+end function
 
-Function build_level(levelId as integer) as object
-	'Load json
+function build_level(levelId as integer) as object
+    'Load json
     path = "pkg:/assets/maps/"
     json = ParseJson(ReadAsciiFile(path + "level" + levelId.toStr() + ".json"))
     if json = invalid
-       print "invalid level json: "; path + "level" + levelId.toStr() + ".json"
-	   return {}
+        print "invalid level json: "; path + "level" + levelId.toStr() + ".json"
+        return {}
     end if
-	'Create new level object
-	level = CreateLevel(json.number, json.name, json.type)
-	'Build level
-	m.type = json.type
-	level.width = json.size.width
-	level.height = json.size.height
-	' dim layout[level.height, level.width]
-	' level.layout = layout
+    'Create new level object
+    level = CreateLevel(json.number, json.name, json.type)
+    'Build level
+    m.type = json.type
+    level.width = json.size.width
+    level.height = json.size.height
+    ' dim layout[level.height, level.width]
+    ' level.layout = layout
     level.layout = []
-	'Load rooms from json
-	for y = 0 to level.height - 1
-		' level.layout[y] = []
+    'Load rooms from json
+    for y = 0 to level.height - 1
+        ' level.layout[y] = []
         level.layout.push([0])
-		for x = 0 to level.width - 1
-			index = y * level.width + x
-			id = json.room[index].id
-			level.layout[y][x] = id
-			if id >= 0
-				level.rooms[id] = {x: x, y: y, links: {}, up: [], left: [], right: []}
+        for x = 0 to level.width - 1
+            index = y * level.width + x
+            id = json.room[index].id
+            level.layout[y][x] = id
+            if id >= 0
+                level.rooms[id] = { x: x, y: y, links: {}, up: [], left: [], right: [] }
                 level.rooms[id].links.hideUp = NBool(json.room[index].hideUp)
                 level.rooms[id].links.hideLeft = NBool(json.room[index].hideLeft)
                 level.rooms[id].links.leftZ = NInt(json.room[index].leftZ, 5)
-				level.rooms[id].tiles = json.room[index].tile
+                level.rooms[id].tiles = json.room[index].tile
                 if level.type = m.const.TYPE_PALACE
                     level.rooms[id].wallPattern = GenerateWallPattern(id)
                 end if
-			end if
-		next
-	next
+            end if
+        next
+    next
     level.guards = json.guards
-	level.events = json.events
+    level.events = json.events
     level.prince = json.prince
-	if level.prince.direction = -1
-		level.prince.direction = m.const.FACE_LEFT
-	end if
-	print "all rooms loaded"
-	return level
-End Function
+    if level.prince.direction = -1
+        level.prince.direction = m.const.FACE_LEFT
+    end if
+    'print "all rooms loaded"
+    return level
+end function
 
-Sub build_rooms()
+sub build_rooms()
     'Create room with links
     for y = m.level.height - 1 to 0 step -1
         for x = 0 to m.level.width - 1
             id = m.level.layout[y][x]
             if id <> invalid and id > 0
-                if  m.level.rooms[id].links.left = invalid
+                if m.level.rooms[id].links.left = invalid
                     m.level.rooms[id].links.left = m.getRoomId(x - 1, y)
                     m.level.rooms[id].links.right = m.getRoomId(x + 1, y)
                     m.level.rooms[id].links.up = m.getRoomId(x, y - 1)
@@ -106,10 +106,10 @@ Sub build_rooms()
                     next
                 end if
                 'Build room with tiles
-                print "room id="; id
+                'print "room id="; id
                 for yy = 2 to 0 step -1
                     for xx = 0 to 9
-                        tile = m.buildTile( xx, yy, id )
+                        tile = m.buildTile(xx, yy, id)
                         m.level.addTile(xx, yy, id, tile)
                     next
                 next
@@ -147,17 +147,17 @@ Sub build_rooms()
             for tt = 0 to 29
                 tile = m.level.rooms[rr].tiles[tt]
                 if tile.isSpace = invalid
-                    tile = m.buildTile( tt mod 10, int(tt / 10), rr )
+                    tile = m.buildTile(tt mod 10, int(tt / 10), rr)
                     m.level.addTile(tt mod 10, int(tt / 10), rr, tile)
                 end if
             next
         end if
     next
-End Sub
+end sub
 
-Function build_tile(x as integer, y as integer, id as integer)
+function build_tile(x as integer, y as integer, id as integer)
     tileNumber = y * 10 + x
-    t = m.level.rooms[id].tiles[ tileNumber ]
+    t = m.level.rooms[id].tiles[tileNumber]
     tile = CreateTile(t.element, t.modifier, m.level.type)
     tile.room = id
     if t.element = m.const.TILE_WALL
@@ -175,7 +175,7 @@ Function build_tile(x as integer, y as integer, id as integer)
             wallType = wallType + "S"
         end if
         tile.front = wallType + "_" + tileSeed.toStr()
-        if wallType.mid(2,1) = "S"
+        if wallType.mid(2, 1) = "S"
             tile.back = tile.key + "_wall_" + t.modifier.toStr()
         end if
     else if t.element = m.const.TILE_SPACE or t.element = m.const.TILE_FLOOR
@@ -188,31 +188,31 @@ Function build_tile(x as integer, y as integer, id as integer)
     else if t.element = m.const.TILE_RAISE_BUTTON or t.element = m.const.TILE_DROP_BUTTON
         tile = CreateButton(tile)
         tile.onPushed = fireEvent
-	else if t.element = m.const.TILE_SWORD
-		tile = CreateSword(tile)
+    else if t.element = m.const.TILE_SWORD
+        tile = CreateSword(tile)
     else if t.element = m.const.TILE_SPIKES
         tile = CreateSpikes(tile)
     else if t.element = m.const.TILE_SLICER
         tile = CreateSlicer(tile)
-	else if t.element = m.const.TILE_LOOSE_BOARD
-		tile = CreateLooseBoard(tile)
-	else if t.element = m.const.TILE_EXIT_RIGHT
+    else if t.element = m.const.TILE_LOOSE_BOARD
+        tile = CreateLooseBoard(tile)
+    else if t.element = m.const.TILE_EXIT_RIGHT
         if m.spriteMode = m.const.SPRITES_MAC
             tile = CreateExitDoor(tile, 8, 10)
         else
             tile = CreateExitDoor(tile)
         end if
-	else if t.element = m.const.TILE_TORCH or t.element = m.const.TILE_TORCH_WITH_DEBRIS
-		tile.child.back.frames = GenerateFrameNames("fire_", 1, 9, "", true)
+    else if t.element = m.const.TILE_TORCH or t.element = m.const.TILE_TORCH_WITH_DEBRIS
+        tile.child.back.frames = GenerateFrameNames("fire_", 1, 9, "", true)
         if m.type = m.const.TYPE_PALACE and m.spriteMode = m.const.SPRITES_MAC
-    		tile.child.back.x = 41
-    		tile.child.back.y = 16
+            tile.child.back.x = 41
+            tile.child.back.y = 16
         else
             tile.child.back.x = 40
             tile.child.back.y = 18
         end if
-	else if t.element = m.const.TILE_POTION
-		colors = ["red", "red", "red", "green", "green", "blue", "blue"]
+    else if t.element = m.const.TILE_POTION
+        colors = ["red", "red", "red", "green", "green", "blue", "blue"]
         potion = tile.front + "_1"
         if m.spriteMode = m.const.SPRITES_MAC
             if t.modifier = 2
@@ -226,21 +226,21 @@ Function build_tile(x as integer, y as integer, id as integer)
         tile.front = potion
         if m.spriteMode = m.const.SPRITES_MAC
             if t.modifier <> tile.const.POTION_LIFE
-                tile.child.front.frames = GenerateFrameNames("bubble_", 1, 6, "_"+colors[t.modifier], false, 2)
+                tile.child.front.frames = GenerateFrameNames("bubble_", 1, 6, "_" + colors[t.modifier], false, 2)
             end if
             px = 20
             py = 52
         else
-            tile.child.front.frames = GenerateFrameNames("bubble_", 1, 7, "_"+colors[t.modifier], true)
+            tile.child.front.frames = GenerateFrameNames("bubble_", 1, 7, "_" + colors[t.modifier], true)
             px = 25
             py = 53
             if t.modifier > tile.const.POTION_HEALTH and t.modifier < tile.const.POTION_POISON
-    			py = py - 4
-    		end if
+                py = py - 4
+            end if
         end if
-		tile.child.front.x = px
-		tile.child.front.y = py
-		tile.hasObject = true
+        tile.child.front.x = px
+        tile.child.front.y = py
+        tile.hasObject = true
     else if t.element = m.const.TILE_TAPESTRY
         if m.type = m.const.TYPE_PALACE and t.modifier > 0
             tile.back = tile.key + "_" + t.element.toStr() + "_" + t.modifier.toStr()
@@ -259,9 +259,9 @@ Function build_tile(x as integer, y as integer, id as integer)
         tile.child.back.y = -4
     end if
     return tile
-End Function
+end function
 
-Function get_tile_at(x as integer, y as integer, id as integer) as object
+function get_tile_at(x as integer, y as integer, id as integer) as object
     room = m.level.rooms[id]
     if room <> invalid
         if x < 0
@@ -283,18 +283,18 @@ Function get_tile_at(x as integer, y as integer, id as integer) as object
     end if
     if id < 0 then return CreateTile(m.const.TILE_WALL, 0, m.level.type)
     return m.level.rooms[id].tiles[x + y * 10]
-End Function
+end function
 
-Function get_room_id(x as integer, y as integer) as integer
+function get_room_id(x as integer, y as integer) as integer
     if (x < 0) or (x >= m.level.width) or (y < 0) or (y >= m.level.height)
-		return -1
-	end if
+        return -1
+    end if
     id = m.level.layout[y][x]
-    if id = invalid then return - 1
+    if id = invalid then return -1
     return id
-End Function
+end function
 
-Function WallMarks(seed as integer, i as integer) as string
+function WallMarks(seed as integer, i as integer) as string
     r = m.prandom.seq(seed, i, 1, 2)
     if i = 0
         f = "W_" + r.toStr()
@@ -308,13 +308,13 @@ Function WallMarks(seed as integer, i as integer) as string
         f = "W_" + (r + 12).toStr()
     end if
     return f
-End Function
+end function
 
-Function GenerateWallPattern(room as integer) as object
+function GenerateWallPattern(room as integer) as object
     ' Accessing global AA from GetGlobalAA() to workaround emulator limitation
     g = GetGlobalAA()
     'Dim wallPattern[3, 4, 11]
-    wallPattern = [[],[],[]]
+    wallPattern = [[], [], []]
     g.prandom.seed = room
     g.prandom.get(1)
     for row = 0 to 2
@@ -336,4 +336,4 @@ Function GenerateWallPattern(room as integer) as object
         next
     next
     return wallPattern
- End Function
+end function

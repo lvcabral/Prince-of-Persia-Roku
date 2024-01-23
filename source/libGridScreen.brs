@@ -10,9 +10,9 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
 
-Function CreateGridScreen(ignoreBackKey = false as boolean) as object
+function CreateGridScreen(ignoreBackKey = false as boolean) as object
     ' Objects
-    this = {content:[], canvas: CreateCanvas()}
+    this = { content: [], canvas: CreateCanvas() }
     this.screen = this.canvas.screen
     this.codes = m.code
     this.sounds = m.sounds
@@ -27,7 +27,7 @@ Function CreateGridScreen(ignoreBackKey = false as boolean) as object
     this.visible = false
     this.columns = 4
     this.rows = 4
-    this.x = 60
+    this.x = 100
     this.y = 180
     this.xOff = 20
     this.yOff = 12
@@ -52,24 +52,24 @@ Function CreateGridScreen(ignoreBackKey = false as boolean) as object
     this.canvas.SetLayer(0, GetOverhang())
 
     return this
-End Function
+end function
 
-Sub show_grid_screen()
-    thumbs = {w:256, h:160}
+sub show_grid_screen()
+    thumbs = { w: 256, h: 160 }
     txtArray = []
     imgArray = []
     txtArray.Append(m.breadCrumb)
     if m.content.Count() > 0
-        menuPos = {x: m.x, y: m.y}
+        menuPos = { x: m.x, y: m.y }
         txtArray.Push({
             Text: m.listName
-            TextAttrs: {color: m.theme.ListScreenDescriptionText, font: "Mini", HAlign: "Left"}
-            TargetRect: {x:menuPos.x, y:menuPos.y-36, w:(thumbs.w * m.columns) + (m.xOff * (m.columns-1)), h:60}})
+            TextAttrs: { color: m.theme.ListScreenDescriptionText, font: "Mini", HAlign: "Left" }
+            TargetRect: { x: menuPos.x, y: menuPos.y - 36, w: (thumbs.w * m.columns) + (m.xOff * (m.columns - 1)), h: 60 } })
         txtArray.Push({
             Text: m.listCount
-            TextAttrs: {color: m.theme.ListScreenDescriptionText, font: "Mini", HAlign: "Right"}
-            TargetRect: {x:menuPos.x, y:menuPos.y-36, w:(thumbs.w * m.columns) + (m.xOff * (m.columns-1)), h:60}})
-        items = Min(m.first+(m.columns * m.rows - 1), m.content.Count() - 1)
+            TextAttrs: { color: m.theme.ListScreenDescriptionText, font: "Mini", HAlign: "Right" }
+            TargetRect: { x: menuPos.x, y: menuPos.y - 36, w: (thumbs.w * m.columns) + (m.xOff * (m.columns - 1)), h: 60 } })
+        items = Min(m.first + (m.columns * m.rows - 1), m.content.Count() - 1)
         rows = 0
         for i = m.first to items
             if menuPos.x = m.x
@@ -77,16 +77,16 @@ Sub show_grid_screen()
             end if
             if m.content[i] <> invalid
                 imgArray.Push({
-                            url: m.content[i].HDPosterUrl
-                            TargetRect: {x: menuPos.x, y: menuPos.y}})
+                    url: m.content[i].HDPosterUrl
+                    TargetRect: { x: menuPos.x, y: menuPos.y } })
             end if
             if m.focus = i
                 imgArray.Push({
-                            url: "pkg:/images/grid-focus.png"
-                            TargetRect: {x: menuPos.x-m.focusOffset, y: menuPos.y-m.focusOffset}})
+                    url: "pkg:/images/grid-focus.png"
+                    TargetRect: { x: menuPos.x - m.focusOffset, y: menuPos.y - m.focusOffset } })
             end if
             menuPos.x += thumbs.w + m.xOff
-            if i > 0 and (i+1) mod m.columns = 0
+            if i > 0 and (i + 1) mod m.columns = 0
                 menuPos.x = m.x
                 menuPos.y += thumbs.h + m.yOff
             end if
@@ -94,32 +94,32 @@ Sub show_grid_screen()
         if rows = m.rows
             imgArray.Push({
                 url: "pkg:/images/shade.png"
-                TargetRect: {x: m.x, y: menuPos.y}})
+                TargetRect: { x: m.x, y: menuPos.y } })
         end if
     else if m.message <> ""
         txtArray.Push({
-                    Text: m.message
-                    TextAttrs: {color: m.theme.ListScreenDescriptionText, font: "Medium", HAlign: "Center"}
-                    TargetRect: {x:m.x, y:(m.canvas.screen.getHeight()-m.y)/2 + m.y, w:m.canvas.screen.getWidth()-m.x*2, h:60}})
+            Text: m.message
+            TextAttrs: { color: m.theme.ListScreenDescriptionText, font: "Medium", HAlign: "Center" }
+            TargetRect: { x: m.x, y: (m.canvas.screen.getHeight() - m.y) / 2 + m.y, w: m.canvas.screen.getWidth() - m.x * 2, h: 60 } })
     end if
     m.canvas.SetLayer(1, imgArray)
     m.canvas.SetLayer(2, txtArray)
     m.canvas.Show()
     m.visible = true
-End Sub
+end sub
 
-Sub set_grid_content(list as object)
+sub set_grid_content(list as object)
     m.content = list
     m.first = 0
     if m.visible then m.Show()
-End Sub
+end sub
 
-Sub set_grid_item(index as integer, item as object)
+sub set_grid_item(index as integer, item as object)
     m.content[index] = item
     if m.visible and index >= m.first and index < m.first + m.columns * 3 then m.Show()
-End Sub
+end sub
 
-Function wait_grid_screen(timeout = 0, port = invalid) as object
+function wait_grid_screen(timeout = 0, port = invalid) as object
     if port = invalid then port = m.canvas.screen.getMessagePort()
     msg = invalid
     event = wait(timeout, port)
@@ -128,7 +128,7 @@ Function wait_grid_screen(timeout = 0, port = invalid) as object
         if index = m.codes.BUTTON_LEFT_PRESSED
             if m.content.Count() > 0
                 if m.focus mod m.columns = 0
-                    m.focus = Min(m.focus + (m.columns-1), m.content.Count() - 1)
+                    m.focus = Min(m.focus + (m.columns - 1), m.content.Count() - 1)
                     m.sounds.roll.Trigger(50)
                 else
                     m.focus--
@@ -159,7 +159,9 @@ Function wait_grid_screen(timeout = 0, port = invalid) as object
                     m.focus += m.columns
                     m.sounds.deadend.Trigger(50)
                 else
-                    if m.focus < m.first then m.first -= m.columns
+                    if m.focus < m.first
+                        m.first -= m.columns
+                    end if
                     m.sounds.navSingle.Trigger(50)
                 end if
                 m.Show()
@@ -172,7 +174,9 @@ Function wait_grid_screen(timeout = 0, port = invalid) as object
                     m.focus -= m.columns
                     m.sounds.deadend.Trigger(50)
                 else
-                    if m.focus > m.first + (m.columns*3-1) then m.first += m.columns
+                    if m.focus > m.first + (m.columns * 3 - 1)
+                        m.first += m.columns
+                    end if
                     m.sounds.navSingle.Trigger(50)
                 end if
                 m.Show()
@@ -190,23 +194,23 @@ Function wait_grid_screen(timeout = 0, port = invalid) as object
         end if
     end if
     return msg
-End Function
+end function
 
-Sub set_list_name(name as string)
+sub set_list_name(name as string)
     m.listName = name
     if m.visible then m.Show()
-End Sub
+end sub
 
-Sub set_list_count(value as string)
+sub set_list_count(value as string)
     m.listCount = value
     if m.visible then m.Show()
-End Sub
+end sub
 
-Sub show_message(message as string)
+sub show_message(message as string)
     m.message = message
     if m.visible then m.Show()
-End Sub
+end sub
 
-Function Min(a,b)
+function Min(a, b)
     if a < b then return a else return b
-End Function
+end function

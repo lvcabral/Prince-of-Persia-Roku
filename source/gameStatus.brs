@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: April 2016
-' **  Updated: February 2023
+' **  Updated: January 2024
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -12,8 +12,8 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
 
-Sub DrawStatusBar(screen as object, width as integer, height as integer)
-    screen.DrawRect(0, height-(8* m.scale),width, (8* m.scale), m.colors.black)
+sub DrawStatusBar(screen as object, width as integer, height as integer)
+    screen.DrawRect(0, height - (8 * m.scale), width, (8 * m.scale), m.colors.black)
     lifeFull = m.regions.general["kid-live"]
     lifeEmpty = m.regions.general["kid-emptylive"]
     if m.settings.spriteMode = m.const.SPRITES_MAC
@@ -29,13 +29,13 @@ Sub DrawStatusBar(screen as object, width as integer, height as integer)
         end if
         m.blink[0] = not m.blink[0]
     else if m.kid.health > 1
-        for h = 0 to m.kid.health-1
-            screen.drawobject(lifeFull.GetWidth()*h+h, height - lifePos, lifeFull)
+        for h = 0 to m.kid.health - 1
+            screen.drawobject(lifeFull.GetWidth() * h + h, height - lifePos, lifeFull)
         next
     end if
     if m.kid.health < m.kid.maxHealth
-        for h = m.kid.health to m.kid.maxHealth-1
-            screen.drawobject(lifeFull.GetWidth()*h+h, height - lifePos, lifeEmpty)
+        for h = m.kid.health to m.kid.maxHealth - 1
+            screen.drawobject(lifeFull.GetWidth() * h + h, height - lifePos, lifeEmpty)
         next
     end if
     enemy = m.kid.opponent
@@ -62,7 +62,7 @@ Sub DrawStatusBar(screen as object, width as integer, height as integer)
                 m.status.Delete(0)
             end if
         else if m.status[0].mark = invalid
-        	m.status[0].mark = m.timer.TotalMilliseconds()
+            m.status[0].mark = m.timer.TotalMilliseconds()
             m.status[0].count = 0
         else
             timeGap = m.timer.TotalMilliseconds() - m.status[0].mark
@@ -93,54 +93,54 @@ Sub DrawStatusBar(screen as object, width as integer, height as integer)
         borderColor = m.colors.gray
     end if
     DrawBorder(m.mainScreen, m.gameWidth, m.gameHeight, borderColor, 2)
-End Sub
+end sub
 
-Sub DrawBorder(screen as object, width as integer, height as integer, color as integer, offset as integer)
-    leftX = Cint((screen.GetWidth()-width)/2) - offset
+sub DrawBorder(screen as object, width as integer, height as integer, color as integer, offset as integer)
+    leftX = Cint((screen.GetWidth() - width) / 2) - offset
     rightX = leftX + width + offset * 2
-    topY = Cint((screen.GetHeight()-height)/2) - offset
+    topY = Cint((screen.GetHeight() - height) / 2) - offset
     bottomY = topY + height + offset * 2
     screen.DrawLine(leftX, topY, rightX, topY, color)
     screen.DrawLine(rightX, topY, rightX, bottomY, color)
     screen.DrawLine(rightX, bottomY, leftX, bottomY, color)
     screen.DrawLine(leftX, bottomY, leftX, topY, color)
-End Sub
+end sub
 
-Sub DebugInfo(x as integer, y as integer)
+sub DebugInfo(x as integer, y as integer)
     if x <> m.saveX or y <> m.saveY or m.kid.frameName <> m.saveFrameName
-        strDebug = str(x)+","+str(y)+" "+m.kid.action()+" "+m.kid.frameName+" R:"+m.kid.room.toStr()+" T:"+ m.kid.blockX.toStr() + "," + m.kid.blockY.toStr()
+        strDebug = str(x) + "," + str(y) + " " + m.kid.action() + " " + m.kid.frameName + " R:" + m.kid.room.toStr() + " T:" + m.kid.blockX.toStr() + "," + m.kid.blockY.toStr()
         'print strDebug
-        m.status.Push({text:strDebug, duration: 0, alert: false})
+        m.status.Push({ text: strDebug, duration: 0, alert: false })
         m.saveX = x
         m.saveY = y
         m.saveFrameName = m.kid.frameName
     end if
-End Sub
+end sub
 
-Sub DebugGuard(x as integer, y as integer, guard as object)
+sub DebugGuard(x as integer, y as integer, guard as object)
     if x <> m.guardX or y <> m.guardY or guard.frameName <> m.guardFrameName
         if guard.room = 22
-            strDebug = "guard: "+str(x)+","+str(y)+" "+guard.action()+" "+guard.frameName+" R:"+guard.room.toStr()+" T:"+ guard.blockX.toStr() + "," + guard.blockY.toStr()
+            strDebug = "guard: " + str(x) + "," + str(y) + " " + guard.action() + " " + guard.frameName + " R:" + guard.room.toStr() + " T:" + guard.blockX.toStr() + "," + guard.blockY.toStr()
             'print strDebug
             m.guardX = x
             m.guardY = y
             m.guardFrameName = guard.frameName
         end if
     end if
-End Sub
+end sub
 
-Function LoadBitmapFont() As Dynamic
+function LoadBitmapFont() as dynamic
     rsp = ReadAsciiFile("pkg:/assets/fonts/prince-fnt.xml")
-    xml=CreateObject("roXMLElement")
+    xml = CreateObject("roXMLElement")
     if not xml.Parse(rsp)
-         print "Can't parse feed"
+        print "Can't parse feed"
         return invalid
     else if xml.font = invalid
         print "Missing font tag"
         return invalid
     end if
     xmlChars = xml.getnamedelements("chars").getchildelements()
-    bitmap=CreateObject("roBitmap", "pkg:/assets/fonts/prince-fnt.png")
+    bitmap = CreateObject("roBitmap", "pkg:/assets/fonts/prince-fnt.png")
     this = {}
     for each char in xmlChars
         charAttr = char.getAttributes()
@@ -151,18 +151,18 @@ Function LoadBitmapFont() As Dynamic
         height = val(charAttr["height"])
         yoffset = val(charAttr["yoffset"])
         yOff = (height + yoffset - 11)
-        letter = CreateObject("roRegion",bitmap,x,y,width,height)
-        this.AddReplace(name, {image: letter, yOffset: yOff})
+        letter = CreateObject("roRegion", bitmap, x, y, width, height)
+        this.AddReplace(name, { image: letter, yOffset: yOff })
     next
     this.write = write_text
     return this
-End Function
+end function
 
-Function write_text(screen as object, text as string, x as integer, y as integer, scale = 1.0 as float) as object
-	xOff = 2 * scale
-	yOff = 8 * scale
+function write_text(screen as object, text as string, x as integer, y as integer, scale = 1.0 as float) as object
+    xOff = 2 * scale
+    yOff = 8 * scale
     for c = 0 to len(text) - 1
-        ci = asc(text.mid(c,1))
+        ci = asc(text.mid(c, 1))
         'Convert accented characters not supported by the font
         if (ci > 191 and ci < 199) or (ci > 223 and ci < 231) 'A
             ci = 65
@@ -197,4 +197,4 @@ Function write_text(screen as object, text as string, x as integer, y as integer
             x += (letter.image.GetWidth() * scale + xOff)
         end if
     next
-End Function
+end function

@@ -4,7 +4,7 @@
 ' **
 ' **  libCanvas.brs - Library with generic methods for Screen objects
 ' **  Created: June 2018
-' **  Updated: February 2023
+' **  Updated: February 2024
 ' **
 ' **  Copyright (C) Marcelo Lv Cabral < https://lvcabral.com >
 ' ********************************************************************************************************
@@ -13,20 +13,20 @@
 '-----
 ' Generic Methods
 
-Sub close_screen()
+sub close_screen()
     m.visible = false
     m.canvas.Close()
-End Sub
+end sub
 
-Sub set_list_style(style as string)
+sub set_list_style(style as string)
     m.listStyle = style
-End Sub
+end sub
 
-Sub set_display_mode(mode as string)
+sub set_display_mode(mode as string)
     m.displayMode = mode
-End Sub
+end sub
 
-Sub set_breadcrumb_text(leftText as string, rightText as string)
+sub set_breadcrumb_text(leftText as string, rightText as string)
     font = m.canvas.fonts.large
     wl = font.GetOneLineWidth(leftText, 500)
     wr = font.GetOneLineWidth(rightText, 500)
@@ -35,56 +35,56 @@ Sub set_breadcrumb_text(leftText as string, rightText as string)
     xl = xr - wl - 28
     m.breadCrumb = []
     m.breadCrumb.Push({ Text: leftText
-                        TextAttrs: {color: m.theme.BreadcrumbTextLeft, font: font, HAlign: "Left"}
-                        TargetRect: {x:xl, y:72, w:wl, h:30}})
+        TextAttrs: { color: m.theme.BreadcrumbTextLeft, font: font, HAlign: "Left" }
+        TargetRect: { x: xl, y: 72, w: wl, h: 30 } })
     m.breadCrumb.Push({ Text: "•"
-                        TextAttrs: {color: m.theme.BreadcrumbDelimiter, font: font, HAlign: "Left"}
-                        TargetRect: {x:xb, y:72, w:20, h:30}})
+        TextAttrs: { color: m.theme.BreadcrumbDelimiter, font: font, HAlign: "Left" }
+        TargetRect: { x: xb, y: 72, w: 20, h: 30 } })
     m.breadCrumb.Push({ Text: rightText
-                        TextAttrs: {color: m.theme.BreadcrumbTextRight, font: font, HAlign: "Left"}
-                        TargetRect: {x:xr, y:72, w:wr, h:30}})   
-End Sub
+        TextAttrs: { color: m.theme.BreadcrumbTextRight, font: font, HAlign: "Left" }
+        TargetRect: { x: xr, y: 72, w: wr, h: 30 } })
+end sub
 
-Sub set_title(title as string)
-    m.title = title   
-End Sub
+sub set_title(title as string)
+    m.title = title
+end sub
 
-Sub set_text(text as string)
+sub set_text(text as string)
     m.text = text
-End Sub
+end sub
 
-Sub set_focused_item(index as integer)
+sub set_focused_item(index as integer)
     m.focus = index
     if m.visible then m.Show()
-End Sub
+end sub
 
-Function get_text() as string
+function get_text() as string
     return m.text
-End Function
+end function
 
-Function get_content_list() as object
+function get_content_list() as object
     return m.content
-End Function
+end function
 
-Sub add_button(id as integer, text as string)
-    m.buttons.Push({id: id, text: text})
-End Sub
+sub add_button(id as integer, text as string)
+    m.buttons.Push({ id: id, text: text })
+end sub
 
-'------ 
+'------
 ' Generic Functions
 
-Function GetOverhang()
+function GetOverhang()
     theme = m.theme
     overhang = []
-    overhang.Push({ Color: "#000000FF", CompositionMode: "Source", url: theme.OverhangSliceHD})
+    overhang.Push({ Color: "#000000FF", CompositionMode: "Source", url: theme.OverhangSliceHD })
     if theme.OverhangLogoHD <> invalid
-        overhang.Push({ url: theme.OverhangLogoHD, TargetRect: {x: int(val(theme.OverhangOffsetHD_X)), y: int(val(theme.OverhangOffsetHD_Y))} })
+        overhang.Push({ url: theme.OverhangLogoHD, TargetRect: { x: int(val(theme.OverhangOffsetHD_X)), y: int(val(theme.OverhangOffsetHD_Y)) } })
     end if
     return overhang
-End Function
+end function
 
-Function GetScreenMessage(index as integer, event as string)
-    this = {index: index, event: event}
+function GetScreenMessage(index as integer, event as string)
+    this = { index: index, event: event }
     this.isListItemFocused = function() as boolean
         return (m.event = "focused")
     end function
@@ -104,44 +104,45 @@ Function GetScreenMessage(index as integer, event as string)
         return m.index
     end function
     return this
-End Function
+end function
 
-Sub InitCache()
+sub InitCache()
     g = GetGlobalAA()
     if g.files = invalid then g.files = CreateObject("roFileSystem")
-    if g.cache = invalid 
+    if g.cache = invalid
         g.cache = {}
         g.cacheId = 0
     end if
-End Sub
+end sub
 
-Function AddToCache(fileName as string, bmp as object, update = false as boolean) as string
+function AddToCache(fileName as string, bmp as object, update = false as boolean) as string
     g = GetGlobalAA()
     tmpFile = g.cache[fileName]
     if tmpFile = invalid
         g.cacheId++
         tmpFile = "tmp:/cached" + g.cacheId.toStr() + ".png"
-        g.cache.AddReplace(fileName,tmpFile)
+        g.cache.AddReplace(fileName, tmpFile)
     end if
     if update or not g.files.Exists(tmpFile)
         png = bmp.GetPng(0, 0, bmp.GetWidth(), bmp.GetHeight())
         png.WriteFile(tmpFile)
     end if
     return tmpFile
-End Function
+end function
 
-Function CachedFile(fileName as string) as string
+function CachedFile(fileName as string) as string
     g = GetGlobalAA()
     tmpFile = g.cache[fileName]
     if tmpFile = invalid then tmpFile = ""
     return tmpFile
-End Function
+end function
 
-Function CenterImage(url, width as integer, height as integer) as string
+function CenterImage(url, width as integer, height as integer) as string
     if url = invalid or url = "" then return ""
+    if not m.files.Exists(url) then return ""
     por = CreateObject("roBitmap", url)
     if por <> invalid and (por.GetWidth() <> width or por.GetHeight() <> height)
-        bmp = CreateObject("roBitmap",{width:width, height:height, alphaenable:true})
+        bmp = CreateObject("roBitmap", { width: width, height: height, alphaenable: true })
         pst = ScaleToSize(por, width, height)
         if pst <> invalid
             if pst.GetWidth() < width then offX = (width - pst.GetWidth()) / 2 else offX = 0
@@ -153,4 +154,4 @@ Function CenterImage(url, width as integer, height as integer) as string
         url = AddToCache(url + "300x300", bmp, true)
     end if
     return url
-End Function
+end function

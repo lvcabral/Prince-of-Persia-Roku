@@ -129,8 +129,7 @@ function StartMenu() as integer
                 end if
             else if key = m.code.BUTTON_FAST_FORWARD_PRESSED
                 if cheatCnt = 3
-                    ModsAndCheatsScreen()
-                    ResetMainScreen()
+                    SecretCheatsScreen()
                     button = -1
                 else if cheatKey = m.code.BUTTON_REWIND_PRESSED
                     cheatKey = m.code.BUTTON_FAST_FORWARD_PRESSED
@@ -141,51 +140,6 @@ function StartMenu() as integer
             end if
         end if
     end while
-end function
-
-function ShowModsMenu(port = invalid) as string
-    screen = CreateGridScreen()
-    if port = invalid then port = CreateObject("roMessagePort")
-    screen.SetMessagePort(port)
-    'Load the content
-    content = []
-    modsCount = m.mods.keys().count()
-    screen.SetListCount("1 of " + modsCount.toStr() + " items")
-    screen.ShowMessage("Loading mods...")
-    screen.Show()
-    modArray = []
-    modIndex = 0
-    for each modId in m.mods.Keys()
-        m.mods[modId].id = modId
-        modArray.Push(m.mods[modId])
-        imgPath = GetModIcon(modId)
-        content.Push({ id: modId, HDPosterUrl: imgPath })
-    next
-    screen.SetContentList(content)
-    screen.SetListName(m.mods[modArray[modIndex].id].name)
-    selected = ""
-    while true
-        msg = screen.Wait(500)
-        if msg = invalid
-            screen.show()
-        else if msg.isScreenClosed()
-            selected = ""
-            exit while
-        else if msg.isListItemFocused()
-            idx = msg.GetIndex()
-            screen.SetListCount((idx + 1).toStr() + " of " + modsCount.toStr() + " items")
-            item = content[idx]
-            screen.SetListName(m.mods[item.id].name)
-        else if msg.isListItemSelected()
-            item = content[msg.GetIndex()]
-            if item <> invalid
-                selected = item.id
-            end if
-            exit while
-        end if
-    end while
-    print selected
-    return selected
 end function
 
 function OptionsMenu(options as object, default as integer) as integer
