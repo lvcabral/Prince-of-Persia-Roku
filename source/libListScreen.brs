@@ -46,7 +46,7 @@ Function CreateListScreen(ignoreBackKey = false as boolean) as object
 End Function
 
 Sub show_list_screen()
-    print "Show List:"; m.headerText
+    ' print "Show List:"; m.headerText
     txtArray = []
     imgArray = []
     txtArray.Append(m.breadCrumb)

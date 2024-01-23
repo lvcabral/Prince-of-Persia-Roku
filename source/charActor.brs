@@ -663,13 +663,13 @@ Function can_reach_opponent() as boolean
         return false
     end if
     if m.blockX > m.opponent.blockX + xOff
-        min = m.opponent.blockX + xOff
-        max = m.blockX
+        minX = m.opponent.blockX + xOff
+        maxX = m.blockX
     else
-        min = m.blockX
-        max = m.opponent.blockX + xOff
+        minX = m.blockX
+        maxX = m.opponent.blockX + xOff
     end if
-    for x = min to max
+    for x = minX to maxX
         if x < 0
             room = m.level.rooms[m.room].links.left
             blockX = x - xOff

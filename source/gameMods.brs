@@ -21,7 +21,7 @@ Function LoadMods() as object
     'Load remote Mods (if available)
     if m.webMods <> invalid and CacheFile(m.webMods + "mods.json", "mods.json") <> ""
         modsWeb = ParseJson(ReadAsciiFile("tmp:/mods.json"))
-        if modsWeb <> invalid 
+        if modsWeb <> invalid
             print modsWeb.Count(); " mods dowloaded"
             mods.Append(modsWeb)
         else
@@ -112,6 +112,33 @@ Function GetModImage(modId as dynamic) as string
         end if
         bmp.Finish()
         png = bmp.GetPng(0, 0, 360, 240)
+        png.WriteFile(modCover)
+    end if
+    return modCover
+End Function
+
+Function GetModIcon(modId as dynamic) as string
+    cloud = false
+    modImage = "pkg:/assets/titles/intro-screen-dos.png"
+    modCover = "tmp:/0000001.png"
+    if modId <> invalid
+        modAA = m.mods[modId]
+        if Left(modAA.url,3) = "pkg"
+            modImage = modAA.url + modAA.path + modId + "_1.png"
+        else
+            modImage = CacheFile(m.webMods + modAA.path + modId + "_1.png", modId + "_1.png")
+            cloud = true
+        end if
+        modCover = "tmp:/" + modId + ".png"
+    end if
+    if modImage <> "" and not m.files.Exists(modCover)
+        bmp = ScaleToSize(CreateObject("roBitmap", modImage), 256, 160)
+        bmp.DrawLine(1, 1, 255, 0, m.colors.white)
+        bmp.DrawLine(255, 1, 255, 159, m.colors.white)
+        bmp.DrawLine(255, 159, 0, 159, m.colors.white)
+        bmp.DrawLine(1, 159, 1, 1, m.colors.white)
+        bmp.Finish()
+        png = bmp.GetPng(0, 0, 256, 160)
         png.WriteFile(modCover)
     end if
     return modCover

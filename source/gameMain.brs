@@ -48,6 +48,7 @@ Sub Main()
         m.settings = {}
         m.settings.controlMode = m.const.CONTROL_VERTICAL
         m.settings.spriteMode = m.const.SPRITES_DOS
+        m.settings.zoomMode = 1
     else if m.settings.modId <> invalid
         if m.mods[m.settings.modId] <> invalid
             if m.mods[m.settings.modId].sprites
@@ -62,6 +63,7 @@ Sub Main()
     if m.settings.cheatMode = invalid then m.settings.cheatMode = m.const.CHEAT_NONE
     if m.settings.saveGame = invalid then m.settings.saveGame = true
     if m.settings.infoMode = invalid then m.settings.infoMode = m.const.INFO_TIME
+    if m.settings.zoomMode = invalid then m.settings.zoomMode = 1
     'Game/Debug switches
     m.debugMode = false ' flag to enable/disable debug code
     m.dark = false 'flag for debugging without map tiles paint
@@ -75,8 +77,8 @@ Sub Main()
     if m.intro
         print "Starting intro..."
         PlayIntro(m.const.SPRITES_MAC)
-        PlaySong("scene-1b-princess", true)
-        TextScreen("text-disclaimer", m.colors.black, 27000, 0, m.const.SPRITES_MAC)
+        PlaySong("scene-1b-princess", false)
+        TextScreen("text-disclaimer", m.colors.black, 13000, 0, m.const.SPRITES_MAC)
         m.audioPlayer.Stop()
     end if
     'Main Menu Loop

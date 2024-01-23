@@ -3,7 +3,7 @@
 ' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: April 2016
-' **  Updated: December 2023
+' **  Updated: January 2024
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -14,84 +14,46 @@
 
 function StartMenu() as integer
     m.mainScreen.Clear(0)
-    scale = Int(GetScale(m.mainScreen, 640, 432))
-    centerX = Cint((m.mainScreen.GetWidth() - (640 * scale)) / 2)
-    centerY = Cint((m.mainScreen.GetHeight() - (432 * scale)) / 2)
-    backImage = ScaleBitmap(CreateObject("roBitmap", "pkg:/images/start_menu.jpg"), scale)
-    CrossFade(m.mainScreen, centerX, centerY, GetPaintedBitmap(m.colors.black, 640 * scale, 432 * scale, true), backImage, 4)
-    menuFont = m.fonts.reg.getFont("Prince of Persia Game Font", 26, false, false)
+    m.menuDim = { w: 1024, h: 692 }
+    scale = Int(GetScale(m.mainScreen, m.menuDim.w, m.menuDim.h))
+    centerX = Cint((m.mainScreen.GetWidth() - (m.menuDim.w * scale)) / 2)
+    centerY = Cint((m.mainScreen.GetHeight() - (m.menuDim.h * scale)) / 2)
+    noTitle = CreateObject("roBitmap", "pkg:/images/menu_back.jpg")
+    backImage = CreateObject("roBitmap", "pkg:/images/start_menu.jpg")
+    CrossFade(m.mainScreen, centerX, centerY, noTitle, backImage, 4)
+    menuFont = m.fonts.reg.getFont("Prince of Persia Game Font", 32, false, false)
+    menuMode = m.fonts.reg.getFont("Prince of Persia Game Font", 28, false, false)
+    menuLeft = centerX + 368
+    menuTop = centerY + 243
+    menuMax = 5
+    menuGap = 56
+    cameras = m.settings.zoomMode
     button = -1
     selected = 0
+    cheatKey = -1
+    cheatCnt = 0
     while true
         if button <> selected
             m.mainScreen.Clear(0)
             m.mainScreen.DrawObject(centerX, centerY, backImage)
-            faceColors = [m.colors.white, m.colors.white, m.colors.white, m.colors.white]
+            faceColors = [m.colors.white, m.colors.white, m.colors.white, m.colors.white, m.colors.white, m.colors.white]
             faceColors[selected] = &hFF0000FF
-            m.mainScreen.DrawText("Play Classic Mode", centerX + 225, centerY + 162, faceColors[0], menuFont)
-            m.mainScreen.DrawText("Play 4 Rooms Mode", centerX + 215, centerY + 215, faceColors[1], menuFont)
-            m.mainScreen.DrawText("Play 9 Rooms Mode", centerX + 215, centerY + 267, faceColors[2], menuFont)
-            m.mainScreen.DrawText("Game Settings", centerX + 240, centerY + 319, faceColors[3], menuFont)
-            m.mainScreen.SwapBuffers()
-            button = selected
-        end if
-        key = wait(0, m.port)
-        if key <> invalid
-            if type(key) = "roUniversalControlEvent"
-                key = key.getInt()
-            end if
-            if key = m.code.BUTTON_UP_PRESSED or key = m.code.BUTTON_RIGHT_PRESSED
-                m.sounds.navSingle.Trigger(50)
-                if button > 0
-                    selected = button - 1
-                else
-                    selected = 3
-                end if
-            else if key = m.code.BUTTON_DOWN_PRESSED or key = m.code.BUTTON_LEFT_PRESSED
-                m.sounds.navSingle.Trigger(50)
-                if button < 3
-                    selected = button + 1
-                else
-                    selected = 0
-                end if
-            else if key = m.code.BUTTON_SELECT_PRESSED
-                m.sounds.select.Trigger(50)
-                if button < 3
-                    return button + 1
-                else
-                    SettingsMenu()
-                    button = -1
-                end if
-            end if
-        end if
-    end while
-end function
-
-sub SettingsMenu()
-    scale = Int(GetScale(m.mainScreen, 640, 432))
-    centerX = Cint((m.mainScreen.GetWidth() - (640 * scale)) / 2)
-    centerY = Cint((m.mainScreen.GetHeight() - (432 * scale)) / 2)
-    menuFont = m.fonts.reg.getFont("Prince of Persia Game Font", 30, false, false)
-    colorWhite = &hFFFFFFFF
-    colorRed = &hFF0000FF
-    button = -1
-    selected = m.settings.controlMode
-    backImage = ScaleBitmap(CreateObject("roBitmap", "pkg:/images/settings_menu.jpg"), scale)
-    while true
-        if button <> selected
-            m.mainScreen.Clear(0)
-            m.mainScreen.DrawObject(centerX, centerY, backImage)
-            faceColors = [m.colors.white, m.colors.white, m.colors.white, m.colors.white, m.colors.white]
-            faceColors[selected] = &hFF0000FF
+            m.mainScreen.DrawText("Play Classic PC Game", menuLeft, menuTop, faceColors[0], menuFont)
+            m.mainScreen.DrawText("Play Classic Mac Game", menuLeft, menuTop + menuGap, faceColors[1], menuFont)
+            m.mainScreen.DrawText("Play Community Mods", menuLeft, menuTop + menuGap * 2, faceColors[2], menuFont)
             if m.inSimulator
-                m.mainScreen.DrawText("Game Control", centerX + 93, centerY + 108, faceColors[0], menuFont)
+                m.mainScreen.DrawText("View Control Info", menuLeft, menuTop + menuGap * 3, faceColors[3], menuFont)
             else
-                m.mainScreen.DrawText("Control Mode", centerX + 93, centerY + 108, faceColors[0], menuFont)
+                m.mainScreen.DrawText("Setup Control Mode", menuLeft, menuTop + menuGap * 3, faceColors[3], menuFont)
             end if
-            m.mainScreen.DrawText("Graphics Mode", centerX + 93, centerY + 161, faceColors[1], menuFont)
-            m.mainScreen.DrawText("Mods & Cheats", centerX + 93, centerY + 213, faceColors[2], menuFont)
-            m.mainScreen.DrawText("High Scores", centerX + 93, centerY + 265, faceColors[3], menuFont)
-            m.mainScreen.DrawText("Game Credits", centerX + 93, centerY + 318, faceColors[4], menuFont)
+            m.mainScreen.DrawText("View High Scores", menuLeft, menuTop + menuGap * 4, faceColors[4], menuFont)
+            m.mainScreen.DrawText("View Game Credits", menuLeft, menuTop + menuGap * 5, faceColors[5], menuFont)
+            if cameras > 1
+                mode = (cameras * cameras).toStr() + " rooms"
+            else
+                mode = "Original"
+            end if
+            m.mainScreen.DrawText(Substitute("Zoom: {0}", mode), centerX + 436, centerY + 634, m.colors.white, menuMode)
             m.mainScreen.SwapBuffers()
             button = selected
         end if
@@ -101,25 +63,49 @@ sub SettingsMenu()
                 key = key.getInt()
             end if
             if key = m.code.BUTTON_UP_PRESSED or key = m.code.BUTTON_RIGHT_PRESSED
-                m.sounds.navSingle.Trigger(50)
                 if button > 0
                     selected = button - 1
+                    m.sounds.navSingle.Trigger(50)
                 else
-                    selected = faceColors.Count() - 1
+                    selected = menuMax
+                    m.sounds.roll.Trigger(50)
                 end if
             else if key = m.code.BUTTON_DOWN_PRESSED or key = m.code.BUTTON_LEFT_PRESSED
-                m.sounds.navSingle.Trigger(50)
-                if button < faceColors.Count() - 1
+                if button < menuMax
                     selected = button + 1
+                    m.sounds.navSingle.Trigger(50)
                 else
                     selected = 0
+                    m.sounds.roll.Trigger(50)
                 end if
-            else if key = m.code.BUTTON_BACK_PRESSED
-                m.sounds.navSingle.Trigger(50)
-                exit while
+            else if key = m.code.BUTTON_INFO_PRESSED
+                if cameras < 3
+                    cameras++
+                else
+                    cameras = 1
+                end if
+                m.sounds.select.Trigger(50)
+                button = -1
             else if key = m.code.BUTTON_SELECT_PRESSED
                 m.sounds.select.Trigger(50)
-                if selected = 0
+                if selected < 2
+                    m.settings.spriteMode = selected
+                    m.settings.modId = invalid
+                    m.settings.zoomMode = cameras
+                    SaveSettings(m.settings)
+                    return cameras
+                else if selected = 2
+                    modId = ShowModsMenu(m.port)
+                    if modId <> ""
+                        m.settings.modId = modId
+                        if m.mods[modId].sprites
+                            m.settings.spriteMode = val(m.settings.modId)
+                        else
+                            m.settings.spriteMode = m.const.SPRITES_DOS
+                        end if
+                    end if
+                    return m.settings.zoomMode
+                else if selected = 3
                     if m.inSimulator
                         ImageScreen("game_control.jpg")
                     else
@@ -129,32 +115,83 @@ sub SettingsMenu()
                             SaveSettings(m.settings)
                         end if
                     end if
-                else if selected = 1
-                    option = OptionsMenu([{ text: "IBM-PC MS-DOS", image: "graphics_dos" }, { text: "Macintosh Classic", image: "graphics_mac" }], m.settings.spriteMode)
-                    if option >= 0 and option <> m.settings.spriteMode
-                        m.settings.spriteMode = option
-                        m.settings.modId = invalid
-                        SaveSettings(m.settings)
-                    end if
-                else if selected = 2
-                    ModsAndCheatsScreen()
-                    ResetMainScreen()
-                else if selected = 3
-                    HighscoresScreen()
                 else if selected = 4
+                    HighscoresScreen()
+                else if selected = 5
                     ImageScreen("game_credits.jpg")
                 end if
                 button = -1
             end if
+            if key = m.code.BUTTON_REWIND_PRESSED
+                if cheatCnt = 0 or cheatKey = m.code.BUTTON_FAST_FORWARD_PRESSED
+                    cheatKey = m.code.BUTTON_REWIND_PRESSED
+                    cheatCnt++
+                end if
+            else if key = m.code.BUTTON_FAST_FORWARD_PRESSED
+                if cheatCnt = 3
+                    ModsAndCheatsScreen()
+                    ResetMainScreen()
+                    button = -1
+                else if cheatKey = m.code.BUTTON_REWIND_PRESSED
+                    cheatKey = m.code.BUTTON_FAST_FORWARD_PRESSED
+                end if
+            else if key < 100
+                cheatKey = -1
+                cheatCnt = 0
+            end if
         end if
     end while
-end sub
+end function
+
+function ShowModsMenu(port = invalid) as string
+    screen = CreateGridScreen()
+    if port = invalid then port = CreateObject("roMessagePort")
+    screen.SetMessagePort(port)
+    'Load the content
+    content = []
+    modsCount = m.mods.keys().count()
+    screen.SetListCount("1 of " + modsCount.toStr() + " items")
+    screen.ShowMessage("Loading mods...")
+    screen.Show()
+    modArray = []
+    modIndex = 0
+    for each modId in m.mods.Keys()
+        m.mods[modId].id = modId
+        modArray.Push(m.mods[modId])
+        imgPath = GetModIcon(modId)
+        content.Push({ id: modId, HDPosterUrl: imgPath })
+    next
+    screen.SetContentList(content)
+    screen.SetListName(m.mods[modArray[modIndex].id].name)
+    selected = ""
+    while true
+        msg = screen.Wait(500)
+        if msg = invalid
+            screen.show()
+        else if msg.isScreenClosed()
+            exit while
+        else if msg.isListItemFocused()
+            idx = msg.GetIndex()
+            screen.SetListCount((idx + 1).toStr() + " of " + modsCount.toStr() + " items")
+            item = content[idx]
+            screen.SetListName(m.mods[item.id].name)
+        else if msg.isListItemSelected()
+            item = content[msg.GetIndex()]
+            if item <> invalid
+                selected = item.id
+            end if
+            exit while
+        end if
+    end while
+    print selected
+    return selected
+end function
 
 function OptionsMenu(options as object, default as integer) as integer
-    scale = Int(GetScale(m.mainScreen, 640, 432))
-    centerX = Cint((m.mainScreen.GetWidth() - (640 * scale)) / 2)
-    centerY = Cint((m.mainScreen.GetHeight() - (432 * scale)) / 2)
-    menuFont = m.fonts.reg.getFont("Prince of Persia Game Font", 26, false, false)
+    scale = Int(GetScale(m.mainScreen, m.menuDim.w, m.menuDim.h))
+    centerX = Cint((m.mainScreen.GetWidth() - (m.menuDim.w * scale)) / 2)
+    centerY = Cint((m.mainScreen.GetHeight() - (m.menuDim.h * scale)) / 2)
+    menuFont = m.fonts.reg.getFont("Prince of Persia Game Font", 34, false, false)
     colorWhite = &hFFFFFFFF
     colorRed = &hFF0000FF
     button = -1
@@ -165,11 +202,11 @@ function OptionsMenu(options as object, default as integer) as integer
             m.mainScreen.Clear(0)
             m.mainScreen.DrawObject(centerX, centerY, backImage)
             if selected = 0
-                m.mainScreen.DrawText(options[0].text, centerX + 88, centerY + 57, colorRed, menuFont)
-                m.mainScreen.DrawText(options[1].text, centerX + 80, centerY + 109, colorWhite, menuFont)
+                m.mainScreen.DrawText(options[0].text, centerX + 130, centerY + 103, colorRed, menuFont)
+                m.mainScreen.DrawText(options[1].text, centerX + 130, centerY + 165, colorWhite, menuFont)
             else
-                m.mainScreen.DrawText(options[0].text, centerX + 88, centerY + 57, colorWhite, menuFont)
-                m.mainScreen.DrawText(options[1].text, centerX + 80, centerY + 109, colorRed, menuFont)
+                m.mainScreen.DrawText(options[0].text, centerX + 130, centerY + 103, colorWhite, menuFont)
+                m.mainScreen.DrawText(options[1].text, centerX + 130, centerY + 165, colorRed, menuFont)
             end if
             m.mainScreen.DrawObject(centerX, centerY, ScaleBitmap(CreateObject("roBitmap", "pkg:/images/" + options[selected].image + ".png"), scale))
             m.mainScreen.SwapBuffers()
@@ -201,28 +238,36 @@ function OptionsMenu(options as object, default as integer) as integer
 end function
 
 sub HighScoresScreen()
-    scale = Int(GetScale(m.mainScreen, 640, 432))
-    centerX = Cint((m.mainScreen.GetWidth() - (640 * scale)) / 2)
-    centerY = Cint((m.mainScreen.GetHeight() - (432 * scale)) / 2)
+    scale = Int(GetScale(m.mainScreen, m.menuDim.w, m.menuDim.h))
+    centerX = Cint((m.mainScreen.GetWidth() - (m.menuDim.w * scale)) / 2)
+    centerY = Cint((m.mainScreen.GetHeight() - (m.menuDim.h * scale)) / 2)
     backImage = ScaleBitmap(CreateObject("roBitmap", "pkg:/images/highscores_back.jpg"), scale)
+
+    if m.highScores = invalid or m.highScores.count() = 0
+        m.highScores = [
+            { name: "Marcelo Cabral", time: 3000 },
+            { name: "Jordan Mechner", time: 1000 }
+        ]
+    end if
+
     while true
         m.mainScreen.Clear(0)
         m.mainScreen.DrawObject(centerX, centerY, backImage)
-        xn = centerX + 72 * 2
-        xt = centerX + 217 * 2
-        ys = centerY + 85 * 2
+        xn = centerX + 72 * 3
+        xt = centerX + 217 * 3
+        ys = centerY + 85 * 3
         c = 0
         for each score in m.highScores
-            m.bitmapFont.write(m.mainScreen, score.name, xn, ys, 2.0)
-            m.bitmapFont.write(m.mainScreen, FormatTime(score.time), xt, ys, 2.0)
-            ys += (12 * 2)
+            m.bitmapFont.write(m.mainScreen, score.name, xn, ys, 3.0)
+            m.bitmapFont.write(m.mainScreen, FormatTime(score.time), xt, ys, 3.0)
+            ys += (12 * 3)
             c++
             if c = 7 then exit for
         next
         if m.highScores.Count() > 0
-            m.bitmapFont.write(m.mainScreen, "[ Press * to reset the High Scores ]", xn - 52, 370, 2.0)
+            m.bitmapFont.write(m.mainScreen, "[ Press * to reset the High Scores ]", xn - 52, 370, 3.0)
         else
-            m.bitmapFont.write(m.mainScreen, "< No High Scores are recorded yet >", xn - 52, ys + 8, 2.0)
+            m.bitmapFont.write(m.mainScreen, "< No High Scores are recorded yet >", xn - 52, ys + 108, 3.0)
         end if
         m.mainScreen.SwapBuffers()
         key = wait(0, m.port)
@@ -246,11 +291,11 @@ sub HighScoresScreen()
 end sub
 
 sub ImageScreen(imageFile)
-    scale = Int(GetScale(m.mainScreen, 640, 432))
-    centerX = Cint((m.mainScreen.GetWidth() - (640 * scale)) / 2)
-    centerY = Cint((m.mainScreen.GetHeight() - (432 * scale)) / 2)
+    scale = Int(GetScale(m.mainScreen, m.menuDim.w, m.menuDim.h))
+    centerX = Cint((m.mainScreen.GetWidth() - (m.menuDim.w * scale)) / 2)
+    centerY = Cint((m.mainScreen.GetHeight() - (m.menuDim.h * scale)) / 2)
     m.mainScreen.Clear(0)
-    m.mainScreen.DrawObject(centerX, centerY, ScaleBitmap(CreateObject("roBitmap", "pkg:/images/"+ imageFile), scale))
+    m.mainScreen.DrawObject(centerX, centerY, ScaleBitmap(CreateObject("roBitmap", "pkg:/images/" + imageFile), scale))
     m.mainScreen.SwapBuffers()
     while true
         key = wait(0, m.port)
@@ -322,7 +367,7 @@ sub TextBox(screen as object, width as integer, height as integer, text as strin
     yt = topY + height / 2 - 15
     m.mainScreen.SwapBuffers()
     screen.DrawRect(leftX, topY, width, height, m.colors.black)
-    m.bitmapFont.write(screen, text, xt, yt, 2.0)
+    m.bitmapFont.write(screen, text, xt, yt, 3.0)
     if border then DrawBorder(screen, width, height, m.colors.white, 0)
     m.mainScreen.SwapBuffers()
 end sub

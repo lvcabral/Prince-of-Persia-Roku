@@ -27,7 +27,7 @@ Function CreateCanvas() as object
         m.fonts = {reg:CreateObject("roFontRegistry")}
     end if
     this.fonts = m.fonts
-    ' Canvas Stack 
+    ' Canvas Stack
     if m.stack = invalid
         m.stack = []
         m.fonts.AddReplace("mini", m.fonts.reg.GetDefaultFont(20 * this.scale, false, false))
@@ -35,7 +35,7 @@ Function CreateCanvas() as object
         m.fonts.AddReplace("medium", m.fonts.reg.GetDefaultFont(27 * this.scale, false, false))
         m.fonts.AddReplace("large", m.fonts.reg.GetDefaultFont(32 * this.scale, false, false))
         m.fonts.AddReplace("big", m.fonts.reg.GetDefaultFont(40 * this.scale, false, false))
-        m.fonts.AddReplace("huge", m.fonts.reg.GetDefaultFont(46 * this.scale, false, false))       
+        m.fonts.AddReplace("huge", m.fonts.reg.GetDefaultFont(46 * this.scale, false, false))
     end if
     ' Initialize Cache
     InitCache()
@@ -103,7 +103,7 @@ Sub paint_component(component as object)
     if component.Text <> invalid
         if type(component.TextAttrs.font) = "roString" or type(component.TextAttrs.font) = "String"
             font = m.fonts[component.TextAttrs.font]
-            if font = invalid 
+            if font = invalid
                 font = m.fonts.medium
             end if
         else if type(component.TextAttrs.font) = "roFont"
@@ -165,7 +165,7 @@ Function HexToInt(hex_in)
     if len(hex_in) mod 2 > 0
         hex_in = "0" + hex_in
     end if
-    bArr.fromHexString(hex_in)    
+    bArr.fromHexString(hex_in)
     out = 0
     for i = 0 to bArr.count()-1
         out = 256 * out + bArr[i]
