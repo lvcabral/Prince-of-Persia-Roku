@@ -170,15 +170,19 @@ sub SecretCheatsScreen()
     }
     this.screen.SetMessagePort(this.port)
     this.screen.SetHeader("Secret Cheats Screen")
+    this.fight = " Fight Mode: "
     this.fightModes = ["Attack", "Alert", "Frozen"]
     this.fightHelp = ["Enemies will attack you!", "Enemies will be alert and follow you", "Enemies will be static"]
     this.fightIndex = m.settings.fight
+    this.cheat = " Cheat Keys: "
     this.cheatModes = ["Change Level", "Change Health", "Change Time", "(disabled)"]
     this.cheatHelp = ["Advance or return game levels", "Increase or decrease Prince health", "Add or subtract 1 minute", "Cheat Keys disabled"]
     this.cheatIndex = m.settings.cheatMode
-    this.infoModes = ["Show Remaining Time", "Enable Debug Mode"]
+    if m.inSimulator then this.info = " Info Key: " else this.info = " OK Key: "
+    this.infoModes = ["Remaining Time", "Set Debug Mode"]
     this.infoHelp = ["Show game remaining time", "Turn on/off Debug mode"]
     this.infoIndex = m.settings.infoMode
+    this.save = " Saved Game: "
     this.saveMode = m.settings.saveGame
     if this.saveMode
         if m.savedGame <> invalid
@@ -198,7 +202,7 @@ sub SecretCheatsScreen()
         this.saveImage = ""
         this.saveDesc = ""
     end if
-    listItems = GetMenuItems(this)
+    listItems = GetListItems(this)
     this.screen.SetContent(listItems)
     this.screen.Show()
     listIndex = 0
@@ -232,7 +236,7 @@ sub SecretCheatsScreen()
                         this.fightIndex = 0
                     end if
                 end if
-                listItems[listIndex].Title = " Fight Mode: " + this.fightModes[this.fightIndex]
+                listItems[listIndex].Title = this.fight + this.fightModes[this.fightIndex]
                 listItems[listIndex].ShortDescriptionLine1 = this.fightHelp[this.fightIndex]
                 listItems[listIndex].HDPosterUrl = "pkg:/images/fight_" + this.fightIndex.toStr() + ".jpg"
                 listItems[listIndex].SDPosterUrl = listItems[listIndex].HDPosterUrl
@@ -250,7 +254,7 @@ sub SecretCheatsScreen()
                         this.cheatIndex = 0
                     end if
                 end if
-                listItems[listIndex].Title = " Cheat Keys: " + this.cheatModes[this.cheatIndex]
+                listItems[listIndex].Title = this.cheat + this.cheatModes[this.cheatIndex]
                 listItems[listIndex].ShortDescriptionLine1 = this.cheatHelp[this.cheatIndex]
                 listItems[listIndex].HDPosterUrl = "pkg:/images/cheat_" + this.cheatIndex.toStr() + ".jpg"
                 listItems[listIndex].SDPosterUrl = listItems[listIndex].HDPosterUrl
@@ -268,7 +272,7 @@ sub SecretCheatsScreen()
                         this.infoIndex = 0
                     end if
                 end if
-                listItems[listIndex].Title = " Info Key: " + this.infoModes[this.infoIndex]
+                listItems[listIndex].Title = this.info + this.infoModes[this.infoIndex]
                 listItems[listIndex].ShortDescriptionLine1 = this.infoHelp[this.infoIndex]
                 listItems[listIndex].HDPosterUrl = "pkg:/images/infokey_" + this.infoIndex.toStr() + ".jpg"
                 listItems[listIndex].SDPosterUrl = listItems[listIndex].HDPosterUrl
@@ -297,7 +301,7 @@ sub SecretCheatsScreen()
                     this.saveImage = ""
                     this.saveDesc = ""
                 end if
-                listItems[listIndex].Title = " Saved Game: " + this.saveTitle
+                listItems[listIndex].Title = this.save + this.saveTitle
                 listItems[listIndex].ShortDescriptionLine1 = this.saveDesc
                 listItems[listIndex].HDPosterUrl = this.saveImage
                 listItems[listIndex].SDPosterUrl = this.saveImage
@@ -311,19 +315,19 @@ sub SecretCheatsScreen()
     end while
 end sub
 
-function GetMenuItems(menu as object)
+function GetListItems(menu as object)
     listItems = []
     listItems.Push({
-        Title: " Fight Mode: " + menu.fightModes[menu.fightIndex]
-        HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
-        SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
+        Title: menu.fight + menu.fightModes[menu.fightIndex]
+        HDSmallIconUrl: "pkg:/images/icon_arrows.png"
+        SDSmallIconUrl: "pkg:/images/icon_arrows.png"
         HDPosterUrl: "pkg:/images/fight_" + menu.fightIndex.toStr() + ".jpg"
         SDPosterUrl: "pkg:/images/fight_" + menu.fightIndex.toStr() + ".jpg"
         ShortDescriptionLine1: menu.fightHelp[menu.fightIndex]
         ShortDescriptionLine2: "Use Left and Right to select a Fight Mode"
     })
     listItems.Push({
-        Title: " Cheat Keys: " + menu.cheatModes[menu.cheatIndex]
+        Title: menu.cheat + menu.cheatModes[menu.cheatIndex]
         HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
         SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
         HDPosterUrl: "pkg:/images/cheat_" + menu.cheatIndex.toStr() + ".jpg"
@@ -332,16 +336,16 @@ function GetMenuItems(menu as object)
         ShortDescriptionLine2: "Use Left and Right to set cheat keys mode"
     })
     listItems.Push({
-        Title: " Info Key: " + menu.infoModes[menu.infoIndex]
+        Title: menu.info + menu.infoModes[menu.infoIndex]
         HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
         SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
         HDPosterUrl: "pkg:/images/infokey_" + menu.infoIndex.toStr() + ".jpg",
         SDPosterUrl: "pkg:/images/infokey_" + menu.infoIndex.toStr() + ".jpg",
         ShortDescriptionLine1: menu.infoHelp[menu.infoIndex]
-        ShortDescriptionLine2: "Use Left and Right to set info key mode"
+        ShortDescriptionLine2: "Use Left and Right to set key mode"
     })
     listItems.Push({
-        Title: " Saved Game: " + menu.saveTitle
+        Title: menu.save + menu.saveTitle
         HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
         SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
         HDPosterUrl: menu.saveImage,

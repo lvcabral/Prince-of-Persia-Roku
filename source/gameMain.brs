@@ -24,8 +24,9 @@ sub Main(params)
         black: &h000000FF,
         white: &hFFFFFFFF,
         gray: &h404040FF,
-        menuOn: &h1E3764FF,
-        menuOff: &hF4F4E6FF,
+        menuOn: &h2B87FFFF,
+        menuOff: &h7F280080,
+        menuShadow: &h1E3764FF,
         navy: &h080030FF,
         darkred: &h810000FF
     }
@@ -38,7 +39,7 @@ sub Main(params)
     m.timer = CreateObject("roTimespan")
     m.audioPlayer = CreateObject("roAudioPlayer")
     m.audioPort = CreateObject("roMessagePort")
-    m.audioPlayer.SetMessagePort(m.audioPort)
+    m.audioPlayer.setMessagePort(m.audioPort)
     m.sounds = LoadSounds(true)
     m.files = CreateObject("roFileSystem")
     m.fonts = { reg: CreateObject("roFontRegistry") }
@@ -224,26 +225,26 @@ sub ResetGame()
     if g.mobs <> invalid
         for each mob in g.mobs
             if mob.tile <> invalid then mob.tile.fall = false
-            if mob.sprite.back <> invalid then mob.sprite.back.Remove()
+            if mob.sprite.back <> invalid then mob.sprite.back.remove()
         next
     end if
     if g.guards = invalid then g.guards = []
     if g.guards.Count() > 0
         for each guard in g.guards
-            if guard.sprite <> invalid then guard.sprite.Remove()
+            if guard.sprite <> invalid then guard.sprite.remove()
             if guard.sword.sprite <> invalid then guard.sword.sprite.remove()
             if guard.splash.sprite <> invalid then guard.splash.sprite.remove()
         next
-        g.guards.Clear()
+        g.guards.clear()
     end if
     for each ginfo in g.tileSet.level.guards
         if g.tileSet.level.rooms[ginfo.room] <> invalid
-            g.guards.Push(CreateGuard(g.tileSet.level, ginfo.room, ginfo.location - 1, ginfo.direction, ginfo.skill, ginfo.type, ginfo.colors, ginfo.active, ginfo.visible))
+            g.guards.push(CreateGuard(g.tileSet.level, ginfo.room, ginfo.location - 1, ginfo.direction, ginfo.skill, ginfo.type, ginfo.colors, ginfo.active, ginfo.visible))
         end if
     next
-    g.status.Clear()
+    g.status.clear()
     if g.currentLevel < g.maxLevels - 1
-        g.status.Push({ text: "LEVEL " + m.currentLevel.toStr(), duration: 2, alert: false })
+        g.status.push({ text: "LEVEL " + m.currentLevel.toStr(), duration: 2, alert: false })
         g.showTime = true
     end if
     StopAudio()
@@ -314,7 +315,7 @@ end sub
 sub ResetScreen(mainWidth as integer, mainHeight as integer, gameWidth as integer, gameHeight as integer)
     g = GetGlobalAA()
     g.mainScreen = CreateObject("roScreen", true, mainWidth, mainHeight)
-    g.mainScreen.SetMessagePort(g.port)
+    g.mainScreen.setMessagePort(g.port)
     if mainWidth <> gameWidth or mainHeight <> gameHeight
         if m.gameWidth = 320
             g.gameXOff = Cint((g.mainWidth - g.gameWidth * 2) / 2)
@@ -329,16 +330,16 @@ sub ResetScreen(mainWidth as integer, mainHeight as integer, gameWidth as intege
     else
         g.gameScreen = g.mainScreen
     end if
-    g.gameScreen.SetAlphaEnable(true)
+    g.gameScreen.setAlphaEnable(true)
     g.compositor = CreateObject("roCompositor")
-    g.compositor.SetDrawTo(g.gameScreen, g.colors.black)
+    g.compositor.setDrawTo(g.gameScreen, g.colors.black)
     g.gameCanvas = CreateObject("roBitmap", { width: gameWidth, height: gameHeight, alphaenable: true })
 end sub
 
 sub ClearScreenBuffers()
-    m.mainScreen.Clear(0)
-    m.mainScreen.SwapBuffers()
-    m.mainScreen.Clear(0)
+    m.mainScreen.clear(0)
+    m.mainScreen.swapBuffers()
+    m.mainScreen.clear(0)
 end sub
 
 sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float, guards = [] as object)
@@ -361,12 +362,12 @@ sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
     end if
     'Load Regions
     if g.regions.general = invalid or g.regions.spriteMode <> spriteMode or g.regions.scale <> scale
-        if useModSprite and g.files.Exists(modPath + "scenes.png")
+        if useModSprite and g.files.exists(modPath + "scenes.png")
             g.regions.scenes = LoadBitmapRegions(scale, modPath, "scenes")
         else
             g.regions.scenes = LoadBitmapRegions(scale, path + "scenes/", "scenes" + suffix)
         end if
-        if useModSprite and g.files.Exists(modPath + "general.png")
+        if useModSprite and g.files.exists(modPath + "general.png")
             g.regions.general = LoadBitmapRegions(scale, modPath, "general")
         else
             g.regions.general = LoadBitmapRegions(scale, path + "general/", "general" + suffix)
@@ -375,14 +376,14 @@ sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
         for each name in sprites
             fullPath = path + name + "/"
             fullName = name + suffix
-            if useModSprite and g.files.Exists(modPath + name + ".png")
+            if useModSprite and g.files.exists(modPath + name + ".png")
                 fullPath = modPath
                 fullName = name
             end if
             charArray = []
-            charArray.Push(LoadBitmapRegions(scale, fullPath, fullName, fullName, false))
-            charArray.Push(LoadBitmapRegions(scale, fullPath, fullName, fullName, true))
-            g.regions.AddReplace(name, charArray)
+            charArray.push(LoadBitmapRegions(scale, fullPath, fullName, fullName, false))
+            charArray.push(LoadBitmapRegions(scale, fullPath, fullName, fullName, true))
+            g.regions.addReplace(name, charArray)
         next
     end if
     g.regions.guards = {}
@@ -396,14 +397,14 @@ sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
         fullPath = path + "guards/"
         fullName = guard.type + suffix
         fullImage = png + suffix
-        if useModSprite and g.files.Exists(modPath + png + ".png")
+        if useModSprite and g.files.exists(modPath + png + ".png")
             fullPath = modPath
             fullName = guard.type
             fullImage = png
         end if
-        charArray.Push(LoadBitmapRegions(scale, fullPath, fullName, fullImage, false))
-        charArray.Push(LoadBitmapRegions(scale, fullPath, fullName, fullImage, true))
-        g.regions.guards.AddReplace(png, charArray)
+        charArray.push(LoadBitmapRegions(scale, fullPath, fullName, fullImage, false))
+        charArray.push(LoadBitmapRegions(scale, fullPath, fullName, fullImage, true))
+        g.regions.guards.addReplace(png, charArray)
     next
     levelColor = ""
     if levelType >= 0
@@ -415,13 +416,13 @@ sub LoadGameSprites(spriteMode as integer, levelType as integer, scale as float,
             fullPath = path + "tiles/"
             if levelType = g.const.TYPE_DUNGEON
                 fullName = "dungeon" + suffix
-                if useModSprite and g.files.Exists(modPath + "dungeon.png")
+                if useModSprite and g.files.exists(modPath + "dungeon.png")
                     fullPath = modPath
                     fullName = "dungeon"
                 end if
             else
                 fullName = "palace" + suffix
-                if useModSprite and g.files.Exists(modPath + "palace.png")
+                if useModSprite and g.files.exists(modPath + "palace.png")
                     fullPath = modPath
                     fullName = "palace"
                 end if
