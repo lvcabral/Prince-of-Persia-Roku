@@ -13,7 +13,7 @@
 function CreateCanvas() as object
     ' Objects
     this = { screen: m.mainScreen, layers: {}, colors: m.colors, files: m.files }
-    this.scale = m.mainScreen.GetHeight() / 720
+    this.scale = m.mainScreen.GetWidth() / 1280
     this.timer = CreateObject("roTimespan")
     ' Methods
     this.SetMessagePort = set_msg_port
