@@ -36,8 +36,9 @@ function StartMenu() as integer
         if button <> selected
             m.mainScreen.Clear(0)
             m.mainScreen.DrawObject(centerX, centerY, backImage)
-            faceColors = [m.colors.white, m.colors.white, m.colors.white, m.colors.white, m.colors.white, m.colors.white]
-            faceColors[selected] = &hFF0000FF
+            noFocusColor = m.colors.menuOff
+            faceColors = [noFocusColor, noFocusColor, noFocusColor, noFocusColor, noFocusColor, noFocusColor]
+            faceColors[selected] = m.colors.menuOn
             m.mainScreen.DrawText("Play Classic PC Game", menuLeft, menuTop, faceColors[0], menuFont)
             m.mainScreen.DrawText("Play Classic Mac Game", menuLeft, menuTop + menuGap, faceColors[1], menuFont)
             m.mainScreen.DrawText("Play Community Mods", menuLeft, menuTop + menuGap * 2, faceColors[2], menuFont)
@@ -62,7 +63,7 @@ function StartMenu() as integer
             if type(key) = "roUniversalControlEvent"
                 key = key.getInt()
             end if
-            if key = m.code.BUTTON_UP_PRESSED or key = m.code.BUTTON_RIGHT_PRESSED
+            if key = m.code.BUTTON_UP_PRESSED
                 if button > 0
                     selected = button - 1
                     m.sounds.navSingle.Trigger(50)
@@ -70,7 +71,7 @@ function StartMenu() as integer
                     selected = menuMax
                     m.sounds.roll.Trigger(50)
                 end if
-            else if key = m.code.BUTTON_DOWN_PRESSED or key = m.code.BUTTON_LEFT_PRESSED
+            else if key = m.code.BUTTON_DOWN_PRESSED
                 if button < menuMax
                     selected = button + 1
                     m.sounds.navSingle.Trigger(50)
@@ -95,7 +96,7 @@ function StartMenu() as integer
                     SaveSettings(m.settings)
                     return cameras
                 else if selected = 2
-                    modId = ShowModsMenu(m.port)
+                    modId = ModsScreen(m.port)
                     if modId <> ""
                         m.settings.modId = modId
                         if m.mods[modId].sprites
@@ -103,7 +104,9 @@ function StartMenu() as integer
                         else
                             m.settings.spriteMode = m.const.SPRITES_DOS
                         end if
-                        return m.settings.zoomMode
+                        m.settings.zoomMode = cameras
+                        SaveSettings(m.settings)
+                        return cameras
                     end if
                 else if selected = 3
                     if m.inSimulator
@@ -147,8 +150,6 @@ function OptionsMenu(options as object, default as integer) as integer
     centerX = Cint((m.mainScreen.GetWidth() - (m.menuDim.w * scale)) / 2)
     centerY = Cint((m.mainScreen.GetHeight() - (m.menuDim.h * scale)) / 2)
     menuFont = m.fonts.reg.getFont("Prince of Persia Game Font", 34, false, false)
-    colorWhite = &hFFFFFFFF
-    colorRed = &hFF0000FF
     button = -1
     if default <= 1 then selected = default else selected = 0
     backImage = ScaleBitmap(CreateObject("roBitmap", "pkg:/images/options_menu.jpg"), scale)
@@ -157,11 +158,11 @@ function OptionsMenu(options as object, default as integer) as integer
             m.mainScreen.Clear(0)
             m.mainScreen.DrawObject(centerX, centerY, backImage)
             if selected = 0
-                m.mainScreen.DrawText(options[0].text, centerX + 130, centerY + 103, colorRed, menuFont)
-                m.mainScreen.DrawText(options[1].text, centerX + 130, centerY + 165, colorWhite, menuFont)
+                m.mainScreen.DrawText(options[0].text, centerX + 130, centerY + 103, m.colors.menuOn, menuFont)
+                m.mainScreen.DrawText(options[1].text, centerX + 130, centerY + 165, m.colors.menuOff, menuFont)
             else
-                m.mainScreen.DrawText(options[0].text, centerX + 130, centerY + 103, colorWhite, menuFont)
-                m.mainScreen.DrawText(options[1].text, centerX + 130, centerY + 165, colorRed, menuFont)
+                m.mainScreen.DrawText(options[0].text, centerX + 130, centerY + 103, m.colors.menuOff, menuFont)
+                m.mainScreen.DrawText(options[1].text, centerX + 130, centerY + 165, m.colors.menuOn, menuFont)
             end if
             m.mainScreen.DrawObject(centerX, centerY, ScaleBitmap(CreateObject("roBitmap", "pkg:/images/" + options[selected].image + ".png"), scale))
             m.mainScreen.SwapBuffers()

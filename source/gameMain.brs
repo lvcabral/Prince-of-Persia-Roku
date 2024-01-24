@@ -21,9 +21,11 @@ sub Main(params)
         red: &hAA0000FF,
         green: &h00AA00FF,
         yellow: &hFFFF55FF,
-        black: &hFF,
+        black: &h000000FF,
         white: &hFFFFFFFF,
         gray: &h404040FF,
+        menuOn: &h1E3764FF,
+        menuOff: &hF4F4E6FF,
         navy: &h080030FF,
         darkred: &h810000FF
     }
@@ -442,8 +444,8 @@ function GetTheme() as object
         ListScreenDescriptionText: "#FFFFFFFF",
         ListItemHighlightSD: "pkg:/images/item_highlight_sd.png",
         ListItemHighlightHD: "pkg:/images/item_highlight_hd.png",
-        ListItemText: "#C0C0C0FF",
-        ListItemHighlightText: "#FF0000FF"
+        ListItemText: "#F4F4E6FF",
+        ListItemHighlightText: "#1E3764FF"
     }
     return theme
 end function
