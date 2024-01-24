@@ -102,10 +102,10 @@ function GetModIcon(modId as dynamic) as string
     end if
     if modImage <> "" and not m.files.Exists(modCover)
         bmp = ScaleToSize(CreateObject("roBitmap", modImage), 256, 160)
-        bmp.DrawLine(0, 0, 255, 0, m.colors.white)
-        bmp.DrawLine(255, 0, 255, 159, m.colors.white)
-        bmp.DrawLine(255, 159, 0, 159, m.colors.white)
-        bmp.DrawLine(0, 159, 0, 0, m.colors.white)
+        bmp.DrawLine(1, 1, 255, 1, m.colors.white)
+        bmp.DrawLine(255, 1, 255, 159, m.colors.white)
+        bmp.DrawLine(255, 159, 1, 159, m.colors.white)
+        bmp.DrawLine(1, 159, 1, 1, m.colors.white)
         bmp.Finish()
         png = bmp.GetPng(0, 0, 256, 160)
         png.WriteFile(modCover)
@@ -113,7 +113,7 @@ function GetModIcon(modId as dynamic) as string
     return modCover
 end function
 
-function ShowModsMenu(port = invalid) as string
+function ModsScreen(port = invalid) as string
     screen = CreateGridScreen()
     if port = invalid then port = CreateObject("roMessagePort")
     screen.SetMessagePort(port)
@@ -226,7 +226,7 @@ sub SecretCheatsScreen()
                     if this.fightIndex < 0
                         this.fightIndex = this.fightModes.Count() - 1
                     end if
-                else if remoteKey = m.code.BUTTON_RIGHT_PRESSED
+                else if remoteKey = m.code.BUTTON_RIGHT_PRESSED or remoteKey = m.code.BUTTON_SELECT_PRESSED
                     this.fightIndex++
                     if this.fightIndex = this.fightModes.Count()
                         this.fightIndex = 0
@@ -244,7 +244,7 @@ sub SecretCheatsScreen()
                     if this.cheatIndex < 0
                         this.cheatIndex = this.cheatModes.Count() - 1
                     end if
-                else if remoteKey = m.code.BUTTON_RIGHT_PRESSED
+                else if remoteKey = m.code.BUTTON_RIGHT_PRESSED or remoteKey = m.code.BUTTON_SELECT_PRESSED
                     this.cheatIndex++
                     if this.cheatIndex = this.cheatModes.Count()
                         this.cheatIndex = 0
@@ -262,7 +262,7 @@ sub SecretCheatsScreen()
                     if this.infoIndex < 0
                         this.infoIndex = this.infoModes.Count() - 1
                     end if
-                else if remoteKey = m.code.BUTTON_RIGHT_PRESSED
+                else if remoteKey = m.code.BUTTON_RIGHT_PRESSED or remoteKey = m.code.BUTTON_SELECT_PRESSED
                     this.infoIndex++
                     if this.infoIndex = this.infoModes.Count()
                         this.infoIndex = 0
@@ -275,7 +275,7 @@ sub SecretCheatsScreen()
                 this.screen.SetItem(listIndex, listItems[listIndex])
                 m.settings.infoMode = this.infoIndex
             else if listIndex = 3 'Save Game
-                if remoteKey = m.code.BUTTON_LEFT_PRESSED or remoteKey = m.code.BUTTON_RIGHT_PRESSED
+                if remoteKey = m.code.BUTTON_LEFT_PRESSED or remoteKey = m.code.BUTTON_RIGHT_PRESSED or remoteKey = m.code.BUTTON_SELECT_PRESSED
                     this.saveMode = not this.saveMode
                     m.settings.saveGame = this.saveMode
                 end if
@@ -303,7 +303,7 @@ sub SecretCheatsScreen()
                 listItems[listIndex].SDPosterUrl = this.saveImage
                 this.screen.SetItem(listIndex, listItems[listIndex])
             end if
-            if remoteKey = m.code.BUTTON_LEFT_PRESSED or remoteKey = m.code.BUTTON_RIGHT_PRESSED
+            if remoteKey = m.code.BUTTON_LEFT_PRESSED or remoteKey = m.code.BUTTON_RIGHT_PRESSED or remoteKey = m.code.BUTTON_SELECT_PRESSED
                 m.sounds.navSingle.Trigger(50)
                 SaveSettings(m.settings)
             end if
@@ -354,22 +354,23 @@ end function
 
 function ModDescription(modAA as object) as string
     if modAA.author = "" then return "Original Game Levels"
-    modAuthor = " by " + modAA.author + " - "
+    modAuthor = " by " + modAA.author + " - Custom "
     modFeatures = ""
-    if modAA.levels then modFeatures = "Levels"
+    if modAA.levels then modFeatures = "levels"
     if modAA.sprites
         if modFeatures <> ""
             modFeatures = modFeatures + ", "
         end if
-        modFeatures = modFeatures + "Sprites"
+        modFeatures = modFeatures + "sprites"
     end if
     if modAA.sounds
         if modFeatures <> ""
             modFeatures = modFeatures + ", "
         end if
-        modFeatures = modFeatures + "Sounds"
+        modFeatures = modFeatures + "sounds"
     end if
-    return modAA.name + modAuthor + modFeatures
+    regex = CreateObject("roRegex", ",(?=[^,]+$)", "i")
+    return modAA.name + modAuthor + regex.replace(modFeatures," and")
 end function
 
 function SavedGameTitle(game as object) as string
