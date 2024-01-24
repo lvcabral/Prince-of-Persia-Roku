@@ -26,7 +26,11 @@ function CreateGridScreen(ignoreBackKey = false as boolean) as object
     this.focus = 0
     this.visible = false
     this.columns = 4
-    this.rows = 4
+    if IsHD()
+        this.rows = 3
+    else
+        this.rows = 4
+    end if
     this.x = 100
     this.y = 180
     this.xOff = 20
@@ -69,7 +73,7 @@ sub show_grid_screen()
             Text: m.listCount
             TextAttrs: { color: m.theme.ListScreenDescriptionText, font: "Mini", HAlign: "Right" }
             TargetRect: { x: menuPos.x, y: menuPos.y - 36, w: (thumbs.w * m.columns) + (m.xOff * (m.columns - 1)), h: 60 } })
-        items = Min(m.first + (m.columns * m.rows - 1), m.content.Count() - 1)
+        items = Min(m.first + (m.columns * (m.rows + 1) - 1), m.content.Count() - 1)
         rows = 0
         for i = m.first to items
             if menuPos.x = m.x
@@ -91,11 +95,6 @@ sub show_grid_screen()
                 menuPos.y += thumbs.h + m.yOff
             end if
         next
-        if rows = m.rows
-            imgArray.Push({
-                url: "pkg:/images/shade.png"
-                TargetRect: { x: m.x, y: menuPos.y } })
-        end if
     else if m.message <> ""
         txtArray.Push({
             Text: m.message
@@ -116,7 +115,7 @@ end sub
 
 sub set_grid_item(index as integer, item as object)
     m.content[index] = item
-    if m.visible and index >= m.first and index < m.first + m.columns * 3 then m.Show()
+    if m.visible and index >= m.first and index < m.first + m.columns * m.rows then m.Show()
 end sub
 
 function wait_grid_screen(timeout = 0, port = invalid) as object
@@ -174,7 +173,7 @@ function wait_grid_screen(timeout = 0, port = invalid) as object
                     m.focus -= m.columns
                     m.sounds.deadend.Trigger(50)
                 else
-                    if m.focus > m.first + (m.columns * 3 - 1)
+                    if m.focus > m.first + (m.columns * m.rows - 1)
                         m.first += m.columns
                     end if
                     m.sounds.navSingle.Trigger(50)
