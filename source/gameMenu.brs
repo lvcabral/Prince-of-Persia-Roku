@@ -14,19 +14,27 @@
 
 function StartMenu() as integer
     m.mainScreen.Clear(0)
-    m.menuDim = { w: 1024, h: 692 }
-    scale = Int(GetScale(m.mainScreen, m.menuDim.w, m.menuDim.h))
-    centerX = Cint((m.mainScreen.GetWidth() - (m.menuDim.w * scale)) / 2)
-    centerY = Cint((m.mainScreen.GetHeight() - (m.menuDim.h * scale)) / 2)
-    noTitle = CreateObject("roBitmap", "pkg:/images/menu_back.jpg")
-    backImage = CreateObject("roBitmap", "pkg:/images/start_menu.jpg")
-    CrossFade(m.mainScreen, centerX, centerY, noTitle, backImage, 4)
-    menuFont = m.fonts.reg.getFont("Prince of Persia Game Font", 32, false, false)
-    menuMode = m.fonts.reg.getFont("Prince of Persia Game Font", 28, false, false)
-    menuLeft = centerX + 368
-    menuTop = centerY + 243
+    if IsHD()
+        m.menu = { w: 1024, h: 692, s: 1 }
+    else
+        m.menu = { w: 640, h: 433, s: 640 / 1024 }
+    end if
+    m.menu.x = Cint((m.mainScreen.GetWidth() - m.menu.w) / 2)
+    m.menu.y = Cint((m.mainScreen.GetHeight() - m.menu.h) / 2)
+    if IsHD()
+        noTitle = CreateObject("roBitmap", "pkg:/images/menu_back.jpg")
+        backImage = CreateObject("roBitmap", "pkg:/images/start_menu.jpg")
+    else
+        noTitle = ScaleToSize(CreateObject("roBitmap", "pkg:/images/menu_back.jpg"), m.menu.w, m.menu.h)
+        backImage = ScaleToSize(CreateObject("roBitmap", "pkg:/images/start_menu.jpg"), m.menu.w, m.menu.h)
+    end if
+    CrossFade(m.mainScreen, m.menu.x, m.menu.y, noTitle, backImage, 4)
+    menuFont = m.fonts.reg.getFont("Prince of Persia Game Font", int(32 * m.menu.s), false, false)
+    menuMode = m.fonts.reg.getFont("Prince of Persia Game Font", int(28 * m.menu.s), false, false)
+    menuLeft = m.menu.x + int(368 * m.menu.s)
+    menuTop = m.menu.y + int(243 * m.menu.s)
     menuMax = 5
-    menuGap = 56
+    menuGap = 56 * m.menu.s
     cameras = m.settings.zoomMode
     button = -1
     selected = 0
@@ -35,7 +43,7 @@ function StartMenu() as integer
     while true
         if button <> selected
             m.mainScreen.Clear(0)
-            m.mainScreen.DrawObject(centerX, centerY, backImage)
+            m.mainScreen.DrawObject(m.menu.x, m.menu.y, backImage)
             noFocusColor = m.colors.menuOff
             faceColors = [noFocusColor, noFocusColor, noFocusColor, noFocusColor, noFocusColor, noFocusColor]
             faceColors[selected] = m.colors.menuOn
@@ -54,7 +62,7 @@ function StartMenu() as integer
             else
                 mode = "Original"
             end if
-            m.mainScreen.DrawText(Substitute("Zoom: {0}", mode), centerX + 436, centerY + 634, m.colors.white, menuMode)
+            m.mainScreen.DrawText(Substitute("Zoom: {0}", mode), m.menu.x + 436 * m.menu.s, m.menu.y + 634 * m.menu.s, m.colors.white, menuMode)
             m.mainScreen.SwapBuffers()
             button = selected
         end if
@@ -146,25 +154,29 @@ function StartMenu() as integer
 end function
 
 function OptionsMenu(options as object, default as integer) as integer
-    scale = Int(GetScale(m.mainScreen, m.menuDim.w, m.menuDim.h))
-    centerX = Cint((m.mainScreen.GetWidth() - (m.menuDim.w * scale)) / 2)
-    centerY = Cint((m.mainScreen.GetHeight() - (m.menuDim.h * scale)) / 2)
-    menuFont = m.fonts.reg.getFont("Prince of Persia Game Font", 34, false, false)
+    menuX = m.menu.x + 130 * m.menu.s
+    menuY0 = m.menu.y + 103 * m.menu.s
+    menuY1 = m.menu.y + 165 * m.menu.s
+    menuFont = m.fonts.reg.getFont("Prince of Persia Game Font", 34 * m.menu.s, false, false)
     button = -1
     if default <= 1 then selected = default else selected = 0
-    backImage = ScaleBitmap(CreateObject("roBitmap", "pkg:/images/options_menu.jpg"), scale)
+    backImage = ScaleBitmap(CreateObject("roBitmap", "pkg:/images/options_menu.jpg"), m.menu.s)
+    images = [
+        ScaleBitmap(CreateObject("roBitmap", "pkg:/images/" + options[0].image + ".png"), m.menu.s),
+        ScaleBitmap(CreateObject("roBitmap", "pkg:/images/" + options[1].image + ".png"), m.menu.s)
+    ]
     while true
         if button <> selected
             m.mainScreen.Clear(0)
-            m.mainScreen.DrawObject(centerX, centerY, backImage)
+            m.mainScreen.DrawObject(m.menu.x, m.menu.y, backImage)
             if selected = 0
-                m.mainScreen.DrawText(options[0].text, centerX + 130, centerY + 103, m.colors.menuOn, menuFont)
-                m.mainScreen.DrawText(options[1].text, centerX + 130, centerY + 165, m.colors.menuOff, menuFont)
+                m.mainScreen.DrawText(options[0].text, menuX, menuY0, m.colors.menuOn, menuFont)
+                m.mainScreen.DrawText(options[1].text, menuX, menuY1, m.colors.menuOff, menuFont)
             else
-                m.mainScreen.DrawText(options[0].text, centerX + 130, centerY + 103, m.colors.menuOff, menuFont)
-                m.mainScreen.DrawText(options[1].text, centerX + 130, centerY + 165, m.colors.menuOn, menuFont)
+                m.mainScreen.DrawText(options[0].text, menuX, menuY0, m.colors.menuOff, menuFont)
+                m.mainScreen.DrawText(options[1].text, menuX, menuY1, m.colors.menuOn, menuFont)
             end if
-            m.mainScreen.DrawObject(centerX, centerY, ScaleBitmap(CreateObject("roBitmap", "pkg:/images/" + options[selected].image + ".png"), scale))
+            m.mainScreen.DrawObject(m.menu.x, m.menu.y, images[selected])
             m.mainScreen.SwapBuffers()
             button = selected
         end if
@@ -194,40 +206,41 @@ function OptionsMenu(options as object, default as integer) as integer
 end function
 
 sub HighScoresScreen()
-    scale = Int(GetScale(m.mainScreen, m.menuDim.w, m.menuDim.h))
-    centerX = Cint((m.mainScreen.GetWidth() - (m.menuDim.w * scale)) / 2)
-    centerY = Cint((m.mainScreen.GetHeight() - (m.menuDim.h * scale)) / 2)
-    backImage = ScaleBitmap(CreateObject("roBitmap", "pkg:/images/highscores_back.jpg"), scale)
+    backImage = ScaleBitmap(CreateObject("roBitmap", "pkg:/images/highscores_back.jpg"), m.menu.s)
+    fontScale = 3.0 * m.menu.s
 
-    ' Enable code below to test High Scores list
+    ' Uncomment code below to test High Scores list
     ' if m.highScores = invalid or m.highScores.count() = 0
     '     m.highScores = [
-    '         { name: "Marcelo Cabral", time: 3000 },
-    '         { name: "Jordan Mechner", time: 1000 }
+    '         { name: "Jordan", time: 3550 },
+    '         { name: "David", time: 3450 },
+    '         { name: "Norbert", time: 3350 },
+    '         { name: "Marcelo", time: 3230 },
+    '         { name: "oitofelix", time: 3100 }
     '     ]
     ' end if
 
     while true
         m.mainScreen.Clear(0)
-        m.mainScreen.DrawObject(centerX, centerY, backImage)
-        xn = centerX + 72 * 3
-        xt = centerX + 217 * 3
-        ys = centerY + 85 * 3
+        m.mainScreen.DrawObject(m.menu.x, m.menu.y, backImage)
+        xn = m.menu.x + 232 * m.menu.s
+        xt = m.menu.x + 686 * m.menu.s
+        ys = m.menu.y + 275 * m.menu.s
         c = 0
         for each score in m.highScores
-            m.bitmapFont.write(m.mainScreen, score.name, xn, ys, 3.0)
-            m.bitmapFont.write(m.mainScreen, FormatTime(score.time), xt, ys, 3.0)
-            ys += (12 * 3)
+            m.bitmapFont.write(m.mainScreen, score.name, xn, ys, fontScale)
+            m.bitmapFont.write(m.mainScreen, FormatTime(score.time), xt, ys, fontScale)
+            ys += (12 * 3)  * m.menu.s
             c++
             if c = 7 then exit for
         next
         if m.highScores.Count() > 0
-            m.bitmapFont.write(m.mainScreen, "[ Press * to reset the High Scores ]", xn - 52, 370, 3.0)
+            m.bitmapFont.write(m.mainScreen, "[ Press * to reset the High Scores ]", m.menu.x + 157 * m.menu.s, m.menu.y + 560 * m.menu.s, fontScale)
         else
-            m.bitmapFont.write(m.mainScreen, "< No High Scores are recorded yet >", xn - 52, ys + 108, 3.0)
+            m.bitmapFont.write(m.mainScreen, "< No High Scores are recorded yet >", m.menu.x + 157 * m.menu.s, ys + 108 * m.menu.s, fontScale)
         end if
         m.mainScreen.SwapBuffers()
-        key = wait(0, m.port)
+        key = wait(100, m.port)
         if key <> invalid
             if type(key) = "roUniversalControlEvent"
                 key = key.getInt()
@@ -239,7 +252,7 @@ sub HighScoresScreen()
                     m.highScores = []
                     SaveHighScores(m.highScores)
                 end if
-            else if key < 100
+            else if key = m.code.BUTTON_BACK_PRESSED
                 m.sounds.navSingle.Trigger(50)
                 exit while
             end if
@@ -248,18 +261,15 @@ sub HighScoresScreen()
 end sub
 
 sub ImageScreen(imageFile)
-    scale = Int(GetScale(m.mainScreen, m.menuDim.w, m.menuDim.h))
-    centerX = Cint((m.mainScreen.GetWidth() - (m.menuDim.w * scale)) / 2)
-    centerY = Cint((m.mainScreen.GetHeight() - (m.menuDim.h * scale)) / 2)
     m.mainScreen.Clear(0)
-    m.mainScreen.DrawObject(centerX, centerY, ScaleBitmap(CreateObject("roBitmap", "pkg:/images/" + imageFile), scale))
+    m.mainScreen.DrawObject(m.menu.x, m.menu.y, ScaleBitmap(CreateObject("roBitmap", "pkg:/images/" + imageFile), m.menu.s))
     m.mainScreen.SwapBuffers()
     while true
-        key = wait(0, m.port)
-        if type(key) = "roUniversalControlEvent"
-            key = key.getInt()
+        event = wait(0, m.port)
+        if type(event) = "roUniversalControlEvent"
+            key = event.getInt()
+            if key = m.code.BUTTON_BACK_PRESSED then exit while
         end if
-        if key <> invalid and key < 100 then exit while
     end while
 end sub
 
