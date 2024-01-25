@@ -73,7 +73,7 @@ function StartMenu() as integer
         event = Wait(0, m.port)
         if Type(event) = "roUniversalControlEvent"
             key = event.getInt()
-            cheatCheck(key)
+            CheckCheatCode(key)
             if key = m.code.BUTTON_UP_PRESSED
                 if selected > 0
                     selected--
@@ -94,7 +94,7 @@ function StartMenu() as integer
                 redraw = true
             else if key = m.code.BUTTON_INFO_PRESSED or key = m.code.BUTTON_FAST_FORWARD_PRESSED
                 m.sounds.select.trigger(50)
-                ImageScreen("game_credits.jpg")
+                ImageScreen("game_credits.jpg", menuMode)
                 redraw = true
             else if key = m.code.BUTTON_SELECT_PRESSED
                 m.sounds.select.trigger(50)
@@ -127,7 +127,7 @@ function StartMenu() as integer
                     SaveSettings(m.settings)
                 else if selected = 4
                     if m.inSimulator
-                        ImageScreen("game_control.jpg")
+                        ImageScreen("game_control.jpg", menuMode)
                     else
                         option = OptionsMenu([{ text: "Vertical Control", image: "control_vertical" }, { text: "Horizontal Control", image: "control_horizontal" }], m.settings.controlMode)
                         if option >= 0 and option <> m.settings.controlMode
@@ -176,7 +176,7 @@ function OptionsMenu(options as object, default as integer) as integer
         event = wait(0, m.port)
         if type(event) = "roUniversalControlEvent"
             key = event.getInt()
-            cheatCheck(key)
+            CheckCheatCode(key)
             if key = m.code.BUTTON_DOWN_PRESSED or key = m.code.BUTTON_LEFT_PRESSED or key = m.code.BUTTON_UP_PRESSED or key = m.code.BUTTON_RIGHT_PRESSED
                 m.sounds.navSingle.trigger(50)
                 if button = 1
@@ -235,7 +235,7 @@ sub HighScoresScreen()
         event = wait(0, m.port)
         if type(event) = "roUniversalControlEvent"
             key = event.getInt()
-            cheatCheck(key)
+            CheckCheatCode(key)
             if key = m.code.BUTTON_INFO_PRESSED or key = m.code.BUTTON_FAST_FORWARD_PRESSED
                 if m.highScores.Count() > 0
                     m.sounds.select.trigger(50)
@@ -253,15 +253,16 @@ sub HighScoresScreen()
     end while
 end sub
 
-sub ImageScreen(imageFile)
+sub ImageScreen(imageFile, font)
     m.mainScreen.clear(0)
     m.mainScreen.drawObject(m.menu.x, m.menu.y, ScaleBitmap(CreateObject("roBitmap", "pkg:/images/" + imageFile), m.menu.s))
+    m.mainScreen.drawText(GetAppVersion(), m.menu.x + 452 * m.menu.s, m.menu.y + CInt(633 * m.menu.s), m.colors.white, font)
     m.mainScreen.swapBuffers()
     while true
         event = wait(0, m.port)
         if type(event) = "roUniversalControlEvent"
             key = event.getInt()
-            cheatCheck(key)
+            CheckCheatCode(key)
             if key = m.code.BUTTON_BACK_PRESSED then exit while
         end if
     end while
@@ -344,7 +345,7 @@ sub TextBox(screen as object, width as integer, height as integer, text as strin
     m.mainScreen.swapBuffers()
 end sub
 
-sub cheatCheck(key)
+sub CheckCheatCode(key)
     if key < 10
         m.cheatSeq = m.cheatSeq + key.toStr()
         if Left(m.cheatKey, Len(m.cheatSeq)) <> m.cheatSeq
@@ -352,3 +353,9 @@ sub cheatCheck(key)
         end if
     end if
 end sub
+
+function GetAppVersion()
+    ma = m.manifest
+    version = "v" + ma.major_version + "." + ma.minor_version + "." + ma.build_version
+    return version
+end function
