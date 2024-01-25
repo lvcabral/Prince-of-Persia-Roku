@@ -37,8 +37,8 @@ function StartMenu() as integer
     menuGap = 56 * m.menu.s
     redraw = true
     selected = 0
-    cheatKey = -1
-    cheatCnt = 0
+    m.cheatKey = "2233454506"
+    m.cheatSeq = ""
     menuOptions = [
         "Play Classic PC Game",
         "Play Classic Mac Game",
@@ -73,7 +73,7 @@ function StartMenu() as integer
         event = Wait(0, m.port)
         if Type(event) = "roUniversalControlEvent"
             key = event.getInt()
-            print key
+            cheatCheck(key)
             if key = m.code.BUTTON_UP_PRESSED
                 if selected > 0
                     selected--
@@ -92,13 +92,16 @@ function StartMenu() as integer
                     m.sounds.roll.trigger(50)
                 end if
                 redraw = true
-            else if key = m.code.BUTTON_INFO_PRESSED
+            else if key = m.code.BUTTON_INFO_PRESSED or key = m.code.BUTTON_FAST_FORWARD_PRESSED
                 m.sounds.select.trigger(50)
                 ImageScreen("game_credits.jpg")
                 redraw = true
             else if key = m.code.BUTTON_SELECT_PRESSED
                 m.sounds.select.trigger(50)
-                if selected < 2
+                if m.cheatSeq = m.cheatKey
+                    SecretCheatsScreen()
+                    redraw = true
+                else if selected < 2
                     m.settings.spriteMode = selected
                     m.settings.modId = invalid
                     SaveSettings(m.settings)
@@ -137,22 +140,6 @@ function StartMenu() as integer
                 end if
                 redraw = true
             end if
-            if key = m.code.BUTTON_REWIND_PRESSED
-                if cheatCnt = 0 or cheatKey = m.code.BUTTON_FAST_FORWARD_PRESSED
-                    cheatKey = m.code.BUTTON_REWIND_PRESSED
-                    cheatCnt++
-                end if
-            else if key = m.code.BUTTON_FAST_FORWARD_PRESSED
-                if cheatCnt = 3
-                    SecretCheatsScreen()
-                    redraw = true
-                else if cheatKey = m.code.BUTTON_REWIND_PRESSED
-                    cheatKey = m.code.BUTTON_FAST_FORWARD_PRESSED
-                end if
-            else if key < 100
-                cheatKey = -1
-                cheatCnt = 0
-            end if
         end if
     end while
 end function
@@ -186,11 +173,10 @@ function OptionsMenu(options as object, default as integer) as integer
             m.mainScreen.swapBuffers()
             button = selected
         end if
-        key = wait(0, m.port)
-        if key <> invalid
-            if type(key) = "roUniversalControlEvent"
-                key = key.getInt()
-            end if
+        event = wait(0, m.port)
+        if type(event) = "roUniversalControlEvent"
+            key = event.getInt()
+            cheatCheck(key)
             if key = m.code.BUTTON_DOWN_PRESSED or key = m.code.BUTTON_LEFT_PRESSED or key = m.code.BUTTON_UP_PRESSED or key = m.code.BUTTON_RIGHT_PRESSED
                 m.sounds.navSingle.trigger(50)
                 if button = 1
@@ -246,17 +232,18 @@ sub HighScoresScreen()
             m.bitmapFont.write(m.mainScreen, "< No High Scores are recorded yet >", m.menu.x + 157 * m.menu.s, ys + 108 * m.menu.s, fontScale)
         end if
         m.mainScreen.swapBuffers()
-        key = wait(100, m.port)
-        if key <> invalid
-            if type(key) = "roUniversalControlEvent"
-                key = key.getInt()
-            end if
-            if key = m.code.BUTTON_INFO_PRESSED and m.highScores.Count() > 0
-                m.sounds.select.trigger(50)
-                saveOpt = MessageBox(m.mainScreen, 230, 100, "Reset Scores?", 2)
-                if saveOpt = m.const.BUTTON_YES
-                    m.highScores = []
-                    SaveHighScores(m.highScores)
+        event = wait(0, m.port)
+        if type(event) = "roUniversalControlEvent"
+            key = event.getInt()
+            cheatCheck(key)
+            if key = m.code.BUTTON_INFO_PRESSED or key = m.code.BUTTON_FAST_FORWARD_PRESSED
+                if m.highScores.Count() > 0
+                    m.sounds.select.trigger(50)
+                    saveOpt = MessageBox(m.mainScreen, 230, 100, "Reset Scores?", 2)
+                    if saveOpt = m.const.BUTTON_YES
+                        m.highScores = []
+                        SaveHighScores(m.highScores)
+                    end if
                 end if
             else if key = m.code.BUTTON_BACK_PRESSED
                 m.sounds.navSingle.trigger(50)
@@ -274,12 +261,23 @@ sub ImageScreen(imageFile)
         event = wait(0, m.port)
         if type(event) = "roUniversalControlEvent"
             key = event.getInt()
+            cheatCheck(key)
             if key = m.code.BUTTON_BACK_PRESSED then exit while
         end if
     end while
 end sub
 
 function MessageBox(screen as object, width as integer, height as integer, text as string, options = 3 as integer) as integer
+    option = 2
+    if IsHD() and not m.inSimulator
+        tempfile = "tmp:/screenshot.png"
+        screenshot = screen.GetPng(0, 0, screen.getWidth(), screen.getHeight())
+        screenshot.WriteFile(tempfile)
+        backImage = CreateObject("roBitmap", tempfile)
+    else
+        backImage = CreateObject("roBitmap", { width: m.mainScreen.getWidth(), height: m.mainScreen.getHeight(), alphaenable: false })
+        backImage.drawObject(0, 0, m.mainScreen)
+    end if
     leftX = Cint((screen.getWidth() - width) / 2)
     topY = Cint((screen.getHeight() - height) / 2)
     xt = leftX + int(width / 2) - ((Len(text) + 1) * 14) / 2
@@ -289,6 +287,7 @@ function MessageBox(screen as object, width as integer, height as integer, text 
     selected = m.const.BUTTON_YES
     while true
         if button <> selected
+            m.mainScreen.drawObject(0, 0, backImage)
             screen.drawRect(leftX, topY, width, height, m.colors.black)
             m.bitmapFont.write(screen, text, xt, yt, 2.0)
             DrawBorder(screen, width, height, m.colors.white, 0)
@@ -343,4 +342,13 @@ sub TextBox(screen as object, width as integer, height as integer, text as strin
     m.bitmapFont.write(screen, text, xt, yt, scale)
     if border then DrawBorder(screen, width, height, m.colors.white, 0)
     m.mainScreen.swapBuffers()
+end sub
+
+sub cheatCheck(key)
+    if key < 10
+        m.cheatSeq = m.cheatSeq + key.toStr()
+        if Left(m.cheatKey, Len(m.cheatSeq)) <> m.cheatSeq
+            m.cheatSeq = ""
+        end if
+    end if
 end sub

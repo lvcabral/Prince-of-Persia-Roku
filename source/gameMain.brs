@@ -115,8 +115,7 @@ sub Main(params)
             m.checkPoint = invalid
             m.usedCheat = (m.settings.fight > m.const.FIGHT_ATTACK)
             if m.settings.saveGame and m.savedGame <> invalid
-                ClearScreenBuffers()
-                option = MessageBox(m.gameScreen, 320, 100, "Restore Saved Game?")
+                option = MessageBox(m.mainScreen, 320, 100, "Restore Saved Game?")
                 if option = m.const.BUTTON_YES
                     m.currentLevel = m.savedGame.level
                     m.checkPoint = m.savedGame.checkPoint

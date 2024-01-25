@@ -93,15 +93,15 @@ sub DrawStatusBar(screen as object, width as integer, height as integer)
         else
             borderColor = m.colors.gray
         end if
-        DrawBorder(m.mainScreen, m.gameWidth, m.gameHeight, borderColor, 2)
+        borderScale = 1
+        if m.settings.zoomMode = 1 and m.scale = 1
+            borderScale = 2
+        end if
+        DrawBorder(m.mainScreen, m.gameWidth * borderScale, m.gameHeight * borderScale, borderColor, 2)
     end if
 end sub
 
 sub DrawBorder(screen as object, width as integer, height as integer, color as integer, offset as integer)
-    if m.settings.zoomMode = 1 and m.scale = 1
-        width = width * 2
-        height = height * 2
-    end if
     leftX = Cint((screen.GetWidth() - width) / 2) - offset
     rightX = leftX + width + offset * 2
     topY = Cint((screen.GetHeight() - height) / 2) - offset
