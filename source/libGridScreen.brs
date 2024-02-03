@@ -115,7 +115,9 @@ end sub
 
 sub set_grid_item(index as integer, item as object)
     m.content[index] = item
-    if m.visible and index >= m.first and index < m.first + m.columns * m.rows then m.Show()
+    if m.visible and index >= m.first and index < m.first + m.columns * m.rows
+        m.Show()
+    end if
 end sub
 
 function wait_grid_screen(timeout = 0, port = invalid) as object
@@ -133,7 +135,7 @@ function wait_grid_screen(timeout = 0, port = invalid) as object
                     m.focus--
                     m.sounds.navSingle.Trigger(50)
                 end if
-                m.Show()
+                if m.visible then m.Show()
                 msg = GetScreenMessage(m.focus, "focused")
             end if
         else if index = m.codes.BUTTON_RIGHT_PRESSED
@@ -148,7 +150,7 @@ function wait_grid_screen(timeout = 0, port = invalid) as object
                 else
                     m.sounds.navSingle.Trigger(50)
                 end if
-                m.Show()
+                if m.visible then m.Show()
                 msg = GetScreenMessage(m.focus, "focused")
             end if
         else if index = m.codes.BUTTON_UP_PRESSED
@@ -163,7 +165,7 @@ function wait_grid_screen(timeout = 0, port = invalid) as object
                     end if
                     m.sounds.navSingle.Trigger(50)
                 end if
-                m.Show()
+                if m.visible then m.Show()
                 msg = GetScreenMessage(m.focus, "focused")
             end if
         else if index = m.codes.BUTTON_DOWN_PRESSED
@@ -178,7 +180,7 @@ function wait_grid_screen(timeout = 0, port = invalid) as object
                     end if
                     m.sounds.navSingle.Trigger(50)
                 end if
-                m.Show()
+                if m.visible then m.Show()
                 msg = GetScreenMessage(m.focus, "focused")
             end if
         else if index = m.codes.BUTTON_BACK_PRESSED and not m.ignoreBackKey

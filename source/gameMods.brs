@@ -3,7 +3,7 @@
 ' **  Prince of Persia for Roku - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: July 2016
-' **  Updated: January 2024
+' **  Updated: February 2024
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -101,11 +101,12 @@ function GetModIcon(modId as dynamic) as string
         modCover = "tmp:/" + modId + ".png"
     end if
     if modImage <> "" and not m.files.Exists(modCover)
+        print "scaling to size: "; modImage, modCover
         bmp = ScaleToSize(CreateObject("roBitmap", modImage), 256, 160)
-        bmp.DrawLine(1, 1, 255, 1, m.colors.white)
-        bmp.DrawLine(255, 1, 255, 159, m.colors.white)
-        bmp.DrawLine(255, 159, 1, 159, m.colors.white)
-        bmp.DrawLine(1, 159, 1, 1, m.colors.white)
+        bmp.DrawLine(0, 0, 255, 0, m.colors.white)
+        bmp.DrawLine(255, 0, 255, 159, m.colors.white)
+        bmp.DrawLine(255, 159, 0, 159, m.colors.white)
+        bmp.DrawLine(0, 159, 0, 0, m.colors.white)
         bmp.Finish()
         png = bmp.GetPng(0, 0, 256, 160)
         png.WriteFile(modCover)
@@ -138,9 +139,10 @@ function ModsScreen(port = invalid) as string
     end if
     selected = ""
     while true
+        screen.visible = false
         msg = screen.Wait()
         if msg = invalid
-            screen.show()
+            ' ignore invalid message (key up)
         else if msg.isScreenClosed()
             selected = ""
             exit while
@@ -152,6 +154,7 @@ function ModsScreen(port = invalid) as string
             if modAA <> invalid
                 screen.SetListName(ModDescription(modAA))
             end if
+            screen.show()
         else if msg.isListItemSelected()
             item = content[msg.GetIndex()]
             if item <> invalid
