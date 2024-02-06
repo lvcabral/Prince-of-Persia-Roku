@@ -13,6 +13,7 @@
 ' ********************************************************************************************************
 
 function StartMenu() as integer
+    m.firstRun = (m.firstRun = invalid)
     m.mainScreen.clear(0)
     if IsHD()
         m.menu = { w: 1024, h: 692, s: 1 }
@@ -28,7 +29,7 @@ function StartMenu() as integer
         noTitle = ScaleToSize(CreateObject("roBitmap", "pkg:/images/menu_back.jpg"), m.menu.w, m.menu.h)
         backImage = ScaleToSize(CreateObject("roBitmap", "pkg:/images/start_menu.jpg"), m.menu.w, m.menu.h)
     end if
-    CrossFade(m.mainScreen, m.menu.x, m.menu.y, noTitle, backImage, 4)
+    if m.firstRun then CrossFade(m.mainScreen, m.menu.x, m.menu.y, noTitle, backImage, 4)
     menuFont = m.fonts.reg.getFont("Prince of Persia Game Font", int(30 * m.menu.s), false, false)
     menuMode = m.fonts.reg.getFont("Prince of Persia Game Font", int(28 * m.menu.s), false, false)
     menuLeft = m.menu.x + Cint(368 * m.menu.s)

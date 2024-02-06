@@ -101,7 +101,7 @@ function GetModIcon(modId as dynamic) as string
         modCover = "tmp:/" + modId + ".png"
     end if
     if modImage <> "" and not m.files.Exists(modCover)
-        print "scaling to size: "; modImage, modCover
+        ' print "scaling to size: "; modImage, modCover
         bmp = ScaleToSize(CreateObject("roBitmap", modImage), 256, 160)
         bmp.DrawLine(0, 0, 255, 0, m.colors.white)
         bmp.DrawLine(255, 0, 255, 159, m.colors.white)

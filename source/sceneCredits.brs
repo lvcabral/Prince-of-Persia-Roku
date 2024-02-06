@@ -57,7 +57,7 @@ Function PlayIntro(spriteMode = -1 as integer) as boolean
     centerX = Cint((screen.GetWidth() - (320 * posScale)) / 2)
     centerY = Cint((screen.GetHeight() - (200 * posScale)) / 2)
 	intro = ScaleBitmap(CreateObject("roBitmap", pngIntro), scale)
-    CrossFade(screen, centerX, centerY, GetPaintedBitmap(m.colors.black, 320 * posScale, 200 * posScale,true), intro, 3)
+	ImageFadeIn(screen, centerX, centerY, intro, 3)
     PlaySong("main-theme")
     msg = wait(2600, m.port)
     for s = 1 to 5
@@ -112,7 +112,7 @@ Sub PlayEnding()
 	centerX = Cint((m.mainScreen.GetWidth()-(320*scale))/2)
 	centerY = Cint((m.mainScreen.GetHeight()-(200*scale))/2)
 	intro = ScaleBitmap(CreateObject("roBitmap", "pkg:/assets/titles/intro-screen"+suffix+".png"), introScale)
-	CrossFade(m.mainScreen, centerX, centerY, GetPaintedBitmap(0,320*scale, 200*scale,true), intro, 4)
+	ImageFadeIn(m.mainScreen, centerX, centerY, intro, 4)
 	wait(95000, m.port)
 	m.audioPlayer.stop()
 End Sub
@@ -153,7 +153,7 @@ Function TextScreen(pngFile as string, color as integer, waitTime = 0 as integer
 	canvas.DrawRect(16 * scale, 16 * scale, 288 * scale, 156 * scale, color)
 	canvas.DrawObject(30 * scale, 25 * scale, bmp)
 	if fadeIn > 0
-		CrossFade(screen, centerX, centerY, GetPaintedBitmap(0, 320 * scale, 200 * scale, true), canvas, fadeIn)
+		ImageFadeIn(screen, centerX, centerY, canvas, fadeIn)
 	else
 		screen.DrawObject(centerX, centerY, canvas)
 	end if

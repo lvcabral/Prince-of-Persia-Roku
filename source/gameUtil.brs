@@ -415,6 +415,19 @@ sub CrossFade(screen as object, x as integer, y as integer, objectfadeout as obj
     end for
 end sub
 
+sub ImageFadeIn(screen, x as integer, y as integer, objectfadein as object, speed = 1 as integer)
+    screen.SetAlphaEnable(true)
+    width = objectfadein.getWidth()
+    height = objectfadein.getHeight()
+    for i = 0 to 255 step speed
+        hexcolor = &hFF - i
+        screen.Clear(0)
+        screen.DrawObject(x, y, objectfadein)
+        screen.DrawObject(x, y, GetPaintedBitmap(hexcolor, width, height, true))
+        screen.SwapBuffers()
+    end for
+end sub
+
 function GetScale(screen as object, width as integer, height as integer) as float
     scaleX = screen.GetWidth() / width
     scaleY = screen.GetHeight() / height
