@@ -187,10 +187,12 @@ sub update_behaviour_kid()
             m.tryPickup()
         end if
     else if m.charAction = "startrun"
+        m.charRepeat = false
         if m.keyU()
             m.action("standjump")
         end if
     else if m.charAction = "running"
+        m.charRepeat = false
         if (m.keyL() and m.faceR()) or (m.keyR() and m.faceL())
             m.action("runturn")
         else if m.keyU()
@@ -204,6 +206,7 @@ sub update_behaviour_kid()
             end if
         end if
     else if m.charAction = "turn"
+        m.charRepeat = false
         if ((m.keyL() and m.faceL()) or (m.keyR() and m.faceR())) and m.frameID(48)
             if m.nearBarrier()
                 m.walk()
@@ -220,6 +223,7 @@ sub update_behaviour_kid()
             m.startup = false
         end if
     else if m.charAction = "stoop"
+        m.charRepeat = false
         if m.pickupSword and m.frameID(109)
             m.getSword()
         else if m.pickupPotion and m.frameID(109)
@@ -232,6 +236,7 @@ sub update_behaviour_kid()
             m.allowCrawl = false
         end if
     else if m.charAction = "hang" or m.charAction = "hangstraight"
+        m.charRepeat = false
         tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
         tileT = m.level.getTileAt(m.blockX, m.blockY - 1, m.room)
         if m.charAction = "hang"
@@ -253,6 +258,7 @@ sub update_behaviour_kid()
             m.startFall()
         end if
     else if m.charAction = "climbup" or m.charAction = "climbdown"
+        m.charRepeat = false
         tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
         tileT = m.level.getTileAt(m.blockX, m.blockY - 1, m.room)
         if tile.element = m.const.TILE_RAISE_BUTTON or tile.element = m.const.TILE_DROP_BUTTON
@@ -266,6 +272,7 @@ sub update_behaviour_kid()
             m.startFall()
         end if
     else if m.charAction = "freefall" or m.charAction = "bumpfall"
+        m.charRepeat = false
         if m.keyS()
             m.tryGrabEdge()
         end if
@@ -278,6 +285,7 @@ sub update_behaviour_kid()
             PlaySound("bump")
         end if
     else if m.charAction = "engarde"
+        m.charRepeat = false
         if ((m.keyL() and m.faceL()) or (m.keyR() and m.faceR())) and m.allowAdvance
             m.advance()
         else if ((m.keyL() and m.faceR()) or (m.keyR() and m.faceL())) and m.allowRetreat
@@ -290,10 +298,12 @@ sub update_behaviour_kid()
             m.fastSheathe()
         end if
     else if m.charAction = "advance" or m.charAction = "blockedstrike"
+        m.charRepeat = false
         if m.keyU() and m.allowBlock
             m.block()
         end if
     else if m.charAction = "retreat" or m.charAction = "strike" or m.charAction = "block"
+        m.charRepeat = false
         if m.keyS() and m.allowStrike
             m.strike()
         end if

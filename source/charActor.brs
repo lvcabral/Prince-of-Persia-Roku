@@ -319,8 +319,8 @@ sub check_floor()
         if m.charFcheck
             tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
             if tile.isSpace()
-                if m.actionCode = 5
-                    return 'being bumped
+                if m.actionCode = 5 or m.charAction = "testfoot"
+                    return 'being bumped or testing foot
                 end if
                 if m.leapOfFaith
                     'show tiles
