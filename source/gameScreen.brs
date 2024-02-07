@@ -117,6 +117,7 @@ function PlayGame() as boolean
                 m.usedCheat = true
             else if CommandSpaceBar(id)
                 if m.debugMode or m.settings.infoMode = m.const.INFO_TIME
+                    m.redraw = m.debugMode
                     m.debugMode = false
                     m.dark = false
                     m.status.Clear()
@@ -128,8 +129,8 @@ function PlayGame() as boolean
                     m.kid.flee = false
                     version = "v" + m.manifest.major_version + "." + m.manifest.minor_version + "." + m.manifest.build_version
                     m.status.Push({ text: version + " * DEBUG MODE ON", duration: 2, alert: false })
+                    m.redraw = true
                 end if
-                m.redraw = true
             else
                 m.kid.cursors.update(id, m.kid.swordDrawn)
             end if
