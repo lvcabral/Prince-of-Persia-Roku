@@ -3,7 +3,7 @@
 ' **  Prince of Persia for Roku - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: May 2016
-' **  Updated: January 2024
+' **  Updated: February 2024
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -29,6 +29,7 @@ function PlayGame() as boolean
     m.debugMode = false
     m.gameOver = false
     m.showTime = false
+    m.gamePaused = false
     m.timeShown = 0
     m.finalTime = 0
     'Load wav sounds from Mod (if one is selected)
@@ -74,8 +75,11 @@ function PlayGame() as boolean
                 m.status.Clear()
                 m.checkPoint = m.kid.checkPoint
                 ResetGame()
+            else if CommandPause(id)
+                m.gamePaused = true
+                m.audioPlayer.stop()
             else if CommandRestart(id)
-                if not m.debugMode or id = m.code.BUTTON_PLAY_PRESSED 'TODO: Remove key reference
+                if not m.debugMode
                     m.checkPoint = m.kid.checkPoint
                     ResetGame()
                 else
@@ -180,6 +184,7 @@ function PlayGame() as boolean
                         end if
                     end if
                     m.mainScreen.SwapBuffers()
+                    CheckPause()
                 else if special = m.const.SPECIAL_FINISH
                     return true
                 end if
@@ -369,6 +374,9 @@ function CheckGameTimer() as boolean
         m.status.Push({ text: CInt(m.timeLeft / 60).toStr() + " MINUTES LEFT", duration: 2, alert: false })
         m.timeShown = m.timeLeft
         m.showTime = false
+    else if m.kid.alive and m.gamePaused
+        m.status.Clear()
+        m.status.Push({ text:  "GAME PAUSED", duration: 0, alert: false })
     else if not m.kid.alive and not m.gameOver and m.sounds.mp3.cycles = 0
         m.gameOver = true
         m.debugMode = false
@@ -1105,4 +1113,17 @@ sub CheckForOpponent()
             guard.opponent = invalid
         end if
     next
+end sub
+
+sub CheckPause()
+    while m.gamePaused
+        event = Wait(0, m.port)
+        if type(event) = "roUniversalControlEvent"
+            id = event.GetInt()
+            if CommandPause(id) or id = m.code.BUTTON_BACK_PRESSED
+                m.status.Clear()
+                m.gamePaused = false
+            end if
+        end if
+    end while
 end sub

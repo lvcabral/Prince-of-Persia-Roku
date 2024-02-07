@@ -3,7 +3,7 @@
 ' **  Prince of Persia for Roku - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: January 2024
+' **  Updated: February 2024
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -222,7 +222,7 @@ sub update_cursor_simulator(id as integer, shiftToggle as boolean)
         m.left = true
     else if id = m.code.BUTTON_RIGHT_PRESSED
         m.right = true
-    else if id = m.code.BUTTON_REWIND_PRESSED or id = m.code.BUTTON_PLAY_PRESSED
+    else if id = m.code.BUTTON_REWIND_PRESSED or id = m.code.BUTTON_PLAY_ONLY_PRESSED
         m.shift = true
     else if id = m.code.BUTTON_UP_RELEASED or id = m.code.BUTTON_SELECT_RELEASED
         m.up = false
@@ -232,16 +232,13 @@ sub update_cursor_simulator(id as integer, shiftToggle as boolean)
         m.left = false
     else if id = m.code.BUTTON_RIGHT_RELEASED
         m.right = false
-    else if id = m.code.BUTTON_REWIND_RELEASED or id = m.code.BUTTON_PLAY_RELEASED
+    else if id = m.code.BUTTON_REWIND_RELEASED or id = m.code.BUTTON_PLAY_ONLY_RELEASED
         m.shift = false
     end if
 end sub
 
 function CommandRestart(id)
-    if m.inSimulator
-        return id = m.code.BUTTON_INSTANT_REPLAY_PRESSED
-    end if
-    return id = m.code.BUTTON_INSTANT_REPLAY_PRESSED or id = m.code.BUTTON_PLAY_PRESSED
+    return id = m.code.BUTTON_INSTANT_REPLAY_PRESSED
 end function
 
 function CommandCheatNext(id)
@@ -260,9 +257,16 @@ end function
 
 function CommandSpaceBar(id)
     if m.inSimulator
-        return id = m.code.BUTTON_FAST_FORWARD_PRESSED or id = m.code.BUTTON_INFO_PRESSED
+        return id = m.code.BUTTON_FAST_FORWARD_PRESSED or id = m.code.BUTTON_PLAY_PRESSED
     end if
     return id = m.code.BUTTON_SELECT_PRESSED
+end function
+
+function CommandPause(id)
+    if m.inSimulator
+        return id = m.code.BUTTON_INFO_PRESSED
+    end if
+    return id = m.code.BUTTON_PLAY_PRESSED
 end function
 
 function key_u() as boolean
