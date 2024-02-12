@@ -77,22 +77,24 @@ sub Main(params)
     if m.settings.saveGame = invalid then m.settings.saveGame = true
     if m.settings.infoMode = invalid then m.settings.infoMode = m.const.INFO_TIME
     if m.settings.zoomMode = invalid then m.settings.zoomMode = 1
+    if m.settings.showIntro = invalid then m.settings.showIntro = true
     'Game/Debug switches
     m.debugMode = false ' flag to enable/disable debug code
     m.dark = false 'flag for debugging without map tiles paint
-    m.intro = true 'flag to enable/disable intro screens
     m.flip = false 'flag to flip the screen vertically
     'Load saved game and high scores
     m.savedGame = LoadSavedGame()
     m.highScores = LoadHighScores()
     if m.highScores = invalid then m.highScores = []
     'Play Game Introduction and Disclaimer
-    if m.intro
+    if m.settings.showIntro
         print "Starting intro..."
         PlayIntro(m.const.SPRITES_MAC)
         PlaySong("scene-1b-princess", false)
         TextScreen("text-disclaimer", m.colors.black, 13000, 0, m.const.SPRITES_MAC)
         m.audioPlayer.Stop()
+        m.settings.showIntro = false
+        SaveSettings(m.settings)
     end if
     'Main Menu Loop
     ResetMainScreen()
