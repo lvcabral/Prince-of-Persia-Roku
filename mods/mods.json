@@ -1,20 +1,4 @@
 {
-    "0000004":
-    {
-        "name": "New 13 Levels",
-        "author": "Jalal Noureddine",
-        "year": 2004,
-        "url": "pkg:/mods/",
-        "path": "new-13-levels/",
-        "time": 60,
-        "health": 3,
-        "wda": false,
-        "levels": true,
-        "titles": false,
-        "palettes": false,
-        "sprites": true,
-        "sounds": false
-    },
     "0000042":
     {
         "name": "SNES-PC-set",
@@ -49,21 +33,5 @@
         "palettes": true,
         "sprites": true,
         "sounds": true
-    },
-    "0000163":
-    {
-        "name": "Prince of Persia Revisited",
-        "author": "Jaffar24",
-        "year": 2016,
-        "url": "pkg:/mods/",
-        "path": "prince-of-persia-revisited/",
-        "time": 60,
-        "health": 3,
-        "wda": false,
-        "levels": true,
-        "titles": false,
-        "palettes": false,
-        "sprites": false,
-        "sounds": false
     }
 }
