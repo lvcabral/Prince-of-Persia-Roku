@@ -1,23 +1,4 @@
 {
-    "0000042":
-    {
-        "name": "SNES-PC-set",
-        "author": "Maurice Kaltofen (mk1995)",
-        "year": 2007,
-        "url": "pkg:/mods/",
-        "path": "snes-pc-set/",
-        "time": 60,
-        "health": 3,
-        "wda": true,
-        "guards": [ "", "guard", "guard", "guard", "guard", "guard", "fatguard",
-                 "guard", "guard", "guard", "guard", "guard", "guard",
-                 "fatguard", "vizier", "" ],
-        "levels": true,
-        "titles": false,
-        "palettes": true,
-        "sprites": true,
-        "sounds": false
-    },
     "0000156":
     {
         "name": "Princess of Persia",
@@ -33,5 +14,20 @@
         "palettes": true,
         "sprites": true,
         "sounds": true
+    },
+    "0000163": {
+        "name": "Prince of Persia Revisited",
+        "author": "Jaffar24",
+        "year": "2016",
+        "url": "pkg:/mods/",
+        "path": "prince-of-persia-revisited/",
+        "time": 60,
+        "health": 3,
+        "wda": false,
+        "levels": true,
+        "titles": false,
+        "palettes": false,
+        "sprites": false,
+        "sounds": false
     }
 }

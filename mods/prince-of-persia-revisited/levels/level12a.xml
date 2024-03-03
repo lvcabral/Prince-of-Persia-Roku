@@ -1,336 +1,321 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!-- PoP1 level, exported 2016-06-30 16:20:04 with apoplexy v3.0 (February 2016). -->
-<level number="13">
+<!-- PoP1 level, exported 2016-07-05 00:06:18 with apoplexy v3.0 (February 2016). -->
+<level number="12">
 	<rooms>
 		<room number="1">
-			<tile element="51" modifier="0" />
-			<tile element="33" modifier="0" />
+			<tile element="35" modifier="0" />
 			<tile element="11" modifier="0" />
+			<tile element="35" modifier="0" />
+			<tile element="1" modifier="3" />
 			<tile element="1" modifier="0" />
-			<tile element="1" modifier="0" />
-			<tile element="1" modifier="1" />
-			<tile element="1" modifier="0" />
-			<tile element="1" modifier="0" />
-			<tile element="51" modifier="0" />
-			<tile element="33" modifier="1" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
+			<tile element="3" modifier="0" />
+			<tile element="19" modifier="0" />
+			<tile element="46" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="35" modifier="0" />
+			<tile element="32" modifier="1" />
+			<tile element="0" modifier="1" />
 			<tile element="0" modifier="1" />
 			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="0" modifier="3" />
-			<tile element="11" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="52" modifier="0" />
 			<tile element="20" modifier="0" />
-			<guard location="8" direction="2" skill="9" colors="0" />
-			<links left="3" right="17" up="0" down="16" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="35" modifier="0" />
+			<tile element="32" modifier="3" />
+			<tile element="0" modifier="3" />
+			<tile element="0" modifier="3" />
+			<tile element="0" modifier="0" />
+			<tile element="3" modifier="0" />
+			<tile element="19" modifier="0" />
+			<tile element="33" modifier="3" />
+			<tile element="19" modifier="0" />
+			<tile element="1" modifier="3" />
+			<guard location="32" direction="1" skill="1" colors="0" />
+			<links left="0" right="9" up="7" down="3" />
 		</room>
 		<room number="2">
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="255" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="255" />
 			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="255" />
-			<guard location="0" direction="1" skill="1" colors="255" />
-			<links left="0" right="0" up="13" down="0" />
-		</room>
-		<room number="3">
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
+			<tile element="0" modifier="2" />
 			<tile element="0" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="33" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="33" modifier="1" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="51" modifier="0" />
-			<tile element="48" modifier="0" />
-			<tile element="49" modifier="0" />
-			<tile element="51" modifier="0" />
-			<tile element="46" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="0" modifier="255" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="0" modifier="255" />
-			<tile element="52" modifier="0" />
-			<guard location="0" direction="1" skill="1" colors="0" />
-			<links left="0" right="1" up="0" down="4" />
-		</room>
-		<room number="4">
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="46" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<guard location="0" direction="1" skill="1" colors="255" />
-			<links left="24" right="16" up="3" down="0" />
-		</room>
-		<room number="5">
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="33" modifier="0" />
-			<tile element="19" modifier="0" />
+			<tile element="3" modifier="0" />
 			<tile element="1" modifier="1" />
+			<tile element="19" modifier="0" />
+			<tile element="1" modifier="0" />
+			<tile element="3" modifier="0" />
+			<tile element="19" modifier="0" />
+			<tile element="33" modifier="1" />
 			<tile element="3" modifier="0" />
 			<tile element="19" modifier="0" />
 			<tile element="1" modifier="0" />
-			<tile element="33" modifier="1" />
-			<tile element="33" modifier="1" />
-			<tile element="46" modifier="0" />
-			<tile element="34" modifier="0" />
-			<tile element="35" modifier="0" />
+			<tile element="3" modifier="0" />
+			<tile element="0" modifier="2" />
+			<tile element="0" modifier="2" />
 			<tile element="0" modifier="0" />
+			<tile element="3" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="3" modifier="0" />
+			<tile element="0" modifier="2" />
+			<tile element="0" modifier="2" />
+			<tile element="0" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<guard location="32" direction="1" skill="1" colors="255" />
+			<links left="0" right="0" up="0" down="0" />
+		</room>
+		<room number="3">
+			<tile element="20" modifier="0" />
+			<tile element="32" modifier="1" />
+			<tile element="0" modifier="1" />
 			<tile element="0" modifier="1" />
 			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
 			<tile element="20" modifier="0" />
 			<tile element="20" modifier="0" />
-			<tile element="19" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="35" modifier="0" />
 			<tile element="16" modifier="0" />
 			<tile element="17" modifier="0" />
 			<tile element="19" modifier="0" />
 			<tile element="1" modifier="0" />
+			<tile element="3" modifier="0" />
+			<tile element="4" modifier="1" />
+			<tile element="35" modifier="0" />
+			<tile element="19" modifier="0" />
+			<tile element="1" modifier="2" />
 			<tile element="20" modifier="0" />
 			<tile element="20" modifier="0" />
-			<guard location="0" direction="1" skill="1" colors="0" />
-			<links left="24" right="16" up="0" down="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<guard location="32" direction="1" skill="1" colors="0" />
+			<links left="0" right="4" up="1" down="0" />
 		</room>
-		<room number="6">
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="3" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="0" />
+		<room number="4">
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="32" modifier="1" />
 			<tile element="0" modifier="1" />
 			<tile element="0" modifier="0" />
+			<tile element="3" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="1" modifier="2" />
+			<tile element="19" modifier="0" />
+			<tile element="33" modifier="0" />
+			<tile element="35" modifier="0" />
+			<tile element="32" modifier="1" />
+			<tile element="0" modifier="1" />
+			<tile element="1" modifier="0" />
+			<tile element="3" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="46" modifier="0" />
+			<tile element="14" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<guard location="32" direction="1" skill="1" colors="255" />
+			<links left="3" right="0" up="9" down="0" />
+		</room>
+		<room number="5">
 			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
 			<tile element="0" modifier="0" />
-			<guard location="0" direction="2" skill="1" colors="255" />
+			<tile element="32" modifier="0" />
+			<tile element="32" modifier="0" />
+			<tile element="32" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="32" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="32" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="32" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="32" modifier="0" />
+			<guard location="32" direction="1" skill="1" colors="0" />
+			<links left="0" right="0" up="0" down="0" />
+		</room>
+		<room number="6">
+			<tile element="20" modifier="0" />
+			<tile element="52" modifier="0" />
+			<tile element="35" modifier="0" />
+			<tile element="1" modifier="1" />
+			<tile element="19" modifier="0" />
+			<tile element="1" modifier="1" />
+			<tile element="3" modifier="0" />
+			<tile element="19" modifier="0" />
+			<tile element="33" modifier="1" />
+			<tile element="1" modifier="1" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="52" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="52" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="35" modifier="0" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="0" />
+			<tile element="3" modifier="0" />
+			<tile element="3" modifier="0" />
+			<tile element="11" modifier="0" />
+			<tile element="11" modifier="0" />
+			<tile element="11" modifier="0" />
+			<tile element="11" modifier="0" />
+			<tile element="3" modifier="0" />
+			<guard location="32" direction="2" skill="1" colors="255" />
 			<links left="0" right="12" up="18" down="7" />
 		</room>
 		<room number="7">
-			<tile element="52" modifier="0" />
+			<tile element="35" modifier="0" />
+			<tile element="0" modifier="2" />
+			<tile element="32" modifier="0" />
 			<tile element="20" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="3" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="35" modifier="0" />
-			<tile element="33" modifier="1" />
-			<tile element="35" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="11" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="0" modifier="2" />
+			<tile element="0" modifier="2" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="0" />
 			<tile element="20" modifier="0" />
 			<tile element="35" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="0" modifier="0" />
-			<guard location="0" direction="1" skill="1" colors="0" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="0" modifier="2" />
+			<tile element="0" modifier="2" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="14" modifier="0" />
+			<tile element="46" modifier="0" />
+			<tile element="3" modifier="0" />
+			<tile element="4" modifier="0" />
+			<tile element="19" modifier="0" />
+			<tile element="19" modifier="0" />
+			<tile element="0" modifier="2" />
+			<tile element="33" modifier="0" />
+			<tile element="3" modifier="0" />
+			<guard location="32" direction="1" skill="1" colors="0" />
 			<links left="0" right="8" up="6" down="1" />
 		</room>
 		<room number="8">
-			<tile element="0" modifier="3" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="32" modifier="2" />
 			<tile element="0" modifier="0" />
+			<tile element="20" modifier="0" />
 			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="3" />
-			<tile element="0" modifier="3" />
-			<tile element="0" modifier="255" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="32" modifier="3" />
 			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
+			<tile element="20" modifier="0" />
 			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="11" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="1" modifier="1" />
+			<tile element="19" modifier="0" />
+			<tile element="1" modifier="0" />
 			<tile element="35" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="255" />
+			<tile element="32" modifier="2" />
 			<tile element="0" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="255" />
-			<tile element="52" modifier="0" />
-			<guard location="0" direction="1" skill="1" colors="255" />
+			<tile element="3" modifier="0" />
+			<tile element="1" modifier="0" />
+			<tile element="3" modifier="0" />
+			<tile element="33" modifier="1" />
+			<guard location="32" direction="1" skill="1" colors="255" />
 			<links left="7" right="24" up="12" down="9" />
 		</room>
 		<room number="9">
-			<tile element="11" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="34" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="0" modifier="3" />
-			<tile element="0" modifier="3" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="255" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
 			<tile element="20" modifier="0" />
-			<tile element="35" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="32" modifier="1" />
 			<tile element="0" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="33" modifier="0" />
+			<tile element="35" modifier="0" />
+			<tile element="32" modifier="3" />
 			<tile element="0" modifier="1" />
 			<tile element="0" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="1" modifier="2" />
+			<tile element="19" modifier="0" />
+			<tile element="33" modifier="0" />
+			<tile element="3" modifier="0" />
+			<tile element="32" modifier="1" />
+			<tile element="0" modifier="1" />
 			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="1" modifier="1" />
-			<tile element="35" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="255" />
-			<tile element="52" modifier="0" />
-			<guard location="0" direction="1" skill="3" colors="0" />
+			<tile element="3" modifier="0" />
+			<tile element="14" modifier="0" />
+			<tile element="20" modifier="0" />
+			<guard location="32" direction="1" skill="3" colors="0" />
 			<links left="1" right="0" up="8" down="4" />
 		</room>
 		<room number="10">
-			<tile element="33" modifier="0" />
-			<tile element="33" modifier="0" />
+			<tile element="32" modifier="0" />
+			<tile element="32" modifier="0" />
 			<tile element="0" modifier="0" />
 			<tile element="0" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="52" modifier="0" />
+			<tile element="32" modifier="0" />
+			<tile element="32" modifier="0" />
+			<tile element="32" modifier="0" />
 			<tile element="0" modifier="0" />
 			<tile element="0" modifier="0" />
 			<tile element="0" modifier="0" />
@@ -339,370 +324,387 @@
 			<tile element="0" modifier="0" />
 			<tile element="0" modifier="0" />
 			<tile element="0" modifier="0" />
-			<guard location="0" direction="2" skill="1" colors="255" />
-			<links left="17" right="0" up="0" down="13" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<guard location="32" direction="2" skill="1" colors="255" />
+			<links left="0" right="0" up="0" down="0" />
 		</room>
 		<room number="11">
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
+			<tile element="35" modifier="0" />
+			<tile element="33" modifier="0" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="0" />
+			<tile element="35" modifier="0" />
+			<tile element="19" modifier="0" />
+			<tile element="19" modifier="0" />
+			<tile element="1" modifier="2" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="32" modifier="3" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="3" />
+			<tile element="32" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="2" />
 			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
 			<tile element="20" modifier="0" />
 			<tile element="20" modifier="0" />
 			<tile element="20" modifier="0" />
 			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="1" modifier="0" />
-			<tile element="1" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<guard location="0" direction="1" skill="1" colors="0" />
-			<links left="0" right="0" up="16" down="0" />
+			<guard location="32" direction="1" skill="1" colors="0" />
+			<links left="0" right="15" up="13" down="17" />
 		</room>
 		<room number="12">
-			<tile element="11" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="11" modifier="0" />
+			<tile element="1" modifier="2" />
+			<tile element="19" modifier="0" />
+			<tile element="1" modifier="0" />
 			<tile element="35" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="0" modifier="3" />
-			<tile element="0" modifier="3" />
-			<tile element="0" modifier="255" />
+			<tile element="19" modifier="0" />
+			<tile element="1" modifier="0" />
+			<tile element="3" modifier="0" />
 			<tile element="0" modifier="0" />
+			<tile element="3" modifier="0" />
 			<tile element="52" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="0" />
-			<tile element="33" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="255" />
 			<tile element="20" modifier="0" />
-			<tile element="52" modifier="0" />
-			<guard location="0" direction="2" skill="1" colors="255" />
-			<links left="6" right="14" up="19" down="8" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="35" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="1" modifier="2" />
+			<tile element="19" modifier="0" />
+			<tile element="1" modifier="0" />
+			<tile element="35" modifier="0" />
+			<tile element="19" modifier="0" />
+			<tile element="1" modifier="0" />
+			<tile element="3" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="35" modifier="0" />
+			<tile element="20" modifier="0" />
+			<guard location="32" direction="2" skill="1" colors="255" />
+			<links left="6" right="0" up="19" down="8" />
 		</room>
 		<room number="13">
-			<tile element="0" modifier="0" />
-			<tile element="9" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="33" modifier="0" />
-			<tile element="33" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="33" modifier="0" />
-			<tile element="40" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="52" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
 			<tile element="52" modifier="0" />
 			<tile element="52" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="46" modifier="0" />
-			<tile element="46" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<guard location="0" direction="1" skill="1" colors="0" />
-			<links left="23" right="0" up="10" down="2" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="35" modifier="0" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<guard location="32" direction="1" skill="1" colors="0" />
+			<links left="23" right="0" up="0" down="11" />
 		</room>
 		<room number="14">
-			<tile element="20" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="33" modifier="1" />
-			<tile element="35" modifier="0" />
+			<tile element="0" modifier="2" />
+			<tile element="32" modifier="2" />
 			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<guard location="0" direction="2" skill="1" colors="255" />
-			<links left="12" right="0" up="0" down="24" />
+			<tile element="20" modifier="0" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="3" />
+			<tile element="32" modifier="3" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="2" />
+			<tile element="0" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="2" />
+			<tile element="0" modifier="0" />
+			<tile element="36" modifier="0" />
+			<tile element="19" modifier="0" />
+			<tile element="16" modifier="0" />
+			<tile element="49" modifier="0" />
+			<tile element="19" modifier="0" />
+			<tile element="47" modifier="4" />
+			<tile element="20" modifier="0" />
+			<guard location="32" direction="2" skill="1" colors="255" />
+			<links left="0" right="0" up="0" down="0" />
 		</room>
 		<room number="15">
-			<tile element="33" modifier="0" />
-			<tile element="54" modifier="0" />
-			<tile element="33" modifier="1" />
+			<tile element="33" modifier="2" />
 			<tile element="19" modifier="0" />
-			<tile element="19" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="33" modifier="1" />
+			<tile element="33" modifier="2" />
+			<tile element="1" modifier="0" />
+			<tile element="3" modifier="0" />
+			<tile element="1" modifier="2" />
 			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="0" modifier="2" />
+			<tile element="0" modifier="2" />
 			<tile element="52" modifier="0" />
 			<tile element="20" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="33" modifier="1" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
 			<tile element="1" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="15" modifier="2" />
 			<tile element="35" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="3" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="0" modifier="0" />
-			<guard location="0" direction="1" skill="1" colors="0" />
-			<links left="13" right="20" up="22" down="18" />
+			<tile element="19" modifier="0" />
+			<tile element="1" modifier="2" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<guard location="32" direction="1" skill="1" colors="0" />
+			<links left="11" right="18" up="0" down="0" />
 		</room>
 		<room number="16">
-			<tile element="20" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="3" />
 			<tile element="0" modifier="0" />
 			<tile element="0" modifier="0" />
 			<tile element="0" modifier="0" />
-			<tile element="9" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="33" modifier="1" />
-			<tile element="35" modifier="0" />
-			<tile element="33" modifier="0" />
-			<tile element="33" modifier="0" />
-			<tile element="46" modifier="0" />
-			<tile element="33" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="40" modifier="0" />
-			<tile element="33" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="1" />
 			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<guard location="0" direction="1" skill="9" colors="255" />
-			<links left="4" right="23" up="1" down="11" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<guard location="32" direction="1" skill="1" colors="255" />
+			<links left="0" right="0" up="0" down="0" />
 		</room>
 		<room number="17">
-			<tile element="51" modifier="0" />
-			<tile element="33" modifier="1" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="51" modifier="0" />
-			<tile element="33" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
 			<tile element="20" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="52" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="0" modifier="2" />
+			<tile element="0" modifier="2" />
+			<tile element="0" modifier="2" />
+			<tile element="0" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="0" modifier="2" />
+			<tile element="0" modifier="2" />
+			<tile element="0" modifier="2" />
+			<tile element="0" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="14" modifier="0" />
+			<tile element="14" modifier="0" />
+			<tile element="14" modifier="0" />
+			<tile element="14" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
 			<tile element="20" modifier="0" />
 			<guard location="0" direction="2" skill="1" colors="0" />
-			<links left="1" right="10" up="0" down="23" />
+			<links left="0" right="0" up="11" down="0" />
 		</room>
 		<room number="18">
-			<tile element="35" modifier="0" />
-			<tile element="36" modifier="2" />
-			<tile element="35" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="3" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="11" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
 			<tile element="52" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
 			<tile element="52" modifier="0" />
+			<tile element="20" modifier="0" />
 			<tile element="35" modifier="0" />
+			<tile element="36" modifier="0" />
+			<tile element="32" modifier="2" />
 			<tile element="0" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="0" modifier="2" />
 			<tile element="0" modifier="0" />
 			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
+			<tile element="32" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="19" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="3" modifier="0" />
+			<tile element="19" modifier="0" />
+			<tile element="1" modifier="0" />
 			<tile element="35" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="0" modifier="0" />
-			<guard location="0" direction="2" skill="1" colors="255" />
-			<links left="21" right="19" up="15" down="6" />
+			<tile element="33" modifier="0" />
+			<tile element="3" modifier="0" />
+			<guard location="32" direction="2" skill="1" colors="255" />
+			<links left="15" right="19" up="0" down="6" />
 		</room>
 		<room number="19">
-			<tile element="11" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="11" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="0" modifier="3" />
-			<tile element="0" modifier="3" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
 			<tile element="52" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
 			<tile element="52" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
 			<tile element="52" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<guard location="0" direction="1" skill="1" colors="0" />
-			<links left="18" right="0" up="20" down="12" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="1" modifier="2" />
+			<tile element="21" modifier="0" />
+			<tile element="19" modifier="0" />
+			<tile element="33" modifier="2" />
+			<tile element="19" modifier="0" />
+			<tile element="15" modifier="2" />
+			<tile element="3" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<guard location="32" direction="1" skill="1" colors="0" />
+			<links left="18" right="0" up="0" down="12" />
 		</room>
 		<room number="20">
-			<tile element="0" modifier="3" />
-			<tile element="0" modifier="3" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="3" />
-			<tile element="0" modifier="3" />
 			<tile element="0" modifier="1" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
+			<tile element="0" modifier="1" />
+			<tile element="0" modifier="1" />
+			<tile element="0" modifier="1" />
+			<tile element="0" modifier="1" />
+			<tile element="0" modifier="1" />
+			<tile element="0" modifier="1" />
+			<tile element="1" modifier="2" />
+			<tile element="11" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="1" modifier="2" />
 			<tile element="19" modifier="0" />
+			<tile element="1" modifier="2" />
+			<tile element="1" modifier="2" />
+			<tile element="1" modifier="2" />
 			<tile element="19" modifier="0" />
-			<tile element="1" modifier="1" />
-			<tile element="33" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="19" modifier="0" />
-			<tile element="19" modifier="0" />
-			<tile element="10" modifier="1" />
 			<tile element="1" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="35" modifier="0" />
-			<tile element="46" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<guard location="0" direction="1" skill="6" colors="255" />
-			<links left="15" right="0" up="0" down="19" />
+			<tile element="3" modifier="0" />
+			<tile element="15" modifier="3" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<guard location="32" direction="2" skill="6" colors="1" />
+			<links left="0" right="0" up="0" down="0" />
 		</room>
 		<room number="21">
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
 			<tile element="20" modifier="0" />
 			<tile element="20" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="33" modifier="0" />
-			<tile element="33" modifier="0" />
-			<tile element="33" modifier="0" />
-			<tile element="33" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="3" modifier="0" />
+			<tile element="14" modifier="0" />
+			<tile element="14" modifier="0" />
+			<tile element="14" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="19" modifier="0" />
+			<tile element="1" modifier="0" />
+			<tile element="3" modifier="0" />
+			<tile element="1" modifier="1" />
+			<tile element="0" modifier="2" />
+			<tile element="0" modifier="2" />
+			<tile element="1" modifier="0" />
+			<tile element="35" modifier="0" />
+			<tile element="33" modifier="1" />
+			<tile element="19" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="20" modifier="0" />
 			<tile element="20" modifier="0" />
 			<tile element="20" modifier="0" />
 			<tile element="2" modifier="0" />
@@ -711,22 +713,20 @@
 			<tile element="20" modifier="0" />
 			<tile element="20" modifier="0" />
 			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<guard location="0" direction="1" skill="1" colors="0" />
-			<links left="2" right="0" up="13" down="0" />
+			<guard location="32" direction="1" skill="1" colors="0" />
+			<links left="0" right="0" up="0" down="0" />
 		</room>
 		<room number="22">
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="32" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="32" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="32" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="32" modifier="0" />
+			<tile element="32" modifier="0" />
 			<tile element="0" modifier="0" />
 			<tile element="0" modifier="0" />
 			<tile element="0" modifier="0" />
@@ -747,84 +747,84 @@
 			<tile element="0" modifier="0" />
 			<tile element="0" modifier="0" />
 			<tile element="0" modifier="0" />
-			<guard location="0" direction="2" skill="1" colors="255" />
-			<links left="10" right="0" up="0" down="15" />
+			<guard location="32" direction="2" skill="1" colors="255" />
+			<links left="0" right="0" up="0" down="0" />
 		</room>
 		<room number="23">
 			<tile element="0" modifier="0" />
-			<tile element="9" modifier="0" />
 			<tile element="0" modifier="0" />
-			<tile element="0" modifier="3" />
-			<tile element="0" modifier="1" />
-			<tile element="0" modifier="3" />
 			<tile element="0" modifier="0" />
-			<tile element="0" modifier="1" />
-			<tile element="9" modifier="0" />
 			<tile element="0" modifier="0" />
-			<tile element="33" modifier="0" />
-			<tile element="40" modifier="0" />
-			<tile element="33" modifier="0" />
-			<tile element="33" modifier="0" />
-			<tile element="33" modifier="0" />
-			<tile element="33" modifier="0" />
-			<tile element="33" modifier="0" />
-			<tile element="33" modifier="0" />
-			<tile element="40" modifier="0" />
-			<tile element="33" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="20" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<guard location="0" direction="1" skill="1" colors="0" />
-			<links left="16" right="13" up="17" down="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="32" modifier="0" />
+			<tile element="32" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="32" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="32" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="32" modifier="0" />
+			<tile element="0" modifier="0" />
+			<tile element="32" modifier="0" />
+			<guard location="32" direction="1" skill="1" colors="0" />
+			<links left="0" right="13" up="0" down="0" />
 		</room>
 		<room number="24">
-			<tile element="47" modifier="0" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="255" />
+			<tile element="20" modifier="0" />
 			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="255" />
-			<tile element="0" modifier="255" />
-			<tile element="52" modifier="0" />
-			<tile element="52" modifier="0" />
+			<tile element="0" modifier="2" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="0" />
+			<tile element="20" modifier="0" />
+			<tile element="32" modifier="2" />
+			<tile element="0" modifier="2" />
+			<tile element="0" modifier="0" />
+			<tile element="20" modifier="0" />
 			<tile element="52" modifier="0" />
 			<tile element="20" modifier="0" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="2" />
+			<tile element="32" modifier="0" />
+			<tile element="35" modifier="0" />
+			<tile element="11" modifier="0" />
+			<tile element="19" modifier="0" />
+			<tile element="33" modifier="0" />
+			<tile element="52" modifier="0" />
 			<tile element="1" modifier="0" />
-			<tile element="1" modifier="0" />
-			<tile element="1" modifier="0" />
-			<tile element="1" modifier="0" />
-			<tile element="1" modifier="0" />
+			<tile element="35" modifier="0" />
+			<tile element="1" modifier="1" />
+			<tile element="19" modifier="0" />
 			<tile element="1" modifier="0" />
 			<tile element="20" modifier="0" />
+			<tile element="47" modifier="1" />
 			<tile element="20" modifier="0" />
+			<tile element="52" modifier="0" />
 			<tile element="20" modifier="0" />
-			<guard location="0" direction="2" skill="1" colors="255" />
-			<links left="0" right="4" up="0" down="0" />
+			<guard location="32" direction="2" skill="1" colors="255" />
+			<links left="8" right="0" up="0" down="0" />
 		</room>
 	</rooms>
 	<events>
-		<event number="1" room="3" location="14" next="0" />
-		<event number="2" room="3" location="14" next="0" />
-		<event number="3" room="5" location="25" next="1" />
-		<event number="4" room="3" location="14" next="0" />
-		<event number="5" room="5" location="25" next="1" />
+		<event number="1" room="18" location="2" next="0" />
+		<event number="2" room="7" location="25" next="0" />
+		<event number="3" room="18" location="12" next="1" />
+		<event number="4" room="14" location="24" next="0" />
+		<event number="5" room="14" location="26" next="0" />
 		<event number="6" room="5" location="3" next="0" />
 		<event number="7" room="14" location="20" next="1" />
 		<event number="8" room="14" location="17" next="0" />
@@ -1077,16 +1077,16 @@
 		<event number="255" room="31" location="32" next="0" />
 		<event number="256" room="0" location="1" next="1" />
 	</events>
-	<prince room="23" location="20" direction="1" />
+	<prince room="3" location="13" direction="1" />
 	<userdata fields="9">
 		<field key="Editor Name" value="apoplexy" />
 		<field key="Editor Version" value="v3.0 (February 2016)" />
 		<field key="Level Author" value="apoplexy user" />
-		<field key="Level Title" value="Level 12b" />
+		<field key="Level Title" value="Level 12a" />
 		<field key="Level Description" value="" />
-		<field key="Original Filename" value=".///levels/level12b.plv" />
-		<field key="Time Created" value="2016-06-30 23:20:04" />
-		<field key="Time Last Modified" value="2016-06-30 16:20:04" />
-		<field key="Original Level Number" value="13" />
+		<field key="Original Filename" value=".///levels/level12a.plv" />
+		<field key="Time Created" value="2016-07-05 07:06:18" />
+		<field key="Time Last Modified" value="2016-07-05 00:06:18" />
+		<field key="Original Level Number" value="12" />
 	</userdata>
 </level>
