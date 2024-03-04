@@ -3,7 +3,7 @@
 ' **  Prince of Persia for Roku - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: July 2016
-' **  Updated: February 2024
+' **  Updated: March 2024
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -17,7 +17,7 @@ function LoadMods() as object
     TextBox(m.mainScreen, 620, 50, "Loading...")
     'Load internal Mods
     mods = ParseJson(ReadAsciiFile("pkg:/mods/mods.json"))
-    m.webMods = "https://lvcabral.com/PoP/mods/"
+    m.webMods = "https://lvcabral.com/prince/mods/"
     'Load remote Mods (if available)
     if m.webMods <> invalid and CacheFile(m.webMods + "mods.json", "mods.json") <> ""
         modsWeb = ParseJson(ReadAsciiFile("tmp:/mods.json"))

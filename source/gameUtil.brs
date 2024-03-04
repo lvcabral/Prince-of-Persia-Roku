@@ -3,7 +3,7 @@
 ' **  Prince of Persia for Roku - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: February 2024
+' **  Updated: March 2024
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -636,7 +636,7 @@ function CacheFile(url as string, file as string, overwrite = false as boolean) 
         http.SetUrl(url)
         ret = http.GetToFile(tmpFile)
         if ret <> 200
-            print "File not cached! http return code: "; ret
+            print file, "file not cached! http return code: "; ret
             tmpFile = ""
         end if
     end if
