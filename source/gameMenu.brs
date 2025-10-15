@@ -3,7 +3,7 @@
 ' **  Prince of Persia for Roku - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: April 2016
-' **  Updated: January 2024
+' **  Updated: October 2024
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -48,7 +48,11 @@ function StartMenu() as integer
         "Setup Control Mode",
         "High Scores Board"
     ]
-    if m.inSimulator then menuOptions[4] = "Game Control Help"
+    if HasTouchControl()
+        menuOptions[4] = "Touch Control Help"
+    else if m.inSimulator
+        menuOptions[4] = "Game Control Help"
+    end if
     while true
         if redraw
             m.mainScreen.clear(0)

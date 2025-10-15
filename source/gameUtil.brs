@@ -3,7 +3,7 @@
 ' **  Prince of Persia for Roku - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: March 2024
+' **  Updated: October 2024
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -344,16 +344,21 @@ end function
 
 function ScaleBitmap(bitmap as object, scale as float, simpleMode = false as boolean)
     if bitmap = invalid then return bitmap
+    scaled = invalid
     if scale = 1.0
         scaled = bitmap
     else if scale = int(scale) or simpleMode
         scaled = CreateObject("roBitmap", { width: int(bitmap.GetWidth() * scale), height: int(bitmap.GetHeight() * scale), alphaenable: true })
-        scaled.DrawScaledObject(0, 0, scale, scale, bitmap)
+        if scaled <> invalid
+            scaled.DrawScaledObject(0, 0, scale, scale, bitmap)
+        end if
     else
         region = CreateObject("roRegion", bitmap, 0, 0, bitmap.GetWidth(), bitmap.GetHeight())
         region.SetScaleMode(1)
         scaled = CreateObject("roBitmap", { width: int(bitmap.GetWidth() * scale), height: int(bitmap.GetHeight() * scale), alphaenable: true })
-        scaled.DrawScaledObject(0, 0, scale, scale, region)
+        if scaled <> invalid and region <> invalid
+            scaled.DrawScaledObject(0, 0, scale, scale, region)
+        end if
         region = invalid
     end if
     return scaled
@@ -361,6 +366,7 @@ end function
 
 function ScaleToSize(bitmap as object, width as integer, height as integer, ratio = true as boolean)
     if bitmap = invalid then return bitmap
+    scaled = invalid
     if ratio and bitmap.GetWidth() <= width and bitmap.GetHeight() <= height
         scaled = bitmap
     else
@@ -373,12 +379,16 @@ function ScaleToSize(bitmap as object, width as integer, height as integer, rati
                 scale = height / bitmap.GetHeight()
             end if
             scaled = CreateObject("roBitmap", { width: int(bitmap.GetWidth() * scale), height: int(bitmap.GetHeight() * scale), alphaenable: bitmap.GetAlphaEnable() })
-            scaled.DrawScaledObject(0, 0, scale, scale, region)
+            if scaled <> invalid and region <> invalid
+                scaled.DrawScaledObject(0, 0, scale, scale, region)
+            end if
         else
             scaleX = width / bitmap.GetWidth()
             scaleY = height / bitmap.GetHeight()
             scaled = CreateObject("roBitmap", { width: width, height: height, alphaenable: bitmap.GetAlphaEnable() })
-            scaled.DrawScaledObject(0, 0, scaleX, scaleY, region)
+            if scaled <> invalid and region <> invalid
+                scaled.DrawScaledObject(0, 0, scaleX, scaleY, region)
+            end if
         end if
         region = invalid
     end if
@@ -408,28 +418,40 @@ function FlipHorizontally(bitmap as object) as object
 end function
 
 sub CrossFade(screen as object, x as integer, y as integer, objectfadeout as object, objectfadein as object, speed = 1 as integer)
-    screen.SetAlphaEnable(true)
-    for i = 0 to 255 step speed
-        hexcolor = &hFFFFFFFF - i
-        hexcolor2 = &hFFFFFF00 + i
+    if InAsciiMode()
         screen.Clear(0)
-        screen.DrawObject(x, y, objectfadeout, hexcolor)
-        screen.DrawObject(x, y, objectfadein, hexcolor2)
+        screen.DrawObject(x, y, objectfadein)
         screen.SwapBuffers()
-    end for
+    else
+        screen.SetAlphaEnable(true)
+        for i = 0 to 255 step speed
+            hexcolor = &hFFFFFFFF - i
+            hexcolor2 = &hFFFFFF00 + i
+            screen.Clear(0)
+            screen.DrawObject(x, y, objectfadeout, hexcolor)
+            screen.DrawObject(x, y, objectfadein, hexcolor2)
+            screen.SwapBuffers()
+        end for
+    end if
 end sub
 
 sub ImageFadeIn(screen, x as integer, y as integer, objectfadein as object, speed = 1 as integer)
-    screen.SetAlphaEnable(true)
-    width = objectfadein.getWidth()
-    height = objectfadein.getHeight()
-    for i = 0 to 255 step speed
-        hexcolor = &hFF - i
+    if InAsciiMode()
         screen.Clear(0)
         screen.DrawObject(x, y, objectfadein)
-        screen.DrawObject(x, y, GetPaintedBitmap(hexcolor, width, height, true))
         screen.SwapBuffers()
-    end for
+    else
+        screen.SetAlphaEnable(true)
+        width = objectfadein.getWidth()
+        height = objectfadein.getHeight()
+        for i = 0 to 255 step speed
+            hexcolor = &hFF - i
+            screen.Clear(0)
+            screen.DrawObject(x, y, objectfadein)
+            screen.DrawObject(x, y, GetPaintedBitmap(hexcolor, width, height, true))
+            screen.SwapBuffers()
+        end for
+    end if
 end sub
 
 function GetScale(screen as object, width as integer, height as integer) as float
@@ -504,6 +526,16 @@ end function
 function InSimulator() as boolean
     di = CreateObject("roDeviceInfo")
     return di.hasFeature("simulation_engine")
+end function
+
+function HasTouchControl() as boolean
+    di = CreateObject("roDeviceInfo")
+    return di.hasFeature("touch_controls")
+end function
+
+function InAsciiMode() as boolean
+    di = CreateObject("roDeviceInfo")
+    return di.hasFeature("ascii_rendering")
 end function
 
 'Nullable Boolean
