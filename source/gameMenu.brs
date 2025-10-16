@@ -37,7 +37,7 @@ function StartMenu() as integer
     menuMax = 5
     menuGap = 56 * m.menu.s
     redraw = true
-    selected = 0
+    if m.selected = invalid then m.selected = 0
     m.cheatKey = "2233454506"
     m.cheatSeq = ""
     menuOptions = [
@@ -64,7 +64,7 @@ function StartMenu() as integer
                 menuOptions[3] = "Game Zoom: Original"
             end if
             for i = 0 to menuOptions.count() - 1
-                if selected = i
+                if m.selected = i
                     m.screenCanvas.drawText(menuOptions[i], menuLeft, menuTop + menuGap * i, m.colors.menuOn, menuFont)
                     m.screenCanvas.drawText(menuOptions[i], menuLeft + 1, (menuTop + menuGap * i) + 1, m.colors.menuShadow, menuFont)
                 else
@@ -81,20 +81,20 @@ function StartMenu() as integer
             key = event.getInt()
             CheckCheatCode(key)
             if key = m.code.BUTTON_UP_PRESSED
-                if selected > 0
-                    selected--
+                if m.selected > 0
+                    m.selected--
                     m.sounds.navSingle.trigger(50)
                 else
-                    selected = menuMax
+                    m.selected = menuMax
                     m.sounds.roll.trigger(50)
                 end if
                 redraw = true
             else if key = m.code.BUTTON_DOWN_PRESSED
-                if selected < menuMax
-                    selected++
+                if m.selected < menuMax
+                    m.selected++
                     m.sounds.navSingle.trigger(50)
                 else
-                    selected = 0
+                    m.selected = 0
                     m.sounds.roll.trigger(50)
                 end if
                 redraw = true
@@ -107,12 +107,12 @@ function StartMenu() as integer
                 if m.cheatSeq = m.cheatKey
                     SecretCheatsScreen()
                     redraw = true
-                else if selected < 2
-                    m.settings.spriteMode = selected
+                else if m.selected < 2
+                    m.settings.spriteMode = m.selected
                     m.settings.modId = invalid
                     SaveSettings(m.settings)
                     return m.settings.zoomMode
-                else if selected = 2
+                else if m.selected = 2
                     modId = ModsScreen(m.port)
                     if modId <> ""
                         m.settings.modId = modId
@@ -124,14 +124,14 @@ function StartMenu() as integer
                         SaveSettings(m.settings)
                         return m.settings.zoomMode
                     end if
-                else if selected = 3
+                else if m.selected = 3
                     if m.settings.zoomMode < 3
                         m.settings.zoomMode++
                     else
                         m.settings.zoomMode = 1
                     end if
                     SaveSettings(m.settings)
-                else if selected = 4
+                else if m.selected = 4
                     if m.inSimulator
                         ImageScreen("game_control.jpg", menuMode)
                     else
@@ -141,7 +141,7 @@ function StartMenu() as integer
                             SaveSettings(m.settings)
                         end if
                     end if
-                else if selected = 5
+                else if m.selected = 5
                     HighscoresScreen()
                 end if
                 redraw = true
@@ -160,17 +160,17 @@ function OptionsMenu(options as object, default as integer) as integer
     menuY1 = m.menu.y + 165 * m.menu.s
     menuFont = m.fonts.reg.getFont("Prince of Persia Game Font", 34 * m.menu.s, false, false)
     button = -1
-    if default <= 1 then selected = default else selected = 0
+    if default <= 1 then m.selected = default else m.selected = 0
     backImage = ScaleBitmap(CreateObject("roBitmap", "pkg:/images/options_menu.jpg"), m.menu.s)
     images = [
         ScaleBitmap(CreateObject("roBitmap", "pkg:/images/" + options[0].image + ".png"), m.menu.s),
         ScaleBitmap(CreateObject("roBitmap", "pkg:/images/" + options[1].image + ".png"), m.menu.s)
     ]
     while true
-        if button <> selected
+        if button <> m.selected
             m.mainScreen.clear(0)
             m.mainScreen.drawObject(m.menu.x, m.menu.y, backImage)
-            if selected = 0
+            if m.selected = 0
                 m.mainScreen.drawText(options[0].text, menuX, menuY0, m.colors.menuOn, menuFont)
                 m.mainScreen.drawText(options[0].text, menuX + 1, menuY0 + 1, m.colors.menuShadow, menuFont)
                 m.mainScreen.drawText(options[1].text, menuX, menuY1, m.colors.menuOff, menuFont)
@@ -179,9 +179,9 @@ function OptionsMenu(options as object, default as integer) as integer
                 m.mainScreen.drawText(options[1].text, menuX, menuY1, m.colors.menuOn, menuFont)
                 m.mainScreen.drawText(options[1].text, menuX + 1, menuY1 + 1, m.colors.menuShadow, menuFont)
             end if
-            m.mainScreen.drawObject(m.menu.x, m.menu.y, images[selected])
+            m.mainScreen.drawObject(m.menu.x, m.menu.y, images[m.selected])
             m.mainScreen.swapBuffers()
-            button = selected
+            button = m.selected
         end if
         event = wait(0, m.port)
         if type(event) = "roUniversalControlEvent"
@@ -190,13 +190,13 @@ function OptionsMenu(options as object, default as integer) as integer
             if key = m.code.BUTTON_DOWN_PRESSED or key = m.code.BUTTON_LEFT_PRESSED or key = m.code.BUTTON_UP_PRESSED or key = m.code.BUTTON_RIGHT_PRESSED
                 m.sounds.navSingle.trigger(50)
                 if button = 1
-                    selected = 0
+                    m.selected = 0
                 else
-                    selected = 1
+                    m.selected = 1
                 end if
             else if key = m.code.BUTTON_BACK_PRESSED
                 m.sounds.navSingle.trigger(50)
-                selected = -1
+                m.selected = -1
                 exit while
             else if key = m.code.BUTTON_SELECT_PRESSED
                 m.sounds.select.trigger(50)
@@ -204,7 +204,7 @@ function OptionsMenu(options as object, default as integer) as integer
             end if
         end if
     end while
-    return selected
+    return m.selected
 end function
 
 sub HighScoresScreen()
