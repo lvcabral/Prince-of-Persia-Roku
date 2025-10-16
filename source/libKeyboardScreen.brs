@@ -1,6 +1,6 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
-' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
+' **  Prince of Persia for Roku - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  libKeyboardScreen.brs - Library to implement a Keyboard Screen
 ' **  Created: October 2019

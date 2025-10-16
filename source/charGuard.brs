@@ -1,10 +1,10 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
-' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
+' **  Prince of Persia for Roku - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **  Created: May 2016
-' **  Updated: August 2016
+' **  Updated: February 2023
 ' **
-' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
+' **  Ported to BrightScript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
 ' **  https://github.com/jmechner/Prince-of-Persia-Apple-II - Original Apple II version by Jordan Mechner
 ' **
@@ -193,7 +193,7 @@ End Sub
 Sub process_command_guard()
     command = true
     while (command)
-        actionArray = m.animations.sequence.Lookup(m.charAction)
+        actionArray = m.animations.sequence[m.charAction]
         if actionArray = invalid then exit while
         data = actionArray[m.seqPointer]
         if data.cmd = m.const.CMD_ACT
@@ -243,7 +243,7 @@ End Sub
 
 Function get_guard_bounds() as object
     g = GetGlobalAA()
-    f = g.regions.guards.Lookup(m.charImage)[m.face].Lookup(m.frameName)
+    f = g.regions.guards[m.charImage][m.face][m.frameName]
 	fWidth  = f.getWidth() / m.scale
 	fHeight = f.getHeight() / m.scale
 	if m.faceL() then x = m.x - m.charFdx else x = m.x + m.charFdx - fWidth

@@ -1,17 +1,17 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
-' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
+' **  Prince of Persia for Roku - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **  Created: May 2016
-' **  Updated: August 2016
+' **  Updated: January 2024
 ' **
-' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
+' **  Ported to BrightScript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
 ' **  https://github.com/jmechner/Prince-of-Persia-Apple-II - Original Apple II version by Jordan Mechner
 ' **
 ' ********************************************************************************************************
 ' ********************************************************************************************************
 
-Function CreateActor(x as integer, y as integer, face as integer, name as string, scale as float) as object
+function CreateActor(x as integer, y as integer, face as integer, name as string, scale as float) as object
     g = GetGlobalAA()
     this = {}
     'constants
@@ -64,12 +64,12 @@ Function CreateActor(x as integer, y as integer, face as integer, name as string
     this.processCommand = process_command_actor
 
     return this
-End Function
+end function
 
-Function ImplementActor(char as object, room as integer, tile as integer, face as integer, name as string) as object
+function ImplementActor(char as object, room as integer, tile as integer, face as integer, name as string) as object
     'Sprites and animations
     if char.sword = invalid
-        char.sword = {frameName: "",  x: 0, y: 0, z: 0, visible: false}
+        char.sword = { frameName: "", x: 0, y: 0, z: 0, visible: false }
         char.swordAnims = ParseJson(ReadAsciiFile("pkg:/assets/anims/sword.json"))
     end if
     'Properies
@@ -126,9 +126,9 @@ Function ImplementActor(char as object, room as integer, tile as integer, face a
     SetFighterMethods(char)
 
     return char
-End Function
+end function
 '--------------- Actor Methods ---------------
-Sub SetActorMethods(char as object)
+sub SetActorMethods(char as object)
     char.updateActor = update_actor
     char.updatePosition = update_position
     char.updateFrame = update_frame
@@ -147,17 +147,17 @@ Sub SetActorMethods(char as object)
     char.faceR = face_r
     char.distanceToFloor = distance_to_floor
     char.distanceToEdge = distance_to_edge
-End Sub
+end sub
 
-Function update_actor()
+function update_actor()
     m.processCommand()
     m.updatePosition()
-End Function
+end function
 
-Sub process_command_actor()
+sub process_command_actor()
     command = true
     while (command)
-        actionArray = m.animations.sequence.Lookup(m.charAction)
+        actionArray = m.animations.sequence[m.charAction]
         if actionArray = invalid then exit while
         data = actionArray[m.seqPointer]
         if data.cmd = m.const.CMD_ACT
@@ -201,13 +201,13 @@ Sub process_command_actor()
         else if data.cmd = m.const.CMD_DIE
             m.health = 0
             m.alive = false
-			m.swordDrawn = false
+            m.swordDrawn = false
         end if
         m.seqPointer++
     end while
-End Sub
+end sub
 
-Sub update_position()
+sub update_position()
     if m.room < 0 and m.sword <> invalid then return
     m.frameName = m.charName + "-" + m.frame.toStr()
     m.updateBlockXY()
@@ -223,9 +223,9 @@ Sub update_position()
     end if
     m.x = m.baseX + ConvertX(tempx)
     m.y = m.baseY + m.charY + m.charFdy
-End Sub
+end sub
 
-Sub update_frame()
+sub update_frame()
     framedef = m.animations.framedef[m.frame]
     m.charFdx = framedef.fdx
     m.charFdy = framedef.fdy
@@ -234,7 +234,7 @@ Sub update_frame()
     m.charFood = (fcheck and &h80) = &h80
     m.charFcheck = (fcheck and &h40) = &h40
     m.charFthin = (fcheck and &h20) = &h20
-	m.charSword = (framedef.fsword <> invalid)
+    m.charSword = (framedef.fsword <> invalid)
     if m.charSword
         if m.spriteMode = m.const.SPRITES_MAC
             stab = m.swordAnims.swordTabMac[framedef.fsword - 1]
@@ -250,9 +250,9 @@ Sub update_frame()
             m.swordDz = -1
         end if
     end if
-End Sub
+end sub
 
-Sub update_block_xy()
+sub update_block_xy()
     if m.faceL()
         footX = m.charX - m.charFdx + m.charFfoot
     else
@@ -260,7 +260,7 @@ Sub update_block_xy()
     end if
     footY = m.charY + m.charFdy
     m.blockX = ConvertXtoBlockX(footX)
-    m.blockY = ConvertYtoBlockY(footY-3)
+    m.blockY = ConvertYtoBlockY(footY - 3)
     'if m.charName = "kid" then print "update_block_xy charX="; m.charX;" footX="; footX; " blockX=",m.blockX
     if m.blockX < 0 and m.charX < 0
         m.charX += 140
@@ -269,7 +269,7 @@ Sub update_block_xy()
         m.room = m.level.rooms[m.room].links.left
         if m.charName = "kid" and m.flee and m.opponent <> invalid and not m.canSeeOpponent()
             if m.opponent.blockX > 3 or m.blockY <> m.opponent.blockY
-                print "flee"
+                'print "flee"
                 m.flee = false
                 m.droppedOut = false
                 m.opponent = invalid
@@ -288,14 +288,14 @@ Sub update_block_xy()
             end if
         end if
     end if
-End Sub
+end sub
 
-Sub update_velocity()
+sub update_velocity()
     m.charX += m.charXVel
     m.charY += m.charYVel
-End Sub
+end sub
 
-Sub update_acceleration()
+sub update_acceleration()
     if m.actionCode = 4 'freefall
         if m.isWeightless
             m.charYVel = m.charYVel + m.const.GRAVITY_WEIGHTLESS
@@ -309,18 +309,18 @@ Sub update_acceleration()
             end if
         end if
     end if
-End Sub
+end sub
 
-Sub check_floor()
+sub check_floor()
     if m.charAction = "climbdown" or m.charAction = "climbup" or m.room < 0 or not m.alive or not m.visible
         return
     end if
     if m.actionCode = 0 or m.actionCode = 1 or m.actionCode = 7 or m.actionCode = 5
         if m.charFcheck
-            tile = m.level.getTileAt(m.blockX, m.blockY,m.room)
+            tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
             if tile.isSpace()
-                if m.actionCode = 5
-                    return 'being bumped
+                if m.actionCode = 5 or m.charAction = "testfoot"
+                    return 'being bumped or testing foot
                 end if
                 if m.leapOfFaith
                     'show tiles
@@ -330,7 +330,7 @@ Sub check_floor()
                     tile.redraw = true
                     return
                 end if
-                print m.charName;" startFall";m.fallingBlocks; " y="; m.charY
+                'print m.charName;" startFall";m.fallingBlocks; " y="; m.charY
                 if m.faceL() and m.moveLeft
                     if m.swordDrawn
                         m.charX = ConvertBlockXtoX(m.blockX - 1)
@@ -357,16 +357,16 @@ Sub check_floor()
                 tile.raise()
             end if
         end if
-    else if m.actionCode = 4   ' freefall
+    else if m.actionCode = 4 ' freefall
         if m.charY >= ConvertBlockYtoY(m.blockY)
             tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
-            print m.charName;" falling at tile=";tile.element; " y="; m.charY
+            'print m.charName;" falling at tile=";tile.element; " y="; m.charY
             if tile.isWalkable()
-                print m.charName;" m.fallingBlocks=";m.fallingBlocks; " y="; m.charY
+                'print m.charName;" m.fallingBlocks=";m.fallingBlocks; " y="; m.charY
                 m.land(tile)
             else if not m.isWeightless
                 m.fallingBlocks++
-                print m.charName;" m.fallingBlocks++";m.fallingBlocks; " y="; m.charY
+                'print m.charName;" m.fallingBlocks++";m.fallingBlocks; " y="; m.charY
                 if m.fallingBlocks = 3 and m.charName = "kid"
                     PlaySound("scream")
                 end if
@@ -379,9 +379,9 @@ Sub check_floor()
             end if
         end if
     end if
-End Sub
+end sub
 
-Sub check_slicer()
+sub check_slicer()
     if not m.alive or m.room < 0
         return
     else if m.charAction = "climbdown" or m.charAction = "climbup"
@@ -412,9 +412,9 @@ Sub check_slicer()
             end if
         end if
     next
-End Sub
+end sub
 
-Sub check_spikes()
+sub check_spikes()
     if m.room < 0 then return
     if m.distanceToEdge() < 5
         if m.faceL()
@@ -424,11 +424,11 @@ Sub check_spikes()
         end if
     end if
     m.trySpikes(m.blockX, m.blockY)
-End Sub
+end sub
 
-Sub try_spikes(x as integer, y as integer)
+sub try_spikes(x as integer, y as integer)
     while (y < 3)
-        tile = m.level.getTileAt(x, y,m.room)
+        tile = m.level.getTileAt(x, y, m.room)
         if tile.element = m.const.TILE_SPIKES
             tile.raise()
         else if tile.element <> m.const.TILE_SPACE
@@ -436,9 +436,9 @@ Sub try_spikes(x as integer, y as integer)
         end if
         y++
     end while
-End Sub
+end sub
 
-Sub bump_fall()
+sub bump_fall()
     if m.actionCode = 4
         if m.faceL()
             m.charX++
@@ -455,47 +455,47 @@ Sub bump_fall()
         m.action("bumpfall")
         m.processCommand()
     end if
-End Sub
+end sub
 
-Function action_actor(action = "" as string) as string
+function action_actor(action = "" as string) as string
     if action <> ""
         m.charAction = action
         m.seqPointer = 0
     end if
     return m.charAction
-End Function
+end function
 
-Function frame_id(fromId as integer, toId = -1 as integer) as boolean
+function frame_id(fromId as integer, toId = -1 as integer) as boolean
     if toId = -1
         return (m.frame = fromId)
     else
         return (m.frame >= fromId) and (m.frame <= toId)
     end if
-End Function
+end function
 
-Function face_l() as boolean
+function face_l() as boolean
     return (m.face = m.const.FACE_LEFT)
-End Function
+end function
 
-Function face_r() as boolean
+function face_r() as boolean
     return (m.face = m.const.FACE_RIGHT)
-End Function
+end function
 
-Function distance_to_floor() as integer
+function distance_to_floor() as integer
     return ConvertBlockYtoY(m.blockY) - m.charY - m.charFdy
-End Function
+end function
 
-Function distance_to_edge() as integer
+function distance_to_edge() as integer
     if m.faceR()
         dx = ConvertBlockXtoX(m.blockX + 1) - 1 - m.charX - m.charFdx + m.charFfoot
     else
         dx = m.charX + m.charFdx + m.charFfoot - ConvertBlockXtoX(m.blockX)
     end if
     return dx
-End Function
+end function
 
 '--------------- Fighter Methods ---------------
-Sub SetFighterMethods(char as object)
+sub SetFighterMethods(char as object)
     if char.block = invalid then char.block = block_fighter
     char.checkFight = check_fight
     char.checkFightBarrier = check_fight_barrier
@@ -511,9 +511,9 @@ Sub SetFighterMethods(char as object)
     char.updateSwordPosition = update_sword_position
     char.canSeeOpponent = can_see_opponent
     char.canReachOpponent = can_reach_opponent
-End Sub
+end sub
 
-Sub check_fight()
+sub check_fight()
     if m.opponent = invalid then return
     if m.blocked and m.charAction <> "strike"
         m.retreat()
@@ -530,62 +530,62 @@ Sub check_fight()
         end if
     end if
     distance = m.opponentDistance()
-	if m.charAction = "engarde" and m.charName = "kid"
-		if not m.opponent.alive
-			m.sheathe()
-			m.opponent = invalid
+    if m.charAction = "engarde" and m.charName = "kid"
+        if not m.opponent.alive
+            m.sheathe()
+            m.opponent = invalid
         else if m.opponent.blockY <> m.blockY
             m.sheathe()
-		else if m.opponent.blockY = m.blockY and distance < -4
-		    m.turnengarde()
-			m.opponent.turnengarde()
-		end if
-	else if m.charAction = "stabbed"
-		if m.frameID(23) or m.frameID(173)
+        else if m.opponent.blockY = m.blockY and distance < -4
+            m.turnengarde()
+            m.opponent.turnengarde()
+        end if
+    else if m.charAction = "stabbed"
+        if m.frameID(23) or m.frameID(173)
             m.splash.visible = false
         end if
-	else if m.charAction = "dropdead"
-		if m.frameID(30) or m.frameID(180)
+    else if m.charAction = "dropdead"
+        if m.frameID(30) or m.frameID(180)
             m.splash.visible = false
         end if
-	else if m.charAction = "strike"
-		if m.opponent.charAction = "climbstairs"
+    else if m.charAction = "strike"
+        if m.opponent.charAction = "climbstairs"
             return
         end if
-		if not m.frameID(153,154) and not m.frameID(3,4)
+        if not m.frameID(153, 154) and not m.frameID(3, 4)
             return
         end if
-		if not m.opponent.frameID(150) and not m.opponent.frameID(0)
+        if not m.opponent.frameID(150) and not m.opponent.frameID(0)
             if m.frameID(154) or m.frameID(4)
                 if m.opponent.swordDrawn
                     minHurtDistance = 12
                 else
                     minHurtDistance = 8
                 end if
-				if distance >= minHurtDistance and distance < 29
-					m.opponent.stabbed()
+                if distance >= minHurtDistance and distance < 29
+                    m.opponent.stabbed()
                     if m.charName <> "kid"
                         PlaySound("harm")
                     else
                         PlaySound("guard-hit")
                     end if
-				else
+                else
                     if m.charName = "kid"
                         PlaySound("sword-attack")
                     end if
                 end if
-			end if
-		else
-			m.opponent.blocked = true
-			m.action("blockedstrike")
-			m.processCommand()
+            end if
+        else
+            m.opponent.blocked = true
+            m.action("blockedstrike")
+            m.processCommand()
             PlaySound("sword-defense")
-		end if
-	end if
-End Sub
+        end if
+    end if
+end sub
 
-Sub check_fight_barrier()
-    if m.charAction= "hardland" or m.charAction = "impale" or m.charAction = "dropdead"
+sub check_fight_barrier()
+    if m.charAction = "hardland" or m.charAction = "impale" or m.charAction = "dropdead"
         return
     else if m.charAction.left(4) = "turn" or m.charAction = "fastsheathe" or m.charAction = "resheathe"
         return
@@ -622,7 +622,7 @@ Sub check_fight_barrier()
                 m.charX = ConvertBlockXtoX(blockX - 1)
             end if
             m.updateBlockXY()
-            print "bump: barrier"; m.charX; m.blockX
+            'print "bump: barrier"; m.charX; m.blockX
             m.bumpFighter()
         else if tileNext.element = m.const.TILE_GATE
             if tileNext.state <> tileNext.STATE_OPEN and tileNext.state <> tileNext.STATE_WAITING
@@ -633,14 +633,14 @@ Sub check_fight_barrier()
                 end if
                 m.updateBlockXY()
                 m.saveX = m.charX
-                print "bump: gate"; m.charX; m.blockX
+                'print "bump: gate"; m.charX; m.blockX
                 m.bumpFighter()
             end if
         end if
     end if
-End Sub
+end sub
 
-Function moving_to() as integer
+function moving_to() as integer
     if (m.faceL() and m.charAction = "advance") or (m.faceR() and m.charAction = "retreat") or (m.faceR() and m.charAction = "stabbed")
         return m.const.FACE_LEFT
     else if (m.faceR() and m.charAction = "advance") or (m.faceL() and m.charAction = "retreat") or (m.faceL() and m.charAction = "stabbed")
@@ -648,9 +648,9 @@ Function moving_to() as integer
     else
         return -1
     end if
-End Function
+end function
 
-Function can_reach_opponent() as boolean
+function can_reach_opponent() as boolean
     canReach = true
     if m.opponent = invalid or m.blockY <> m.opponent.blockY then return false
     if m.room = m.opponent.room
@@ -663,13 +663,13 @@ Function can_reach_opponent() as boolean
         return false
     end if
     if m.blockX > m.opponent.blockX + xOff
-        min = m.opponent.blockX + xOff
-        max = m.blockX
+        minX = m.opponent.blockX + xOff
+        maxX = m.blockX
     else
-        min = m.blockX
-        max = m.opponent.blockX + xOff
+        minX = m.blockX
+        maxX = m.opponent.blockX + xOff
     end if
-    for x = min to max
+    for x = minX to maxX
         if x < 0
             room = m.level.rooms[m.room].links.left
             blockX = x - xOff
@@ -687,13 +687,13 @@ Function can_reach_opponent() as boolean
         end if
     next
     return canReach
-End Function
+end function
 
-Function CanAdvance(tile as object) as boolean
+function CanAdvance(tile as object) as boolean
     return (tile.isWalkable() and not (tile.isBarrier() or tile.isMob() or tile.isSpace() or tile.element = m.const.TILE_SLICER))
-End Function
+end function
 
-Sub bump_fighter()
+sub bump_fighter()
     if not m.alive or m.room < 0 then return
     tile = m.level.getTileAt(m.blockX, m.blockY, m.room)
 
@@ -713,21 +713,21 @@ Sub bump_fighter()
             end if
             m.land(tile)
         else
-			print "bumping on fight..."
+            'print "bumping on fight..."
             if m.charAction = "advance"
-                print "will retreat"
+                'print "will retreat"
                 m.action("retreat")
                 m.processCommand()
             else if m.charAction = "retreat"
-                print "will advance"
+                'print "will advance"
                 m.action("advance")
                 m.processCommand()
             end if
         end if
     end if
-End Sub
+end sub
 
-Sub update_sword_position()
+sub update_sword_position()
     if m.charSword
         m.sword.frameName = "sword" + m.swordFrame.toStr()
         m.sword.x = m.swordDx
@@ -735,9 +735,9 @@ Sub update_sword_position()
         m.sword.z = m.swordDz
     end if
     m.sword.visible = m.charSword
-End Sub
+end sub
 
-Function opponent_distance()
+function opponent_distance()
     if m.opponent.room <> m.room then return 999
     if m.faceL()
         distance = (m.opponent.charX - m.charX) * -1
@@ -746,9 +746,9 @@ Function opponent_distance()
     end if
     if distance >= 0 and m.face <> m.opponent.face then distance += 13
     return distance
-End Function
+end function
 
-Sub engarde_fighter()
+sub engarde_fighter()
     if m.haveSword
         if m.charName = "kid"
             PlaySound("sword-drawn")
@@ -757,35 +757,35 @@ Sub engarde_fighter()
         m.swordDrawn = true
         m.moveLeft = m.faceL()
     end if
-End Sub
+end sub
 
-Sub turnengarde_fighter()
+sub turnengarde_fighter()
     if m.haveSword
         m.action("turnengarde")
         m.swordDrawn = true
     end if
-End Sub
+end sub
 
-Sub sheathe_fighter()
+sub sheathe_fighter()
     m.action("resheathe")
     m.swordDrawn = false
-End Sub
+end sub
 
-Sub retreat_fighter()
+sub retreat_fighter()
     if m.canDo(m.const.DO_MOVE)
         m.action("retreat")
         m.allowRetreat = false
     end if
-End Sub
+end sub
 
-Sub advance_fighter()
+sub advance_fighter()
     if m.canDo(m.const.DO_MOVE)
         m.action("advance")
         m.allowAdvance = false
     end if
-End Sub
+end sub
 
-Sub strike_fighter()
+sub strike_fighter()
     if m.canDo(m.const.DO_STRIKE)
         m.action("strike")
         m.allowStrike = false
@@ -796,9 +796,9 @@ Sub strike_fighter()
             m.blocked = false
         end if
     end if
-End Sub
+end sub
 
-Sub block_fighter()
+sub block_fighter()
     if m.canDo(m.const.DO_DEFEND)
         if m.opponentDistance() >= 32
             m.retreat()
@@ -815,9 +815,9 @@ Sub block_fighter()
         m.action("striketoblock")
     end if
     m.allowBlock = false
-End Sub
+end sub
 
-Sub stabbed_fighter()
+sub stabbed_fighter()
     if m.health = 0 then return
     m.charY = ConvertBlockYtoY(m.blockY)
     if m.charName <> "skeleton"
@@ -844,11 +844,11 @@ Sub stabbed_fighter()
         m.effect.cycles = 1
     end if
     m.splash.visible = true
-End Sub
+end sub
 
-Function can_see_opponent() as boolean
+function can_see_opponent() as boolean
     if m.opponent = invalid then return false
     if m.opponent.room <> m.room then return false
     if m.opponent.blockY <> m.blockY then return false
     return true
-End Function
+end function

@@ -9,6 +9,8 @@
 
 .vscode
 
+.github
+
 out
 
 mods-web
@@ -18,3 +20,5 @@ desktop.ini
 line-count.txt
 
 backlog.txt
+
+.DS_Store

@@ -1,19 +1,19 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
-' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
+' **  Prince of Persia for Roku - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  libCanvas.brs - Library to implement generic Canvas object
 ' **  Created: June 2018
-' **  Updated: September 2019
+' **  Updated: October 2025
 ' **
 ' **  Copyright (C) Marcelo Lv Cabral < https://lvcabral.com >
 ' ********************************************************************************************************
 ' ********************************************************************************************************
 
-Function CreateCanvas() as object
+function CreateCanvas() as object
     ' Objects
-    this = {screen: m.mainScreen, layers:{}, colors: m.colors}
-    this.scale = m.mainScreen.GetHeight() / 720
+    this = { screen: m.mainScreen, layers: {}, colors: m.colors, files: m.files }
+    this.scale = m.mainScreen.GetWidth() / 1280
     this.timer = CreateObject("roTimespan")
     ' Methods
     this.SetMessagePort = set_msg_port
@@ -24,10 +24,10 @@ Function CreateCanvas() as object
     this.Close = close_canvas
     this.Paint = paint_component
     if m.fonts = invalid
-        m.fonts = {reg:CreateObject("roFontRegistry")}
+        m.fonts = { reg: CreateObject("roFontRegistry") }
     end if
     this.fonts = m.fonts
-    ' Canvas Stack 
+    ' Canvas Stack
     if m.stack = invalid
         m.stack = []
         m.fonts.AddReplace("mini", m.fonts.reg.GetDefaultFont(20 * this.scale, false, false))
@@ -35,7 +35,7 @@ Function CreateCanvas() as object
         m.fonts.AddReplace("medium", m.fonts.reg.GetDefaultFont(27 * this.scale, false, false))
         m.fonts.AddReplace("large", m.fonts.reg.GetDefaultFont(32 * this.scale, false, false))
         m.fonts.AddReplace("big", m.fonts.reg.GetDefaultFont(40 * this.scale, false, false))
-        m.fonts.AddReplace("huge", m.fonts.reg.GetDefaultFont(46 * this.scale, false, false))       
+        m.fonts.AddReplace("huge", m.fonts.reg.GetDefaultFont(46 * this.scale, false, false))
     end if
     ' Initialize Cache
     InitCache()
@@ -43,32 +43,35 @@ Function CreateCanvas() as object
     this.stackId = m.stack.Count()
     m.stack.Push(this)
     return this
-End Function
+end function
 
-Function GetTopCanvas() as object
+function GetTopCanvas() as object
     g = GetGlobalAA()
+    if g.stack = invalid or g.stack.Count() = 0
+        return CreateCanvas()
+    end if
     return g.stack.Peek()
-End Function
+end function
 
-Sub set_msg_port(port as object)
+sub set_msg_port(port as object)
     m.screen.SetMessagePort(port)
-End Sub
+end sub
 
-Function get_canvas_rect() as object
-    return {x:0, y:0, w:m.screen.GetWidth(), h: m.screen.GetHeight()}
-End Function
+function get_canvas_rect() as object
+    return { x: 0, y: 0, w: m.screen.GetWidth(), h: m.screen.GetHeight() }
+end function
 
-Sub set_layer(zOrder as integer, layer as object)
+sub set_layer(zOrder as integer, layer as object)
     m.layers.AddReplace(zOrder.toStr(), layer)
-End Sub
+end sub
 
-Sub clear_layer(zOrder as integer)
-    if m.layers.DoesExist(zOrder.toStr())
+sub clear_layer(zOrder as integer)
+    if m.layers[zOrder.toStr()] <> invalid
         m.layers.Delete(zOrder.toStr())
     end if
-End Sub
+end sub
 
-Sub show_canvas(scope = invalid)
+sub show_canvas(scope = invalid)
     if scope = invalid
         m.screen.Clear(255)
         scope = m.layers.keys()
@@ -87,23 +90,23 @@ Sub show_canvas(scope = invalid)
         'print "Layer took: "; m.timer.TotalMilliseconds()
     next
     m.screen.SwapBuffers()
-End Sub
+end sub
 
-Sub close_canvas()
+sub close_canvas()
     g = GetGlobalAA()
     g.stack.Delete(m.stackId)
     m.layers.Clear()
-End Sub
+end sub
 
-Sub paint_component(component as object)
+sub paint_component(component as object)
     rect = component.TargetRect
     if rect = invalid
         rect = m.GetCanvasRect()
     end if
-    if component.DoesExist("Text")
+    if component.Text <> invalid
         if type(component.TextAttrs.font) = "roString" or type(component.TextAttrs.font) = "String"
-            font = m.fonts.Lookup(component.TextAttrs.font)
-            if font = invalid 
+            font = m.fonts[component.TextAttrs.font]
+            if font = invalid
                 font = m.fonts.medium
             end if
         else if type(component.TextAttrs.font) = "roFont"
@@ -118,9 +121,9 @@ Sub paint_component(component as object)
             lines = component.text.split(chr(10))
             for each line in lines
                 tw = font.GetOneLineWidth(line, rect.w * m.scale)
-                if component.TextAttrs.DoesExist("HAlign")
+                if component.TextAttrs.HAlign <> invalid
                     if LCase(component.TextAttrs.HAlign) = "center"
-                        x += CInt((rect.w * m.scale - tw)/2)
+                        x += CInt((rect.w * m.scale - tw) / 2)
                     else if LCase(component.TextAttrs.HAlign) = "right"
                         x += CInt(rect.w * m.scale - tw)
                     end if
@@ -136,17 +139,19 @@ Sub paint_component(component as object)
                 y += th
             next
         end if
-    else if component.DoesExist("url")
-        x = rect.x * m.scale
-        y = rect.y * m.scale
-        bitmap = CreateObject("roBitmap",component.url)
-        if m.scale < 1 and bitmap <> invalid
-            bitmap = ScaleBitmap(bitmap, m.scale, false)
-        else if bitmap = invalid
-            print "invalid bitmap:"; component.url
+    else if component.url <> invalid
+        if component.url.trim() <> "" and m.files.Exists(component.url)
+            x = rect.x * m.scale
+            y = rect.y * m.scale
+            bitmap = CreateObject("roBitmap", component.url)
+            if m.scale < 1 and bitmap <> invalid
+                bitmap = ScaleBitmap(bitmap, m.scale, false)
+            end if
+            if bitmap <> invalid
+                m.screen.DrawObject(x, y, bitmap)
+            end if
         end if
-        m.screen.DrawObject(x, y, bitmap)
-    else if component.DoesExist("TargetRect")
+    else if component.TargetRect <> invalid
         x = rect.x * m.scale
         y = rect.y * m.scale
         w = rect.w * m.scale
@@ -158,17 +163,17 @@ Sub paint_component(component as object)
         end if
         m.screen.DrawRect(x, y, w, h, color)
     end if
-End Sub
+end sub
 
-Function HexToInt(hex_in)
+function HexToInt(hex_in)
     bArr = createobject("roByteArray")
     if len(hex_in) mod 2 > 0
         hex_in = "0" + hex_in
     end if
-    bArr.fromHexString(hex_in)    
+    bArr.fromHexString(hex_in)
     out = 0
-    for i = 0 to bArr.count()-1
+    for i = 0 to bArr.count() - 1
         out = 256 * out + bArr[i]
     end for
     return out
-End Function
+end function

@@ -1,18 +1,18 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
-' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
+' **  Prince of Persia for Roku - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: November 2019
+' **  Updated: October 2025
 ' **
-' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
+' **  Ported to BrightScript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
 ' **  https://github.com/jmechner/Prince-of-Persia-Apple-II - Original Apple II version by Jordan Mechner
 ' **
 ' ********************************************************************************************************
 ' ********************************************************************************************************
 
-Function GetConstants() as object
+function GetConstants() as object
     const = {}
 
     const.TIME_LIMIT = 3600
@@ -105,16 +105,16 @@ Function GetConstants() as object
     const.POTION_OPEN = 6
 
     const.FIGHT_ATTACK = 0
-    const.FIGHT_ALERT  = 1
+    const.FIGHT_ALERT = 1
     const.FIGHT_FROZEN = 2
 
-    const.REWFF_LEVEL  = 0
-    const.REWFF_HEALTH = 1
-    const.REWFF_TIME   = 2
-    const.REWFF_NONE   = 3
+    const.CHEAT_LEVEL = 0
+    const.CHEAT_HEALTH = 1
+    const.CHEAT_TIME = 2
+    const.CHEAT_NONE = 3
 
-    const.OKMODE_TIME  = 0
-    const.OKMODE_DEBUG = 1
+    const.INFO_TIME = 0
+    const.INFO_DEBUG = 1
 
     const.DO_MOVE = 0
     const.DO_STRIKE = 1
@@ -132,26 +132,28 @@ Function GetConstants() as object
     const.SPECIAL_FINISH = 2
 
     return const
-End Function
+end function
 
-Function GetCursors(controlMode as integer) as object
+function GetCursors(controlMode as integer) as object
     this = {
-            code: bslUniversalControlEventCodes()
-            up: false
-            down: false
-            left: false
-            right: false
-            shift: false
-           }
-    if controlMode = m.const.CONTROL_VERTICAL
+        code: bslUniversalControlEventCodes()
+        up: false
+        down: false
+        left: false
+        right: false
+        shift: false
+    }
+    if m.inSimulator
+        this.update = update_cursor_simulator
+    else if controlMode = m.const.CONTROL_VERTICAL
         this.update = update_cursor_vertical
     else
         this.update = update_cursor_horizontal
     end if
     return this
-End Function
+end function
 
-Sub update_cursor_vertical(id as integer, shiftToggle as boolean)
+sub update_cursor_vertical(id as integer, shiftToggle as boolean)
     if id = m.code.BUTTON_UP_PRESSED or id = m.code.BUTTON_A_PRESSED
         m.up = true
     else if id = m.code.BUTTON_DOWN_PRESSED
@@ -179,9 +181,9 @@ Sub update_cursor_vertical(id as integer, shiftToggle as boolean)
             m.shift = false
         end if
     end if
-End Sub
+end sub
 
-Sub update_cursor_horizontal(id as integer, shiftToggle as boolean)
+sub update_cursor_horizontal(id as integer, shiftToggle as boolean)
     if id = m.code.BUTTON_RIGHT_PRESSED or id = m.code.BUTTON_A_PRESSED
         m.up = true
     else if id = m.code.BUTTON_LEFT_PRESSED
@@ -209,33 +211,92 @@ Sub update_cursor_horizontal(id as integer, shiftToggle as boolean)
             m.shift = false
         end if
     end if
-End Sub
+end sub
 
-Function key_u() as boolean
+sub update_cursor_simulator(id as integer, shiftToggle as boolean)
+    if id = m.code.BUTTON_UP_PRESSED or id = m.code.BUTTON_SELECT_PRESSED
+        m.up = true
+    else if id = m.code.BUTTON_DOWN_PRESSED
+        m.down = true
+    else if id = m.code.BUTTON_LEFT_PRESSED
+        m.left = true
+    else if id = m.code.BUTTON_RIGHT_PRESSED
+        m.right = true
+    else if id = m.code.BUTTON_REWIND_PRESSED or id = m.code.BUTTON_PLAY_ONLY_PRESSED or id = m.code.BUTTON_INSTANT_REPLAY_PRESSED
+        m.shift = true
+    else if id = m.code.BUTTON_UP_RELEASED or id = m.code.BUTTON_SELECT_RELEASED
+        m.up = false
+    else if id = m.code.BUTTON_DOWN_RELEASED
+        m.down = false
+    else if id = m.code.BUTTON_LEFT_RELEASED
+        m.left = false
+    else if id = m.code.BUTTON_RIGHT_RELEASED
+        m.right = false
+    else if id = m.code.BUTTON_REWIND_RELEASED or id = m.code.BUTTON_PLAY_ONLY_RELEASED or id = m.code.BUTTON_INSTANT_REPLAY_RELEASED
+        m.shift = false
+    end if
+end sub
+
+function CommandRestart(id)
+    if m.inSimulator
+        return id = m.code.BUTTON_PLAY_PRESSED
+    end if
+    return id = m.code.BUTTON_INSTANT_REPLAY_PRESSED
+end function
+
+function CommandCheatNext(id)
+    if m.inSimulator
+        return id = m.code.BUTTON_B_PRESSED
+    end if
+    return id = m.code.BUTTON_FAST_FORWARD_PRESSED
+end function
+
+function CommandCheatPrev(id)
+    if m.inSimulator
+        return id = m.code.BUTTON_A_PRESSED
+    end if
+    return id = m.code.BUTTON_REWIND_PRESSED
+end function
+
+function CommandSpaceBar(id)
+    if m.inSimulator
+        return id = m.code.BUTTON_INFO_PRESSED
+    end if
+    return id = m.code.BUTTON_SELECT_PRESSED
+end function
+
+function CommandPause(id)
+    if m.inSimulator
+        return id = m.code.BUTTON_FAST_FORWARD_PRESSED
+    end if
+    return id = m.code.BUTTON_PLAY_PRESSED
+end function
+
+function key_u() as boolean
     return m.cursors.up
-End Function
+end function
 
-Function key_d() as boolean
+function key_d() as boolean
     return m.cursors.down
-End Function
+end function
 
-Function key_l() as boolean
+function key_l() as boolean
     return m.cursors.left
-End Function
+end function
 
-Function key_r() as boolean
+function key_r() as boolean
     return m.cursors.right
-End Function
+end function
 
-Function key_s() as boolean
+function key_s() as boolean
     return m.cursors.shift
-End Function
+end function
 
-Function LoadBitmapRegions(scale as float, path as string, jsonFile as string, pngFile = "" as string, flip = false as boolean, simpleScale = false as boolean)
+function LoadBitmapRegions(scale as float, path as string, jsonFile as string, pngFile = "" as string, flip = false as boolean, simpleScale = false as boolean)
     if pngFile = ""
         pngFile = jsonFile
     end if
-    print "loading ";path + jsonFile + ".json"
+    'print "loading ";path + jsonFile + ".json"
     json = ParseJson(ReadAsciiFile(path + jsonFile + ".json"))
     regions = {}
     if json <> invalid
@@ -245,7 +306,7 @@ Function LoadBitmapRegions(scale as float, path as string, jsonFile as string, p
             bitmap = ScaleBitmap(FlipHorizontally(CreateObject("roBitmap", path + pngFile + ".png")), scale, simpleScale)
         end if
         for each name in json.frames
-            frame = json.frames.Lookup(name).frame
+            frame = json.frames[name].frame
             if not flip
                 regions.AddReplace(name, CreateObject("roRegion", bitmap, int(frame.x * scale), int(frame.y * scale), int(frame.w * scale), int(frame.h * scale)))
             else
@@ -255,16 +316,16 @@ Function LoadBitmapRegions(scale as float, path as string, jsonFile as string, p
         next
     end if
     return regions
-End Function
+end function
 
-Function GenerateFrameNames(prefix as string, start as integer, finish as integer, suffix = "" as string, shuffle = false as boolean, repeatFrame = 1 as integer)
+function GenerateFrameNames(prefix as string, start as integer, finish as integer, suffix = "" as string, shuffle = false as boolean, repeatFrame = 1 as integer)
     frameNames = []
     if shuffle
-        length = finish-start+1
-        frame = rnd(length)-1
+        length = finish - start + 1
+        frame = rnd(length) - 1
         for f = 1 to length
             for r = 1 to repeatFrame
-                frameNames.Push(prefix + (frame+start).toStr() + suffix)
+                frameNames.Push(prefix + (frame + start).toStr() + suffix)
             next
             frame = (frame + 1) mod length
         next
@@ -276,32 +337,39 @@ Function GenerateFrameNames(prefix as string, start as integer, finish as intege
         next
     end if
     return frameNames
-End Function
+end function
 
-Function GetPaintedBitmap(color as integer, width as integer, height as integer, alpha as boolean)
-    bitmap = CreateObject("roBitmap", {width:width, height:height, alphaenable:alpha})
+function GetPaintedBitmap(color as integer, width as integer, height as integer, alpha as boolean)
+    bitmap = CreateObject("roBitmap", { width: width, height: height, alphaenable: alpha })
     bitmap.clear(color)
     return bitmap
-End Function
+end function
 
-Function ScaleBitmap(bitmap as object, scale as float, simpleMode = false as boolean)
+function ScaleBitmap(bitmap as object, scale as float, simpleMode = false as boolean)
     if bitmap = invalid then return bitmap
+    scaled = invalid
     if scale = 1.0
         scaled = bitmap
     else if scale = int(scale) or simpleMode
-		scaled = CreateObject("roBitmap",{width:int(bitmap.GetWidth()*scale), height:int(bitmap.GetHeight()*scale), alphaenable:true})
-		scaled.DrawScaledObject(0,0,scale,scale,bitmap)
+        scaled = CreateObject("roBitmap", { width: int(bitmap.GetWidth() * scale), height: int(bitmap.GetHeight() * scale), alphaenable: true })
+        if scaled <> invalid
+            scaled.DrawScaledObject(0, 0, scale, scale, bitmap)
+        end if
     else
         region = CreateObject("roRegion", bitmap, 0, 0, bitmap.GetWidth(), bitmap.GetHeight())
         region.SetScaleMode(1)
-        scaled = CreateObject("roBitmap",{width:int(bitmap.GetWidth()*scale), height:int(bitmap.GetHeight()*scale), alphaenable:true})
-        scaled.DrawScaledObject(0,0,scale,scale,region)
-	end if
+        scaled = CreateObject("roBitmap", { width: int(bitmap.GetWidth() * scale), height: int(bitmap.GetHeight() * scale), alphaenable: true })
+        if scaled <> invalid and region <> invalid
+            scaled.DrawScaledObject(0, 0, scale, scale, region)
+        end if
+        region = invalid
+    end if
     return scaled
-End Function
+end function
 
-Function ScaleToSize(bitmap as object, width as integer, height as integer, ratio = true as boolean)
+function ScaleToSize(bitmap as object, width as integer, height as integer, ratio = true as boolean)
     if bitmap = invalid then return bitmap
+    scaled = invalid
     if ratio and bitmap.GetWidth() <= width and bitmap.GetHeight() <= height
         scaled = bitmap
     else
@@ -313,20 +381,25 @@ Function ScaleToSize(bitmap as object, width as integer, height as integer, rati
             else
                 scale = height / bitmap.GetHeight()
             end if
-            scaled = CreateObject("roBitmap",{width:int(bitmap.GetWidth()*scale), height:int(bitmap.GetHeight()*scale), alphaenable:bitmap.GetAlphaEnable()})
-            scaled.DrawScaledObject(0,0,scale,scale,region)
+            scaled = CreateObject("roBitmap", { width: int(bitmap.GetWidth() * scale), height: int(bitmap.GetHeight() * scale), alphaenable: bitmap.GetAlphaEnable() })
+            if scaled <> invalid and region <> invalid
+                scaled.DrawScaledObject(0, 0, scale, scale, region)
+            end if
         else
             scaleX = width / bitmap.GetWidth()
             scaleY = height / bitmap.GetHeight()
-            scaled = CreateObject("roBitmap",{width:width, height:height, alphaenable:bitmap.GetAlphaEnable()})
-            scaled.DrawScaledObject(0,0,scaleX,scaleY,region)
+            scaled = CreateObject("roBitmap", { width: width, height: height, alphaenable: bitmap.GetAlphaEnable() })
+            if scaled <> invalid and region <> invalid
+                scaled.DrawScaledObject(0, 0, scaleX, scaleY, region)
+            end if
         end if
-	end if
+        region = invalid
+    end if
     return scaled
-End Function
+end function
 
-Function FlipVertically(bitmap as object) as object
-	flipped = CreateObject("roBitmap",{width:bitmap.GetWidth(), height:bitmap.GetHeight(), alphaenable:bitmap.GetAlphaEnable()})
+function FlipVertically(bitmap as object) as object
+    flipped = CreateObject("roBitmap", { width: bitmap.GetWidth(), height: bitmap.GetHeight(), alphaenable: bitmap.GetAlphaEnable() })
     columns = bitmap.GetWidth()
     lines = bitmap.GetHeight()
     for l = 0 to columns - 1
@@ -334,10 +407,10 @@ Function FlipVertically(bitmap as object) as object
         flipped.DrawObject(0, lines - l - 1, region)
     end for
     return flipped
-End Function
+end function
 
-Function FlipHorizontally(bitmap as object) as object
-	flipped = CreateObject("roBitmap",{width:bitmap.GetWidth(), height:bitmap.GetHeight(), alphaenable:bitmap.GetAlphaEnable()})
+function FlipHorizontally(bitmap as object) as object
+    flipped = CreateObject("roBitmap", { width: bitmap.GetWidth(), height: bitmap.GetHeight(), alphaenable: bitmap.GetAlphaEnable() })
     columns = bitmap.GetWidth()
     height = bitmap.GetHeight()
     for c = 0 to columns - 1
@@ -345,142 +418,176 @@ Function FlipHorizontally(bitmap as object) as object
         flipped.DrawObject(columns - c - 1, 0, region)
     end for
     return flipped
-End Function
+end function
 
-Sub CrossFade(screen as object, x as integer, y as integer, objectfadeout as object, objectfadein as object, speed = 1 as integer)
-    screen.SetAlphaEnable(true)
-    for i = 0 to 255 step speed
-        hexcolor = &hFFFFFFFF - i
-        hexcolor2  = &hFFFFFF00 + i
+sub CrossFade(screen as object, x as integer, y as integer, objectfadeout as object, objectfadein as object, speed = 1 as integer)
+    if InAsciiMode()
         screen.Clear(0)
-        screen.DrawObject(x, y, objectfadeout, hexcolor)
-        screen.DrawObject(x, y, objectfadein, hexcolor2)
+        screen.DrawObject(x, y, objectfadein)
         screen.SwapBuffers()
-    end for
-End Sub
+    else
+        screen.SetAlphaEnable(true)
+        for i = 0 to 255 step speed
+            hexcolor = &hFFFFFFFF - i
+            hexcolor2 = &hFFFFFF00 + i
+            screen.Clear(0)
+            screen.DrawObject(x, y, objectfadeout, hexcolor)
+            screen.DrawObject(x, y, objectfadein, hexcolor2)
+            screen.SwapBuffers()
+        end for
+    end if
+end sub
 
-Function GetScale(screen as object, width as integer, height as integer) as float
+sub ImageFadeIn(screen, x as integer, y as integer, objectfadein as object, speed = 1 as integer)
+    if InAsciiMode()
+        screen.Clear(0)
+        screen.DrawObject(x, y, objectfadein)
+        screen.SwapBuffers()
+    else
+        screen.SetAlphaEnable(true)
+        width = objectfadein.getWidth()
+        height = objectfadein.getHeight()
+        for i = 0 to 255 step speed
+            hexcolor = &hFF - i
+            screen.Clear(0)
+            screen.DrawObject(x, y, objectfadein)
+            screen.DrawObject(x, y, GetPaintedBitmap(hexcolor, width, height, true))
+            screen.SwapBuffers()
+        end for
+    end if
+end sub
+
+function GetScale(screen as object, width as integer, height as integer) as float
     scaleX = screen.GetWidth() / width
     scaleY = screen.GetHeight() / height
-    if  scaleX > scaleY
+    if scaleX > scaleY
         scale = scaleY
     else
         scale = scaleX
     end if
     return scale
-End Function
+end function
 
-Function IsHD()
+function IsHD()
     di = CreateObject("roDeviceInfo")
     return (di.GetUIResolution().height >= 720)
-End Function
+end function
 
-Function IsfHD()
+function IsfHD()
     di = CreateObject("roDeviceInfo")
     return(di.GetUIResolution().name.lcase() = "fhd")
-End Function
+end function
 
-Function ConvertX(x)
+function ConvertX(x)
     return Cint(x * 320 / 140)
-End Function
+end function
 
-Function ConvertXtoBlockX( x )
-    return Int( ( x - 7 ) / 14 )
-End Function
+function ConvertXtoBlockX(x)
+    return Int((x - 7) / 14)
+end function
 
-Function ConvertYtoBlockY( y )
-    return Int( y / m.const.BLOCK_HEIGHT )
-End Function
+function ConvertYtoBlockY(y)
+    return Int(y / m.const.BLOCK_HEIGHT)
+end function
 
-Function ConvertBlockXtoX( blockX )
+function ConvertBlockXtoX(blockX)
     return blockX * 14 + 7
-End Function
+end function
 
-Function ConvertBlockYtoY( blockY )
-    return ( blockY + 1 ) * m.const.BLOCK_HEIGHT - 10
-End Function
+function ConvertBlockYtoY(blockY)
+    return (blockY + 1) * m.const.BLOCK_HEIGHT - 10
+end function
 
-Function BoolToInt(value as Boolean) as Integer
+function BoolToInt(value as boolean) as integer
     if value
-       return 1
+        return 1
     else
-       return 0
+        return 0
     end if
-End Function
+end function
 
-Function GetManifestArray() as Object
+function GetManifestArray() as object
     manifest = ReadAsciiFile("pkg:/manifest")
     lines = manifest.Split(chr(10))
     aa = {}
     for each line in lines
-        if line <> ""
+        if line.trim() <> ""
             entry = line.Split("=")
-            aa.AddReplace(entry[0],entry[1].Trim())
+            aa.AddReplace(entry[0], entry[1].Trim())
         end if
     end for
-    print aa
+    if m.pd then print aa
     return aa
-End Function
+end function
 
-Function IsOpenGL() as Boolean
+function IsOpenGL() as boolean
     di = CreateObject("roDeviceInfo")
     gp = di.GetGraphicsPlatform()
-    return (lcase(gp)="opengl")
-End Function
+    return (lcase(gp) = "opengl")
+end function
 
-Function IsRokuStick() as Boolean
+function InSimulator() as boolean
     di = CreateObject("roDeviceInfo")
-    model = di.GetModel()
-    return (model = "3600X")
-End Function
+    return di.hasFeature("simulation_engine")
+end function
+
+function HasTouchControl() as boolean
+    di = CreateObject("roDeviceInfo")
+    return di.hasFeature("touch_controls")
+end function
+
+function InAsciiMode() as boolean
+    di = CreateObject("roDeviceInfo")
+    return di.hasFeature("ascii_rendering")
+end function
 
 'Nullable Boolean
-Function NBool(value as dynamic, default = false as boolean) as boolean
+function NBool(value as dynamic, default = false as boolean) as boolean
     if value <> invalid
         return value
     else
         return default
     end if
-End Function
+end function
 
 'Nullable Integer
-Function NInt(value as dynamic, default = 0 as integer) as integer
+function NInt(value as dynamic, default = 0 as integer) as integer
     if value <> invalid
         return value
     else
         return default
     end if
-End Function
+end function
 
-Function RandomArray(min as integer, max as integer) as object
+function RandomArray(minVal as integer, maxVal as integer) as object
     list = []
-    for i = min to max
+    for i = minVal to maxVal
         list.Push(i)
     next
     return ShuffleArray(list)
-End Function
+end function
 
-Function ShuffleArray(argArray as object) as object
+function ShuffleArray(argArray as object) as object
     rndArray = []
     for i = 0 to argArray.Count() - 1
         intIndex = Rnd(argArray.Count())
         rndArray.Push(argArray[intIndex - 1])
         argArray.Delete(intIndex - 1)
     next
-    Return rndArray
-End Function
+    return rndArray
+end function
 
-Function ZeroPad(text as string, length = invalid) as string
+function ZeroPad(text as string, length = invalid) as string
     if length = invalid then length = 2
     if text.Len() < length
-        for i = 1 to length-text.Len()
+        for i = 1 to length - text.Len()
             text = "0" + text
         next
     end if
     return text
-End Function
+end function
 
-Function FormatTime(seconds as integer) as string
+function FormatTime(seconds as integer) as string
     textTime = ""
     hasHours = false
     ' Special Check For Zero
@@ -491,7 +598,7 @@ Function FormatTime(seconds as integer) as string
     if seconds >= 3600
         textTime = textTime + int(seconds / 3600).toStr() + ":"
         hasHours = true
-        seconds = seconds Mod 3600
+        seconds = seconds mod 3600
     end if
     ' Minutes
     if seconds >= 60
@@ -500,7 +607,7 @@ Function FormatTime(seconds as integer) as string
         else
             textTime = textTime + int(seconds / 60).toStr() + ":"
         end if
-        seconds = seconds Mod 60
+        seconds = seconds mod 60
     else
         if hasHours
             textTime = textTime + "00:"
@@ -509,9 +616,9 @@ Function FormatTime(seconds as integer) as string
     ' Seconds
     textTime = textTime + ZeroPad(seconds.toStr())
     return textTime
-End Function
+end function
 
-Function LoadPalette(file as string, limit = -1 as integer, ignore = -1 as integer) As Dynamic
+function LoadPalette(file as string, limit = -1 as integer, ignore = -1 as integer) as dynamic
     rsp = ReadAsciiFile(file)
     palette = []
     if left(rsp, 8) <> "JASC-PAL"
@@ -519,7 +626,7 @@ Function LoadPalette(file as string, limit = -1 as integer, ignore = -1 as integ
         return palette
     end if
     rsp = rsp.Mid(rsp.InStr("16") + 3)
-    rsp = rsp.Replace(Chr(13)+Chr(10), " ")
+    rsp = rsp.Replace(Chr(13) + Chr(10), " ")
     rsp = rsp.Replace(Chr(10), " ")
     obj = rsp.Split(" ")
     r = -1
@@ -535,7 +642,7 @@ Function LoadPalette(file as string, limit = -1 as integer, ignore = -1 as integ
         else if b < 0
             b = Val(obj[i])
             if color <> ignore
-                palette.Push(RGBA(r,g,b))
+                palette.Push(RGBA(r, g, b))
             end if
             r = -1
             g = -1
@@ -544,43 +651,47 @@ Function LoadPalette(file as string, limit = -1 as integer, ignore = -1 as integ
         end if
     next
     return palette
-End Function
+end function
 
-Function RGBA(r as integer, g as integer, b as integer, a = &HFF as integer)
+function RGBA(r as integer, g as integer, b as integer, a = &HFF as integer)
     return ((r << 24) + (g << 16) + (b << 8) + a)
-End Function
+end function
 
 '------- Download Functions --------
-Function CacheFile(url as string, file as string, overwrite = false as boolean) as string
+function CacheFile(url as string, file as string, overwrite = false as boolean) as string
     tmpFile = "tmp:/" + file
     if overwrite or not m.files.Exists(tmpFile)
         http = CreateObject("roUrlTransfer")
+        http.SetCertificatesFile("common:/certs/ca-bundle.crt")
+        if LCase(Right(file, 4)) = "json"
+            http.AddHeader("Content-Type", "application/json")
+        end if
+        http.EnableEncodings(true)
+        http.EnablePeerVerification(false)
         http.SetUrl(url)
         ret = http.GetToFile(tmpFile)
-        if ret = 200
-            print "CacheFile: "; url; " to "; tmpFile
-        else
-            print "File not cached! http return code: "; ret
+        if ret <> 200
+            print file, "file not cached! http return code: "; ret
             tmpFile = ""
         end if
     end if
     return tmpFile
-End Function
+end function
 
 '------- Random Functions -------
-Function CreatePseudoRandom()
-    return {seed: 0, get: get_prandom, seq: seq_prandom}
-End Function
+function CreatePseudoRandom()
+    return { seed: 0, get: get_prandom, seq: seq_prandom }
+end function
 
-Function get_prandom(max as integer) as integer
+function get_prandom(max as integer) as integer
     m.seed = m.seed * 214013 + 2531011
     return ((m.seed >> 16) mod (max + 1))
-End Function
+end function
 
-Function seq_prandom(seed as integer, n as integer, p as integer, max as integer) as integer
+function seq_prandom(seed as integer, n as integer, p as integer, max as integer) as integer
     r0 = -1
     r1 = -1
-	m.seed = seed
+    m.seed = seed
     m.get(1)
     for i = 0 to n
         if i mod p = 0 then r0 = -1
@@ -591,40 +702,9 @@ Function seq_prandom(seed as integer, n as integer, p as integer, max as integer
         r0 = r1
     next
     return r1
-End Function
+end function
 
-Function MessageDialog(port, title, text, buttons = ["OK"], default = 0, overlay = false) As Integer
-    if port = invalid
-        if m.port = invalid
-            port = CreateObject("roMessagePort")
-        else
-            port = m.port
-        end if
-    end if
-    s = CreateMessageDialog()
-    s.SetTitle(title)
-    s.SetText(text)
-    s.SetMessagePort(port)
-    s.EnableOverlay(overlay)
-    for b = 0 to buttons.Count()-1
-        s.AddButton(b, buttons[b])
-    next
-    s.SetFocusedMenuItem(default)
-    s.Show()
-    result = 99 'nothing pressed
-    while true
-        msg = s.wait(port)
-        if msg.isButtonPressed()
-            result = msg.GetIndex()
-            exit while
-        else if msg.isScreenClosed()
-            exit while
-        end if
-    end while
-    return result
-End Function
-
-Function KeyboardScreen(title = "", prompt = "", text = "", button1 = "Okay", button2= "Cancel", secure = false, port = invalid) as string
+function KeyboardScreen(title = "", prompt = "", text = "", button1 = "Okay", button2 = "Cancel", secure = false, port = invalid) as string
     m.mainScreen = CreateObject("roScreen", true, 1280, 720)
     m.mainScreen.SetMessagePort(m.port)
     m.mainScreen.SetAlphaEnable(true)
@@ -656,38 +736,43 @@ Function KeyboardScreen(title = "", prompt = "", text = "", button1 = "Okay", bu
     screen.Close()
     ResetMainScreen()
     return result
-End Function
+end function
 
-Sub ResetMainScreen()
+sub ResetMainScreen(lowRes = false)
     if isHD()
-        m.mainScreen = CreateObject("roScreen", true, 854, 480)
+        if lowRes
+            m.mainScreen = CreateObject("roScreen", true, 768, 432)
+        else
+            m.mainScreen = CreateObject("roScreen", true, 1280, 720)
+        end if
     else
         m.mainScreen = CreateObject("roScreen", true, 720, 540)
     end if
     m.mainScreen.SetMessagePort(m.port)
     m.mainScreen.SetAlphaEnable(true)
-End Sub
+    m.screenCanvas = CreateObject("roBitmap", { width: m.mainScreen.getWidth(), height: m.mainScreen.getHeight(), alphaenable: true })
+end sub
 
 '------- Registry Functions -------
-Function GetRegistryString(key as String, default = "") As String
+function GetRegistryString(key as string, default = "") as string
     sec = CreateObject("roRegistrySection", "PoP")
     if sec.Exists(key)
         return sec.Read(key)
     end if
     return default
-End Function
+end function
 
-Sub SaveRegistryString(key As String, value As String)
+sub SaveRegistryString(key as string, value as string)
     sec = CreateObject("roRegistrySection", "PoP")
     sec.Write(key, value)
     sec.Flush()
-End Sub
+end sub
 
-Sub SaveSettings(settings as Object)
-    SaveRegistryString("Settings", FormatJSON({settings: settings}, 1))
-End Sub
+sub SaveSettings(settings as object)
+    SaveRegistryString("Settings", FormatJSON({ settings: settings }, 1))
+end sub
 
-Function LoadSettings() as Dynamic
+function LoadSettings() as dynamic
     json = GetRegistryString("Settings")
     if json <> ""
         obj = ParseJSON(json)
@@ -696,13 +781,13 @@ Function LoadSettings() as Dynamic
         end if
     end if
     return invalid
-End Function
+end function
 
-Sub SaveGame(game as Object)
-    SaveRegistryString("SavedGame", FormatJSON({savedGame: game}, 1))
-End Sub
+sub SaveGame(game as object)
+    SaveRegistryString("SavedGame", FormatJSON({ savedGame: game }, 1))
+end sub
 
-Function LoadSavedGame() as Dynamic
+function LoadSavedGame() as dynamic
     json = GetRegistryString("SavedGame")
     if json <> ""
         obj = ParseJSON(json)
@@ -711,13 +796,13 @@ Function LoadSavedGame() as Dynamic
         end if
     end if
     return invalid
-End Function
+end function
 
-Sub SaveHighScores(scores as Object)
-    SaveRegistryString("HighScores", FormatJSON({highScores: scores}, 1))
-End Sub
+sub SaveHighScores(scores as object)
+    SaveRegistryString("HighScores", FormatJSON({ highScores: scores }, 1))
+end sub
 
-Function LoadHighScores() as Dynamic
+function LoadHighScores() as dynamic
     json = GetRegistryString("HighScores")
     if json <> ""
         obj = ParseJSON(json)
@@ -726,4 +811,4 @@ Function LoadHighScores() as Dynamic
         end if
     end if
     return invalid
-End Function
+end function

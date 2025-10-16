@@ -1,8 +1,8 @@
 title=Prince of Persia
 subtitle=Port for Roku by Marcelo Lv Cabral
 major_version=0
-minor_version=18
-build_version=3778
+minor_version=21
+build_version=4077
 mm_icon_focus_hd=pkg:/images/icon_focus_hd.png
 mm_icon_focus_sd=pkg:/images/icon_focus_hd.png
 screensaver_private=1
@@ -12,3 +12,4 @@ splash_screen_hd=pkg:/images/splash.png
 splash_color=#000000
 splash_min_time=100
 game=1
+multi_key_events=1

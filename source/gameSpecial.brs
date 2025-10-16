@@ -1,11 +1,11 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
-' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
+' **  Prince of Persia for Roku - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: June 2016
-' **  Updated: September 2019
+' **  Updated: February 2023
 ' **
-' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
+' **  Ported to BrightScript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
 ' **  https://github.com/jmechner/Prince-of-Persia-Apple-II - Original Apple II version by Jordan Mechner
 ' **
@@ -50,8 +50,8 @@ Function CheckSpecialEvents() as integer
                     tile.back = tile.key + "_1"
                     tile.front = tile.back + "_fg"
                     if tile.backSprite <> invalid and tile.frontSprite <> invalid
-                        tile.backSprite.SetRegion(m.regions.tiles.Lookup(tile.back))
-                        tile.frontSprite.SetRegion(m.regions.tiles.Lookup(tile.front))
+                        tile.backSprite.SetRegion(m.regions.tiles[tile.back])
+                        tile.frontSprite.SetRegion(m.regions.tiles[tile.front])
                     end if
                 end if
             end if
@@ -105,8 +105,8 @@ Function CheckSpecialEvents() as integer
                 tile.back  = tile.key + "_13"
                 tile.front = tile.back + "_fg"
                 if tile.backSprite <> invalid and tile.frontSprite <> invalid
-                    tile.backSprite.SetRegion(m.regions.tiles.Lookup(tile.back))
-                    tile.frontSprite.SetRegion(m.regions.tiles.Lookup(tile.front))
+                    tile.backSprite.SetRegion(m.regions.tiles[tile.back])
+                    tile.frontSprite.SetRegion(m.regions.tiles[tile.front])
                 end if
                 tile.redraw  = true
                 m.kid.level.exitOpen = 2
@@ -117,7 +117,7 @@ Function CheckSpecialEvents() as integer
                 tile = m.kid.level.getTileAt(m.kid.blockX, m.kid.blockY, m.kid.room)
                 if m.kid.charAction <> "runjump" and tile.element = m.const.TILE_MIRROR
                     'Show mirror reflex
-                    kdRegion = m.regions.kid[Abs(m.kid.face - 1)].Lookup(m.kid.frameName).Copy()
+                    kdRegion = m.regions.kid[Abs(m.kid.face - 1)][m.kid.frameName].Copy()
                     ctrMirror = tile.backSprite.GetX() + (22 * m.scale)
                     reflexPos =  ctrMirror - Abs(m.kid.sprite.GetX() - ctrMirror) - kdRegion.GetWidth()
                     if m.reflex = invalid
@@ -244,7 +244,7 @@ Function CheckSpecialEvents() as integer
                 return m.const.SPECIAL_CONTINUE
             end if
             m.mouse.update()
-            msRegion = m.regions.mouse[m.mouse.face].Lookup(m.mouse.frameName)
+            msRegion = m.regions.mouse[m.mouse.face][m.mouse.frameName]
             if m.mouse.faceL()
                 anchorX = (m.mouse.x * m.scale) - m.xOff
             else
@@ -300,7 +300,7 @@ Function CheckSpecialEvents() as integer
                 objList = m.kid.sprite.CheckMultipleCollisions()
                 if objList <> invalid
                     for each obj in objList
-                        if obj.GetData() = "shadow"
+                        if obj.GetData() + "" = "shadow" 'concat with empty screen to workaround emulator bug
                             m.kid.effect.color =  m.colors.white
                             m.kid.effect.cycles = 10
                             m.kid.cycles = 50
@@ -319,7 +319,7 @@ Function CheckSpecialEvents() as integer
                     PlaySound("success")
                 end if
                 if m.kid.cycles mod 2 = 0
-                    swRegion = m.regions.guards.shadow[m.kid.face].Lookup("shadow-" + m.kid.frame.toStr())
+                    swRegion = m.regions.guards.shadow[m.kid.face]["shadow-" + m.kid.frame.toStr()]
                     if swRegion <> invalid
                         m.kid.sprite.SetRegion(swRegion)
                     end if
@@ -338,8 +338,8 @@ Function CheckSpecialEvents() as integer
         if m.kid.leapOfFaith
             tile = m.kid.level.getTileAt(m.kid.blockX, m.kid.blockY, m.kid.room)
             if tile.redraw and tile.backSprite <> invalid and tile.frontSprite <> invalid
-                tile.backSprite.SetRegion(m.regions.tiles.Lookup(tile.back))
-                tile.frontSprite.SetRegion(m.regions.tiles.Lookup(tile.front))
+                tile.backSprite.SetRegion(m.regions.tiles[tile.back])
+                tile.frontSprite.SetRegion(m.regions.tiles[tile.front])
             end if
         end if
     else if m.currentLevel = 13
@@ -355,7 +355,6 @@ Function CheckSpecialEvents() as integer
                 if tile.backSprite <> invalid and tile.element = m.const.TILE_LOOSE_BOARD and not tile.fall
                     tile.shake(true)
                     exit for
-                    print "line to avoid emulator interpret exit for as return"
                 end if
             next
         else if m.kid.room = 1 and m.guards.Count() > 0

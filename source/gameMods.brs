@@ -1,28 +1,27 @@
 ' ********************************************************************************************************
 ' ********************************************************************************************************
-' **  Roku Prince of Persia Channel - http://github.com/lvcabral/Prince-of-Persia-Roku
+' **  Prince of Persia for Roku - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: July 2016
-' **  Updated: November 2019
+' **  Updated: March 2024
 ' **
-' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
+' **  Ported to BrightScript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
 ' **  https://github.com/jmechner/Prince-of-Persia-Apple-II - Original Apple II version by Jordan Mechner
 ' **
 ' ********************************************************************************************************
 ' ********************************************************************************************************
 
-Function LoadMods() as object
+function LoadMods() as object
     Sleep(500)
     TextBox(m.mainScreen, 620, 50, "Loading...")
     'Load internal Mods
     mods = ParseJson(ReadAsciiFile("pkg:/mods/mods.json"))
-    'Uncomment and edit the line below to add the URL if you are hosting remote mods
-    'm.webMods = "http://YOURDOMAIN/MODSFOLDER/"
+    m.webMods = "https://lvcabral.com/prince/mods/"
     'Load remote Mods (if available)
     if m.webMods <> invalid and CacheFile(m.webMods + "mods.json", "mods.json") <> ""
         modsWeb = ParseJson(ReadAsciiFile("tmp:/mods.json"))
-        if modsWeb <> invalid 
+        if modsWeb <> invalid
             print modsWeb.Count(); " mods dowloaded"
             mods.Append(modsWeb)
         else
@@ -32,9 +31,9 @@ Function LoadMods() as object
         Sleep(1000)
     end if
     return mods
-End Function
+end function
 
-Sub DownloadMod(webMod as object)
+sub DownloadMod(webMod as object)
     ClearScreenBuffers()
     'Set mods remote URL
     modUrl = m.webMods + webMod.path
@@ -85,15 +84,15 @@ Sub DownloadMod(webMod as object)
             CacheFile(modUrl + "sounds/" + file + ".wav", webMod.path + file + ".wav", true)
         next
     end if
-End Sub
+end sub
 
-Function GetModImage(modId as dynamic) as string
+function GetModIcon(modId as dynamic) as string
     cloud = false
     modImage = "pkg:/assets/titles/intro-screen-dos.png"
     modCover = "tmp:/0000001.png"
     if modId <> invalid
         modAA = m.mods[modId]
-        if Left(modAA.url,3) = "pkg"
+        if Left(modAA.url, 3) = "pkg"
             modImage = modAA.url + modAA.path + modId + "_1.png"
         else
             modImage = CacheFile(m.webMods + modAA.path + modId + "_1.png", modId + "_1.png")
@@ -102,58 +101,96 @@ Function GetModImage(modId as dynamic) as string
         modCover = "tmp:/" + modId + ".png"
     end if
     if modImage <> "" and not m.files.Exists(modCover)
-        bmp = GetPaintedBitmap(0, 360, 240, true)
-        bmp.DrawObject(20, 20, CreateObject("roBitmap", modImage))
-        bmp.DrawLine(19, 19, 19 + 322, 19, m.colors.white)
-        bmp.DrawLine(19 + 322, 19, 19 + 322, 19 + 202, m.colors.white)
-        bmp.DrawLine(19 + 322, 19 + 202, 19, 19 + 202, m.colors.white)
-        bmp.DrawLine(19, 19 + 202, 19, 19, m.colors.white)
-        if cloud
-            bmp.DrawObject(312, 192, CreateObject("roBitmap", "pkg:/images/icon_cloud.png"))
-        end if
+        ' print "scaling to size: "; modImage, modCover
+        bmp = ScaleToSize(CreateObject("roBitmap", modImage), 256, 160)
+        bmp.DrawLine(0, 0, 255, 0, m.colors.white)
+        bmp.DrawLine(255, 0, 255, 159, m.colors.white)
+        bmp.DrawLine(255, 159, 0, 159, m.colors.white)
+        bmp.DrawLine(0, 159, 0, 0, m.colors.white)
         bmp.Finish()
-        png = bmp.GetPng(0, 0, 360, 240)
+        png = bmp.GetPng(0, 0, 256, 160)
         png.WriteFile(modCover)
     end if
     return modCover
-End Function
+end function
 
-Sub ModsAndCheatsScreen()
-    m.mainScreen = CreateObject("roScreen", true, 1280, 720)
-    m.mainScreen.SetMessagePort(m.port)
-    this = {
-            screen: CreateListScreen()
-            port: m.port
-           }
-    this.screen.SetMessagePort(this.port)
-    this.screen.SetHeader("Mods and Cheats")
-    this.modArray = [{name: "(none)", author:"", levels: false, sprites: false, sounds: false}]
-    this.modIndex = 0
+function ModsScreen(port = invalid) as string
+    screen = CreateGridScreen()
+    if port = invalid then port = CreateObject("roMessagePort")
+    screen.SetMessagePort(port)
+    'Load the content
+    content = []
+    modsCount = m.mods.keys().count()
+    screen.SetListCount("1 of " + modsCount.toStr() + " mods")
+    screen.ShowMessage("Loading mods...")
+    screen.Show()
+    modArray = []
+    modIndex = 0
     for each modId in m.mods.Keys()
-        if modId = m.settings.modId then this.modIndex = this.modArray.Count()
         m.mods[modId].id = modId
-        this.modArray.Push(m.mods[modId])
+        modArray.Push(m.mods[modId])
+        imgPath = GetModIcon(modId)
+        content.Push({ id: modId, HDPosterUrl: imgPath })
     next
-    this.fightModes = ["Attack", "Alert", "Frozen"]
-    this.fightHelp  = ["Enemies will attack you!", "Enemies will be alert and follow you", "Enemies will be static"]
-    this.fightIndex = m.settings.fight
-    this.rewFFModes = ["Change Level", "Change Health", "Change Time", "(disabled)"]
-    this.rewFFHelp  = ["Advance or return game levels", "Increase or decrease Prince health", "Add or subtract 1 minute", "Cheat Keys disabled"]
-    this.rewFFIndex = m.settings.rewFF
-    this.okModes    = ["Show Remaining Time", "Enable Debug Mode"]
-    this.okHelp     = ["Show game remaining time", "Turn on/off Debug mode"]
-    this.okIndex    = m.settings.okMode
-    if m.settings.modId <> invalid
-        this.modName = m.mods[m.settings.modId].name
-    else
-        this.modName = this.modArray[0].name
+    screen.SetContentList(content)
+    modAA = m.mods[modArray[modIndex].id]
+    if modAA <> invalid
+        screen.SetListName(ModDescription(modAA))
     end if
-    this.modImage = GetModImage(m.settings.modId)
+    selected = ""
+    while true
+        screen.visible = false
+        msg = screen.Wait()
+        if msg = invalid
+            ' ignore invalid message (key up)
+        else if msg.isScreenClosed()
+            selected = ""
+            exit while
+        else if msg.isListItemFocused()
+            idx = msg.GetIndex()
+            screen.SetListCount((idx + 1).toStr() + " of " + modsCount.toStr() + " mods")
+            item = content[idx]
+            modAA = m.mods[item.id]
+            if modAA <> invalid
+                screen.SetListName(ModDescription(modAA))
+            end if
+            screen.show()
+        else if msg.isListItemSelected()
+            item = content[msg.GetIndex()]
+            if item <> invalid
+                selected = item.id
+            end if
+            exit while
+        end if
+    end while
+    return selected
+end function
+
+sub SecretCheatsScreen()
+    this = {
+        screen: CreateListScreen()
+        port: m.port
+    }
+    this.screen.SetMessagePort(this.port)
+    this.screen.SetHeader("Secret Cheats Screen")
+    this.fight = " Fight Mode: "
+    this.fightModes = ["Attack", "Alert", "Frozen"]
+    this.fightHelp = ["Enemies will attack you!", "Enemies will be alert and follow you", "Enemies will be static"]
+    this.fightIndex = m.settings.fight
+    this.cheat = " Cheat Keys: "
+    this.cheatModes = ["Change Level", "Change Health", "Change Time", "(disabled)"]
+    this.cheatHelp = ["Advance or return game levels", "Increase or decrease Prince health", "Add or subtract 1 minute", "Cheat Keys disabled"]
+    this.cheatIndex = m.settings.cheatMode
+    if m.inSimulator then this.info = " Info Key: " else this.info = " OK Key: "
+    this.infoModes = ["Remaining Time", "Set Debug Mode"]
+    this.infoHelp = ["Show game remaining time", "Turn on/off Debug mode"]
+    this.infoIndex = m.settings.infoMode
+    this.save = " Saved Game: "
     this.saveMode = m.settings.saveGame
     if this.saveMode
         if m.savedGame <> invalid
             this.saveTitle = SavedGameTitle(m.savedGame)
-            this.saveImage = GetModImage(m.savedGame.modId)
+            this.saveImage = GetModIcon(m.savedGame.modId)
             if m.savedGame.modId <> invalid
                 this.saveDesc = m.mods[m.savedGame.modId].name
             else
@@ -168,7 +205,7 @@ Sub ModsAndCheatsScreen()
         this.saveImage = ""
         this.saveDesc = ""
     end if
-    listItems = GetMenuItems(this)
+    listItems = GetListItems(this)
     this.screen.SetContent(listItems)
     this.screen.Show()
     listIndex = 0
@@ -190,92 +227,69 @@ Sub ModsAndCheatsScreen()
             oldIndex = listIndex
         else if msg.isRemoteKeyPressed()
             remoteKey = msg.GetIndex()
-            if listIndex = 0 'Mods
-                if remoteKey = m.code.BUTTON_LEFT_PRESSED
-                    this.modIndex--
-                    if this.modIndex < 0
-                        this.modIndex = this.modArray.Count() - 1
-                    end if
-                else if remoteKey = m.code.BUTTON_RIGHT_PRESSED
-                    this.modIndex++
-                    if this.modIndex = this.modArray.Count()
-                        this.modIndex = 0
-                    end if
-                end if
-                listItems[listIndex].Title = " Mod: " + this.modArray[this.modIndex].name
-                listItems[listIndex].ShortDescriptionLine1 = ModDescription(this.modArray[this.modIndex])
-                listItems[listIndex].HDPosterUrl = GetModImage(this.modArray[this.modIndex].id)
-                listItems[listIndex].SDPosterUrl = listItems[listIndex].HDPosterUrl
-                this.screen.SetItem(listIndex, listItems[listIndex])
-                m.settings.modId = this.modArray[this.modIndex].id
-                if this.modArray[this.modIndex].sprites
-                    m.settings.spriteMode = val(m.settings.modId)
-                else if m.settings.spriteMode <> m.const.SPRITES_MAC
-                    m.settings.spriteMode = m.const.SPRITES_DOS
-                end if
-            else if listIndex = 1 'Fight Mode
+            if listIndex = 0 'Fight Mode
                 if remoteKey = m.code.BUTTON_LEFT_PRESSED
                     this.fightIndex--
                     if this.fightIndex < 0
                         this.fightIndex = this.fightModes.Count() - 1
                     end if
-                else if remoteKey = m.code.BUTTON_RIGHT_PRESSED
+                else if remoteKey = m.code.BUTTON_RIGHT_PRESSED or remoteKey = m.code.BUTTON_SELECT_PRESSED
                     this.fightIndex++
                     if this.fightIndex = this.fightModes.Count()
                         this.fightIndex = 0
                     end if
                 end if
-                listItems[listIndex].Title = " Fight Mode: " + this.fightModes[this.fightIndex]
+                listItems[listIndex].Title = this.fight + this.fightModes[this.fightIndex]
                 listItems[listIndex].ShortDescriptionLine1 = this.fightHelp[this.fightIndex]
                 listItems[listIndex].HDPosterUrl = "pkg:/images/fight_" + this.fightIndex.toStr() + ".jpg"
                 listItems[listIndex].SDPosterUrl = listItems[listIndex].HDPosterUrl
                 this.screen.SetItem(listIndex, listItems[listIndex])
                 m.settings.fight = this.fightIndex
-            else if listIndex = 2 'Rew and FF
+            else if listIndex = 1 'Cheat Mode
                 if remoteKey = m.code.BUTTON_LEFT_PRESSED
-                    this.rewFFIndex--
-                    if this.rewFFIndex < 0
-                        this.rewFFIndex = this.rewFFModes.Count() - 1
+                    this.cheatIndex--
+                    if this.cheatIndex < 0
+                        this.cheatIndex = this.cheatModes.Count() - 1
                     end if
-                else if remoteKey = m.code.BUTTON_RIGHT_PRESSED
-                    this.rewFFIndex++
-                    if this.rewFFIndex = this.rewFFModes.Count()
-                        this.rewFFIndex = 0
+                else if remoteKey = m.code.BUTTON_RIGHT_PRESSED or remoteKey = m.code.BUTTON_SELECT_PRESSED
+                    this.cheatIndex++
+                    if this.cheatIndex = this.cheatModes.Count()
+                        this.cheatIndex = 0
                     end if
                 end if
-                listItems[listIndex].Title =" REW & FF keys: " + this.rewFFModes[this.rewFFIndex]
-                listItems[listIndex].ShortDescriptionLine1 = this.rewFFHelp[this.rewFFIndex]
-                listItems[listIndex].HDPosterUrl = "pkg:/images/rewff_" + this.rewFFIndex.toStr() + ".jpg"
+                listItems[listIndex].Title = this.cheat + this.cheatModes[this.cheatIndex]
+                listItems[listIndex].ShortDescriptionLine1 = this.cheatHelp[this.cheatIndex]
+                listItems[listIndex].HDPosterUrl = "pkg:/images/cheat_" + this.cheatIndex.toStr() + ".jpg"
                 listItems[listIndex].SDPosterUrl = listItems[listIndex].HDPosterUrl
                 this.screen.SetItem(listIndex, listItems[listIndex])
-                m.settings.rewFF = this.rewFFIndex
-            else if listIndex = 3 'OK Key Mode
+                m.settings.cheatMode = this.cheatIndex
+            else if listIndex = 2 'Info Key Mode
                 if remoteKey = m.code.BUTTON_LEFT_PRESSED
-                    this.okIndex--
-                    if this.okIndex < 0
-                        this.okIndex = this.okModes.Count() - 1
+                    this.infoIndex--
+                    if this.infoIndex < 0
+                        this.infoIndex = this.infoModes.Count() - 1
                     end if
-                else if remoteKey = m.code.BUTTON_RIGHT_PRESSED
-                    this.okIndex++
-                    if this.okIndex = this.okModes.Count()
-                        this.okIndex = 0
+                else if remoteKey = m.code.BUTTON_RIGHT_PRESSED or remoteKey = m.code.BUTTON_SELECT_PRESSED
+                    this.infoIndex++
+                    if this.infoIndex = this.infoModes.Count()
+                        this.infoIndex = 0
                     end if
                 end if
-                listItems[listIndex].Title = " OK Key: " + this.okModes[this.okIndex]
-                listItems[listIndex].ShortDescriptionLine1 = this.okHelp[this.okIndex]
-                listItems[listIndex].HDPosterUrl = "pkg:/images/okmode_" + this.okIndex.toStr() + ".jpg"
+                listItems[listIndex].Title = this.info + this.infoModes[this.infoIndex]
+                listItems[listIndex].ShortDescriptionLine1 = this.infoHelp[this.infoIndex]
+                listItems[listIndex].HDPosterUrl = "pkg:/images/infokey_" + this.infoIndex.toStr() + ".jpg"
                 listItems[listIndex].SDPosterUrl = listItems[listIndex].HDPosterUrl
                 this.screen.SetItem(listIndex, listItems[listIndex])
-                m.settings.okMode = this.okIndex
-            else if listIndex = 4 'Save Game
-                if remoteKey = m.code.BUTTON_LEFT_PRESSED or remoteKey = m.code.BUTTON_RIGHT_PRESSED
+                m.settings.infoMode = this.infoIndex
+            else if listIndex = 3 'Save Game
+                if remoteKey = m.code.BUTTON_LEFT_PRESSED or remoteKey = m.code.BUTTON_RIGHT_PRESSED or remoteKey = m.code.BUTTON_SELECT_PRESSED
                     this.saveMode = not this.saveMode
                     m.settings.saveGame = this.saveMode
                 end if
                 if this.saveMode
                     if m.savedGame <> invalid
                         this.saveTitle = SavedGameTitle(m.savedGame)
-                        this.saveImage = GetModImage(m.savedGame.modId)
+                        this.saveImage = GetModIcon(m.savedGame.modId)
                         if m.savedGame.modId <> invalid
                             this.saveDesc = m.mods[m.savedGame.modId].name
                         else
@@ -290,90 +304,82 @@ Sub ModsAndCheatsScreen()
                     this.saveImage = ""
                     this.saveDesc = ""
                 end if
-                listItems[listIndex].Title = " Saved Game: " + this.saveTitle
+                listItems[listIndex].Title = this.save + this.saveTitle
                 listItems[listIndex].ShortDescriptionLine1 = this.saveDesc
                 listItems[listIndex].HDPosterUrl = this.saveImage
                 listItems[listIndex].SDPosterUrl = this.saveImage
                 this.screen.SetItem(listIndex, listItems[listIndex])
             end if
-            if remoteKey = m.code.BUTTON_LEFT_PRESSED or remoteKey = m.code.BUTTON_RIGHT_PRESSED
+            if remoteKey = m.code.BUTTON_LEFT_PRESSED or remoteKey = m.code.BUTTON_RIGHT_PRESSED or remoteKey = m.code.BUTTON_SELECT_PRESSED
                 m.sounds.navSingle.Trigger(50)
                 SaveSettings(m.settings)
             end if
         end if
     end while
-End Sub
+end sub
 
-Function GetMenuItems(menu as object)
+function GetListItems(menu as object)
     listItems = []
     listItems.Push({
-                Title: " Mod: " + menu.modName
-                HDSmallIconUrl: "pkg:/images/icon_arrows.png"
-                SDSmallIconUrl: "pkg:/images/icon_arrows.png"
-                HDPosterUrl: menu.modImage
-                SDPosterUrl: menu.modImage
-                ShortDescriptionLine1: ModDescription(menu.modArray[menu.modIndex])
-                ShortDescriptionLine2: "Use Left and Right to select a Mod"
-                })
+        Title: menu.fight + menu.fightModes[menu.fightIndex]
+        HDSmallIconUrl: "pkg:/images/icon_arrows.png"
+        SDSmallIconUrl: "pkg:/images/icon_arrows.png"
+        HDPosterUrl: "pkg:/images/fight_" + menu.fightIndex.toStr() + ".jpg"
+        SDPosterUrl: "pkg:/images/fight_" + menu.fightIndex.toStr() + ".jpg"
+        ShortDescriptionLine1: menu.fightHelp[menu.fightIndex]
+        ShortDescriptionLine2: "Use Left and Right to select a Fight Mode"
+    })
     listItems.Push({
-                Title: " Fight Mode: " + menu.fightModes[menu.fightIndex]
-                HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
-                SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
-                HDPosterUrl: "pkg:/images/fight_" + menu.fightIndex.toStr() + ".jpg"
-                SDPosterUrl: "pkg:/images/fight_" + menu.fightIndex.toStr() + ".jpg"
-                ShortDescriptionLine1: menu.fightHelp[menu.fightIndex]
-                ShortDescriptionLine2: "Use Left and Right to select a Fight Mode"
-                })
+        Title: menu.cheat + menu.cheatModes[menu.cheatIndex]
+        HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
+        SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
+        HDPosterUrl: "pkg:/images/cheat_" + menu.cheatIndex.toStr() + ".jpg"
+        SDPosterUrl: "pkg:/images/cheat_" + menu.cheatIndex.toStr() + ".jpg"
+        ShortDescriptionLine1: menu.cheatHelp[menu.cheatIndex]
+        ShortDescriptionLine2: "Use Left and Right to set cheat keys mode"
+    })
     listItems.Push({
-                Title: " REW & FF Keys: " + menu.rewFFModes[menu.rewFFIndex]
-                HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
-                SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
-                HDPosterUrl: "pkg:/images/rewff_" + menu.rewFFIndex.toStr() + ".jpg"
-                SDPosterUrl: "pkg:/images/rewff_" + menu.rewFFIndex.toStr() + ".jpg"
-                ShortDescriptionLine1: menu.rewFFHelp[menu.rewFFIndex]
-                ShortDescriptionLine2: "Use Left and Right to set cheat keys mode"
-                })
+        Title: menu.info + menu.infoModes[menu.infoIndex]
+        HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
+        SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
+        HDPosterUrl: "pkg:/images/infokey_" + menu.infoIndex.toStr() + ".jpg",
+        SDPosterUrl: "pkg:/images/infokey_" + menu.infoIndex.toStr() + ".jpg",
+        ShortDescriptionLine1: menu.infoHelp[menu.infoIndex]
+        ShortDescriptionLine2: "Use Left and Right to set key mode"
+    })
     listItems.Push({
-                Title: " OK Key: " + menu.okModes[menu.okIndex]
-                HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
-                SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
-                HDPosterUrl: "pkg:/images/okmode_" + menu.okIndex.toStr() + ".jpg",
-                SDPosterUrl: "pkg:/images/okmode_" + menu.okIndex.toStr() + ".jpg",
-                ShortDescriptionLine1: menu.okHelp[menu.okIndex]
-                ShortDescriptionLine2: "Use Left and Right to set OK key mode"
-                })
-    listItems.Push({
-                Title: " Saved Game: " + menu.saveTitle
-                HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
-                SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
-                HDPosterUrl: menu.saveImage,
-                SDPosterUrl: menu.saveImage,
-                ShortDescriptionLine1: menu.saveDesc,
-                ShortDescriptionLine2: "Use Left and Right to enable/disable save"
-                })
+        Title: menu.save + menu.saveTitle
+        HDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
+        SDSmallIconUrl: "pkg:/images/icon_arrows_bw.png"
+        HDPosterUrl: menu.saveImage,
+        SDPosterUrl: menu.saveImage,
+        ShortDescriptionLine1: menu.saveDesc,
+        ShortDescriptionLine2: "Use Left and Right to enable/disable save"
+    })
     return listItems
-End Function
+end function
 
-Function ModDescription(modAA as object) as string
+function ModDescription(modAA as object) as string
     if modAA.author = "" then return "Original Game Levels"
-    modAuthor = "Author: " + modAA.author + chr(10)
+    modAuthor = " by " + modAA.author + " - Custom "
     modFeatures = ""
-    if modAA.levels then modFeatures = "Levels"
+    if modAA.levels then modFeatures = "levels"
     if modAA.sprites
         if modFeatures <> ""
             modFeatures = modFeatures + ", "
         end if
-        modFeatures = modFeatures + "Sprites"
+        modFeatures = modFeatures + "sprites"
     end if
     if modAA.sounds
         if modFeatures <> ""
             modFeatures = modFeatures + ", "
         end if
-        modFeatures = modFeatures + "Sounds"
+        modFeatures = modFeatures + "sounds"
     end if
-    return modAuthor + modFeatures
-End Function
+    regex = CreateObject("roRegex", ",(?=[^,]+$)", "i")
+    return modAA.name + modAuthor + regex.replace(modFeatures," and")
+end function
 
-Function SavedGameTitle(game as object) as string
-    return "Level " + game.level.toStr() + " at "  + CInt(game.time / 60).toStr() + "min"
-End Function
+function SavedGameTitle(game as object) as string
+    return "Level " + game.level.toStr() + " at " + CInt(game.time / 60).toStr() + "min"
+end function
