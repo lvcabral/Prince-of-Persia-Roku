@@ -39,8 +39,7 @@ You should also take a look at my other retro-game remake projects [Lode Runner 
 
 ## Legal Notes
 
-Disclaimer: This source code shall not be used commercially or sold in any form, the objective of this project is educational.
-Any usage/publication of this code shall be explicitly authorized by the author.
+Disclaimer: The source code in this repository shall not be used commercially or sold in any form, nobody is allowed to publish it (with or without modifications) in the Roku Channel Store or any other app store, the objective of this project is educational. Any usage/publication of this code must be explicitly authorized by the author.
 
 Copyright (C) 2016-2025 Marcelo Lv Cabral
 
