@@ -3,7 +3,7 @@
 ' **  Prince of Persia for Roku - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: April 2016
-' **  Updated: September 2019
+' **  Updated: October 2024
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -156,8 +156,8 @@ Function TextScreen(pngFile as string, color as integer, waitTime = 0 as integer
 		ImageFadeIn(screen, centerX, centerY, canvas, fadeIn)
 	else
 		screen.DrawObject(centerX, centerY, canvas)
+		screen.SwapBuffers()
 	end if
-    screen.SwapBuffers()
 	while true
     	key = wait(waitTime, m.port)
 		if type(key) = "roUniversalControlEvent"
