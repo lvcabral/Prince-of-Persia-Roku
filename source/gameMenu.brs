@@ -160,17 +160,17 @@ function OptionsMenu(options as object, default as integer) as integer
     menuY1 = m.menu.y + 165 * m.menu.s
     menuFont = m.fonts.reg.getFont("Prince of Persia Game Font", 34 * m.menu.s, false, false)
     button = -1
-    if default <= 1 then m.selected = default else m.selected = 0
+    if default <= 1 then selected = default else selected = 0
     backImage = ScaleBitmap(CreateObject("roBitmap", "pkg:/images/options_menu.jpg"), m.menu.s)
     images = [
         ScaleBitmap(CreateObject("roBitmap", "pkg:/images/" + options[0].image + ".png"), m.menu.s),
         ScaleBitmap(CreateObject("roBitmap", "pkg:/images/" + options[1].image + ".png"), m.menu.s)
     ]
     while true
-        if button <> m.selected
+        if button <> selected
             m.mainScreen.clear(0)
             m.mainScreen.drawObject(m.menu.x, m.menu.y, backImage)
-            if m.selected = 0
+            if selected = 0
                 m.mainScreen.drawText(options[0].text, menuX, menuY0, m.colors.menuOn, menuFont)
                 m.mainScreen.drawText(options[0].text, menuX + 1, menuY0 + 1, m.colors.menuShadow, menuFont)
                 m.mainScreen.drawText(options[1].text, menuX, menuY1, m.colors.menuOff, menuFont)
@@ -179,9 +179,9 @@ function OptionsMenu(options as object, default as integer) as integer
                 m.mainScreen.drawText(options[1].text, menuX, menuY1, m.colors.menuOn, menuFont)
                 m.mainScreen.drawText(options[1].text, menuX + 1, menuY1 + 1, m.colors.menuShadow, menuFont)
             end if
-            m.mainScreen.drawObject(m.menu.x, m.menu.y, images[m.selected])
+            m.mainScreen.drawObject(m.menu.x, m.menu.y, images[selected])
             m.mainScreen.swapBuffers()
-            button = m.selected
+            button = selected
         end if
         event = wait(0, m.port)
         if type(event) = "roUniversalControlEvent"
@@ -190,13 +190,13 @@ function OptionsMenu(options as object, default as integer) as integer
             if key = m.code.BUTTON_DOWN_PRESSED or key = m.code.BUTTON_LEFT_PRESSED or key = m.code.BUTTON_UP_PRESSED or key = m.code.BUTTON_RIGHT_PRESSED
                 m.sounds.navSingle.trigger(50)
                 if button = 1
-                    m.selected = 0
+                    selected = 0
                 else
-                    m.selected = 1
+                    selected = 1
                 end if
             else if key = m.code.BUTTON_BACK_PRESSED
                 m.sounds.navSingle.trigger(50)
-                m.selected = -1
+                selected = -1
                 exit while
             else if key = m.code.BUTTON_SELECT_PRESSED
                 m.sounds.select.trigger(50)
@@ -204,7 +204,7 @@ function OptionsMenu(options as object, default as integer) as integer
             end if
         end if
     end while
-    return m.selected
+    return selected
 end function
 
 sub HighScoresScreen()
