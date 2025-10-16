@@ -3,7 +3,7 @@
 ' **  Prince of Persia for Roku - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: February 2016
-' **  Updated: February 2023
+' **  Updated: October 2024
 ' **
 ' **  Ported to Brighscript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -74,7 +74,7 @@ Sub SoundUpdate()
     end if
 End Sub
 
-Sub PlaySound(clip as string, overlap = false as boolean, volume = 50 as integer)
+Sub PlaySound(clip as string, overlap = false as boolean, volume = 100 as integer)
     g = GetGlobalAA()
     meta = g.sounds.metadata.clips[clip]
     if meta.type = "mp3"
