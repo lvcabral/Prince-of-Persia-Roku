@@ -116,7 +116,7 @@ sub Main(params)
             end if
             m.checkPoint = invalid
             m.usedCheat = (m.settings.fight > m.const.FIGHT_ATTACK)
-            if m.settings.saveGame and m.savedGame <> invalid
+            if m.settings.saveGame and m.savedGame <> invalid and m.savedGame.modId = m.settings.modId
                 option = MessageBox(m.mainScreen, 320, 100, "Restore Saved Game?")
                 if option = m.const.BUTTON_YES
                     m.currentLevel = m.savedGame.level
