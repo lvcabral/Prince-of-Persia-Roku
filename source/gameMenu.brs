@@ -3,7 +3,7 @@
 ' **  Prince of Persia for Roku - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: April 2016
-' **  Updated: October 2024
+' **  Updated: October 2025
 ' **
 ' **  Ported to BrightScript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -55,8 +55,8 @@ function StartMenu() as integer
     end if
     while true
         if redraw
-            m.mainScreen.clear(0)
-            m.mainScreen.drawObject(m.menu.x, m.menu.y, backImage)
+            m.screenCanvas.clear(0)
+            m.screenCanvas.drawObject(m.menu.x, m.menu.y, backImage)
             if m.settings.zoomMode > 1
                 rooms = m.settings.zoomMode * m.settings.zoomMode
                 menuOptions[3] = "Game Zoom: " + rooms.toStr() + " rooms"
@@ -65,13 +65,14 @@ function StartMenu() as integer
             end if
             for i = 0 to menuOptions.count() - 1
                 if selected = i
-                    m.mainScreen.drawText(menuOptions[i], menuLeft, menuTop + menuGap * i, m.colors.menuOn, menuFont)
-                    m.mainScreen.drawText(menuOptions[i], menuLeft + 1, (menuTop + menuGap * i) + 1, m.colors.menuShadow, menuFont)
+                    m.screenCanvas.drawText(menuOptions[i], menuLeft, menuTop + menuGap * i, m.colors.menuOn, menuFont)
+                    m.screenCanvas.drawText(menuOptions[i], menuLeft + 1, (menuTop + menuGap * i) + 1, m.colors.menuShadow, menuFont)
                 else
-                    m.mainScreen.drawText(menuOptions[i], menuLeft, menuTop + menuGap * i, m.colors.menuOff, menuFont)
+                    m.screenCanvas.drawText(menuOptions[i], menuLeft, menuTop + menuGap * i, m.colors.menuOff, menuFont)
                 end if
             next
-            m.mainScreen.drawText("Game Credits", m.menu.x + 442 * m.menu.s, m.menu.y + CInt(633 * m.menu.s), m.colors.white, menuMode)
+            m.screenCanvas.drawText("Game Credits", m.menu.x + 442 * m.menu.s, m.menu.y + CInt(633 * m.menu.s), m.colors.white, menuMode)
+            m.mainScreen.drawObject(0, 0, m.screenCanvas)
             m.mainScreen.swapBuffers()
             redraw = false
         end if
@@ -143,6 +144,10 @@ function StartMenu() as integer
                 else if selected = 5
                     HighscoresScreen()
                 end if
+                redraw = true
+            else if key = m.code.BUTTON_BACK_PRESSED
+                m.sounds.navSingle.trigger(50)
+                if MessageBox(500, 100, "Do you want to exit the game?", 2) = m.const.BUTTON_YES then end
                 redraw = true
             end if
         end if
@@ -218,24 +223,25 @@ sub HighScoresScreen()
     ' end if
 
     while true
-        m.mainScreen.clear(0)
-        m.mainScreen.drawObject(m.menu.x, m.menu.y, backImage)
+        m.screenCanvas.clear(0)
+        m.screenCanvas.drawObject(m.menu.x, m.menu.y, backImage)
         xn = m.menu.x + 232 * m.menu.s
         xt = m.menu.x + 686 * m.menu.s
         ys = m.menu.y + 275 * m.menu.s
         c = 0
         for each score in m.highScores
-            m.bitmapFont.write(m.mainScreen, score.name, xn, ys, fontScale)
-            m.bitmapFont.write(m.mainScreen, FormatTime(score.time), xt, ys, fontScale)
+            m.bitmapFont.write(m.screenCanvas, score.name, xn, ys, fontScale)
+            m.bitmapFont.write(m.screenCanvas, FormatTime(score.time), xt, ys, fontScale)
             ys += (12 * 3) * m.menu.s
             c++
             if c = 7 then exit for
         next
         if m.highScores.Count() > 0
-            m.bitmapFont.write(m.mainScreen, "[ Press * to reset the High Scores ]", m.menu.x + 157 * m.menu.s, m.menu.y + 560 * m.menu.s, fontScale)
+            m.bitmapFont.write(m.screenCanvas, "[ Press * to reset the High Scores ]", m.menu.x + 157 * m.menu.s, m.menu.y + 560 * m.menu.s, fontScale)
         else
-            m.bitmapFont.write(m.mainScreen, "< No High Scores are recorded yet >", m.menu.x + 157 * m.menu.s, ys + 108 * m.menu.s, fontScale)
+            m.bitmapFont.write(m.screenCanvas, "< No High Scores are recorded yet >", m.menu.x + 157 * m.menu.s, ys + 108 * m.menu.s, fontScale)
         end if
+        m.mainScreen.drawObject(0, 0, m.screenCanvas)
         m.mainScreen.swapBuffers()
         event = wait(0, m.port)
         if type(event) = "roUniversalControlEvent"
@@ -244,7 +250,7 @@ sub HighScoresScreen()
             if key = m.code.BUTTON_INFO_PRESSED or key = m.code.BUTTON_FAST_FORWARD_PRESSED
                 if m.highScores.Count() > 0
                     m.sounds.select.trigger(50)
-                    saveOpt = MessageBox(m.mainScreen, 230, 100, "Reset Scores?", 2)
+                    saveOpt = MessageBox(230, 100, "Reset Scores?", 2)
                     if saveOpt = m.const.BUTTON_YES
                         m.highScores = []
                         SaveHighScores(m.highScores)
@@ -273,19 +279,10 @@ sub ImageScreen(imageFile, font)
     end while
 end sub
 
-function MessageBox(screen as object, width as integer, height as integer, text as string, options = 3 as integer) as integer
+function MessageBox(width as integer, height as integer, text as string, options = 3 as integer) as integer
     option = 2
-    if IsHD() and not m.inSimulator
-        tempfile = "tmp:/screenshot.png"
-        screenshot = screen.GetPng(0, 0, screen.getWidth(), screen.getHeight())
-        screenshot.WriteFile(tempfile)
-        backImage = CreateObject("roBitmap", tempfile)
-    else
-        backImage = CreateObject("roBitmap", { width: m.mainScreen.getWidth(), height: m.mainScreen.getHeight(), alphaenable: false })
-        backImage.drawObject(0, 0, m.mainScreen)
-    end if
-    leftX = Cint((screen.getWidth() - width) / 2)
-    topY = Cint((screen.getHeight() - height) / 2)
+    leftX = Cint((m.mainScreen.getWidth() - width) / 2)
+    topY = Cint((m.mainScreen.getHeight() - height) / 2)
     xt = leftX + int(width / 2) - ((Len(text) + 1) * 14) / 2
     xb = leftX + int(width / 2) - (13 * 14) / 2
     yt = topY + height / 2 - 25
@@ -293,18 +290,18 @@ function MessageBox(screen as object, width as integer, height as integer, text 
     selected = m.const.BUTTON_YES
     while true
         if button <> selected
-            m.mainScreen.drawObject(0, 0, backImage)
-            screen.drawRect(leftX, topY, width, height, m.colors.black)
-            m.bitmapFont.write(screen, text, xt, yt, 2.0)
-            DrawBorder(screen, width, height, m.colors.white, 0)
+            m.mainScreen.drawObject(0, 0, m.screenCanvas)
+            m.mainScreen.drawRect(leftX, topY, width, height, m.colors.black)
+            m.bitmapFont.write(m.mainScreen, text, xt, yt, 2.0)
+            DrawBorder(m.mainScreen, width, height, m.colors.white, 0)
             boff = [0, 60, 100]
             line = [42, 28, 84]
-            m.bitmapFont.write(screen, "Yes", xb + boff[0], yt + 30, 2.0)
-            m.bitmapFont.write(screen, "No", xb + boff[1], yt + 30, 2.0)
+            m.bitmapFont.write(m.mainScreen, "Yes", xb + boff[0], yt + 30, 2.0)
+            m.bitmapFont.write(m.mainScreen, "No", xb + boff[1], yt + 30, 2.0)
             if options = 3
-                m.bitmapFont.write(screen, "Cancel", xb + boff[2], yt + 30, 2.0)
+                m.bitmapFont.write(m.mainScreen, "Cancel", xb + boff[2], yt + 30, 2.0)
             end if
-            screen.drawLine(xb + boff[selected], yt + 50, xb + boff[selected] + line[selected], yt + 50, m.colors.white)
+            m.mainScreen.drawLine(xb + boff[selected], yt + 50, xb + boff[selected] + line[selected], yt + 50, m.colors.white)
             m.mainScreen.swapBuffers()
             button = selected
         end if

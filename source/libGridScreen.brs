@@ -191,7 +191,7 @@ function wait_grid_screen(timeout = 0, port = invalid) as object
             m.sounds.select.Trigger(50)
             msg = GetScreenMessage(m.focus, "selected")
         else if index = m.codes.BUTTON_UP_PRESSED or index = m.codes.BUTTON_DOWN_PRESSED
-            m.sounds.dead.Trigger(50)
+            m.sounds.deadend.Trigger(50)
         end if
     end if
     return msg

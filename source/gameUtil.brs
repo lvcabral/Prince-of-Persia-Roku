@@ -704,37 +704,6 @@ function seq_prandom(seed as integer, n as integer, p as integer, max as integer
     return r1
 end function
 
-function MessageDialog(port, title, text, buttons = ["OK"], default = 0, overlay = false) as integer
-    if port = invalid
-        if m.port = invalid
-            port = CreateObject("roMessagePort")
-        else
-            port = m.port
-        end if
-    end if
-    s = CreateMessageDialog()
-    s.SetTitle(title)
-    s.SetText(text)
-    s.SetMessagePort(port)
-    s.EnableOverlay(overlay)
-    for b = 0 to buttons.Count() - 1
-        s.AddButton(b, buttons[b])
-    next
-    s.SetFocusedMenuItem(default)
-    s.Show()
-    result = 99 'nothing pressed
-    while true
-        msg = s.wait(port)
-        if msg.isButtonPressed()
-            result = msg.GetIndex()
-            exit while
-        else if msg.isScreenClosed()
-            exit while
-        end if
-    end while
-    return result
-end function
-
 function KeyboardScreen(title = "", prompt = "", text = "", button1 = "Okay", button2 = "Cancel", secure = false, port = invalid) as string
     m.mainScreen = CreateObject("roScreen", true, 1280, 720)
     m.mainScreen.SetMessagePort(m.port)
@@ -781,6 +750,7 @@ sub ResetMainScreen(lowRes = false)
     end if
     m.mainScreen.SetMessagePort(m.port)
     m.mainScreen.SetAlphaEnable(true)
+    m.screenCanvas = CreateObject("roBitmap", { width: m.mainScreen.getWidth(), height: m.mainScreen.getHeight(), alphaenable: true })
 end sub
 
 '------- Registry Functions -------

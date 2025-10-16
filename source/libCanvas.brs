@@ -4,7 +4,7 @@
 ' **
 ' **  libCanvas.brs - Library to implement generic Canvas object
 ' **  Created: June 2018
-' **  Updated: January 2024
+' **  Updated: October 2025
 ' **
 ' **  Copyright (C) Marcelo Lv Cabral < https://lvcabral.com >
 ' ********************************************************************************************************
@@ -47,6 +47,9 @@ end function
 
 function GetTopCanvas() as object
     g = GetGlobalAA()
+    if g.stack = invalid or g.stack.Count() = 0
+        return CreateCanvas()
+    end if
     return g.stack.Peek()
 end function
 

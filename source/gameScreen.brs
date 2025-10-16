@@ -3,7 +3,7 @@
 ' **  Prince of Persia for Roku - http://github.com/lvcabral/Prince-of-Persia-Roku
 ' **
 ' **  Created: May 2016
-' **  Updated: February 2024
+' **  Updated: October 2025
 ' **
 ' **  Ported to BrightScript by Marcelo Lv Cabral from the Git projects:
 ' **  https://github.com/ultrabolido/PrinceJS - HTML5 version by Ultrabolido
@@ -17,8 +17,6 @@ function PlayGame() as boolean
     'Set offsets
     m.xOff = (m.const.ROOM_WIDTH * m.scale) * m.tileSet.level.rooms[m.kid.room].x
     m.yOff = (m.const.ROOM_HEIGHT * m.scale) * m.tileSet.level.rooms[m.kid.room].y
-    canvasX = Cint((m.mainWidth - m.gameWidth) / 2)
-    canvasY = Cint((m.mainHeight - m.gameHeight) / 2)
     'Initialize flags and aux variables
     m.oldRoom = m.startRoom
     m.topOffset = 3 * m.scale
@@ -44,8 +42,10 @@ function PlayGame() as boolean
             id = event.GetInt()
             if id = m.code.BUTTON_BACK_PRESSED
                 m.audioPlayer.stop()
+                m.screenCanvas.clear(0)
+                PaintGameScreen(m.screenCanvas)
                 if m.kid.alive and m.kid.level.number > 2 and m.settings.saveGame
-                    saveOpt = MessageBox(m.mainScreen, 230, 100, "Save Game?")
+                    saveOpt = MessageBox(230, 100, "Save Game?")
                     if saveOpt = m.const.BUTTON_YES
                         if m.savedGame = invalid
                             m.savedGame = {}
@@ -59,7 +59,7 @@ function PlayGame() as boolean
                         SaveGame(m.savedGame)
                     end if
                 else
-                    saveOpt = MessageBox(m.mainScreen, 230, 100, "Exit Game?", 2)
+                    saveOpt = MessageBox(230, 100, "Exit Game?", 2)
                     if saveOpt = m.const.BUTTON_NO
                         saveOpt = m.const.BUTTON_CANCEL
                     end if
@@ -166,23 +166,7 @@ function PlayGame() as boolean
                     'Paint Screen
                     m.compositor.AnimationTick(ticks)
                     m.compositor.DrawAll()
-                    if m.flip
-                        if m.gameScale <> 1.0
-                            m.mainScreen.drawscaledobject(m.gameXOff, m.gameYOff, m.gameScale, m.gameScale, FlipVertically(m.gameCanvas))
-                        else
-                            m.mainScreen.DrawObject(canvasX, canvasY, FlipVertically(m.gameCanvas))
-                        end if
-                        DrawStatusBar(m.gameScreen, m.gameWidth, m.gameHeight)
-                    else
-                        DrawStatusBar(m.gameScreen, m.gameWidth, m.gameHeight)
-                        if type(m.gameScreen) = "roBitmap"
-                            if m.gameScale <> 1.0
-                                m.mainScreen.drawscaledobject(m.gameXOff, m.gameYOff, m.gameScale, m.gameScale, m.gameScreen)
-                            else
-                                m.mainScreen.drawobject(m.gameXOff, m.gameYOff, m.gameScreen)
-                            end if
-                        end if
-                    end if
+                    PaintGameScreen(m.mainScreen)
                     m.mainScreen.SwapBuffers()
                     CheckPause()
                 else if special = m.const.SPECIAL_FINISH
@@ -192,6 +176,26 @@ function PlayGame() as boolean
         end if
     end while
 end function
+
+sub PaintGameScreen(canvas as object)
+    if m.flip
+        if m.gameScale <> 1.0
+            canvas.drawScaledObject(m.gameXOff, m.gameYOff, m.gameScale, m.gameScale, FlipVertically(m.gameCanvas))
+        else
+            canvas.DrawObject(m.gameXOff, m.gameYOff, FlipVertically(m.gameCanvas))
+        end if
+        DrawStatusBar(m.gameScreen, m.gameWidth, m.gameHeight)
+    else
+        DrawStatusBar(m.gameScreen, m.gameWidth, m.gameHeight)
+        if type(m.gameScreen) = "roBitmap"
+            if m.gameScale <> 1.0
+                canvas.drawScaledObject(m.gameXOff, m.gameYOff, m.gameScale, m.gameScale, m.gameScreen)
+            else
+                canvas.drawObject(m.gameXOff, m.gameYOff, m.gameScreen)
+            end if
+        end if
+    end if
+end sub
 
 sub FlipScreen()
     g = GetGlobalAA()

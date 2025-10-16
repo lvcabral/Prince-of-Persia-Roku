@@ -101,7 +101,12 @@ sub Main(params)
     while true
         print "Starting menu..."
         m.cameras = StartMenu()
-        if m.cameras > 0
+        ' Check if we need to restore a saved game
+        restoreOption = invalid
+        if m.settings.saveGame and m.savedGame <> invalid and m.savedGame.modId = m.settings.modId
+            restoreOption = MessageBox(320, 100, "Restore Saved Game?")
+        end if
+        if m.cameras > 0 and restoreOption <> m.const.BUTTON_CANCEL
             'Configure screen/game areas based on the configuration
             ClearScreenBuffers()
             SetupGameScreen()
@@ -116,58 +121,51 @@ sub Main(params)
             end if
             m.checkPoint = invalid
             m.usedCheat = (m.settings.fight > m.const.FIGHT_ATTACK)
-            if m.settings.saveGame and m.savedGame <> invalid and m.savedGame.modId = m.settings.modId
-                option = MessageBox(m.mainScreen, 320, 100, "Restore Saved Game?")
-                if option = m.const.BUTTON_YES
-                    m.currentLevel = m.savedGame.level
-                    m.checkPoint = m.savedGame.checkPoint
-                    m.startTime = m.savedGame.time
-                    m.startHealth = m.savedGame.health
-                    m.settings.modId = m.savedGame.modId
-                    if m.settings.modId <> invalid and m.mods[m.settings.modId].sprites
-                        m.settings.spriteMode = Val(m.settings.modId)
-                    else if m.settings.modId <> invalid or m.settings.spriteMode > m.const.SPRITES_MAC
-                        m.settings.spriteMode = m.const.SPRITES_DOS
-                    end if
-                    if m.savedGame.cheat <> invalid
-                        m.usedCheat = (m.usedCheat and m.savedGame.cheat)
-                    end if
-                    SaveSettings(m.settings)
+            if restoreOption = m.const.BUTTON_YES
+                m.currentLevel = m.savedGame.level
+                m.checkPoint = m.savedGame.checkPoint
+                m.startTime = m.savedGame.time
+                m.startHealth = m.savedGame.health
+                m.settings.modId = m.savedGame.modId
+                if m.settings.modId <> invalid and m.mods[m.settings.modId].sprites
+                    m.settings.spriteMode = Val(m.settings.modId)
+                else if m.settings.modId <> invalid or m.settings.spriteMode > m.const.SPRITES_MAC
+                    m.settings.spriteMode = m.const.SPRITES_DOS
                 end if
-            else
-                option = m.const.BUTTON_NO
+                if m.savedGame.cheat <> invalid
+                    m.usedCheat = (m.usedCheat and m.savedGame.cheat)
+                end if
+                SaveSettings(m.settings)
             end if
-            if option <> m.const.BUTTON_CANCEL
-                ClearScreenBuffers()
-                'Download mod if remote
-                if m.settings.modId <> invalid and Left(m.mods[m.settings.modId].url, 3) = "tmp"
-                    DownloadMod(m.mods[m.settings.modId])
-                end if
-                'Debug: Uncomment the next two lines to start at a specific location
-                'm.currentLevel = 3
-                'm.checkPoint = {room: 6, tile: 7, face: 1}
-                print "Starting the Game"
-                m.levelTime = m.startTime
-                'Play introduction and cut scene
-                skip = false
-                if m.currentLevel = 1
-                    skip = PlayIntro()
-                    if not skip
-                        print "Starting opening story..."
-                        PlaySong("scene-1a-absence")
-                        skip = TextScreen("text-in-the-absence", m.colors.navy, 15000, 7)
-                    end if
-                end if
+            ClearScreenBuffers()
+            'Download mod if remote
+            if m.settings.modId <> invalid and Left(m.mods[m.settings.modId].url, 3) = "tmp"
+                DownloadMod(m.mods[m.settings.modId])
+            end if
+            'Debug: Uncomment the next two lines to start at a specific location
+            'm.currentLevel = 3
+            'm.checkPoint = {room: 6, tile: 7, face: 1}
+            print "Starting the Game"
+            m.levelTime = m.startTime
+            'Play introduction and cut scene
+            skip = false
+            if m.currentLevel = 1
+                skip = PlayIntro()
                 if not skip
-                    skip = PlayScene(m.gameScreen, m.currentLevel)
+                    print "Starting opening story..."
+                    PlaySong("scene-1a-absence")
+                    skip = TextScreen("text-in-the-absence", m.colors.navy, 15000, 7)
                 end if
-                if m.currentLevel = 1 and not skip
-                    TextScreen("text-marry-jaffar", m.colors.navy, 18000, 7)
-                end if
-                'Open Game Screen
-                ResetGame()
-                PlayGame()
             end if
+            if not skip
+                skip = PlayScene(m.gameScreen, m.currentLevel)
+            end if
+            if m.currentLevel = 1 and not skip
+                TextScreen("text-marry-jaffar", m.colors.navy, 18000, 7)
+            end if
+            'Open Game Screen
+            ResetGame()
+            PlayGame()
         end if
         ResetMainScreen()
     end while
