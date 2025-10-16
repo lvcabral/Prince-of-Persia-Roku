@@ -1,4 +1,37 @@
-# Prince of Persia Changelog
+# Prince of Persia for Roku
+
+A port of the classic game Prince of Persia (1989) to Roku streaming devices and TVs.
+
+## Changelog
+
+### v0.21 - 16-Oct-2025 - Revamped Menu and Support for Multi-keys on Simulator
+
+- Add: New manifest `multi_key_events` entry (Simulator only)
+- Add: Shift (walk, drink, sword) key works on Simulator as in DOS game
+- Add: Support for GamePad mapping under the Simulation Engine
+- Add: New images and sections on README.md
+- Add: Support for Ascii Mode rendering (Simulator CLI only)
+- Add: ImageFadeIn() to save resources on iOS
+- Add: Created a Menu system for the game
+- Add: Option to close the game app when press `back` key on the main menu
+- Add: Konami cheat to open Secret Screen and fixed several menu issues
+- Change: Only Play the Intro during the first time the app is started
+- Change: Save menu selection on `m` object
+- Change: Improved `MessageBox` rendering
+- Change: Prevent load saved game when it is from a different mod
+- Updated game control screen and gamepad control mappings
+- Change: Default sound effects volume set to 100%
+- Change: Improved performance of the Mods Screen
+- Change: Limited internal mods to only 2 (PoP Revisited and Princess of Persia)
+- Change: Updated screen resolutions to maximize the game on screen
+- Change: Improved performance on loops and AA access
+- Fix: Text screens rendering
+- Fix: Prevent small pause when showing the clock
+- Fix: #104 - Walk from edge triggers "testfoot" action and not fall
+- Fix: Scrolling on Grid Screen for HD and SD
+- Fix: `libCanvas` on SD mode
+- Fix: Menus on SD Mode
+- Fix: Border in Mods icons and on Shift Mode (Roku only)
 
 ### v0.18 - 11-Nov-2019 - Fixes for Mods and SD Mode
 
@@ -9,7 +42,7 @@
 
 - Add: Support for SD Mode
 - Change: Removed remaining SDK1 objects (MessageBox and Keyboard)
-- Several small fixes 
+- Several small fixes
 
 ### v0.16 - 15-Sep-2019 - Emulator Support
 
@@ -101,7 +134,7 @@
 - Fix: When kid perform a "turnengarde" action close to an edge he retreats and fall
 - Fix: After death Kid's health is always being restored to 3 lives
 - Fix: Shadow sometimes not drinking the potion on Level 5
-- Fix: Crash when Mouse character is created (L8)  
+- Fix: Crash when Mouse character is created (L8)
 - Fix: Left wall mixed on top floor for missing rooms (L7R9 and L12R13)
 - Fix: Multiple Slicers together do not detect death correctly (L3R16T4)
 - Fix: Sometimes two slicers side by side are not in sync (L8R4)

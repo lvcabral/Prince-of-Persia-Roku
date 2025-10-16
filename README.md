@@ -1,6 +1,6 @@
 # Prince of Persia for Roku
 
-A port of the classic game Prince of Persia (1989) to Roku streaming devices and TVs
+A port of the classic game Prince of Persia (1989) to Roku streaming devices and TVs.
 
 ![Prince of Persia for Roku - Screenshots](docs/pop-collage.png)
 
@@ -31,6 +31,10 @@ In 2020, the original game developer, [Jordan Mechner](https://www.jordanmechner
 ### Recommended devices
 
 The game is playable on all current Roku devices and TVs, but the best performance is with more powerful devices like the Roku Ultra. The Wifi remote control is recommended for a better experience.
+
+## Changelog
+
+See the [CHANGELOG.md](CHANGELOG.md) file for more details.
 
 ## Development Evolution Videos
 
