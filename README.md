@@ -16,8 +16,10 @@ There are two selectable options of sprites, the classic MS-DOS (1990) and Macin
 
 ## How to Play
 
-* You can play the game with the **Roku Simulator** I also developed, check it at: <https://lvcabral.com/brs>
-* You can also _side load_ the game on you Roku, downloading the [latest release zip](https://github.com/lvcabral/Prince-of-Persia-Roku/releases) using the developer mode ([click here to see how](https://developer.roku.com/docs/developer-program/getting-started/developer-setup.md)).
+* You can play the game in your browser, with the **Roku Simulator** that I also developed, have fun at the [BrightScript TV](https://lvcabral.com/brs/?pkg=pop-roku.zip).
+* In order to to play in a Roku, you need to _side load_ the app on your device, following these steps:
+  * Download the latest zip package from the [releases page](https://github.com/lvcabral/Prince-of-Persia-Roku/releases).
+  * Install the app using the developer mode, according to the [Roku documentation](https://developer.roku.com/docs/developer-program/getting-started/developer-setup.md).
 
 ### Recommended devices
 
@@ -34,7 +36,11 @@ Below links to some preview videos I published on YouTube during the development
 
 ## Other Projects
 
-You should also take a look at my other retro-game remake projects [Lode Runner for Roku](https://github.com/lvcabral/Lode-Runner-Roku) and [Donkey Kong for Roku](https://www.youtube.com/watch?v=NA59qZk7fQU), [Moon Patrol for Roku](https://github.com/lvcabral/Moon-Patrol-Roku).
+You should also take a look at my other retro-game remake projects:
+
+* [Lode Runner for Roku](https://github.com/lvcabral/Lode-Runner-Roku)
+* [Donkey Kong for Roku](https://lvcabral.com/brs/?pkg=dk-roku.zip)
+* [Moon Patrol for Roku](https://github.com/lvcabral/Moon-Patrol-Roku).
 
 ## Legal Notes
 
