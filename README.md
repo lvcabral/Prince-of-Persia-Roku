@@ -2,7 +2,7 @@
 
 A port of the classic game Prince of Persia (1989) to Roku streaming devices and TVs
 
-![Prince of Persia for Roku](https://lvcabral.com/images/PoP/screenshot-01.jpg)
+![Prince of Persia for Roku - Screenshots](docs/pop-collage.png)
 
 ## About the Project
 
@@ -13,6 +13,13 @@ This port was made using the (unfinished) [HTML5 version](https://github.com/ult
 With the high resolution of the current Full HD TV's I had the idea to implement a new feature for the game, never before seen on Prince of Persia ports, the multi-room mode, this way instead of only being able to see the current room you are playing at, now you can see 4 (2x2 mode) or even 9 (3x3 mode) rooms at the same time. This feature I created gives (literally) a new perspective to the game.
 
 There are two selectable options of sprites, the classic MS-DOS (1990) and Macintosh (1992) versions, all levels and cut scenes are already implemented. In addition to that, it also supports Mods with custom levels, graphics and sounds. Some examples, converted from the [Community DOS Mods](http://www.popot.org/custom_levels.php), are available in the source code.
+
+### Project Recognition
+
+In 2020, the original game developer, [Jordan Mechner](https://www.jordanmechner.com/), released the Hardcover of his book [The Making of Prince of Persia](https://amzn.to/4qg4bbm), and in the `Legacy` section of the book he published a full page about this project.
+
+![The Making of Prince of Persia - Book Cover](docs/pop-book-cover.jpg)
+![The Making of Prince of Persia - Project Page](docs/pop-book-page.jpg)
 
 ## How to Play
 
