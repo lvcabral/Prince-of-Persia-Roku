@@ -17,7 +17,6 @@ There are two selectable options of sprites, the classic MS-DOS (1990) and Macin
 ## How to Play
 
 * You can play the game with the **Roku Simulator** I also developed, check it at: <https://lvcabral.com/brs>
-* If you have a Roku or Roku TV you can install the beta channel in your account using this link: <https://my.roku.com/account/add/princebeta>
 * You can also _side load_ the game on you Roku, downloading the [latest release zip](https://github.com/lvcabral/Prince-of-Persia-Roku/releases) using the developer mode ([click here to see how](https://developer.roku.com/docs/developer-program/getting-started/developer-setup.md)).
 
 ### Recommended devices
