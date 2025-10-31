@@ -23,7 +23,7 @@ In 2020, the original game developer, [Jordan Mechner](https://www.jordanmechner
 
 ## How to Play
 
-* You can play the game in your browser, with the **Roku Simulator** that I also developed:[Click to Play!](https://lvcabral.com/brs/?pkg=pop-roku).
+* You can play the game in your browser, with the **Roku Simulator** that I also developed: [Try it Now](https://lvcabral.com/brs/?pkg=pop-roku).
 * In order to to play in a Roku, you need to _side load_ the app on your device, following these steps:
   * Download the latest zip package from the [releases page](https://github.com/lvcabral/Prince-of-Persia-Roku/releases).
   * Install the app using the developer mode, according to the [Roku documentation](https://developer.roku.com/docs/developer-program/getting-started/developer-setup.md).
